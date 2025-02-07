@@ -9,7 +9,8 @@ twitter_username: your_twitter_username
 github_username:  your_github_username
 
 # 主题设置
-theme: minimal-mistakes-jekyll
+# theme: minimal-mistakes-jekyll
+remote_theme: mmistakes/minimal-mistakes
 minimal_mistakes_skin: "default" # 可选的皮肤，如 air, contrast 等
 
 # 作者信息
