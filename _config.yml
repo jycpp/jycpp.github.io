@@ -1,3 +1,70 @@
-theme: jekyll-theme-minimal
-title: Octocat's homepage
-description: Bookmark this to keep an eye on my project updates!
+# 站点设置
+title: "你的博客标题"
+email: your_email@example.com
+description: >- # 描述信息，会显示在页面底部等位置
+  这是你的博客描述。
+baseurl: "" # 网站的基础路径，若为空则直接在域名根目录
+url: "https://yourusername.github.io" # 网站的完整 URL
+twitter_username: your_twitter_username
+github_username:  your_github_username
+
+# 主题设置
+theme: minimal-mistakes-jekyll
+minimal_mistakes_skin: "default" # 可选的皮肤，如 air, contrast 等
+
+# 作者信息
+author:
+  name   : "你的名字"
+  avatar : "/assets/images/bio-photo.jpg" # 头像图片路径
+  bio    : "这里填写你的个人简介。"
+  links:
+    - label: "Website"
+      icon: "fas fa-fw fa-link"
+      url: "https://yourwebsite.com"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/your_twitter_username"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/your_github_username"
+
+# 网站导航
+header:
+  overlay_image: /assets/images/header.jpg # 头部背景图片路径
+  overlay_filter: rgba(40, 40, 40, 0.9) # 头部背景图片的滤镜效果
+  actions:
+    - label: "更多信息"
+      url: "/about/"
+
+# 分页设置
+paginate: 5 # 每页显示的文章数量
+paginate_path: /page:num/
+
+# 搜索设置
+search: true # 是否启用搜索功能
+
+# 文章分类和标签页面设置
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+  - scope:
+      path: "pages"
+    values:
+      layout: single
+      author_profile: false
+
+# 文章分类和标签页面
+category_archive:
+  type: liquid
+  path: /categories/
+tag_archive:
+  type: liquid
+  path: /tags/
