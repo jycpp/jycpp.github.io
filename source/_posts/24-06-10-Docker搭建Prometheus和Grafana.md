@@ -3,18 +3,23 @@ title: 使用Docker搭建Prometheus+Grafana运维监控可视化
 date: 2024-06-10 17:27:20
 comments: true
 tags:
-- 电子邮件
-- 邮件协议
-- SMTP
-- 邮件服务器
+- Prometheus
+- Grafana
+- Kubernetes
+- Alertmanager
+- Exporters
+- Docker
+- 运维监控
+- 可视化
+- 监控系统
 categories:
-- 电子邮件
-- SMTP
+- 编程开发
+- 运维管理
 ---
 
 # **1.项目**
 
-今天和大家分享一个运维监控可视化工具——Prometheus（普罗米修斯），通过部署Prometheus+Grafana来监控Linux主机，实现运维监控可视化，目前 Prometheus 已经广泛用于 Kubernetes 集群的监控系统中
+今天和大家分享一个运维监控可视化工具 —— Prometheus（普罗米修斯），通过部署Prometheus+Grafana来监控Linux主机，实现运维监控可视化，目前 Prometheus 已经广泛用于 Kubernetes 集群的监控系统中
 
 ## **1.1.项目介绍**
 
