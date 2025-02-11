@@ -1,6 +1,8 @@
 ---
 title: 使用Docker搭建Prometheus+Grafana运维监控可视化
 date: 2024-06-10 17:27:20
+index_img:  https://s2.loli.net/2025/02/10/lKNpJUo5QkOt4gL.png
+index_img_text: 使用Docker搭建Prometheus+Grafana运维监控可视化
 comments: true
 tags:
 - Prometheus
