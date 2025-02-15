@@ -13,7 +13,7 @@ tags:
 - Vue
 - 脚手架
 categories:
-- 编程开发
+- 软件开发
 ---
 
 

@@ -10,12 +10,11 @@ tags:
 - 软件开发周期
 - 软件质量
 categories:
-- 编程开发
+- 软件开发
 - 运维管理
 ---
 
-
-Jenkins 是一个开源自动化服务器，广泛用于持续集成（Continuous Integration, CI）和持续部署（Continuous Deployment, CD），是Devops的重要工作步骤。通过使用 Jenkins，开发团队可以自动化构建、测试和部署应用程序，从而加快软件开发周期，提高软件质量。
+Jenkins 是一个开源自动化服务器，广泛用于持续集成（Continuous Integration, CI）和持续部署（Continuous Deployment, CD）。通过使用 Jenkins，开发团队可以自动化构建、测试和部署应用程序，从而加快软件开发周期，提高软件质量。
 
 
 
@@ -35,7 +34,7 @@ Jenkins 是一个开源自动化服务器，广泛用于持续集成（Continuou
 
 
 
-![](https://yanyubao.feishu.cn/space/api/box/stream/download/asynccode/?code=NDE2Zjg1YjkyNDc2YzRkZWMwYjM1MmFmMzMyNDBlZjNfMUNqcHU2MnhmUjFFWjdvT0lFb1BzMFRlTEM2dU02UHBfVG9rZW46UU5IZGJwWHowb2JXaGp4TXNZSmNKU2g0bmlkXzE3MzkyNTQ0NjI6MTczOTI1ODA2Ml9WNA)
+![](https://s2.loli.net/2025/02/15/xGEwk3Minhfazev.png)
 
 
 
@@ -47,7 +46,7 @@ Jenkins 是一个开源自动化服务器，广泛用于持续集成（Continuou
 
 
 
-![](https://yanyubao.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjhhY2QxNDU3OTRhNGY3NzkxZTY3YzAxNWRjM2JmNDJfaDFJTHZ6TFhXdjF5RHA1V1VtZkxWRmpnVDlkZ1g2NmJfVG9rZW46RXNTWWIwRnNvb2czVlR4Ykx2TmNJMVJqbmNkXzE3MzkyNTQ0NjI6MTczOTI1ODA2Ml9WNA)
+![](https://s2.loli.net/2025/02/15/natE974e1LRG5Qg.png)
 
 
 
@@ -61,7 +60,7 @@ Jenkins 是一个开源自动化服务器，广泛用于持续集成（Continuou
 
 
 
-![](https://yanyubao.feishu.cn/space/api/box/stream/download/asynccode/?code=YjE4NmEyY2ViMzAxNjI0OTNmZGE3NWFmZTJlMzQxZGVfcTRwa1p5dDFjN2VHRlZpZHpXOFhmSWFIVzYzMFFlYTJfVG9rZW46U1M2TWJrRkJqbzJYNnB4cVJpM2NVRkJlbkFnXzE3MzkyNTQ0NjI6MTczOTI1ODA2Ml9WNA)
+![](https://s2.loli.net/2025/02/15/5jOvoVAiQBIXZmK.png)
 
 
 
@@ -73,7 +72,7 @@ Jenkins 是一个开源自动化服务器，广泛用于持续集成（Continuou
 
 
 
-![](https://yanyubao.feishu.cn/space/api/box/stream/download/asynccode/?code=OTQ3NzNiYTU3OTljNjI1OWYxYmQyZDFhYjhjYzE5ODBfQjIxd2ZoQ1ZPeVRIT1RYbUcya2swZkhTdGdIV2laRkRfVG9rZW46SGtkR2IzMk1nb1g3bHN4cUlkRWNpYlRZbjNmXzE3MzkyNTQ0NjI6MTczOTI1ODA2Ml9WNA)
+![](https://s2.loli.net/2025/02/15/gd6LGpnTeCHmMrO.png)
 
 
 
@@ -85,7 +84,7 @@ Jenkins 是一个开源自动化服务器，广泛用于持续集成（Continuou
 
 
 
-![](https://yanyubao.feishu.cn/space/api/box/stream/download/asynccode/?code=YjNmN2U5ZDEyODcyNDVjNTljNDI3MDgyODE0Yjg5YjJfNWdTdnJTU3RLY1c3UlZQWk9PTVpuWlNIbFBoWjFCTDNfVG9rZW46Q2lUVmJoYmFDb3IzcXR4eGtnbmN0WGJ1bmxiXzE3MzkyNTQ0NjI6MTczOTI1ODA2Ml9WNA)
+![](https://s2.loli.net/2025/02/15/fmajU8S6KWhip4N.png)
 
 
 
@@ -95,7 +94,7 @@ Jenkins 是一个开源自动化服务器，广泛用于持续集成（Continuou
 
 这是Jenkins设置的最重要的步骤，配置构建脚本（如 Maven、Gradle 或 shell 脚本），用于编译和构建你的应用程序。
 
-![](https://yanyubao.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjNmZjVlMDcxMTM2MjZiNjNmYzg5ODI3NGQwYmRjNjNfMWtwVXpvNHBCZ056emRCdUZRVEVBQjI1QktTMU9Md0hfVG9rZW46Vkh0cGIzenNvb1lubEJ4ZXl5R2NrRXV0bnFnXzE3MzkyNTQ0NjI6MTczOTI1ODA2Ml9WNA)
+![](https://s2.loli.net/2025/02/15/q7J9ugbOECPr6My.png)
 
 
 
@@ -202,8 +201,4 @@ pipeline {
 
 
 这个示例中，我们定义了四个阶段：检出代码、构建、测试和部署。通过这种方式，可以轻松地实现持续集成和持续部署的自动化。
-
-
-
-
 

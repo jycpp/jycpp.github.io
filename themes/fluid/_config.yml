@@ -45,10 +45,16 @@ code:
     enable: true
     default: "TEXT"
 
+  exclude_languages:
+      - mermaid
+
   # 代码高亮
   # Code highlight
   highlight:
     enable: true
+
+    exclude_languages:
+      - mermaid
 
     # 代码块是否显示行号
     # If true, the code block display line numbers

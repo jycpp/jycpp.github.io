@@ -13,7 +13,7 @@ tags:
 - 项目管理
 - 代码提交
 categories:
-- 编程开发
+- 软件开发
 - MacOS
 ---
 
