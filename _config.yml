@@ -97,14 +97,22 @@ exclude:
 ignore:
 
 
-## mermaid chart，在Fluid主题中的 _config.yml 已经使用了，所以不需要再设置这个地方
+# mermaid chart，在Fluid主题中的 _config.yml 已经使用了，所以不需要再设置这个地方
 #mermaid: ## mermaid url https://github.com/knsv/mermaid
 #  enable: true  # default true
 #  version: 7.1.2 # default v7.1.2
-#  options: aaa # find more api options from https://github.com/knsv/mermaid/blob/master/src/mermaidAPI.js
-#    #startOnload: true  // default true
+#  #options: aaa # find more api options from https://github.com/knsv/mermaid/blob/master/src/mermaidAPI.js
+#  startOnload: true  #// default true
 
-
+# 在 hexo _config.yml 中添加或确认以下配置
+markdown:
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: true
+    linkify: true
+    typographer: true
+    quotes: '“”‘’'
 
 
 # Extensions

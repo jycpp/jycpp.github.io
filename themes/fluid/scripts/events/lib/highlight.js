@@ -92,6 +92,8 @@ module.exports = (hexo) => {
     });
 
     hexo.extend.filter.register('after_post_render', (page) => {
+      console.log('aaaaaabbbbbbbbbbbbbbbbb');
+      
       if (hexo.config.highlight.line_number) {
         page.content = page.content.replace(/<figure[^>]+?highlight.+?<td[^>]+?code[^>]+?>.*?(<pre.+?<\/pre>).+?<\/figure>/gims, (str, p1) => {
           if (/<code[^>]+?mermaid[^>]+?>/ims.test(p1)) {
@@ -107,6 +109,21 @@ module.exports = (hexo) => {
           return `<div class="code-wrapper">${str}</div>`;
         });
       }
+
+
+      // 示例字符串
+      //const originalString = `这是一段普通文本。<pre class="mermaid">graph LR; A --> B;</pre>这又是一段普通文本。`;
+
+      // 正则表达式和替换操作
+      const regex = /<pre class="mermaid">(.*?)<\/pre>/gs;
+      //const replacedString = originalString.replace(regex, '<div class="mermaid">$1</div>');
+      page.content = page.content.replace(regex, '<div class="mermaid">$1</div>');
+
+      //console.log(replacedString);
+
+      
+
+
 
       // 适配缩进型代码块
       page.content = page.content.replace(/<pre><code>/gims, (str) => {
@@ -132,6 +149,9 @@ module.exports = (hexo) => {
     });
 
     hexo.extend.filter.register('after_post_render', (page) => {
+
+      console.log('aaaaaacccccccccccc');
+
       page.content = page.content.replace(/(?<!<div class="code-wrapper">)<pre.+?<\/pre>/gims, (str) => {
         if (/<code[^>]+?mermaid[^>]+?>/ims.test(str)) {
           if (hexo.config.highlight.line_number) {
@@ -144,6 +164,16 @@ module.exports = (hexo) => {
         }
         return `<figure><div class="code-wrapper">${str}</div></figure>`;
       });
+
+      // 示例字符串
+      //const originalString = `这是一段普通文本。<pre class="mermaid">graph LR; A --> B;</pre>这又是一段普通文本。`;
+
+      // 正则表达式和替换操作
+      const regex = /<pre class="mermaid">(.*?)<\/pre>/gs;
+      //const replacedString = originalString.replace(regex, '<div class="mermaid">$1</div>');
+      page.content = page.content.replace(regex, '<div class="mermaid">$1</div>');
+
+      //console.log(replacedString);
 
       // 适配缩进型代码块
       page.content = page.content.replace(/<pre><code>/gims, (str) => {

@@ -1,13 +1,23 @@
 <script>
   Fluid.utils.createScript('<%= url_join(theme.static_prefix.mermaid, 'mermaid.min.js') %>', function() {
-    mermaid.initialize(<%- JSON.stringify(theme.post.mermaid.options || {}) %>);
+    
+    try{
+      mermaid.initialize(<%- JSON.stringify(theme.post.mermaid.options || {}) %>);
 
-    Fluid.utils.listenDOMLoaded(function() {
-      Fluid.events.registerRefreshCallback(function() {
-        if ('mermaid' in window) {
-          mermaid.init();
-        }
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
       });
-    });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
   });
 </script>
