@@ -1,5 +1,5 @@
 ---
-title: How is an email relayed?
+title: 电子邮件是如何被传递的？ How is an email relayed?
 date: 2024-12-22 17:27:20
 update: 2023-03-06 17:27:20
 comments: true
@@ -12,6 +12,9 @@ categories:
 - 电子邮件
 - SMTP
 ---
+
+
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113711540866975&bvid=BV1CtCAYYEdj&cid=27519618287&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="min-height:400px; min-width:700px; margin:0 auto;"></iframe>
 
 
 In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check and locate the receiver's email server. This is crucial as it serves as the destination for our message.

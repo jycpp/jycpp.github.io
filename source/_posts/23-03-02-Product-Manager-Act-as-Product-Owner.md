@@ -1,5 +1,5 @@
 ---
-title: Product-Manager-Act-as-Product-Owner
+title: 产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner
 date: 2023-03-02 20:41:51
 comments: true
 tags:

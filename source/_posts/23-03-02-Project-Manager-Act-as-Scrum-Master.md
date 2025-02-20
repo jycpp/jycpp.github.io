@@ -1,5 +1,5 @@
 ---
-title: Project-Manager-Act-as-Scrum-Master
+title: 敏捷开发中项目经理与Scrum Master角色 Project Manager Act as Scrum Master
 date: 2023-03-02 20:42:32
 comments: true
 tags:
