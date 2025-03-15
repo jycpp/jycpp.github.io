@@ -245,6 +245,13 @@ custom_js:
 # The usage is the same as custom_js
 custom_css:
 
+
+# 自定义 <head> 节点中的 HTML 内容
+custom_head: '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439"
+     crossorigin="anonymous"></script>
+     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439"
+     crossorigin="anonymous"></script>'
+
 # 网页访问统计
 # Analysis of website visitors
 web_analytics:
