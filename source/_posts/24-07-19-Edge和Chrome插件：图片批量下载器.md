@@ -25,6 +25,9 @@ categories:
 
 自从Fatkun这个图片批量下载插件发布以来，我一直在使用它来下载网页上的图片。它的功能非常强大，不仅可以自动收集网页上的图片，还可以通过滑动条来过滤图片的尺寸，满足不同的需求。但是最近这半年来，这个插件开始耍流氓了，强制设置浏览器主页，最近直接被Edge浏览器插件市场红色标记为“此扩展包含恶意软件”，于是决定自己动手写一个插件，下载页面上的所有图片，完美替代fatkun图片批量下载。使用方法：在网页上点击右键选择“下载页面上的所有图片”即可。
 
+下载地址：
+[Edge浏览器插件 - 图片批量下载器](https://microsoftedge.microsoft.com/addons/detail/%E5%9B%BE%E7%89%87%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BD%E5%99%A8/ibnlbjklnjigaoelkblpngbnmelahkhn?hl=zh-CN)
+
 
 ![Chrome插件-下载页面图片01](https://s2.loli.net/2025/03/19/UcZFvGDlJ4O8pEH.jpg)
 

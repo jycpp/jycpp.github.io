@@ -23,3 +23,13 @@ layout: about
 Devops: Gitlab, Jenkins, Docker, K8s, ES
 
 **Databases & Warehouse**: MySQL, SQL Server, Oracle, PostgreSQL, Redis, Hadoop
+
+
+## 软件下载
+
+[Edge浏览器插件 - 图片批量下载器](/24-07-19-Edge和Chrome插件：图片批量下载器.html)
+
+
+## 联系方式
+
+Email 5144789@qq.com

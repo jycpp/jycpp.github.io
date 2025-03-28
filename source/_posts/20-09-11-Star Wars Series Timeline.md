@@ -49,14 +49,6 @@ categories:
 The relationship among the three Star Wars films is a bit of a mystery. There is no clear chronological order to them, but they are all based on the same premise: the Jedi are trying to stop the Separatist forces from taking over the galaxy. The first two films are prequels to the third, and the third is the sequel to the first two.
 
 
-```mermaid
-graph LR;
-    A[Star Wars: Episode I – The Phantom Menace] --> B[Star Wars: Episode II – Attack of the Clones];
-    B --> C[Star Wars: Episode III – Revenge of the Sith];
-    C --> A;
-
-```     
-
 The character of Anakin Skywalker is a bit of a mystery, but he is a very powerful Jedi, and he is also trying to stop the Separatist forces from taking over the galaxy, but he is captured by dark side and then becomes a Sith Lord.
 
 ```mermaid

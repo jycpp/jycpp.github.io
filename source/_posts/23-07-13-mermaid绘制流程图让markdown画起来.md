@@ -1,5 +1,5 @@
 ---
-title: mermaid绘制流程图让markdown画起来
+title: Mermaid绘制流程图让Markdown画起来
 date: 2023-07-13 17:27:20
 comments: true
 tags:
@@ -33,11 +33,12 @@ categories:
 ## 一、Mermaid 与 Markdown 的关系
 
 Mermaid 是一种基于文本的可视化工具，通过简单的语法生成流程图、时序图、类图等。它与 Markdown 的结合实现了文档与图表的无缝融合：
-- **语法集成**：Mermaid 代码通过 Markdown 的代码块（````mermaid````）嵌入
+- **语法集成**：Mermaid 代码通过 Markdown 的代码块（需要指出代码类型为mermaid）嵌入
 - **轻量化**：无需复杂绘图工具，纯文本即可定义图表
 - **跨平台**：支持 GitHub、GitLab、VSCode 等主流平台
 
 **JavaScript 的作用**：
+
 Mermaid 图表需要 JavaScript 渲染引擎支持，不同平台的集成方式差异：
 | 场景         | 浏览器端                     | VSCode 端                   |
 |--------------|------------------------------|----------------------------|
@@ -50,6 +51,7 @@ Mermaid 图表需要 JavaScript 渲染引擎支持，不同平台的集成方式
 ## 二、集成 Mermaid 的方法
 
 ### 1. 浏览器端集成
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -69,7 +71,11 @@ Mermaid 图表需要 JavaScript 渲染引擎支持，不同平台的集成方式
   <script>mermaid.initialize({startOnLoad:true});</script>
 </body>
 </html>
+
 ```
+
+
+
 
 ### 2. VSCode 端集成
 1. 安装扩展：
@@ -84,6 +90,7 @@ Mermaid 图表需要 JavaScript 渲染引擎支持，不同平台的集成方式
 ## 三、Mermaid 核心图表类型
 
 ### 1. 流程图（Flowchart）
+
 ```mermaid
 graph TD
   A[用户登录] --> B{权限验证}
@@ -93,6 +100,7 @@ graph TD
 ```
 
 ### 2. 时序图（Sequence Diagram）
+
 ```mermaid
 sequenceDiagram
   客户端 ->> 服务器: 发送请求
@@ -104,6 +112,7 @@ sequenceDiagram
 ```
 
 ### 3. 类图（Class Diagram）
+
 ```mermaid
 classDiagram
   class User {
@@ -120,6 +129,7 @@ classDiagram
 ```
 
 ### 4. 状态图（State Diagram）
+
 ```mermaid
 stateDiagram
   [*] --> 未支付
@@ -130,6 +140,7 @@ stateDiagram
 ```
 
 ### 5. 甘特图（Gantt Chart）
+
 ```mermaid
 gantt
   title 项目开发计划
@@ -143,6 +154,7 @@ gantt
 ```
 
 ### 6. 饼图（Pie Chart）
+
 ```mermaid
 pie
   title 任务分配比例
@@ -252,6 +264,7 @@ graph LR
 ```
 
 ### 3. 动态交互（浏览器端）
+
 ```javascript
 mermaidAPI.render('graph', 'graph TD A[动态节点] --> B', function(svgCode) {
   document.getElementById('container').innerHTML = svgCode;
@@ -259,6 +272,7 @@ mermaidAPI.render('graph', 'graph TD A[动态节点] --> B', function(svgCode) {
 ```
 
 ## 六、最佳实践建议
+
 1. **保持简洁**：避免复杂嵌套，必要时拆分子图
 2. **规范命名**：节点名称使用清晰的业务术语
 3. **统一方向**：流程图保持一致的流向（如全部 LR 方向）
@@ -272,6 +286,7 @@ mermaidAPI.render('graph', 'graph TD A[动态节点] --> B', function(svgCode) {
 - 协作友好性：图表与代码同步更新
 
 > **注意事项**：
+
 > 1. 确保渲染引擎版本兼容（Mermaid 8+ 支持更多特性）
 > 2. 长文本节点可使用 `<<br>>` 换行
 > 3. 复杂图表建议使用 `subgraph` 分组
