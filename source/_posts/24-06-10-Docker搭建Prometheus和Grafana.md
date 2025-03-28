@@ -84,7 +84,7 @@ Prometheus的架构由四个主要组件组成：
 
 ## **5.1 安装docker和docker-compose**
 
-安装教程：[服务器上安装docker和docker-compose教程](https://blog.lcayun.com/3204.html)
+如何在服务器上安装docker和docker-compose之前写过相关的教程这里就不再赘述了。
 
 ## **5.2 安装Grafana**
 
@@ -247,6 +247,16 @@ docker run -d  -p 9090:9090  -v /opt/prometheus/prometheus.yml:/etc/prometheus/p
 
 这样面板信息就出来了
 
-# **6.结尾**
+# **6.结尾的最后释疑**
 
-Prometheus是个非常好用的开源项目，在本文中，我们介绍了什么是Prometheus，如何安装Prometheus，以及使用Prometheus的Pull(拉取)模式来采集Linux服务器资源，并在Grafana进行展现。
+到此，可能你还有个疑问，既然Prometheus有报表展示功能，为什么还要引入Grafana？
+
+其实，在监控系统中，Prometheus 和 Grafana 各自扮演着不同的角色，它们结合使用能发挥更大的价值。
+
+- Prometheus 自带的 Web UI 主要用于简单的数据查询和图表展示，功能较为基础，而Grafana 提供专业级的可视化面板，支持丰富的图表类型（折线图、柱状图、仪表盘等）和灵活的布局。
+- Grafana 支持创建和管理复杂的仪表盘，可以同时展示多个相关指标，提供模板变量功能，可以动态切换查看不同主机/服务的监控数据。
+- Grafana 的界面更加美观直观，适合非技术人员查看，支持面板注释、阈值标记、时间范围快捷选择等实用功能。
+- Prometheus 支持多种数据源，包括 Prometheus 自身、MySQL、Redis 等，而 Grafana 只支持 Prometheus 数据源。
+- Grafana方便导出和导入仪表盘，便于团队协作。
+
+总之，Prometheus 和 Grafana 结合使用，可以更全面、更高效地监控系统，同时也能提供更好的用户体验。

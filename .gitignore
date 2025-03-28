@@ -13,3 +13,4 @@ coverage/
 dist/
 db.json
 public/
+md-output/*
