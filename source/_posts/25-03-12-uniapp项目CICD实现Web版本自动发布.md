@@ -280,7 +280,7 @@ cli.exe pack --config config.prod.json
 
 ---
 
-以上配置已通过 HBuilderX 3.4.7+ 版本验证，如需最新特性请参考[官方文档](https://uniapp.dcloud.io/collocation/manifest)。
+以上配置的环境为 HBuilderX 3.4.7，具体参数的说明可参考[官方文档](https://uniapp.dcloud.io/collocation/manifest)。
 
 
 ## 编写CICD脚本（Windows）
@@ -305,6 +305,7 @@ HBuilderX 提供了命令行工具 `cli.exe`，用于在 Windows 环境下进行
 
 
 以上是基本的打包流程，对应mermaid表示上述过程：
+
 ```mermaid
 graph TD;
     A[打开命令行终端] --> B[进入项目目录];
@@ -315,7 +316,7 @@ graph TD;
 我们现在来编写一个完整的CICD脚本，用于自动化打包、发布和部署。
 
 
-以下是一个实现您需求的Windows批处理脚本（`.bat`文件），包含错误处理和路径验证：
+基于Windows批处理脚本（`.bat`文件）我们写了以下自动化流程，包含错误处理和路径验证：
 
 ```batch
 @echo off

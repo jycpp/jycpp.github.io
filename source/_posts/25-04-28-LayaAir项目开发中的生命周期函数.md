@@ -69,7 +69,8 @@ graph LR
     lateupdate --> loopcheck
     loopcheck -->|否| disable["onDisable()"]:::process
     disable --> destroy["onDestroy()"]:::process
-    destroy --> end([结束]):::startend
+    destroy --> end000([结束]):::startend
+
 ```
 #### 解释
 1. 流程从开始节点进入，首先执行 `constructor()`。
