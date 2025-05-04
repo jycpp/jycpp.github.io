@@ -2,6 +2,9 @@
 title: LayaAir项目开发中的生命周期函数
 date: 2025-04-28 17:27:20
 comments: true
+hide: false
+toc: true
+category_bar: true
 tags:
 - LayaAir
 - 生命周期函数

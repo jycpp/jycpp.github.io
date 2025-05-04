@@ -248,8 +248,6 @@ custom_css:
 
 # 自定义 <head> 节点中的 HTML 内容
 custom_head: '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439"
-     crossorigin="anonymous"></script>
-     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439"
      crossorigin="anonymous"></script>'
 
 # 网页访问统计
@@ -1086,6 +1084,50 @@ links:
     # Options: utterances | disqus | gitalk | valine | waline | changyan | livere | remark42 | twikoo | cusdis | giscus | discuss
     type: disqus
 
+
+ad_block_on_website:
+  # 如果在custom_head中添加了广告，需要设置为false，否则可能会导致广告被屏蔽
+  enable: false
+  ad_on_post_footer: '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439"
+     crossorigin="anonymous"></script>
+<!-- jycpp-post-footer -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4194196199198439"
+     data-ad-slot="4521189158"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>'
+  # 文章列表页左侧广告，展示在文章分类列表的下方，如果文章分类列表不展示，此广告也不展示
+  ad_on_post_left: '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439"
+     crossorigin="anonymous"></script>
+<!-- jycpp-post-left -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4194196199198439"
+     data-ad-slot="8212714660"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>'
+  # 文章列表页右侧广告，展示在 标题导航 的下方，如果 标题导航 不展示，此广告也不展示
+  ad_on_post_right: '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439"
+     crossorigin="anonymous"></script>
+<!-- jycpp-post-left -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4194196199198439"
+     data-ad-slot="8212714660"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>'
+  ad_on_homepage_left:
+  ad_on_homepage_right:
 
 #---------------------------
 # 以下是配置 JS CSS 等静态资源的 URL 前缀，可以自定义成 CDN 地址，
