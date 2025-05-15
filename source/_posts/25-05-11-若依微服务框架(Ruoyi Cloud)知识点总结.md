@@ -138,7 +138,30 @@ sentinel >= 1.6.0
 
 ## 3 Ruoyi Cloud的主要功能模块
 
-按照官方文档的说明，若依微服务框架的微服务部分，打开运行的基础模块如下，启动没有先后顺序。
+按照官方文档的说明，若依微服务框架的微服务部分，运行时候需要的基础模块如下，启动没有先后顺序。
+
+```mermaid
+kanban
+    后端
+        网关模块 RuoYiGatewayApplication
+        认证模块 RuoYiAuthApplication
+        系统模块 RuoYiSystemApplication
+        监控中心 RuoYiMonitorApplication
+        代码生成 RuoYiGenApplication
+        定时任务 RuoYiJobApplication
+        文件服务 RuoYFileApplication
+    前端技术栈
+            Vue 3 框架
+            Element Plus 组件库
+            Axios 网络请求
+    前端功能组件
+            登录
+            首页
+            用户管理    
+            角色管理
+            菜单管理
+            部门管理
+```        
 
 - RuoYiGatewayApplication （网关模块 必须）
 - RuoYiAuthApplication （认证模块 必须）
@@ -148,7 +171,8 @@ sentinel >= 1.6.0
 - RuoYiJobApplication （定时任务 可选）
 - RuoYFileApplication （文件服务 可选）
 
-前端相对简单，只要可以通过NodeJS安装ruoyi-ui项目的相关依赖即可，官方推进通过npm安装，不建议用cnpm。
+
+前端相对简单，只要可以通过NodeJS安装ruoyi-ui项目的相关依赖即可，官方推荐通过npm安装，不建议用cnpm。
 
 ```bash
 # 强烈建议不要用直接使用 cnpm 安装，会有各种诡异的 bug，可以通过重新指定 registry 来解决 npm 安装速度慢的问题。
