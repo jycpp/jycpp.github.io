@@ -75,7 +75,9 @@ graph LR
     destroy --> end000([结束]):::startend
 
 ```
+
 #### 解释
+
 1. 流程从开始节点进入，首先执行 `constructor()`。
 2. 然后按顺序执行 `onAwake()`、`onEnable()` 和 `onStart()`。
 3. 进入每帧循环判断，若处于循环中则依次执行 `onUpdate()` 和 `onLateUpdate()`，循环结束后继续执行后续步骤。
@@ -91,8 +93,10 @@ graph LR
 在 LayaAir 3 里，`Laya.Scene` 是场景类，它有一些重要的生命周期函数，下面为你详细介绍这些函数及其使用场景。
 
 ### 1. `constructor()`
+
 - **说明**：这是类的构造函数，在创建 `Laya.Scene` 实例时会被调用。通常用于进行一些初始化操作，像初始化变量、绑定事件等。
 - **示例代码**：
+
 ```typescript
 import { Laya } from "Laya";
 import { Scene } from "laya/display/Scene";
@@ -111,8 +115,10 @@ export class MyScene extends Scene {
 ```
 
 ### 2. `onAwake()`
+
 - **说明**：在场景实例被创建并且所有子节点和组件都初始化完成之后调用。此函数可用于完成一些依赖子节点和组件的初始化工作。
 - **示例代码**：
+
 ```typescript
 import { Laya } from "Laya";
 import { Scene } from "laya/display/Scene";
@@ -133,8 +139,10 @@ export class MyScene extends Scene {
 ```
 
 ### 3. `onEnable()`
+
 - **说明**：当场景被启用（激活）时调用。例如，当场景被添加到舞台或者从隐藏状态变为显示状态时，该函数会被触发。可用于启动一些与场景显示相关的逻辑，如播放动画、开始计时等。
 - **示例代码**：
+
 ```typescript
 import { Laya } from "Laya";
 import { Scene } from "laya/display/Scene";
@@ -155,8 +163,10 @@ export class MyScene extends Scene {
 ```
 
 ### 4. `onStart()`
+
 - **说明**：在场景第一次被更新之前调用，且仅调用一次。通常用于进行一些只需要执行一次的初始化工作，如加载资源、设置初始状态等。
 - **示例代码**：
+
 ```typescript
 import { Laya } from "Laya";
 import { Scene } from "laya/display/Scene";
@@ -177,8 +187,10 @@ export class MyScene extends Scene {
 ```
 
 ### 5. `onUpdate()`
+
 - **说明**：每帧都会调用，用于处理场景的更新逻辑，像角色移动、碰撞检测等。要注意避免在该函数中进行耗时操作，以免影响性能。
 - **示例代码**：
+
 ```typescript
 import { Laya } from "Laya";
 import { Scene } from "laya/display/Scene";
@@ -199,8 +211,10 @@ export class MyScene extends Scene {
 ```
 
 ### 6. `onLateUpdate()`
+
 - **说明**：在 `onUpdate()` 之后调用，同样每帧都会执行。一般用于处理一些需要在 `onUpdate()` 之后进行的操作，比如相机跟随角色等。
 - **示例代码**：
+
 ```typescript
 import { Laya } from "Laya";
 import { Scene } from "laya/display/Scene";
@@ -230,8 +244,10 @@ export class MyScene extends Scene {
 ```
 
 ### 7. `onDisable()`
+
 - **说明**：当场景被禁用（隐藏或移除）时调用。可用于停止一些与场景显示相关的逻辑，如暂停动画、停止计时等。
 - **示例代码**：
+
 ```typescript
 import { Laya } from "Laya";
 import { Scene } from "laya/display/Scene";
@@ -252,8 +268,10 @@ export class MyScene extends Scene {
 ```
 
 ### 8. `onDestroy()`
+
 - **说明**：在场景被销毁时调用，用于释放资源、移除事件监听等操作，避免内存泄漏。
 - **示例代码**：
+
 ```typescript
 import { Laya } from "Laya";
 import { Scene } from "laya/display/Scene";
@@ -275,7 +293,8 @@ export class MyScene extends Scene {
 }
 ```
 
-### 总结
+### 生命周期函数小结
+
 这些生命周期函数在不同的阶段被调用，你可以根据具体需求在相应的函数中编写逻辑，以实现场景的初始化、更新和销毁等操作。 
 
 
@@ -286,9 +305,11 @@ export class MyScene extends Scene {
 在 `onSceneClick` 函数中，可以模拟点击 `Scene` 中的某个按钮或图片点击的实现方式举例。
 
 ### 模拟点击按钮
+
 在 LayaAir 3 里，按钮通常是 `Laya.Button` 类型的实例。要模拟点击按钮，可调用按钮的 `event` 方法来触发 `Laya.Event.CLICK` 事件。
 
 #### 示例代码
+
 ```typescript
 import { Laya } from "Laya";
 import { Scene } from "laya/display/Scene";
@@ -339,14 +360,17 @@ Laya.stage.addChild(scene);
 ```
 
 #### 代码解释
+
 1. **创建按钮并添加事件监听器**：在 `init` 方法中，创建一个 `Laya.Button` 实例，并为其添加点击事件监听器 `onButtonClick`。
 2. **监听场景点击事件**：为场景添加点击事件监听器 `onSceneClick`。
 3. **模拟点击按钮**：在 `onSceneClick` 方法中，调用按钮的 `event` 方法触发 `Laya.Event.CLICK` 事件，从而模拟按钮被点击。
 
 ### 模拟点击图片
+
 对于图片，通常是 `Laya.Image` 类型的实例。要模拟点击图片，同样可以调用图片的 `event` 方法来触发 `Laya.Event.CLICK` 事件。
 
 #### 示例代码
+
 ```typescript
 import { Laya } from "Laya";
 import { Scene } from "laya/display/Scene";
@@ -396,11 +420,14 @@ Laya.stage.addChild(scene);
 ```
 
 #### 代码解释
+
 1. **创建图片并添加事件监听器**：在 `init` 方法中，创建一个 `Laya.Image` 实例，并为其添加点击事件监听器 `onImageClick`。
 2. **监听场景点击事件**：为场景添加点击事件监听器 `onSceneClick`。
 3. **模拟点击图片**：在 `onSceneClick` 方法中，调用图片的 `event` 方法触发 `Laya.Event.CLICK` 事件，从而模拟图片被点击。
 
+
 ### 注意事项
+
 - **确保元素可点击**：要保证按钮或图片的 `mouseEnabled` 属性为 `true`，这样才能响应点击事件。
 - **避免无限循环**：要避免在模拟点击的回调函数中再次触发场景的点击事件，以免造成无限循环。
 

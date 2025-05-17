@@ -28,7 +28,7 @@ categories:
 从另外一个方面来说，Java项目的这种复杂度也带来了很多好处，其中最明显的特征就是丝滑集成了Docker容器化部署和Kubernetes微服务架构自动化编排。以SpringBoot为例，它的开发效率非常高，而且可以通过Docker容器化部署，快速地将应用部署到生产环境中；同时，SpringBoot也支持Kubernetes微服务架构自动化编排，这使得应用的部署和管理更加简单和高效。
 
 
-![267ce44ce5444fe199216ec888e796f2~tplv-tb4s082cfz-aigc_resize_2400_2400](https://s2.loli.net/2025/05/11/pTRNwe5tsqgBfKA.jpg)
+![Docker和Kubernetes项目运维](https://s2.loli.net/2025/05/11/pTRNwe5tsqgBfKA.jpg)
 
 
 ## 1 预备知识
