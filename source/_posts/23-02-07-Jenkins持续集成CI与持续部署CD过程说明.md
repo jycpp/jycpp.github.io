@@ -34,7 +34,7 @@ Jenkins 是一个开源自动化服务器，广泛用于持续集成（Continuou
 
 
 
-![](https://s2.loli.net/2025/02/15/xGEwk3Minhfazev.png)
+![Jenkins在CI/CD中的作用](https://s2.loli.net/2025/02/15/xGEwk3Minhfazev.png)
 
 
 
