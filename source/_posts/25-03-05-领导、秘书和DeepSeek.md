@@ -4,9 +4,7 @@ date: 2025-03-05 14:30:15
 index_img: https://s2.loli.net/2025/03/07/7ikqxDESJgWLICy.jpg
 comments: true
 tags:
-- 秘书
 - DeepSeek
-- 领导
 - 体制内
 - 沟通协调
 - 战略顾问

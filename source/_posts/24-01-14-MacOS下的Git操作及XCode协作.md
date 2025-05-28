@@ -7,7 +7,7 @@ comments: true
 tags:
 - MacOS
 - Git操作
-- XCode协作
+- XCode
 - 版本控制
 - Gitee
 - 项目管理

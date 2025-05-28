@@ -5,19 +5,12 @@ comments: true
 tags:
 - ChatGPT
 - 生成PPT文件
-- 大纲
 - 大语言模型
 - 人工智能
-- 医疗领域
-- 应用
 - 案例分析
-- 未来展望
 - Python
 - 自动化处理
-- 模板
 - 扩写文案
-- 组织
-- 效率
 categories:
 - 人工智能AIGC
 - 大语言模型
