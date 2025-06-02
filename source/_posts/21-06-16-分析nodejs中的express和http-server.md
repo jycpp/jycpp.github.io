@@ -135,7 +135,7 @@ sass --watch --style=expanded sass/:css/
 
 编译完成后，css/目录下会生成与Sass文件同名的CSS文件（如sass/main.scss → css/main.css）。
 
-只需将整个项目目录（含css/、html/、script/等）部署到NGINX配置的路径/usr/local/data/apc-web/下即可，NGINX会自动托管/css/目录的静态文件。
+只需将整个项目目录（含css/、html/、script/等）部署到NGINX配置的路径/data/website/sass-web/下即可，NGINX会自动托管/css/目录的静态文件。
 
 
 在项目根目录创建package.json（若不存在），添加编译脚本：
@@ -174,37 +174,43 @@ nginx 配置如下，在这个项目中，html文件都在 “/html”这个目�
 
 ```nginx
            location / {
-             alias /usr/local/data/apc-web/html/;
+             alias /data/website/sass-web/html/;
              index index.html;
            }
 
            location /script/ {
-             alias /usr/local/data/apc-web/script/;
+             alias /data/website/sass-web/script/;
            }
            location /framework/ {
-             alias /usr/local/data/apc-web/framework/;
+             alias /data/website/sass-web/framework/;
            }
            location /css/ {
-             alias /usr/local/data/apc-web/css/;
+             alias /data/website/sass-web/css/;
            }
            location /image/ {
-             alias /usr/local/data/apc-web/image/;
+             alias /data/website/sass-web/image/;
            }
            
            location /sass/ {
-             alias /usr/local/data/apc-web/sass/;
+             alias /data/website/sass-web/sass/;
            }
            location /lang/ {
-             alias /usr/local/data/apc-web/lang/;
+             alias /data/website/sass-web/lang/;
            }           
            location /proper/ {
-             alias /usr/local/data/apc-web/proper/;
+             alias /data/website/sass-web/proper/;
            }
 ```
 
 
 
-这个时候，http-server就无法实现这样复杂的配置了。
+这个时候，http-server就无法实现这样复杂的配置了，因此需要用express创建自定义静态服务器。
+
+```bash
+npm install express --save-dev  # 安装Express框架
+```
+
+接下来，我们就可以基于express创建一个自定义静态服务器，用于托管静态文件。加速名称为express-server.js。
 
 
 ```js
@@ -231,7 +237,7 @@ app.listen(port, () => {
 启动这个文件，可以通过以下命令行：
 
 ```bash
-node server.js  # 替代之前的http-server命令
+node express-server.js  # 替代之前的http-server命令
 ```
 
 配置在package.json中：
@@ -239,9 +245,75 @@ node server.js  # 替代之前的http-server命令
 ```json
 {
   "scripts": {
-    "start:express": "node server.js"  // 启动nodejs服务
+    "start:express": "node express-server.js"  // 启动nodejs服务
   }
 }
+```
+
+### express实现动态路由
+
+再扩展一点知识，通过express创建的静态服务器，可以支持动态路由，例如：
+
+```js
+// 动态路由示例：/user/:id
+app.get('/user/:id', (req, res) => {
+  const userId = req.params.id;  // 获取动态参数
+  res.send(`User ID: ${userId}`);  // 响应动态内容
+});
+
+// 动态路由示例：/product/:category/:id
+app.get('/product/:category/:id', (req, res) => {
+  const category = req.params.category;  // 获取动态参数
+  const productId = req.params.id;  // 获取动态参数
+  res.send(`Category: ${category}, Product ID: ${productId}`);  // 响应动态内容 
+})
+
+```
+
+### nodemon监控js文件变化并重启服务
+
+在Node.js开发中，监控JS文件变化并自动重启服务，推荐使用 nodemon 工具。虽然最新版本的nodejs（Version 18及以上）支持参数“--watch”，但在某些情况下，可能还是需要时间去验证的。
+
+全局安装nodemon：
+
+```bash
+npm install -g nodemon
+```
+
+如果仅仅在项目中使用，也可以在项目目录下安装：
+
+```bash
+npm install nodemon --save-dev
+```
+
+在package.json中添加启动脚本：
+
+```json
+{
+  "scripts": {
+    "start:dev": "nodemon server.js"  // 启动nodejs服务
+  }
+}
+```
+
+首次启动：与 node express-server.js 效果一致，正常运行服务。当 express-server.js 或其依赖的JS文件（如路由、中间件）发生修改并保存时，nodemon 会自动终止当前进程并重启服务。
+
+如果指定具体监控的文件或目录，可以通过在项目的根目录下增加配置文件 nodemon.json 来实现。
+
+```json
+{
+  "watch": ["express-server.js", "src/**/*.js", "common/"],  // 监控src目录下的所有js文件，以及 common下的所有文件
+  "ext": "js",  // 仅监控的文件扩展名
+  "ignore": ["src/**/*.spec.js"],  // 忽略的文件
+  "exec": "node server.js"  // 启动命令
+}
+```
+
+
+如果要知道nodemon的具体参数，可以通过以下命令查看：
+
+```bash
+nodemon --help
 ```
 
 

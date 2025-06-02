@@ -12,9 +12,10 @@ tags:
 - Gitee
 - 项目管理
 - 代码提交
+- Dockerfile
 categories:
 - 软件开发
-- MacOS
+- 运维管理
 ---
 
 
