@@ -11,45 +11,68 @@ tags:
 - 材质
 - 动画循环
 - Vue
-- 脚手架
+- 脚手架开发
+- 元宇宙
+- MetaVerse
+- AR
+- VR
 categories:
 - 软件开发
 ---
 
 
+可能你还不知道，元宇宙这个概念将成为未来几年互联网的重要趋势，而Three.js作为一个强大的3D图形库，将成为元宇宙开发的重要工具之一。
+
+元宇宙（MetaVerse）的概念是1992年由美国著名科幻大师尼尔·斯蒂芬森在其小说《雪崩》中提到概念，他这样描述元宇宙：“戴上耳机和目镜，找到连接终端，就能够以虚拟分身的方式进入由计算机模拟、与真实世界平行的虚拟空间。” 如果你对这个还没概念，那么可以看看电影《头号玩家》《失控玩家》。马克·扎克伯格希望在未来5年内将Facebook从一个社交媒体网络转变为一家“元宇宙公司”，并在去年的10月28日将公司名更名为Meta。
+
+Three.js是一个基于WebGL的JavaScript库，它允许开发者创建和渲染3D图形，包括场景、相机、光源、材质、几何体等。它提供了丰富的API和工具，使得开发者可以轻松地构建各种3D场景和动画效果，成为AR、VR等三维项目开发必备的软件开发包。
+
+本文将从Three.js的基本概念开始，逐步介绍如何使用Three.js创建一个简单的3D场景，并通过一个实际的例子展示如何在Vue项目中使用Three.js进行开发。项目开发分成两种场景，第一张是嵌入到网页中，第二种是嵌入到Vue项目中。
+
 ## Three.js的主要知识点：
 
 ### 基础环境搭建与核心概念
+
 - **环境搭建**：了解如何引入Three.js库文件，可通过下载到本地项目或者使用CDN链接等方式，创建基本的HTML页面结构来承载Three.js场景。
+
 - **场景（Scene）、相机（Camera）和渲染器（Renderer）**：
+
     - **场景**：是所有物体、光源等元素的容器，类似于舞台，可往其中添加各种要展示的对象。
     - **相机**：定义了观察场景的视角和位置，比如常用的透视相机（PerspectiveCamera）模拟人眼的近大远小效果，正交相机（OrthographicCamera）用于等比例显示物体等。
     - **渲染器**：负责将场景和相机所确定的画面渲染到页面上，如WebGLRenderer用于在支持WebGL的浏览器中渲染出三维场景。
 
 ### 几何图形（Geometries）与材质（Materials）
+
 - **几何图形**：
+
     - 基础的几何形状如立方体（BoxGeometry）、球体（SphereGeometry）、平面（PlaneGeometry）等，掌握它们的创建参数，例如立方体的长宽高，球体的半径、分段数等。
+
     - 复杂几何图形的创建，可以通过组合基本几何图形或者利用自定义顶点、面等方式来构建独特形状。
+
 - **材质**：
     - 不同类型的材质表现各异，如基础材质（MeshBasicMaterial）不受光照影响，常用于简单的形状展示； Lambert材质（MeshLambertMaterial）模拟漫反射效果，能呈现出真实光照下的质感； Phong材质（MeshPhongMaterial）在处理高光等方面表现出色。
     - 材质的属性设置，像颜色、透明度、纹理映射等，通过纹理（Texture）可以给物体表面添加图片等细节，例如为一个立方体的各个面贴上不同的图像。
 
 ### 灯光（Lights）
+
 - **不同类型灯光**：
     - 点光源（PointLight）类似灯泡，向四周发光；平行光（DirectionalLight）模拟太阳光，光线平行照射；聚光灯（SpotLight）有特定的照射范围和角度，像手电筒光一样聚焦。
     - 灯光的属性调节，比如强度、颜色、衰减范围等，合理设置灯光可以营造出逼真的光影效果。
 
 ### 模型加载与动画
+
 - **模型加载**：学会使用Three.js提供的加载器（如GLTF加载器、OBJ加载器等）加载外部创建的三维模型文件，了解模型的格式特点以及如何处理加载后的模型，包括调整位置、缩放等操作。
 - **动画**：
     - 利用Three.js的动画循环（requestAnimationFrame结合相关函数）来更新物体的位置、旋转、缩放等属性，实现物体的动态效果，例如让一个物体绕某轴旋转或者沿某路径移动。
     - 关键帧动画的实现，通过定义不同时间点物体的状态来创建复杂的动画序列，配合缓动函数等让动画过渡更自然。
 
 ### 交互与后期处理
+
 - **交互**：使用JavaScript的事件机制（如鼠标点击、移动等事件）结合Three.js的对象操作，实现与场景中物体的交互，比如点击物体弹出信息、拖动物体改变位置等。
 - **后期处理**：掌握如EffectComposer等后期处理组件，添加各种效果，像模糊效果、辉光效果、色调映射等，增强画面的整体视觉质感。
 
 ### 性能优化与跨平台应用
+
 - **性能优化**：了解如何减少绘制调用、合理使用纹理压缩、进行场景裁剪、优化模型面数等方法，确保在不同设备上（尤其是移动端）都能流畅渲染三维场景。
 - **跨平台应用**：认识到Three.js在不同浏览器环境下的兼容性处理，以及在移动端通过适配触摸操作等手段，让创建的三维应用能有更广泛的应用场景，例如嵌入到Web页面、移动端APP的WebView中展示等。 
 
@@ -129,10 +152,12 @@ const scene = new THREE.Scene();
 `THREE.Scene` 是 Three.js 中的场景对象，它是所有物体、光源等元素的容器，类似于舞台，所有要展示的对象都需要添加到这个场景中。
 
 #### 3. 创建相机
+
 ```javascript
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 5;
 ```
+
 - `THREE.PerspectiveCamera` 创建一个透视相机，模拟人眼的近大远小效果。
   - `75` 是相机的视野角度（Field of View），表示相机可以看到的垂直角度范围。
   - `window.innerWidth / window.innerHeight` 是相机的纵横比，确保渲染的画面不会变形。
@@ -140,32 +165,39 @@ camera.position.z = 5;
 - `camera.position.z = 5` 将相机沿 z 轴正方向移动 5 个单位，避免相机和物体重叠。
 
 #### 4. 创建渲染器
+
 ```javascript
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 ```
+
 - `THREE.WebGLRenderer` 创建一个基于 WebGL 的渲染器，用于将场景和相机所确定的画面渲染到页面上。
 - `renderer.setSize(window.innerWidth, window.innerHeight)` 设置渲染器的尺寸为浏览器窗口的宽度和高度。
 - `document.body.appendChild(renderer.domElement)` 将渲染器生成的 `<canvas>` 元素添加到 HTML 页面的 `<body>` 中，这样才能在页面上看到渲染的结果。
 
 #### 5. 创建几何体和材质
+
 ```javascript
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 ```
+
 - `THREE.BoxGeometry` 创建一个立方体的几何体，它定义了立方体的形状和结构。
 - `THREE.MeshBasicMaterial` 创建一个基础材质，这种材质不受光照影响，`{ color: 0x00ff00 }` 设置材质的颜色为绿色。
 
 #### 6. 创建网格对象
+
 ```javascript
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 ```
+
 - `THREE.Mesh` 将几何体和材质组合成一个网格对象，这个对象就是最终要在场景中显示的立方体。
 - `scene.add(cube)` 将立方体添加到场景中。
 
 #### 7. 动画循环函数
+
 ```javascript
 function animate() {
   requestAnimationFrame(animate);
@@ -180,6 +212,7 @@ function animate() {
 
 animate();
 ```
+
 - `requestAnimationFrame(animate)` 是一个浏览器提供的函数，用于在浏览器下次重绘之前调用指定的函数，实现动画循环。
 - `cube.rotation.x += 0.01` 和 `cube.rotation.y += 0.01` 分别让立方体绕 x 轴和 y 轴旋转，每次旋转 0.01 弧度。
 - `renderer.render(scene, camera)` 调用渲染器的 `render` 方法，将场景和相机所确定的画面渲染到页面上。

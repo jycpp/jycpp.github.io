@@ -6,8 +6,6 @@ tags:
 - 项目管理
 - 项目经理
 - Scrum Master
-- 职责
-- 技能
 - 敏捷开发
 - Scrum框架
 - 项目规划
