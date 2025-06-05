@@ -6,7 +6,7 @@ version: 1.0
 comments: true
 tags:
 - MacOS
-- Git操作
+- Git
 - XCode
 - 版本控制
 - Gitee
