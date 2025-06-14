@@ -18,6 +18,35 @@ categories:
 - 运维管理
 ---
 
+我们以Ubuntu Server 24.04为例，介绍Ubuntu Server的初始化操作，包括安装、配置和安全加固。
+
+```mermaid
+kanban
+    Ubuntu Server 24.04 
+      相关操作内容提纲
+    初始化操作
+      Ubuntu Server安装过程
+       Ubuntu Server初始化过程
+    安全加固
+      认识防火墙ufw
+      认识OpenSSH Server
+      修改SSH的默认端口
+      添加新用户
+      启用root用户
+    应用功能
+      安装Docker和compose
+      安装AMP：Apache、MySQL和PHP
+```
+
+
+Ubuntu Server 24.04是一个基于Debian的服务器操作系统，适用于需要稳定运行的服务器环境。Ubuntu的产品体系主要包括：
+
+- Ubuntu Desktop：提供桌面环境的Ubuntu版本，适用于个人用户和桌面应用。
+- Ubuntu Server：服务器版本，适用于需要在服务器上运行应用的企业用户。
+- Ubuntu Core：适用于物联网和边缘计算设备，提供轻量级的操作系统。
+
+如果你没有机会使用Server版本，也可以使用Ubuntu Desktop版本，它提供了与Server版本相似的功能和工具。
+
 ## Ubuntu Server安装过程
 
 Ubuntu Server 24.04的安装步骤：
