@@ -1,6 +1,6 @@
 ---
 title: Ubuntu Server初始化操作，安全性和加固
-date: 2025-06-10 10:30:45
+date: 2025-06-10 21:30:45
 comments: true
 tags:
 - Ubuntu Server
@@ -485,7 +485,7 @@ exit  # 返回原始用户
 
 ## Ubuntu Server的应用功能
 
-### 安装Docker和compose
+### 安装Docker和compose（阿里云）
 
 如果是本地安装Docker，一般都是在安装操作系统的过程中选择安装的。
 
@@ -528,7 +528,46 @@ docker --version
 docker compose version
 
 #显示 Docker Compose version v2.36.2
+
 ```
+
+在阿里云服务器上可以使用阿里云的Docker镜像加速服务，
+需要设置的文件：/etc/docker/daemon.json
+内容为：
+```json
+{
+  "registry-mirrors": ["https://xxxxxxx.mirror.aliyuncs.com"],
+  "debug": true,
+  "experimental": false
+}
+```
+或者
+```json
+{
+  "registry-mirrors": ["https://xxxxxxx.mirror.aliyuncs.com"],
+}
+```
+
+如果加速镜像没有生效，在pull镜像的时候，还是会走默认的Docker 官方（registry-1.docker.io），
+需要在控制台开启相关服务：
+[https://cr.console.aliyun.com/](https://cr.console.aliyun.com/)
+
+更新镜像源文件后，重启服务使镜像源生效：
+
+```Bash
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+#在阿里云的环境下，确认镜像仓库使用的是阿里云的
+docker info
+
+#显示类似：
+#Registry Mirrors:
+# https://xxxxxxx.mirror.aliyuncs.com
+#即代表仓库已经使用阿里云的 
+
+``` 
+
 
 在Docker基础上组网和部署服务的过程我们在后续文章中介绍。
 
