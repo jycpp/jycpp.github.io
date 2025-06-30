@@ -5,9 +5,10 @@ comments: true
 tags:
 - Serverless
 - 云函数
-- AWS Lambda
-- 阿里云函数计算
-- 腾讯云云函数
+- AWS
+- Lambda
+- 阿里云
+- 腾讯云
 - 无服务器架构
 - 事件驱动
 - 多语言支持

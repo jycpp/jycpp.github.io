@@ -3,7 +3,8 @@ title: AWS-Lambda开发实战
 date: 2022-07-16 20:38:44
 comments: true
 tags:
-- AWS Lambda
+- AWS
+- Lambda
 - AWS CDK
 - Python
 - Node.js
