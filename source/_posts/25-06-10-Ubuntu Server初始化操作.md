@@ -23,20 +23,20 @@ categories:
 
 ```mermaid
 kanban
-    Ubuntu Server 24.04 
-      相关操作内容提纲
-    初始化操作
-      Ubuntu Server安装过程
-       Ubuntu Server初始化过程
-    安全加固
-      认识防火墙ufw
-      认识OpenSSH Server
-      修改SSH的默认端口
-      添加新用户
-      启用root用户
-    应用功能
-      安装Docker和compose
-      安装AMP：Apache、MySQL和PHP
+  Ubuntu Server 24.04 
+    相关操作内容提纲
+  初始化操作
+    Ubuntu Server安装过程
+      Ubuntu Server初始化过程
+  安全加固
+    认识防火墙ufw
+    认识OpenSSH Server
+    修改SSH的默认端口
+    添加新用户
+    启用root用户
+  应用功能
+    安装Docker和compose
+    安装AMP：Apache、MySQL和PHP
 ```
 
 
