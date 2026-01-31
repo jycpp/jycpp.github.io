@@ -10,7 +10,7 @@ layout: about
 ## 关于软件开发
 
 
-![微信公众号-数值玩家日记](https://s2.loli.net/2025/10/18/dfRAaCWTFgGVbnD.jpg)
+![微信公众号-数智玩家日记](https://s2.loli.net/2025/10/18/dfRAaCWTFgGVbnD.jpg)
 
 一转眼，做软件开发已经20多年了！
 
