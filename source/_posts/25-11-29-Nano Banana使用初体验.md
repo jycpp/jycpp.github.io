@@ -53,7 +53,7 @@ Nano Banana最近火的不得了，抽空体验一把，先说结论：相比较
 ## 应用案例三：删除水印
 
 
-这个案例非常检查，输入内容见下图，删除结果见上图。
+这个案例非常简单，输入的提示词见下图，删除水印后的结果见上图。
 
 ![nano-banana-remove-watermark](https://s2.loli.net/2026/02/01/q5RgEcxDGCkv18H.png)
 
@@ -66,5 +66,5 @@ Nano Banana最近火的不得了，抽空体验一把，先说结论：相比较
 
 ## 使用Nano Banana的小结
 
-虽为谷歌生态下的模型，Nano Banana Pro 在国内使用虽有局限，却并非无解。它生态里的 Gemini App、AI Studio、notebookLM 等都是实力不俗的 AIGC 工具，很有体验的价值。与其闭门造车，不如放眼全球，秉持师夷长技以制夷的思路去学习借鉴，方能博采众长、精进自身。
+作为谷歌生态下的模型，Nano Banana Pro 在国内使用虽有局限，却并非无解。它生态里的 Gemini App、AI Studio、notebookLM 等都是实力不俗的 AIGC 工具，很有体验的价值。与其闭门造车，不如放眼全球，秉持师夷长技以制夷的思路去学习借鉴，方能博采众长、精进自身。
 

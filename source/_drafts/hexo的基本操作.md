@@ -53,6 +53,19 @@ npm i
 
 ### **CICD过程**
 
+*[2026.01.07.]*
+
 项目可以自动部署到GitHub pages，是因为项目的目录下有文件：
 C:\dev_github\jycpp.github.io\.github\workflows\pages.yml
 这里定义了具体部署的过程。
+
+### **备份图床**
+
+*[2026.02.01.]*
+
+代码： C:\dev\yanyubao_python\abot_app\test_markdown_backup_sm_ms.py
+
+数据： C:\dev\yanyubao_python\abot_app\sm_ms_images.db
+
+图片： C:\dev\yanyubao_python\abot_app\sm_ms_images
+
