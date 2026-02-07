@@ -25,20 +25,21 @@ hexo server # 启动服务器。
 # http://localhost:4000/
 
 
-本地启动用于调试服务
+# 本地启动用于调试服务
 hexo server -l
 hexo server -l --watch
 
-将飞书上复制过来的Markdown文件的图片，转存到sm.ms
+# 将飞书上复制过来的Markdown文件的图片，转存到sm.ms
+# 先启用插件 Cloud Document Converter，将飞书文档转为markdown
 python.exe .\test_markdown_picgo.py 
 
-清空缓存
+# 清空缓存
 hexo clean    
 
-生成静态文件，到public目录
+# 生成静态文件，到public目录
 hexo generate --debug
 
-**新电脑上安装环境的命令**
+# **新电脑上安装环境的命令**
 #查看Nodejs的版本
 node -v
 #目前是 16.20.0
