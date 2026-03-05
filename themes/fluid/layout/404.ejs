@@ -12,7 +12,59 @@ page.banner_mask_alpha = theme.page404.banner_mask_alpha
     location.href = "<%- url_for('/') %>";
   }
 
+  function redirect2026() {
+    var currentUrl = window.location.href;
+    var pathname = window.location.pathname; // 获取绝对路径部分
+
+    console.log('Current URL:', currentUrl);
+    console.log('Pathname:', pathname);
+
+    // 定义匹配的年份前缀
+    var prefixes = ['26-', '25-', '24-', '23-', '22-', '21-', '20-', '19-', '18-', '17-', '16-', '15-', '14-', '13-', '12-', '11-'];
+
+    // 解码 URL，处理中文字符
+    pathname = decodeURIComponent(pathname);
+
+    console.log('Pathname decode:', pathname);
+
+    // 检查路径是否以指定的年份前缀开头
+    for (var i = 0; i < prefixes.length; i++) {
+      var prefix = '/' + prefixes[i];
+      if (pathname.startsWith(prefix)) {
+        // 替换年份前缀，例如 /26- 替换为 /26/
+        //var newPath = pathname.replace(prefix, '/' + prefixes[i].slice(0, -1) + '/');
+
+        // 提取年份（前两位数字）
+        var year = prefixes[i].substring(0, 2);
+        // 构造新的路径：在原路径前添加年份子目录
+        var newPath = '/20' + year + pathname;
+
+        var newUrl = window.location.origin + newPath;
+        location.href = newUrl;
+        return; // 找到匹配项并跳转后退出函数
+      }
+    }
+
+    // 检查路径是否以指定的年份前缀开头
+    for (var i = 0; i < prefixes.length; i++) {
+      var prefix = '/' + prefixes[i];
+      if (pathname.startsWith(prefix)) {
+        // 替换年份前缀，例如 /26- 替换为 /26/
+        var newPath = pathname.replace(prefix, '/' + prefixes[i].slice(0, -1) + '/');
+        var newUrl = window.location.origin + newPath;
+        location.href = newUrl;
+        return; // 找到匹配项并跳转后退出函数
+      }
+    }
+
+    // 如果没有匹配的前缀，跳转到根目录
+    location.href = "<%- url_for('/') %>";
+  }
+
   <% if (theme.page404.redirect_delay) { %>
-    setTimeout(redirect, <%= parseInt(theme.page404.redirect_delay) %>)
+    //setTimeout(redirect, <%= parseInt(theme.page404.redirect_delay) %>)
+
+    setTimeout(redirect2026, <%= parseInt(theme.page404.redirect_delay) %>)
+
   <% } %>
 </script>
