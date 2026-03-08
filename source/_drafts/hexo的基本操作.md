@@ -101,7 +101,9 @@ if (!fs.existsSync(path.join(hexo.source_dir, '404.html'))) {
 }
 ```
 
-以下是网址替换规则：
+5. 本地做了两个测试此功能的虚拟域名 https://jycpp.local.com/ 和 https://jycpp.local.net/
+
+6. 以下是网址替换规则：
 
 ```plaintext
 例如：
