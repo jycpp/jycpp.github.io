@@ -1,7 +1,23 @@
+---
+title: 在 macOS Terminal 中配置代理服务器的完整指南
+date: 2026-02-15 10:30:00
+comments: true
+tags:
+- macOS
+- Terminal
+- 代理服务器
+- SOCKS5
+- HTTP 代理
+- 环境变量
+- Shell 配置
+- Zsh
+- Bash
+- 网络配置
+categories:
+- 软件开发
+- MacOS
+---
 
-
-
-# 在 macOS Terminal 中配置代理服务器的完整指南
 
 在 macOS 系统中配置网络代理有多种方式，其中在 Terminal（终端）中设置代理是开发者常用的方法。本文将详细介绍三种不同层级的代理配置方案，从全局系统设置到临时的 Terminal 会话，再到永久的环境变量配置，帮助您根据实际需求选择最合适的方法。
 
