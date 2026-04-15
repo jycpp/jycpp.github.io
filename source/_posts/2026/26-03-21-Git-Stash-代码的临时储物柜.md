@@ -100,6 +100,22 @@ git pull origin feature/updateui
 ```  
 此时工作区干净，可顺利同步远程代码。  
 
+如果遇到代码冲突，可以选择merge和rebase两种处理方式，当然 fast forward也可以：
+
+```bash
+# 使用 merge
+git pull --no-rebase origin main
+
+# 或使用 rebase
+git pull --rebase origin main
+
+# 或仅快进
+git pull --ff-only origin main
+```
+
+执行以上操作后，git会自动跳转到一个vi编辑器中，补充此次合并的注释说明，通过“:wq”保存后即可继续。
+
+
 **Step 3: 恢复修改并处理冲突**  
 ```bash
 git stash pop
