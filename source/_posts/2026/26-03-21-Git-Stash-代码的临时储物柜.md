@@ -38,18 +38,20 @@ categories:
 相比为临时切换创建"WIP（Work In Progress）"提交记录，`git stash`提供了更优雅的解决方案，用临时存储代替无效提交，维护清晰的提交历史。  
 
 
-## 二、Git Stash典型工作流程与可视化解析  
+## 二、Git Stash典型工作流程与可视化解析
 
-### 1. Mermaid时序图：stash核心交互逻辑  
+### 1. Mermaid时序图：stash核心交互逻辑
+
 ```mermaid
 sequenceDiagram
     participant A as 工作区
     participant B as Stash栈
     A->>B: 暂存修改（git stash）
     B-->>A: 恢复修改（git stash pop）
-```  
+```
 
-### 2. Mermaid流程图：stash操作全流程  
+### 2. Mermaid流程图：stash操作全流程
+
 ```mermaid
 graph TD
     Start[开始：开发新功能] --> A[修改文件A、B]
@@ -61,12 +63,13 @@ graph TD
     F -->|是| G[解决冲突→git add→git commit]
     F -->|否| End[继续开发]
     B -->|否| End
-```  
+```
 
 
 ## 三、Git Stash使用步骤与冲突解决详解  
 
-### 1. 基础命令速查表  
+### 1. 基础命令速查表
+
 | 命令 | 作用 |  
 |------|------|  
 | `git stash push -m "描述"` | 暂存所有修改（含暂存区），添加备注 |  
@@ -88,6 +91,7 @@ graph TD
 #### 操作步骤  
 
 **Step 1: 暂存本地修改**  
+
 ```bash
 # 暂存所有修改（含未跟踪文件，需加-u参数）
 git stash push -u -m "WIP: 开发 updateui 功能，涉及main.js/helper.js/README.md"
@@ -95,6 +99,7 @@ git stash push -u -m "WIP: 开发 updateui 功能，涉及main.js/helper.js/READ
 *说明*：`-u`参数确保新增的`README.md`也被暂存。  
 
 **Step 2: 拉取远程更新**  
+
 ```bash
 git pull origin feature/updateui
 ```  
@@ -113,10 +118,12 @@ git pull --rebase origin main
 git pull --ff-only origin main
 ```
 
+
 执行以上操作后，git会自动跳转到一个vi编辑器中，补充此次合并的注释说明，通过“:wq”保存后即可继续。
 
 
 **Step 3: 恢复修改并处理冲突**  
+
 ```bash
 git stash pop
 ```  
