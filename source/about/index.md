@@ -28,9 +28,14 @@ Devops: Gitlab, Jenkins, Docker, K8s, ES
 **Databases & Warehouse**: MySQL, SQL Server, Oracle, PostgreSQL, Redis, Hadoop
 
 
-## 软件下载
+## 我的小软件和小教程
 
-[Edge浏览器插件 - 图片批量下载器](/24-07-19-Edge和Chrome插件：图片批量下载器.html)
+[Edge浏览器插件 - 图片批量下载器](/2024/24-07-19-Edge和Chrome插件：图片批量下载器.html)
+
+[PicGo for VSCode extension](https://marketplace.visualstudio.com/items?itemName=Longmix.picgo-for-vscode)
+
+[从 MySQL 开发到 Spark 实战 · 思维转换与入门教程](/html/从MySQL到Spark实战教程.html)
+
 
 
 ## 联系方式
