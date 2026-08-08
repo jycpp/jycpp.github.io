@@ -1,0 +1,916 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="搭建邮件服务器，postfix依然是最好的选择，组合dovecot+mysql+postfix可以实现邮件的接收，存储，转发等功能。 在postfix的Web控制台，除了可以管理多个域名邮箱之外，每个域名下还可以设置虚拟邮箱用户（Alias account），这些虚拟邮箱用户可以通过邮箱地址直接接收邮件，而没有发送邮件的功能，好处在于不需要在Web控制台中创建邮箱，对于只是接收验证码之类的场景费用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="postfix设置默认的缺省收件邮箱">
+<meta property="og:url" content="https://jycpp.github.io/2022/22-04-13-postfix%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E7%9A%84%E7%BC%BA%E7%9C%81%E6%94%B6%E4%BB%B6%E9%82%AE%E7%AE%B1.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="搭建邮件服务器，postfix依然是最好的选择，组合dovecot+mysql+postfix可以实现邮件的接收，存储，转发等功能。 在postfix的Web控制台，除了可以管理多个域名邮箱之外，每个域名下还可以设置虚拟邮箱用户（Alias account），这些虚拟邮箱用户可以通过邮箱地址直接接收邮件，而没有发送邮件的功能，好处在于不需要在Web控制台中创建邮箱，对于只是接收验证码之类的场景费用">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-13T23:52:23.000Z">
+<meta property="article:modified_time" content="2026-08-08T03:09:42.434Z">
+<meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="Postfix">
+<meta property="article:tag" content="邮件转发">
+<meta property="article:tag" content="虚拟别名映射">
+<meta property="article:tag" content="数据库配置">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="邮件服务器">
+<meta property="article:tag" content="主配置文件">
+<meta property="article:tag" content="虚拟邮箱">
+<meta property="article:tag" content="域名转发">
+<meta property="article:tag" content="Dovecot">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>postfix设置默认的缺省收件邮箱 - Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="postfix设置默认的缺省收件邮箱"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-13 23:52" pubdate>
+          2022年4月13日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="电子邮件"
+        id="heading-e7cff6a11c6c0e92233238cf63560f22" role="tab" data-toggle="collapse" href="#collapse-e7cff6a11c6c0e92233238cf63560f22"
+        aria-expanded="true"
+      >
+        电子邮件
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-e7cff6a11c6c0e92233238cf63560f22"
+           role="tabpanel" aria-labelledby="heading-e7cff6a11c6c0e92233238cf63560f22">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="SMTP"
+        id="heading-c2239a92bde29f0a9f9173193cc2fe00" role="tab" data-toggle="collapse" href="#collapse-c2239a92bde29f0a9f9173193cc2fe00"
+        aria-expanded="false"
+      >
+        SMTP
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-c2239a92bde29f0a9f9173193cc2fe00"
+           role="tabpanel" aria-labelledby="heading-c2239a92bde29f0a9f9173193cc2fe00">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-12-22-how-is-an-email-relayed.html" title="电子邮件是如何被传递的？ How is an email relayed?"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">电子邮件是如何被传递的？ How is an email relayed?</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="邮件服务器配置"
+        id="heading-7ac62b595b84e386cd76e59a93f30b59" role="tab" data-toggle="collapse" href="#collapse-7ac62b595b84e386cd76e59a93f30b59"
+        aria-expanded="true"
+      >
+        邮件服务器配置
+        <span class="list-group-count">(2)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-7ac62b595b84e386cd76e59a93f30b59"
+           role="tabpanel" aria-labelledby="heading-7ac62b595b84e386cd76e59a93f30b59">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2022/22-04-13-postfix%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E7%9A%84%E7%BC%BA%E7%9C%81%E6%94%B6%E4%BB%B6%E9%82%AE%E7%AE%B1.html" title="postfix设置默认的缺省收件邮箱"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">postfix设置默认的缺省收件邮箱</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-09-18-%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%ADPostfix%E3%80%81Dovecot%20%E4%B8%8E%20MySQL%20%E7%9A%84%E5%8A%9F%E8%83%BD%E5%85%B3%E7%B3%BB%E8%A7%A3%E6%9E%90.html" title="邮件服务器中Postfix、Dovecot 与 MySQL 的功能关系解析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">邮件服务器中Postfix、Dovecot 与 MySQL 的功能关系解析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">postfix设置默认的缺省收件邮箱</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>搭建邮件服务器，postfix依然是最好的选择，组合dovecot+mysql+postfix可以实现邮件的接收，存储，转发等功能。</p>
+<p>在postfix的Web控制台，除了可以管理多个域名邮箱之外，每个域名下还可以设置虚拟邮箱用户（Alias account），这些虚拟邮箱用户可以通过邮箱地址直接接收邮件，而没有发送邮件的功能，好处在于不需要在Web控制台中创建邮箱，对于只是接收验证码之类的场景费用有用。</p>
+<p>我们是希望在Web控制台中，每个域名下都可以设置一个默认邮箱地址，当用户发送邮件到该域名时，如果该邮箱地址不存在，则会将邮件转发到默认邮箱地址。这样可以避免大量设置虚拟邮箱用户，提高管理效率。</p>
+<p>同时，考虑到postfix支持多域名邮箱，我们还希望postfix按照不同的域名，转发到各自对应的邮箱。</p>
+<h2 id="配置Postfix转发虚拟邮箱"><a href="#配置Postfix转发虚拟邮箱" class="headerlink" title="配置Postfix转发虚拟邮箱"></a>配置Postfix转发虚拟邮箱</h2><p>要实现以上过程，需要在Postfix的配置文件中进行以下设置：</p>
+<h3 id="配置Postfix主配置文件"><a href="#配置Postfix主配置文件" class="headerlink" title="配置Postfix主配置文件"></a>配置Postfix主配置文件</h3><p>打开<code>/etc/postfix/main.cf</code>文件。添加或修改以下配置项：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">virtual_alias_domains</span> = domain1.com, domain2.com  <span class="hljs-comment"># 列出需要进行转发的域名，多个域名用逗号分隔</span><br><span class="hljs-attr">virtual_alias_maps</span> = hash:/etc/postfix/virtual  <span class="hljs-comment"># 指定虚拟别名映射文件的路径</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="创建虚拟别名映射文件"><a href="#创建虚拟别名映射文件" class="headerlink" title="创建虚拟别名映射文件"></a>创建虚拟别名映射文件</h3><p>创建<code>/etc/postfix/virtual</code>文件。在文件中按照以下格式添加转发规则：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@domain1</span>.com destination1<span class="hljs-variable">@example</span>.com  # 将发往domain1.com中不存在账号的邮件转发到destination1<span class="hljs-variable">@example</span>.com<br><span class="hljs-variable">@domain2</span>.com destination2<span class="hljs-variable">@example</span>.com  # 将发往domain2.com中不存在账号的邮件转发到destination2<span class="hljs-variable">@example</span>.com<br></code></pre></td></tr></table></figure>
+
+<h3 id="生成映射文件数据库"><a href="#生成映射文件数据库" class="headerlink" title="生成映射文件数据库"></a>生成映射文件数据库</h3><p>执行命令<code>postmap hash:/etc/postfix/virtual</code>，生成虚拟别名映射文件的数据库。</p>
+<h3 id="重启Postfix服务"><a href="#重启Postfix服务" class="headerlink" title="重启Postfix服务"></a>重启Postfix服务</h3><p>执行命令<code>systemctl restart postfix</code>，使配置生效。</p>
+<p>以上步骤中，要确保<code>main.cf</code>文件中的<code>virtual_alias_domains</code>配置项准确列出了需要处理的域名，<code>virtual_alias_maps</code>指定的映射文件路径正确，并且在<code>/etc/postfix/virtual</code>文件中为每个域名配置了正确的转发规则。</p>
+<h2 id="为什么需要修改main-cf文件？"><a href="#为什么需要修改main-cf文件？" class="headerlink" title="为什么需要修改main.cf文件？"></a>为什么需要修改main.cf文件？</h2><p>在Postfix的配置文件<code>main.cf</code>中，有一个配置项<code>virtual_alias_maps</code>，用于指定虚拟别名映射文件的路径。</p>
+<p>当你配置了<code>virtual_alias_maps</code>后，Postfix会读取该文件中的规则，将发往指定域名的邮件地址转换为对应的邮箱地址。</p>
+<p>如果不修改<code>main.cf</code>文件，Postfix默认会使用<code>/etc/postfix/virtual</code>作为虚拟别名映射文件的路径。</p>
+<p>这个过程并非绝对不能通过配置MySQL数据库表来实现，只是通常需要同时修改<code>main.cf</code>文件来让Postfix与MySQL数据库进行交互，从而实现基于数据库配置的邮件转发等功能。以下是相关原因说明：</p>
+<ul>
+<li><p><strong>修改main.cf文件的必要性</strong></p>
+<ul>
+<li><p><strong>启用数据库查询功能</strong>：Postfix默认不会主动连接和查询MySQL数据库。要让Postfix能够利用MySQL数据库中的数据来处理邮件，必须在<code>main.cf</code>文件中进行配置，以告知Postfix使用数据库以及如何连接数据库。例如，需要设置<code>virtual_mailbox_domains</code>参数来指定虚拟邮箱域名的来源为MySQL数据库，还需配置<code>virtual_mailbox_maps</code>和<code>virtual_alias_maps</code>等参数，让Postfix知道从数据库的哪些表和字段中获取用户邮箱和别名信息。</p>
+</li>
+<li><p><strong>配置邮件处理行为</strong>：<code>main.cf</code>文件用于设置Postfix的各种运行参数和邮件处理策略。即使邮件转发规则存储在MySQL数据库中，也需要在<code>main.cf</code>中配置相关参数，来确定Postfix如何根据数据库中的规则进行邮件转发。比如，设置<code>smtpd_recipient_restrictions</code>参数，可限制收件人地址，并根据数据库中的信息来判断是否接受或转发邮件。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>使用MySQL数据库表的优势</strong></p>
+<ul>
+<li><p><strong>灵活管理转发规则</strong>：将邮件转发规则存储在MySQL数据库表中，可以通过数据库管理工具方便地添加、修改和删除转发规则，无需直接编辑配置文件。对于大型邮件系统，当需要频繁调整转发策略或管理大量域名和邮箱时，使用数据库表进行管理更加高效和便捷。</p>
+</li>
+<li><p><strong>支持动态配置</strong>：数据库表可以根据实际需求实时更新，Postfix在运行过程中能够及时读取到最新的转发规则，实现动态配置邮件转发。例如，当有新的域名需要添加转发规则，或者某个邮箱的转发目标发生变化时，只需在数据库中进行相应修改，而无需重启Postfix服务。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>要通过MySQL数据库表实现邮件按不同域名转发到对应邮箱，需在<code>main.cf</code>文件中正确配置Postfix与MySQL数据库的连接和交互参数，同时在数据库中合理设计表结构来存储转发规则等信息。这样Postfix才能依据数据库中的配置信息，准确地处理邮件的转发。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6/" class="category-chain-item">电子邮件</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE/" class="category-chain-item">邮件服务器配置</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Postfix/" class="print-no-link">#Postfix</a>
+      
+        <a href="/tags/%E9%82%AE%E4%BB%B6%E8%BD%AC%E5%8F%91/" class="print-no-link">#邮件转发</a>
+      
+        <a href="/tags/%E8%99%9A%E6%8B%9F%E5%88%AB%E5%90%8D%E6%98%A0%E5%B0%84/" class="print-no-link">#虚拟别名映射</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE/" class="print-no-link">#数据库配置</a>
+      
+        <a href="/tags/MySQL/" class="print-no-link">#MySQL</a>
+      
+        <a href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="print-no-link">#邮件服务器</a>
+      
+        <a href="/tags/%E4%B8%BB%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" class="print-no-link">#主配置文件</a>
+      
+        <a href="/tags/%E8%99%9A%E6%8B%9F%E9%82%AE%E7%AE%B1/" class="print-no-link">#虚拟邮箱</a>
+      
+        <a href="/tags/%E5%9F%9F%E5%90%8D%E8%BD%AC%E5%8F%91/" class="print-no-link">#域名转发</a>
+      
+        <a href="/tags/Dovecot/" class="print-no-link">#Dovecot</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>postfix设置默认的缺省收件邮箱</div>
+      <div>https://jycpp.github.io/2022/22-04-13-postfix设置默认的缺省收件邮箱.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年4月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/22-05-21-%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E5%BF%85%E9%A1%BB%E5%AD%A6%E4%BC%9AMVP.html" title="产品经理必须学会MVP">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">产品经理必须学会MVP</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/22-03-15-Threejs%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE%9E%E6%88%98.html" title="Threejs从入门到实战一文说明白">
+                        <span class="hidden-mobile">Threejs从入门到实战一文说明白</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

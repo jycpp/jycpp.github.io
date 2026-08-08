@@ -1,0 +1,1799 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="如果你哪天思维近视了，比如我，突然就想不起来怎么把远程仓库克隆到本地，反映过来后，我想还是再总结一篇文章吧。 如果你没有忘记这些基础内容，也可以看看之前我总结的关于Git的其他内容：  MacOS下的Git操作及XCode协作 在GitLab和GitHub之间同步Git版本仓库的代码  在命令行中使用 Git 下载远程项目（即 克隆仓库）是最基础的操作之一。以下是完整的操作指南： 1. 基本命令：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="温故知新：Git克隆远程项目到本地开发环境">
+<meta property="og:url" content="https://jycpp.github.io/2025/25-05-28-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E5%85%8B%E9%9A%86%E9%A1%B9%E7%9B%AE%E5%88%B0%E6%9C%AC%E5%9C%B0.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="如果你哪天思维近视了，比如我，突然就想不起来怎么把远程仓库克隆到本地，反映过来后，我想还是再总结一篇文章吧。 如果你没有忘记这些基础内容，也可以看看之前我总结的关于Git的其他内容：  MacOS下的Git操作及XCode协作 在GitLab和GitHub之间同步Git版本仓库的代码  在命令行中使用 Git 下载远程项目（即 克隆仓库）是最基础的操作之一。以下是完整的操作指南： 1. 基本命令：">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-05-28T09:30:45.000Z">
+<meta property="article:modified_time" content="2026-08-08T03:09:42.438Z">
+<meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="GitLab">
+<meta property="article:tag" content="GitHub">
+<meta property="article:tag" content="远程仓库">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="版本控制">
+<meta property="article:tag" content="SSH">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>温故知新：Git克隆远程项目到本地开发环境 - Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="温故知新：Git克隆远程项目到本地开发环境"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-28 09:30" pubdate>
+          2025年5月28日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          714 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          6 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="软件开发"
+        id="heading-a41622d744ac9c55f5266dcc90ac7599" role="tab" data-toggle="collapse" href="#collapse-a41622d744ac9c55f5266dcc90ac7599"
+        aria-expanded="true"
+      >
+        软件开发
+        <span class="list-group-count">(70)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-a41622d744ac9c55f5266dcc90ac7599"
+           role="tabpanel" aria-labelledby="heading-a41622d744ac9c55f5266dcc90ac7599">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-07-19-Edge%E5%92%8CChrome%E6%8F%92%E4%BB%B6%EF%BC%9A%E5%9B%BE%E7%89%87%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BD%E5%99%A8.html" title="Edge和Chrome插件：图片批量下载器"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Edge和Chrome插件：图片批量下载器</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2011/11-10-12-PHP%E4%B8%AD9%E4%B8%AA%E9%87%8D%E8%A6%81%E5%AE%9E%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0%E5%92%8C%E5%8A%9F%E8%83%BD.html" title="PHP 知识：9 个重要实用的 PHP 函数和功能"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">PHP 知识：9 个重要实用的 PHP 函数和功能</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-03-15-Threejs%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE%9E%E6%88%98.html" title="Threejs从入门到实战一文说明白"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Threejs从入门到实战一文说明白</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2011/11-03-13-Ubuntu%E4%B8%8BSwap%E5%88%86%E5%8C%BA%E7%9A%84%E8%B0%83%E6%95%B4%E5%92%8C%E4%BC%98%E5%8C%96.html" title="Ubuntu 下 Swap 分区的调整和优化"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Ubuntu 下 Swap 分区的调整和优化</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2011/11-08-11-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0VS2005%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E6%A3%80%E6%9F%A5.html" title="学习笔记：VS2005内存泄露检查"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">学习笔记：VS2005内存泄露检查</span>
+        </a>
+      
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="MacOS"
+        id="heading-0a5b7edb55b772c60bfa8af868b679cf" role="tab" data-toggle="collapse" href="#collapse-0a5b7edb55b772c60bfa8af868b679cf"
+        aria-expanded="false"
+      >
+        MacOS
+        <span class="list-group-count">(5)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-0a5b7edb55b772c60bfa8af868b679cf"
+           role="tabpanel" aria-labelledby="heading-0a5b7edb55b772c60bfa8af868b679cf">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-01-14-MacOS%E4%B8%8B%E7%9A%84Git%E6%93%8D%E4%BD%9C%E5%8F%8AXCode%E5%8D%8F%E4%BD%9C.html" title="MacOS下的Git操作及XCode协作"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">MacOS下的Git操作及XCode协作</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-02-15-macOS%20%E4%B8%AD%E8%8B%B1%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2%E8%AF%A6%E8%A7%A3.html" title="macOS 中英文输入法切换详解"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">macOS 中英文输入法切换详解</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-02-22-macOS%E5%AE%89%E8%A3%85nginx%E6%96%B9%E6%A1%88%E6%A2%B3%E7%90%86.html" title="macOS安装nginx方案梳理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">macOS安装nginx方案梳理</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-02-15-%E5%9C%A8%20macOS%20Terminal%20%E4%B8%AD%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97.html" title="在 macOS Terminal 中配置代理服务器的完整指南"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在 macOS Terminal 中配置代理服务器的完整指南</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-12-26-%E5%AD%A6%E4%B9%A0Objective-C%E8%AF%BB%E8%BF%99%E4%B8%AA%E5%B0%B1%E8%B6%B3%E5%A4%9F%E4%BA%86.html" title="学习Objective-C的一些笔记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">学习Objective-C的一些笔记</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="PHP编程"
+        id="heading-07ba74ada3ba4fd5f731c7113d524e0d" role="tab" data-toggle="collapse" href="#collapse-07ba74ada3ba4fd5f731c7113d524e0d"
+        aria-expanded="false"
+      >
+        PHP编程
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-07ba74ada3ba4fd5f731c7113d524e0d"
+           role="tabpanel" aria-labelledby="heading-07ba74ada3ba4fd5f731c7113d524e0d">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2019/19-05-21-PHP%E4%B8%AD%E7%9A%84%E9%AD%94%E6%B3%95%E5%87%BD%E6%95%B0__call%E5%9C%A8ThinkPHP%E4%B8%AD%E7%9A%84%E5%A6%99%E7%94%A8.html" title="PHP中的魔法函数 “__call” 在ThinkPHP中的妙用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">PHP中的魔法函数 “__call” 在ThinkPHP中的妙用</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="云计算"
+        id="heading-1fefd5a9127ae81cd9e10ebb95084366" role="tab" data-toggle="collapse" href="#collapse-1fefd5a9127ae81cd9e10ebb95084366"
+        aria-expanded="false"
+      >
+        云计算
+        <span class="list-group-count">(5)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-1fefd5a9127ae81cd9e10ebb95084366"
+           role="tabpanel" aria-labelledby="heading-1fefd5a9127ae81cd9e10ebb95084366">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2022/22-07-16-AWS-Lambda%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98.html" title="AWS-Lambda开发实战"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">AWS-Lambda开发实战</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-07-13-AWS%E7%9A%84S3%E5%92%8CEC2.html" title="AWS的S3和EC2"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">AWS的S3和EC2</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-05-19-%E8%87%AA%E5%BB%BADocker%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E5%99%A8.html" title="在CentOS上搭建自己的Docker镜像加速器"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在CentOS上搭建自己的Docker镜像加速器</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-04-15-Serverless-and-Cloud-Function.html" title="无服务器架构和云函数 Serverless and Cloud Function"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">无服务器架构和云函数 Serverless and Cloud Function</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-15-%E9%98%BF%E9%87%8C%E4%BA%91%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%BB%84%E7%9A%84%E7%BD%91%E6%AE%B5%E5%88%86%E6%9E%90.html" title="阿里云的网络安全组的网段分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">阿里云的网络安全组的网段分析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="区块链技术"
+        id="heading-649e6048a32c09299e1c952347ccac7e" role="tab" data-toggle="collapse" href="#collapse-649e6048a32c09299e1c952347ccac7e"
+        aria-expanded="false"
+      >
+        区块链技术
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-649e6048a32c09299e1c952347ccac7e"
+           role="tabpanel" aria-labelledby="heading-649e6048a32c09299e1c952347ccac7e">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-01-10-%E5%8C%BA%E5%9D%97%E9%93%BE%E7%9A%84%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86.html" title="区块链的技术原理与项目开发实践"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">区块链的技术原理与项目开发实践</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="大语言模型"
+        id="heading-faf3ef15d22b0a54f1d7520545b242f7" role="tab" data-toggle="collapse" href="#collapse-faf3ef15d22b0a54f1d7520545b242f7"
+        aria-expanded="false"
+      >
+        大语言模型
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-faf3ef15d22b0a54f1d7520545b242f7"
+           role="tabpanel" aria-labelledby="heading-faf3ef15d22b0a54f1d7520545b242f7">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-08-10-Open%20WebUI%E5%87%BD%E6%95%B0Function%E7%9A%84%E8%B0%83%E7%94%A8%E6%AD%A5%E9%AA%A4.html" title="Open WebUI函数Function的调用步骤"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Open WebUI函数Function的调用步骤</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-08-10-Open%20WebUI%E5%B7%A5%E5%85%B7Tool%E8%B0%83%E7%94%A8%E7%9A%84%E8%87%AA%E5%8A%A8%E5%92%8C%E6%89%8B%E5%8A%A8%E6%A8%A1%E5%BC%8F.html" title="Open WebUI工具Tool调用的自动和手动模式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Open WebUI工具Tool调用的自动和手动模式</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-08-09-Open%20WebUI%E5%BC%80%E5%8F%91%E9%AB%98%E7%BA%A7%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E5%BA%94%E7%94%A8.html" title="Open WebUI开发高级接口参数应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Open WebUI开发高级接口参数应用</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="小程序和APP"
+        id="heading-7f209bc2e0d708de6099e389e191db5a" role="tab" data-toggle="collapse" href="#collapse-7f209bc2e0d708de6099e389e191db5a"
+        aria-expanded="false"
+      >
+        小程序和APP
+        <span class="list-group-count">(10)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-7f209bc2e0d708de6099e389e191db5a"
+           role="tabpanel" aria-labelledby="heading-7f209bc2e0d708de6099e389e191db5a">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-07-12-Android%E4%B8%AD%E5%AE%9E%E7%8E%B0Activity%E4%B8%8EService%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2.html" title="Android中实现Activity与Service数据交换"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android中实现Activity与Service数据交换</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-07-21-Android%E5%BC%80%E5%8F%91%E4%B8%ADKotlin%E7%9A%84%E8%AF%AD%E6%B3%95%E7%B3%96.html" title="Android开发中Kotlin的语法糖"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android开发中Kotlin的语法糖</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-09-20-Android%E5%BC%80%E5%8F%91%E4%B8%ADadb%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86.html" title="Android开发中adb常用命令整理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android开发中adb常用命令整理</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-09-05-Android%E8%AE%BE%E5%A4%87%E4%B8%ADdp%E5%92%8Cpx%E7%9A%84%E6%8D%A2%E7%AE%97%E5%85%B3%E7%B3%BB.html" title="Android设备中dp和px的换算关系"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android设备中dp和px的换算关系</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-04-15-Uniapp%E9%A1%B9%E7%9B%AE%E9%87%8D%E5%AE%9A%E4%B9%89%E5%B7%A6%E4%B8%8A%E8%A7%92%E7%9A%84%E8%BF%94%E5%9B%9E%E7%AE%AD%E5%A4%B4%E7%9A%84%E4%BA%8B%E4%BB%B6.html" title="Uniapp项目重定义左上角的返回箭头的事件"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Uniapp项目重定义左上角的返回箭头的事件</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-10-23-kotlin%E4%B8%AD%E7%9A%84data%20class%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8.html" title="kotlin中的data class及其应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">kotlin中的data class及其应用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-07-25-%E5%A6%82%E4%BD%95%E5%B0%86%E5%AE%89%E5%8D%93App%E8%BD%AC%E7%A7%BB%E5%88%B0%E5%8F%A6%E4%B8%80%E5%8F%B0%E6%89%8B%E6%9C%BA%E4%B8%8A.html" title="如何将安卓App转移到另一台手机上"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">如何将安卓App转移到另一台手机上</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-05-19-%E5%BE%AE%E4%BF%A1%E5%92%8C%E6%8A%96%E9%9F%B3%E7%9A%84%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F.html" title="微信和抖音的小程序生态系统"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">微信和抖音的小程序生态系统</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-07-20-%E7%90%86%E8%A7%A3Android%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84Context%E5%92%8CActivity.html" title="理解Android开发中的Context和Activity"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">理解Android开发中的Context和Activity</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-12-01-%E9%B8%BF%E8%92%99%E4%BC%9A%E6%88%90%E4%B8%BA%E5%AE%89%E5%8D%93%E5%92%8C%E8%8B%B9%E6%9E%9C%E4%B9%8B%E5%90%8E%E7%9A%84%E8%80%81%E4%B8%89.html" title="鸿蒙要成为安卓和苹果之后的老三优势和挑战"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">鸿蒙要成为安卓和苹果之后的老三优势和挑战</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="微服务"
+        id="heading-79c287218d34050f6bd19986cd05b499" role="tab" data-toggle="collapse" href="#collapse-79c287218d34050f6bd19986cd05b499"
+        aria-expanded="false"
+      >
+        微服务
+        <span class="list-group-count">(4)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-79c287218d34050f6bd19986cd05b499"
+           role="tabpanel" aria-labelledby="heading-79c287218d34050f6bd19986cd05b499">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-09-11-IntelliJ%20IDEA%E4%B8%AD%E9%85%8D%E7%BD%AE%E8%BF%90%E8%A1%8C%E8%B0%83%E8%AF%95%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0.html" title="IntelliJ IDEA中配置运行调试启动命令参数"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">IntelliJ IDEA中配置运行调试启动命令参数</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-12-03-Nacos%E5%9C%A8Java-Based%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8.html" title="Nacos在Java-Based微服务架构中的作用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Nacos在Java-Based微服务架构中的作用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-05-03-Nacos%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB.html" title="Nacos的基础知识汇总"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Nacos的基础知识汇总</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-11-%E8%8B%A5%E4%BE%9D%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6(Ruoyi%20Cloud)%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93.html" title="若依微服务框架(Ruoyi Cloud)知识点总结"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">若依微服务框架(Ruoyi Cloud)知识点总结</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="游戏开发"
+        id="heading-03af44dfb57651192e1e5ff490e35760" role="tab" data-toggle="collapse" href="#collapse-03af44dfb57651192e1e5ff490e35760"
+        aria-expanded="false"
+      >
+        游戏开发
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-03af44dfb57651192e1e5ff490e35760"
+           role="tabpanel" aria-labelledby="heading-03af44dfb57651192e1e5ff490e35760">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-04-28-LayaAir%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0.html" title="LayaAir项目开发中的生命周期函数"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">LayaAir项目开发中的生命周期函数</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="系统架构"
+        id="heading-b2f511d71f9265a279f533d671dee8ab" role="tab" data-toggle="collapse" href="#collapse-b2f511d71f9265a279f533d671dee8ab"
+        aria-expanded="false"
+      >
+        系统架构
+        <span class="list-group-count">(13)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-b2f511d71f9265a279f533d671dee8ab"
+           role="tabpanel" aria-labelledby="heading-b2f511d71f9265a279f533d671dee8ab">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-04-21-ALM%EF%BC%88%E5%BA%94%E7%94%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%AE%A1%E7%90%86%EF%BC%89%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9%E8%A7%A3%E6%9E%90.html" title="ALM（应用生命周期管理）核心内容解析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">ALM（应用生命周期管理）核心内容解析</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-07-20-Android%E4%BD%8E%E5%8A%9F%E8%80%97%E8%93%9D%E7%89%99GATT%E8%AF%BB%E5%86%99%E5%9B%9E%E8%B0%83%E7%9A%84%E5%9D%91.html" title="Android低功耗蓝牙通信中的Context陷阱：被忽略的生命周期依赖"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android低功耗蓝牙通信中的Context陷阱：被忽略的生命周期依赖</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-07-13-mermaid%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B%E5%9B%BE%E8%AE%A9markdown%E7%94%BB%E8%B5%B7%E6%9D%A5.html" title="Mermaid绘制流程图让Markdown画起来"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Mermaid绘制流程图让Markdown画起来</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html" title="一文搞懂：二进制、十进制、十六进制换算与字节表示原理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">一文搞懂：二进制、十进制、十六进制换算与字节表示原理</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-04-03-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0%E6%B8%B8%E6%88%8F%E8%83%8C%E6%99%AF%E9%9F%B3%E4%B9%90%E6%8C%81%E7%BB%AD%E6%92%AD%E6%94%BE.html" title="单例模式实现游戏背景音乐持续播放"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">单例模式实现游戏背景音乐持续播放</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-29-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E7%89%88%E6%9C%AC%E5%88%86%E6%94%AF%E5%8F%8A%E5%90%88%E5%B9%B6.html" title="温故知新：Git版本分支及合并"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">温故知新：Git版本分支及合并</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-03-%E7%90%86%E8%A7%A3CPP%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%8D%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6.html" title="理解 C++ 编程中的“位与“运算符"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">理解 C++ 编程中的“位与“运算符</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-03-07-%E7%A7%91%E6%8A%80%E5%90%91%E5%96%84%E8%8E%AB%E8%AE%A9%E9%99%8D%E7%BB%B4%E6%89%93%E5%87%BB%E6%88%90%E4%B8%BA%E6%97%B6%E4%BB%A3%E7%9A%84%E6%8A%80%E6%9C%AF%E4%B9%8B%E6%AE%87.html" title="科技向善：莫让降维打击成为时代的“技术之殇”"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">科技向善：莫让降维打击成为时代的“技术之殇”</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html" title="计算机中的补码表示法与正负数的关系"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">计算机中的补码表示法与正负数的关系</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-08-10-%E8%BD%AF%E4%BB%B6%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E4%B8%9A%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84.html" title="软件平台的技术架构业务架构应用架构"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软件平台的技术架构业务架构应用架构</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-11-10-%E8%BD%AF%E8%80%83%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%B8%882025%E5%B9%B4%E8%AE%BA%E6%96%87%E6%88%91%E7%9A%84%E9%80%89%E9%A2%98.html" title="软考系统架构师2025年论文我的选题"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软考系统架构师2025年论文我的选题</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-11-12-%E8%BD%AF%E8%80%83%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%B8%882025%E5%B9%B4%E8%8B%B1%E8%AF%AD%E9%A2%98%E5%88%86%E6%9E%90.html" title="软考系统架构设计师2025年英语题分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软考系统架构设计师2025年英语题分析</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-03-%E9%80%9A%E8%BF%87CPP%E7%BC%96%E7%A8%8B%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%8D%95%E5%AD%97%E8%8A%82%E5%92%8C%E5%8F%8C%E5%AD%97%E8%8A%82.html" title="通过C++编程的变量类型理解计算机的单字节和双字节"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">通过C++编程的变量类型理解计算机的单字节和双字节</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="网站建设"
+        id="heading-e9a3d2d73dc4188ec07ebda8feea7964" role="tab" data-toggle="collapse" href="#collapse-e9a3d2d73dc4188ec07ebda8feea7964"
+        aria-expanded="true"
+      >
+        网站建设
+        <span class="list-group-count">(7)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-e9a3d2d73dc4188ec07ebda8feea7964"
+           role="tabpanel" aria-labelledby="heading-e9a3d2d73dc4188ec07ebda8feea7964">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2021/21-08-03-HTTPS%E5%AE%89%E5%85%A8%E7%BD%91%E7%AB%99%E5%8E%9F%E7%90%86%E5%92%8CSSL%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86.html" title="HTTPS安全网站原理和SSL非对称加密"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-06-13-Vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.html" title="Vue项目中的环境变量配置文件"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Vue项目中的环境变量配置文件</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2018/18-05-13-Wordpress%E7%9A%84%E4%BC%AA%E9%9D%99%E6%80%81%E9%85%8D%E7%BD%AE.html" title="Wordpress的伪静态配置：Apache和Nginx两种平台的详细说明"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Wordpress的伪静态配置：Apache和Nginx两种平台的详细说明</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-03-12-uniapp%E9%A1%B9%E7%9B%AECICD%E5%AE%9E%E7%8E%B0Web%E7%89%88%E6%9C%AC%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83.html" title="uniapp项目CICD实现Web版本自动发布"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">uniapp项目CICD实现Web版本自动发布</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-06-16-%E5%88%86%E6%9E%90nodejs%E4%B8%AD%E7%9A%84express%E5%92%8Chttp-server.html" title="分析nodejs中的express和http-server"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">分析nodejs中的express和http-server</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-28-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E5%85%8B%E9%9A%86%E9%A1%B9%E7%9B%AE%E5%88%B0%E6%9C%AC%E5%9C%B0.html" title="温故知新：Git克隆远程项目到本地开发环境"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">温故知新：Git克隆远程项目到本地开发环境</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-07-30-%E7%A8%8B%E5%BA%8F%E5%91%98%E5%BE%80%E4%BA%8B-%E8%B7%A8%E8%B6%8A%E6%97%B6%E4%BB%A3%E7%9A%84%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E5%85%B4%E8%A1%B0%E5%BD%95.html" title="程序员往事：跨越时代的开发工具兴衰录"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">程序员往事：跨越时代的开发工具兴衰录</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="职业规划"
+        id="heading-9d0f8f6f657186a8f0f18f1ea92d1c95" role="tab" data-toggle="collapse" href="#collapse-9d0f8f6f657186a8f0f18f1ea92d1c95"
+        aria-expanded="false"
+      >
+        职业规划
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-9d0f8f6f657186a8f0f18f1ea92d1c95"
+           role="tabpanel" aria-labelledby="heading-9d0f8f6f657186a8f0f18f1ea92d1c95">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-07-21-%E5%86%99%E4%BA%8620%E5%A4%9A%E5%B9%B4%E4%BB%A3%E7%A0%81%E7%A8%8B%E5%BA%8F%E5%91%98%E6%98%AF%E5%90%A6%E5%80%BC%E5%BE%97%E5%B9%B2%E4%B8%80%E8%BE%88%E5%AD%90.html" title="写了20多年代码程序员是否值得干一辈子"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">写了20多年代码程序员是否值得干一辈子</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="运维管理"
+        id="heading-033e45b14e81e1795577d54f37b66366" role="tab" data-toggle="collapse" href="#collapse-033e45b14e81e1795577d54f37b66366"
+        aria-expanded="false"
+      >
+        运维管理
+        <span class="list-group-count">(14)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-033e45b14e81e1795577d54f37b66366"
+           role="tabpanel" aria-labelledby="heading-033e45b14e81e1795577d54f37b66366">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-06-10-2025%E5%B9%B4%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%80%89%E5%93%AA%E4%B8%AA.html" title="2025年服务器操作系统选哪个，Ubuntu是否合适？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">2025年服务器操作系统选哪个，Ubuntu是否合适？</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-21-Android%20Wi-Fi%20%E8%BF%9E%E6%8E%A5%E6%8E%A7%E5%88%B6%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B%E4%B8%8E%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88.html" title="Android Wi-Fi 连接控制技术演进与实现方案"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android Wi-Fi 连接控制技术演进与实现方案</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-05-01-Codex%E5%B1%80%E5%9F%9F%E7%BD%91%E8%BF%9C%E7%A8%8B%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" title="Codex 局域网远程使用指南：macOS 服务端 + SSH 端口转发方案"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Codex 局域网远程使用指南：macOS 服务端 + SSH 端口转发方案</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-05-01-Codex%E5%B9%BF%E5%9F%9F%E7%BD%91%E8%BF%9C%E7%A8%8B%E5%85%B1%E4%BA%AB%E6%8C%87%E5%8D%97.html" title="Codex 广域网远程共享指南：macOS 服务端 + Nginx + SSL（wss 方案）"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Codex 广域网远程共享指南：macOS 服务端 + Nginx + SSL（wss 方案）</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-02-Dockerfile%E8%84%9A%E6%9C%AC%E5%88%86%E6%9E%90%E4%B8%8Ecompose%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B.html" title="Dockerfile脚本分析与compose应用案例"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Dockerfile脚本分析与compose应用案例</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-03-21-Git-Stash-%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%B4%E6%97%B6%E5%82%A8%E7%89%A9%E6%9F%9C.html" title="Git Stash：代码的&#34;临时储物柜&#34;，高效管理开发中的临时修改"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Git Stash：代码的&#34;临时储物柜&#34;，高效管理开发中的临时修改</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-08-05-Gitlab%E4%B8%AD%E8%BF%99%E7%83%A6%E4%BA%BA%E7%9A%84Prometheus.html" title="Gitlab中这烦人的Prometheus"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Gitlab中这烦人的Prometheus</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-02-07-Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90CI%E4%B8%8E%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2CD%E8%BF%87%E7%A8%8B%E8%AF%B4%E6%98%8E.html" title="Jenkins持续集成CI与持续部署CD过程说明"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Jenkins持续集成CI与持续部署CD过程说明</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/20-10-05-Redis%E6%9C%8D%E5%8A%A1%E6%97%A5%E7%A8%8B%E8%BF%90%E7%BB%B4%E7%9F%A5%E8%AF%86%E7%82%B9.html" title="Redis服务日程运维知识点"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Redis服务日程运维知识点</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-10-Ubuntu%20Server%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C.html" title="Ubuntu Server初始化操作，安全性和加固"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Ubuntu Server初始化操作，安全性和加固</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-05-06-openEuler%2022.03%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95.html" title="openEuler 22.03安装记录"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">openEuler 22.03安装记录</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-06-10-Docker%E6%90%AD%E5%BB%BAPrometheus%E5%92%8CGrafana.html" title="使用Docker搭建Prometheus+Grafana运维监控可视化"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">使用Docker搭建Prometheus+Grafana运维监控可视化</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-17-%E5%88%B6%E4%BD%9C%E7%BB%BF%E8%89%B2%E7%89%88MySQL%E6%95%B0%E6%8D%AE%E5%BA%93.html" title="制作绿色版MySQL数据库适应多项目软件开发"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">制作绿色版MySQL数据库适应多项目软件开发</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-11-18-%E5%9C%A8GitLab%E5%92%8CGitHub%E4%B9%8B%E9%97%B4%E5%90%8C%E6%AD%A5%E4%BB%A3%E7%A0%81.html" title="在GitLab和GitHub之间同步Git版本仓库的代码"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在GitLab和GitHub之间同步Git版本仓库的代码</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">温故知新：Git克隆远程项目到本地开发环境</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>如果你哪天思维近视了，比如我，突然就想不起来怎么把远程仓库克隆到本地，反映过来后，我想还是再总结一篇文章吧。</p>
+<p>如果你没有忘记这些基础内容，也可以看看之前我总结的关于Git的其他内容：</p>
+<ul>
+<li><a href="https://jycpp.github.io/24-01-14-MacOS%E4%B8%8B%E7%9A%84Git%E6%93%8D%E4%BD%9C%E5%8F%8AXCode%E5%8D%8F%E4%BD%9C.html">MacOS下的Git操作及XCode协作</a></li>
+<li><a href="https://jycpp.github.io/21-11-18-%E5%9C%A8GitLab%E5%92%8CGitHub%E4%B9%8B%E9%97%B4%E5%90%8C%E6%AD%A5%E4%BB%A3%E7%A0%81.html">在GitLab和GitHub之间同步Git版本仓库的代码</a></li>
+</ul>
+<p>在命令行中使用 Git 下载远程项目（即 <strong>克隆仓库</strong>）是最基础的操作之一。以下是完整的操作指南：</p>
+<h3 id="1-基本命令：克隆远程仓库"><a href="#1-基本命令：克隆远程仓库" class="headerlink" title="1. 基本命令：克隆远程仓库"></a><strong>1. 基本命令：克隆远程仓库</strong></h3><p>使用 <code>git clone</code> 命令，后跟远程仓库的 URL：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> &lt;远程仓库URL&gt;<br><br><span class="hljs-comment"># 示例：克隆 GitHub 上的项目</span><br>git <span class="hljs-built_in">clone</span> https://github.com/username/repo.git<br></code></pre></td></tr></table></figure>
+
+<p><strong>执行后</strong>：<br>Git 会在当前目录下创建一个与仓库同名的文件夹（如 <code>repo</code>），并将远程仓库的所有文件和历史记录下载到该文件夹中。</p>
+<h3 id="2-指定本地目录名称"><a href="#2-指定本地目录名称" class="headerlink" title="2. 指定本地目录名称"></a><strong>2. 指定本地目录名称</strong></h3><p>若想自定义本地文件夹的名称，可在命令末尾添加目录名：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> &lt;远程仓库URL&gt; &lt;本地目录名&gt;<br><br><span class="hljs-comment"># 示例：将仓库克隆到 my-project 目录</span><br>git <span class="hljs-built_in">clone</span> https://github.com/username/repo.git my-project<br></code></pre></td></tr></table></figure>
+
+
+<h3 id="3-克隆特定分支"><a href="#3-克隆特定分支" class="headerlink" title="3. 克隆特定分支"></a><strong>3. 克隆特定分支</strong></h3><p>默认克隆主分支（通常是 <code>main</code> 或 <code>master</code>），若需克隆其他分支，使用 <code>-b</code> 参数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> -b &lt;分支名&gt; &lt;远程仓库URL&gt;<br><br><span class="hljs-comment"># 示例：克隆 develop 分支</span><br>git <span class="hljs-built_in">clone</span> -b develop https://github.com/username/repo.git<br></code></pre></td></tr></table></figure>
+
+
+<h3 id="4-克隆部分内容（浅克隆）"><a href="#4-克隆部分内容（浅克隆）" class="headerlink" title="4. 克隆部分内容（浅克隆）"></a><strong>4. 克隆部分内容（浅克隆）</strong></h3><p>若只需最新版本而不需要完整历史记录，使用 <code>--depth=1</code> 进行浅克隆：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> --depth=1 &lt;远程仓库URL&gt;<br><br><span class="hljs-comment"># 示例：浅克隆节省时间和空间</span><br>git <span class="hljs-built_in">clone</span> --depth=1 https://github.com/username/repo.git<br></code></pre></td></tr></table></figure>
+
+
+<h3 id="5-使用-SSH-协议克隆（需配置密钥）"><a href="#5-使用-SSH-协议克隆（需配置密钥）" class="headerlink" title="5. 使用 SSH 协议克隆（需配置密钥）"></a><strong>5. 使用 SSH 协议克隆（需配置密钥）</strong></h3><p>若已配置 SSH 密钥，推荐使用 SSH 协议（避免每次输入密码）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> git@github.com:username/repo.git<br></code></pre></td></tr></table></figure>
+
+<p><strong>配置步骤</strong>：</p>
+<ol>
+<li>生成 SSH 密钥：<code>ssh-keygen -t ed25519 -C &quot;your_email@example.com&quot;</code></li>
+<li>将公钥（<code>~/.ssh/id_ed25519.pub</code>）添加到 GitHub&#x2F;GitLab 账户设置中。</li>
+<li>测试连接：<code>ssh -T git@github.com</code></li>
+</ol>
+<h3 id="6-克隆后常用操作"><a href="#6-克隆后常用操作" class="headerlink" title="6. 克隆后常用操作"></a><strong>6. 克隆后常用操作</strong></h3><p>克隆完成后，进入项目目录并查看状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> repo  <span class="hljs-comment"># 进入项目目录</span><br>git status  <span class="hljs-comment"># 查看文件状态</span><br>git branch  <span class="hljs-comment"># 查看本地分支</span><br>git remote -v  <span class="hljs-comment"># 查看远程仓库信息</span><br></code></pre></td></tr></table></figure>
+
+
+<h3 id="7-常见问题及解决方法"><a href="#7-常见问题及解决方法" class="headerlink" title="7. 常见问题及解决方法"></a><strong>7. 常见问题及解决方法</strong></h3><ul>
+<li><p><strong>权限不足（403 错误）</strong>：<br>检查远程 URL 是否正确，或使用 SSH 协议替代 HTTPS。</p>
+</li>
+<li><p><strong>网络问题</strong>：<br>使用代理或切换网络，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/username/repo.git --config http.proxy=http://proxy.example.com:8080<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>部分文件丢失</strong>：<br>使用 <code>git checkout .</code> 恢复所有文件，或 <code>git reset --hard</code> 重置到最新提交。</p>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>克隆远程仓库的核心命令是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 基础克隆</span><br>git <span class="hljs-built_in">clone</span> https://github.com/username/repo.git<br><br><span class="hljs-comment"># 指定分支和浅克隆</span><br>git <span class="hljs-built_in">clone</span> -b develop --depth=1 https://github.com/username/repo.git<br></code></pre></td></tr></table></figure>
+
+<p>根据需求选择合适的参数，即可高效获取远程项目的代码。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E7%BD%91%E7%AB%99%E5%BB%BA%E8%AE%BE/" class="category-chain-item">网站建设</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/GitLab/" class="print-no-link">#GitLab</a>
+      
+        <a href="/tags/GitHub/" class="print-no-link">#GitHub</a>
+      
+        <a href="/tags/%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93/" class="print-no-link">#远程仓库</a>
+      
+        <a href="/tags/Git/" class="print-no-link">#Git</a>
+      
+        <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" class="print-no-link">#版本控制</a>
+      
+        <a href="/tags/SSH/" class="print-no-link">#SSH</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>温故知新：Git克隆远程项目到本地开发环境</div>
+      <div>https://jycpp.github.io/2025/25-05-28-温故知新Git克隆项目到本地.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/25-05-29-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E7%89%88%E6%9C%AC%E5%88%86%E6%94%AF%E5%8F%8A%E5%90%88%E5%B9%B6.html" title="温故知新：Git版本分支及合并">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">温故知新：Git版本分支及合并</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/25-05-20-%E6%8B%9B%E6%8A%95%E6%A0%87%E4%BA%89%E8%AE%AE%E9%A2%91%E5%8F%91%E6%98%AF%E5%B7%A7%E5%90%88%E8%BF%98%E6%98%AF%E8%88%86%E8%AE%BA%E6%9A%97%E6%B6%8C.html" title="招投标争议频发：是偶然巧合，还是舆论暗涌">
+                        <span class="hidden-mobile">招投标争议频发：是偶然巧合，还是舆论暗涌</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1497 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操在AI编程与自动化设计落地场景中，很多开发者都会混淆三个核心概念：Agent智能体、MCP工具协议、Skill技能规则。尤其在借助CodeBuddy + Pencil（Pen）实现自然语言自动绘制产品原型的场景中，三者分工不同、层层联动，缺一不可，但又并非强制绑定。 本文将以「macOS + CodeBuddy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操">
+<meta property="og:url" content="https://jycpp.github.io/2026/26-08-02-MCP%E5%92%8C%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%A6%82%E4%BD%95%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操在AI编程与自动化设计落地场景中，很多开发者都会混淆三个核心概念：Agent智能体、MCP工具协议、Skill技能规则。尤其在借助CodeBuddy + Pencil（Pen）实现自然语言自动绘制产品原型的场景中，三者分工不同、层层联动，缺一不可，但又并非强制绑定。 本文将以「macOS + CodeBuddy">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-02T17:31:04.000Z">
+<meta property="article:modified_time" content="2026-08-08T03:09:42.442Z">
+<meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="AI Agent">
+<meta property="article:tag" content="MCP协议">
+<meta property="article:tag" content="Skill技能">
+<meta property="article:tag" content="Pencil原型绘图">
+<meta property="article:tag" content="CodeBuddy">
+<meta property="article:tag" content="AI自动化">
+<meta property="article:tag" content="macOS工具">
+<meta property="article:tag" content="原型设计">
+<meta property="article:tag" content="智能体调度">
+<meta property="article:tag" content="本地AI工具">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操 - Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-08-02 17:31" pubdate>
+          2026年8月2日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="人工智能AIGC"
+        id="heading-5982a74f80de427ff759239de050441d" role="tab" data-toggle="collapse" href="#collapse-5982a74f80de427ff759239de050441d"
+        aria-expanded="true"
+      >
+        人工智能AIGC
+        <span class="list-group-count">(21)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-5982a74f80de427ff759239de050441d"
+           role="tabpanel" aria-labelledby="heading-5982a74f80de427ff759239de050441d">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-10-23-A10%E8%B7%9FRTX4090%E5%8F%8AA100%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94.html" title="A10跟RTX4090及A100性能对比"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">A10跟RTX4090及A100性能对比</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-03-09-%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%BE%8E%E5%9B%BD%E7%BB%A7%E6%98%9F%E7%90%83%E5%A4%A7%E6%88%98%E8%AE%A1%E5%88%92%E5%90%8E%E7%9A%84%E6%88%98%E7%95%A5%E9%AA%97%E5%B1%80.html" title="人工智能：美国继星球大战计划后的又一 “战略骗局”？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">人工智能：美国继星球大战计划后的又一 “战略骗局”？</span>
+        </a>
+      
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="3D技术和元宇宙"
+        id="heading-247a79f7325be1fea14b7d9ad5f9ea80" role="tab" data-toggle="collapse" href="#collapse-247a79f7325be1fea14b7d9ad5f9ea80"
+        aria-expanded="false"
+      >
+        3D技术和元宇宙
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-247a79f7325be1fea14b7d9ad5f9ea80"
+           role="tabpanel" aria-labelledby="heading-247a79f7325be1fea14b7d9ad5f9ea80">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-03-12-%E5%85%83%E5%AE%87%E5%AE%99%E4%B8%80%E5%9C%BA%E8%A7%86%E8%A7%89%E6%AC%BA%E9%AA%97%E7%9A%843D%E7%9B%9B%E5%AE%B4.html" title="元宇宙：一场视觉欺骗的 3D 盛宴"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">元宇宙：一场视觉欺骗的 3D 盛宴</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="AI伦理与社会影响"
+        id="heading-5802c77abed440125a0587f462e0c38b" role="tab" data-toggle="collapse" href="#collapse-5802c77abed440125a0587f462e0c38b"
+        aria-expanded="false"
+      >
+        AI伦理与社会影响
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-5802c77abed440125a0587f462e0c38b"
+           role="tabpanel" aria-labelledby="heading-5802c77abed440125a0587f462e0c38b">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-04-06-%E4%BB%8E%E9%AD%8F%E5%88%99%E8%A5%BF%E4%BA%8B%E4%BB%B6%E5%88%B0AI%E6%8A%95%E6%AF%92.html" title="从魏则西事件到AI投毒，豆包会成为下一个百度吗？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从魏则西事件到AI投毒，豆包会成为下一个百度吗？</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="AI工具"
+        id="heading-0db0a530bff4dee7eef6f5af1bd99309" role="tab" data-toggle="collapse" href="#collapse-0db0a530bff4dee7eef6f5af1bd99309"
+        aria-expanded="false"
+      >
+        AI工具
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-0db0a530bff4dee7eef6f5af1bd99309"
+           role="tabpanel" aria-labelledby="heading-0db0a530bff4dee7eef6f5af1bd99309">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-07-05-%E7%AC%AC%E4%B8%80%E6%89%B9%E7%94%A8%E5%B0%8F%E9%BE%99%E8%99%BE%E7%9A%84%E4%BA%BA%E9%83%BD%E9%A3%9E%E5%A4%A9%E6%88%90%E4%BB%99%E4%BA%86%E5%90%97.html" title="第一批用小龙虾的人都飞天成仙了吗？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">第一批用小龙虾的人都飞天成仙了吗？</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="AI工具实操"
+        id="heading-e1a8373a2cc5a47058c063792d9236ba" role="tab" data-toggle="collapse" href="#collapse-e1a8373a2cc5a47058c063792d9236ba"
+        aria-expanded="true"
+      >
+        AI工具实操
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-e1a8373a2cc5a47058c063792d9236ba"
+           role="tabpanel" aria-labelledby="heading-e1a8373a2cc5a47058c063792d9236ba">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-08-02-MCP%E5%92%8C%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%A6%82%E4%BD%95%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C.html" title="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="AI技能工程"
+        id="heading-b22283d8207f3cec51ff7d97aa82e1e7" role="tab" data-toggle="collapse" href="#collapse-b22283d8207f3cec51ff7d97aa82e1e7"
+        aria-expanded="false"
+      >
+        AI技能工程
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-b22283d8207f3cec51ff7d97aa82e1e7"
+           role="tabpanel" aria-labelledby="heading-b22283d8207f3cec51ff7d97aa82e1e7">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-06-21-%E4%BB%8EPromote%E5%88%B0Skill%E7%9A%84%E4%BF%A1%E6%81%AF%E5%B7%AE%E5%8F%98%E7%8E%B0%E7%84%A6%E8%99%91.html" title="从Promote到Skill的信息差变现焦虑"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从Promote到Skill的信息差变现焦虑</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="AI智能体开发"
+        id="heading-f6cdfe2e84cf3a492c459eb4eef87609" role="tab" data-toggle="collapse" href="#collapse-f6cdfe2e84cf3a492c459eb4eef87609"
+        aria-expanded="false"
+      >
+        AI智能体开发
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-f6cdfe2e84cf3a492c459eb4eef87609"
+           role="tabpanel" aria-labelledby="heading-f6cdfe2e84cf3a492c459eb4eef87609">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-10-11-AI%E6%99%BA%E8%83%BD%E4%BD%93%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E5%B9%B3%E5%8F%B0%E5%88%86%E6%9E%90.html" title="AI智能体开发常用平台分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">AI智能体开发常用平台分析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="企业AI战略"
+        id="heading-ce4fbc2f2c348b1d65b1c29e07a0eca2" role="tab" data-toggle="collapse" href="#collapse-ce4fbc2f2c348b1d65b1c29e07a0eca2"
+        aria-expanded="false"
+      >
+        企业AI战略
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-ce4fbc2f2c348b1d65b1c29e07a0eca2"
+           role="tabpanel" aria-labelledby="heading-ce4fbc2f2c348b1d65b1c29e07a0eca2">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-06-12-%E9%92%89%E9%92%89%E6%B2%A1%E4%BA%86%E6%97%A0%E6%8B%9B%E9%98%BF%E9%87%8CAI%E8%BF%98%E6%9C%89%E8%BE%99%E5%90%97.html" title="钉钉没了 “无招”，阿里 AI 还有辙吗？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">钉钉没了 “无招”，阿里 AI 还有辙吗？</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="图像处理"
+        id="heading-7808a68ee1b34dab43011429a12de19e" role="tab" data-toggle="collapse" href="#collapse-7808a68ee1b34dab43011429a12de19e"
+        aria-expanded="false"
+      >
+        图像处理
+        <span class="list-group-count">(2)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-7808a68ee1b34dab43011429a12de19e"
+           role="tabpanel" aria-labelledby="heading-7808a68ee1b34dab43011429a12de19e">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-11-29-Nano%20Banana%E4%BD%BF%E7%94%A8%E5%88%9D%E4%BD%93%E9%AA%8C.html" title="Nano Banana使用初体验"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Nano Banana使用初体验</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2019/19-08-20-%E5%8E%8B%E7%BC%A9png%E6%A0%BC%E5%BC%8F%E5%9B%BE%E7%89%87%E7%9A%84%E5%A4%A7%E5%B0%8F.html" title="压缩png格式图片的大小"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">压缩png格式图片的大小</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="大语言模型"
+        id="heading-faf3ef15d22b0a54f1d7520545b242f7" role="tab" data-toggle="collapse" href="#collapse-faf3ef15d22b0a54f1d7520545b242f7"
+        aria-expanded="false"
+      >
+        大语言模型
+        <span class="list-group-count">(5)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-faf3ef15d22b0a54f1d7520545b242f7"
+           role="tabpanel" aria-labelledby="heading-faf3ef15d22b0a54f1d7520545b242f7">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-08-21-AnythingLLM%E4%B8%8D%E6%98%AF%E7%94%A8%E6%9D%A5%E8%AE%AD%E7%BB%83%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84.html" title="AnythingLLM不是用来训练大模型的"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">AnythingLLM不是用来训练大模型的</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-02-07-Ollama%E9%83%A8%E7%BD%B2DeepSeek%E7%BB%93%E5%90%88OpenWebUI%E4%BD%93%E9%AA%8C.html" title="Ollama部署DeepSeek结合OpenWebUI体验大语言模型"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Ollama部署DeepSeek结合OpenWebUI体验大语言模型</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-09-17-%E4%BB%8EChatGPT%E5%88%B0%E7%94%9F%E6%88%90PPT%E6%96%87%E4%BB%B6.html" title="从ChatGPT到生成PPT文件，中间经历了什么？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从ChatGPT到生成PPT文件，中间经历了什么？</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-02-23-%E6%95%85%E4%BA%8B%E7%9A%84%E6%BC%8F%E6%B4%9E%E5%BC%95%E5%8F%91%E7%9A%84DeepSeek%E7%9A%84%E6%80%9D%E8%80%83.html" title="故事的漏洞引发的DeepSeek的思考"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">故事的漏洞引发的DeepSeek的思考</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-03-05-%E9%A2%86%E5%AF%BC%E3%80%81%E7%A7%98%E4%B9%A6%E5%92%8CDeepSeek.html" title="领导、秘书和DeepSeek"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">领导、秘书和DeepSeek</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="存储技术"
+        id="heading-3c32f0511c104f483ff038c6c292326e" role="tab" data-toggle="collapse" href="#collapse-3c32f0511c104f483ff038c6c292326e"
+        aria-expanded="false"
+      >
+        存储技术
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-3c32f0511c104f483ff038c6c292326e"
+           role="tabpanel" aria-labelledby="heading-3c32f0511c104f483ff038c6c292326e">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-01-10-%E6%9C%BA%E6%A2%B0%E7%A1%AC%E7%9B%98%E6%B6%A8%E4%BB%B7%E8%83%8C%E5%90%8E%E7%9A%84%E4%BA%A7%E4%B8%9A%E9%93%BE%E9%80%BB%E8%BE%91.html" title="机械硬盘涨价背后的产业链逻辑：成本传导与市场博弈"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">机械硬盘涨价背后的产业链逻辑：成本传导与市场博弈</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="技术伦理"
+        id="heading-2914f9f994693926ab075ce9b66aa974" role="tab" data-toggle="collapse" href="#collapse-2914f9f994693926ab075ce9b66aa974"
+        aria-expanded="false"
+      >
+        技术伦理
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-2914f9f994693926ab075ce9b66aa974"
+           role="tabpanel" aria-labelledby="heading-2914f9f994693926ab075ce9b66aa974">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-06-14-%E6%B2%A1%E6%9C%89%E6%BA%90%E5%A4%B4%E6%B4%BB%E6%B0%B4%E7%9A%84AIGC%E8%83%BD%E8%B5%B0%E5%A4%9A%E8%BF%9C.html" title="没有“源头活水”的生成式人工智能(AIGC)能走多远？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">没有“源头活水”的生成式人工智能(AIGC)能走多远？</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="技术哲学"
+        id="heading-864d462af6f581558676925b02f95ab3" role="tab" data-toggle="collapse" href="#collapse-864d462af6f581558676925b02f95ab3"
+        aria-expanded="false"
+      >
+        技术哲学
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-864d462af6f581558676925b02f95ab3"
+           role="tabpanel" aria-labelledby="heading-864d462af6f581558676925b02f95ab3">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-11-21-%E4%BB%8E%E6%89%8B%E6%9C%BA%E7%A6%81%E6%AD%A2%E6%8B%8D%E7%85%A7%E5%92%8CWiFi%E5%88%B0AI%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91.html" title="技术迭代中的争议与破局：从禁止手机拍照和WiFi功能到AI大模型开发的程序员视角"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">技术迭代中的争议与破局：从禁止手机拍照和WiFi功能到AI大模型开发的程序员视角</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="技术架构"
+        id="heading-adf5fad7ad0c35779d2afc9096be3a61" role="tab" data-toggle="collapse" href="#collapse-adf5fad7ad0c35779d2afc9096be3a61"
+        aria-expanded="false"
+      >
+        技术架构
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-adf5fad7ad0c35779d2afc9096be3a61"
+           role="tabpanel" aria-labelledby="heading-adf5fad7ad0c35779d2afc9096be3a61">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-02-07-%E5%8D%83%E9%97%AE%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%A5%B6%E8%8C%B6%E4%BF%83%E9%94%80%E6%B4%BB%E5%8A%A8%E7%BF%BB%E8%BD%A6%E5%88%86%E6%9E%90.html" title="千问大模型奶茶促销活动翻车分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">千问大模型奶茶促销活动翻车分析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="网络安全"
+        id="heading-a9fbbd40048656862e149a84b77b9b40" role="tab" data-toggle="collapse" href="#collapse-a9fbbd40048656862e149a84b77b9b40"
+        aria-expanded="false"
+      >
+        网络安全
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-a9fbbd40048656862e149a84b77b9b40"
+           role="tabpanel" aria-labelledby="heading-a9fbbd40048656862e149a84b77b9b40">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-03-10-%E5%B0%8F%E9%BE%99%E8%99%BE%E7%83%AD%E8%83%8C%E5%90%8E%E7%9A%84%E5%86%B7%E6%80%9D%E8%80%83%E7%AE%97%E5%8A%9B%E6%94%B6%E5%89%B2%E4%B8%8E%E5%AE%89%E5%85%A8.html" title="“小龙虾热” 背后的冷思考：狂欢之下，警惕算力收割与安全深渊"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">“小龙虾热” 背后的冷思考：狂欢之下，警惕算力收割与安全深渊</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操"><a href="#彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操" class="headerlink" title="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操"></a>彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操</h1><p>在AI编程与自动化设计落地场景中，很多开发者都会混淆三个核心概念：<strong>Agent智能体、MCP工具协议、Skill技能规则</strong>。尤其在借助CodeBuddy + Pencil（Pen）实现<strong>自然语言自动绘制产品原型</strong>的场景中，三者分工不同、层层联动，缺一不可，但又并非强制绑定。</p>
+<p>本文将以「macOS + CodeBuddy + Pencil自动画原型」为真实落地案例，从零讲透三者的本质区别、依赖关系、运行链路，同时拆解核心实操要点，解决绝大多数人遇到的MCP连接报错、工具调用失效、AI无法自动绘图等问题。</p>
+<h2 id="一、先破误区：没有Skill，MCP-Agent也能干活？"><a href="#一、先破误区：没有Skill，MCP-Agent也能干活？" class="headerlink" title="一、先破误区：没有Skill，MCP+Agent也能干活？"></a>一、先破误区：没有Skill，MCP+Agent也能干活？</h2><p>很多开发者的核心疑问：<strong>Skill是必需的吗？能不能直接靠MCP配置 + AI Agent实现自动绘图？</strong></p>
+<p>给出明确结论：<strong>技术层面完全可行，工程层面绝不推荐</strong>。</p>
+<p>简单来说：</p>
+<ul>
+<li><p><strong>MCP</strong>：负责打通本地软件的通信通道，是「工具硬件驱动」；</p>
+</li>
+<li><p><strong>Agent</strong>：负责理解需求、调度工具、多步执行，是「执行大脑」；</p>
+</li>
+<li><p><strong>Skill</strong>：负责固化业务规则、权限白名单、执行流程，是「标准化操作手册」。</p>
+</li>
+</ul>
+<p>无Skill时，我们可以通过超长提示词告诉AI如何调用Pencil的MCP工具，完成原型绘制；但有了Skill，能让整个自动化流程<strong>稳定、可复用、可管控、低损耗</strong>。</p>
+<h2 id="二、三大核心概念深度拆解（Pencil实战场景版）"><a href="#二、三大核心概念深度拆解（Pencil实战场景版）" class="headerlink" title="二、三大核心概念深度拆解（Pencil实战场景版）"></a>二、三大核心概念深度拆解（Pencil实战场景版）</h2><p>为直观理清四者协作逻辑，先通过时序图完整还原「自然语言指令输入到原型绘制完成」的全链路工作过程，清晰呈现各角色的调用时序、职责分工和联动关系：</p>
+<div class="mermaid">sequenceDiagram
+    autonumber
+    User->>Agent: 输入自然语言绘图需求（如绘制登录页原型）
+    Agent->>Skill: 加载匹配的Skill规则（权限+绘图流程规范）
+    Skill-->>Agent: 返回MCP工具白名单+标准化业务约束
+    Agent->>MCP Server: 按照Skill规则，调用Pencil绘图工具接口
+    MCP Server->>Pencil客户端: 转发标准化绘图指令（WebSocket通信）
+    Pencil客户端->>Pencil客户端: 执行绘图、布局、保存、导出操作
+    Pencil客户端-->>MCP Server: 返回绘图执行结果
+    MCP Server-->>Agent: 回传工具调用结果与原型文件信息
+    Agent-->>User: 整理结果，输出原型预览与文件路径</div>
+
+<p>时序图核心逻辑：<strong>Skill负责定规则、MCP负责通通信、Agent负责做调度、Pencil负责落地执行</strong>，四者各司其职，构成完整的AI自动绘图闭环。下面对每个核心组件进行深度拆解：</p>
+<h3 id="1-MCP（Model-Context-Protocol）：本地工具的标准化通信层"><a href="#1-MCP（Model-Context-Protocol）：本地工具的标准化通信层" class="headerlink" title="1. MCP（Model Context Protocol）：本地工具的标准化通信层"></a>1. MCP（Model Context Protocol）：本地工具的标准化通信层</h3><p><strong>本质定义</strong>：MCP是一套AI与本地应用通信的标准化协议，核心作用是<strong>让大模型能够远程操控本地桌面软件、本地文件、本地服务</strong>。</p>
+<p>大模型本身是云端AI，无法直接读取、操作本地macOS上的Pencil软件，而Pencil官方提供的<code>mcp-server-darwin-arm64</code>程序，就是专属MCP服务端。</p>
+<p><strong>在原型自动化中的核心能力</strong>：</p>
+<ul>
+<li><p>打通CodeBuddy与Pencil桌面端的双向通信；</p>
+</li>
+<li><p>向外暴露标准化工具接口：创建画布、添加按钮、输入框、保存文件、导出截图等；</p>
+</li>
+<li><p>转发AI的调用指令，接收Pencil的执行结果并回传给大模型。</p>
+</li>
+</ul>
+<p><strong>核心特性</strong>：MCP只有通信能力，<strong>完全没有业务逻辑</strong>。它不知道什么是登录页、什么是首页原型，只负责执行「创建组件、修改布局、保存文件」等基础指令。</p>
+<p><strong>本次实战标准可用MCP配置（官方标准）</strong></p>
+<figure class="highlight plaintext"><figcaption><span>Text</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs Plain">&#123;<br>  &quot;mcpServers&quot;: &#123;<br>    &quot;pencil-desktop&quot;: &#123;<br>      &quot;type&quot;: &quot;stdio&quot;,<br>      &quot;command&quot;: &quot;/Applications/Pen.app/Contents/Resources/app.asar.unpacked/out/mcp-server-darwin-arm64&quot;,<br>      &quot;args&quot;: [&quot;--app&quot;, &quot;desktop&quot;],<br>      &quot;env&quot;: &#123;&#125;<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>❗ 高频报错根源：缺少 <code>[&quot;--app&quot;, &quot;desktop&quot;]</code> 启动参数，会直接触发 <code>MCP error -32000: Connection closed app connection is required</code>，导致MCP网关无法关联Pencil桌面端。</p>
+<h3 id="2-Agent（智能体）：整个自动化流程的调度中枢"><a href="#2-Agent（智能体）：整个自动化流程的调度中枢" class="headerlink" title="2. Agent（智能体）：整个自动化流程的调度中枢"></a>2. Agent（智能体）：整个自动化流程的调度中枢</h3><p><strong>本质定义</strong>：Agent是CodeBuddy内置的<strong>AI任务调度执行引擎</strong>，是串联用户需求、MCP工具、业务规则的核心主体，所有工具调用动作都由Agent发起。</p>
+<p><strong>核心工作逻辑</strong>：</p>
+<ul>
+<li><p>接收用户自然语言需求（如“绘制登录页面原型”）；</p>
+</li>
+<li><p>读取上下文规则（用户提示词 &#x2F; Skill规则）；</p>
+</li>
+<li><p>判断需要调用哪些MCP工具、按什么顺序执行；</p>
+</li>
+<li><p>完成多轮循环调用、错误重试、结果整理；</p>
+</li>
+<li><p>最终返回执行结果给用户。</p>
+</li>
+</ul>
+<p><strong>关键认知</strong>：<strong>Agent是唯一会“调用MCP”的角色</strong>。MCP只会被动等待调用，Skill只会提供规则约束，没有Agent就没有自动化多步执行能力。</p>
+<h3 id="3-Skill（技能规则）：AI工具调用的标准化剧本"><a href="#3-Skill（技能规则）：AI工具调用的标准化剧本" class="headerlink" title="3. Skill（技能规则）：AI工具调用的标准化剧本"></a>3. Skill（技能规则）：AI工具调用的标准化剧本</h3><p><strong>本质定义</strong>：Skill是CodeBuddy专属的<strong>结构化规则文档</strong>，无任何执行能力，仅负责「权限管控+业务固化+提示词优化」，是对Agent行为的标准化约束。</p>
+<p>很多人误解Skill是工具驱动，实际它只做两件核心事：</p>
+<h4 id="（1）工具白名单绑定（Skill关联MCP的核心关键）"><a href="#（1）工具白名单绑定（Skill关联MCP的核心关键）" class="headerlink" title="（1）工具白名单绑定（Skill关联MCP的核心关键）"></a>（1）工具白名单绑定（Skill关联MCP的核心关键）</h4><p>通过 <code>tools: [&quot;pencil-desktop/*&quot;]</code> 配置，授权Agent当前任务可调用Pencil的全部MCP工具，实现<strong>工具权限隔离</strong>，避免AI乱调用其他MCP服务。</p>
+<h4 id="（2）固化业务执行流程"><a href="#（2）固化业务执行流程" class="headerlink" title="（2）固化业务执行流程"></a>（2）固化业务执行流程</h4><p>将原型绘制的固定流程（建画布→加页面框架→添加组件→保存文件→导出截图）、命名规范、存储路径、约束规则永久沉淀，无需每次对话重复输入长提示词。</p>
+<h2 id="三、两种落地模式对比：无Skill纯提示词-VS-有Skill标准化"><a href="#三、两种落地模式对比：无Skill纯提示词-VS-有Skill标准化" class="headerlink" title="三、两种落地模式对比：无Skill纯提示词 VS 有Skill标准化"></a>三、两种落地模式对比：无Skill纯提示词 VS 有Skill标准化</h2><h3 id="模式一：跳过Skill，纯提示词-Agent-MCP（临时调试可用）"><a href="#模式一：跳过Skill，纯提示词-Agent-MCP（临时调试可用）" class="headerlink" title="模式一：跳过Skill，纯提示词+Agent+MCP（临时调试可用）"></a>模式一：跳过Skill，纯提示词+Agent+MCP（临时调试可用）</h3><p><strong>执行链路</strong>：用户输入长提示词 → Agent解读规则 → 直接调用Pencil MCP工具 → 完成绘图</p>
+<p><strong>实操测试指令（可直接复制使用）</strong></p>
+<p>你拥有pencil-desktop的全部MCP工具，请严格按照以下流程执行：1.调用create_design创建空白画布；2.添加页面Frame布局；3.添加账号输入框、密码输入框、登录按钮；4.将文件保存到 .&#x2F;design&#x2F;login.pen；5.导出页面截图。现在帮我完成登录页面原型绘制。</p>
+<p><strong>优缺点</strong></p>
+<p>✅ 优点：无需配置Skill，快速验证MCP链路是否通畅，适合调试阶段；</p>
+<p>❌ 缺点：上下文冗余、AI容易遗忘流程、不可复用、无权限管控、复杂原型极易出错。</p>
+<h3 id="模式二：Skill-Agent-MCP（正式工程落地首选）"><a href="#模式二：Skill-Agent-MCP（正式工程落地首选）" class="headerlink" title="模式二：Skill+Agent+MCP（正式工程落地首选）"></a>模式二：Skill+Agent+MCP（正式工程落地首选）</h3><p><strong>执行链路</strong>：用户简单提问 → 自动激活Pencil专属Skill → Skill注入规则+工具白名单 → Agent按标准化流程调度MCP → 自动绘制原型</p>
+<p><strong>核心优势</strong>：</p>
+<ul>
+<li><p>极简对话：用户只需说“画一个移动端个人中心原型”，无需赘述流程；</p>
+</li>
+<li><p>高度稳定：固化流程避免AI自由发挥导致的漏步骤、参数错误；</p>
+</li>
+<li><p>权限安全：隔离其他MCP工具，避免误调用系统、文件、数据库工具；</p>
+</li>
+<li><p>永久复用：一次配置，全局所有对话窗口生效。</p>
+</li>
+</ul>
+<h2 id="四、Pencil自动绘图完整标准工作流（零报错版）"><a href="#四、Pencil自动绘图完整标准工作流（零报错版）" class="headerlink" title="四、Pencil自动绘图完整标准工作流（零报错版）"></a>四、Pencil自动绘图完整标准工作流（零报错版）</h2><p>结合三者联动逻辑，整理出macOS下唯一稳定的落地流程，彻底解决连接关闭、无应用连接等报错：</p>
+<h3 id="步骤1：清理残留进程，避免端口冲突"><a href="#步骤1：清理残留进程，避免端口冲突" class="headerlink" title="步骤1：清理残留进程，避免端口冲突"></a>步骤1：清理残留进程，避免端口冲突</h3><figure class="highlight plaintext"><figcaption><span>Text</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Plain">pkill -f Pen.app<br>pkill -f mcp-server-darwin-arm64<br></code></pre></td></tr></table></figure>
+
+<h3 id="步骤2：启动Pencil桌面端（时序优先级最高）"><a href="#步骤2：启动Pencil桌面端（时序优先级最高）" class="headerlink" title="步骤2：启动Pencil桌面端（时序优先级最高）"></a>步骤2：启动Pencil桌面端（时序优先级最高）</h3><p>1. 打开 Pen.app，完成账号登录与邮箱激活；</p>
+<p>2. 新建空白.pen文件，保持软件前台运行（最小化可行，不可关闭）；</p>
+<p>3. 等待AI Integration通道就绪，确保内部WebSocket连接正常。</p>
+<h3 id="步骤3：配置标准Pencil-MCP服务"><a href="#步骤3：配置标准Pencil-MCP服务" class="headerlink" title="步骤3：配置标准Pencil MCP服务"></a>步骤3：配置标准Pencil MCP服务</h3><p>在CodeBuddy MCP配置面板粘贴官方完整配置，必填 <code>--app desktop</code> 参数。</p>
+<h3 id="步骤4：配置Pencil原型绘制Skill"><a href="#步骤4：配置Pencil原型绘制Skill" class="headerlink" title="步骤4：配置Pencil原型绘制Skill"></a>步骤4：配置Pencil原型绘制Skill</h3><p>在项目 <code>.codebuddy/skills/pencil-proto/SKILL.md</code> 配置工具白名单与标准化绘图流程，绑定 <code>pencil-desktop</code> MCP服务。</p>
+<h3 id="步骤5：发起自然语言指令，AI全自动绘图"><a href="#步骤5：发起自然语言指令，AI全自动绘图" class="headerlink" title="步骤5：发起自然语言指令，AI全自动绘图"></a>步骤5：发起自然语言指令，AI全自动绘图</h3><p>用户简单提问，Agent自动读取Skill规则，分步调用MCP工具，完成原型创建、组件布局、文件保存、截图导出全流程。</p>
+<h2 id="五、核心概念最终总结表"><a href="#五、核心概念最终总结表" class="headerlink" title="五、核心概念最终总结表"></a>五、核心概念最终总结表</h2><table>
+<thead>
+<tr>
+<th>核心组件</th>
+<th>本质</th>
+<th>是否运行必需</th>
+<th>核心作用</th>
+<th>Pencil场景职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MCP</td>
+<td>本地通信服务&#x2F;驱动</td>
+<td>✅ 必需</td>
+<td>打通AI与本地软件的调用通道，暴露工具接口</td>
+<td>连接CodeBuddy与Pen.app，传递绘图指令</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>AI调度执行引擎</td>
+<td>✅ 必需</td>
+<td>理解需求、编排流程、调用工具、迭代执行</td>
+<td>根据用户需求和规则，自动分步调用绘图工具</td>
+</tr>
+<tr>
+<td>Skill</td>
+<td>规则文档+权限配置</td>
+<td>❌ 非必需</td>
+<td>固化业务流程、隔离工具权限、优化AI行为</td>
+<td>标准化原型绘制规范，简化用户指令，提升稳定性</td>
+</tr>
+</tbody></table>
+<h2 id="六、写在最后：工程落地核心认知"><a href="#六、写在最后：工程落地核心认知" class="headerlink" title="六、写在最后：工程落地核心认知"></a>六、写在最后：工程落地核心认知</h2><p>1. <strong>MCP解决「能不能调用」</strong>：打通本地软件壁垒，让AI有操作Pencil的能力；</p>
+<p>2. <strong>Agent解决「怎么调用」</strong>：智能拆解任务，多轮自动执行复杂绘图流程；</p>
+<p>3. <strong>Skill解决「调用得稳、调用得规范」</strong>：把临时提示词变成可落地、可复用的工程能力。</p>
+<p>三者配合，才真正实现了<strong>自然语言一键生成、迭代、导出产品原型</strong>的AI自动化设计能力，也是目前本地AI工具落地的标准范式。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/" class="category-chain-item">人工智能AIGC</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/AI%E5%B7%A5%E5%85%B7%E5%AE%9E%E6%93%8D/" class="category-chain-item">AI工具实操</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AI-Agent/" class="print-no-link">#AI Agent</a>
+      
+        <a href="/tags/MCP%E5%8D%8F%E8%AE%AE/" class="print-no-link">#MCP协议</a>
+      
+        <a href="/tags/Skill%E6%8A%80%E8%83%BD/" class="print-no-link">#Skill技能</a>
+      
+        <a href="/tags/Pencil%E5%8E%9F%E5%9E%8B%E7%BB%98%E5%9B%BE/" class="print-no-link">#Pencil原型绘图</a>
+      
+        <a href="/tags/CodeBuddy/" class="print-no-link">#CodeBuddy</a>
+      
+        <a href="/tags/AI%E8%87%AA%E5%8A%A8%E5%8C%96/" class="print-no-link">#AI自动化</a>
+      
+        <a href="/tags/macOS%E5%B7%A5%E5%85%B7/" class="print-no-link">#macOS工具</a>
+      
+        <a href="/tags/%E5%8E%9F%E5%9E%8B%E8%AE%BE%E8%AE%A1/" class="print-no-link">#原型设计</a>
+      
+        <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93%E8%B0%83%E5%BA%A6/" class="print-no-link">#智能体调度</a>
+      
+        <a href="/tags/%E6%9C%AC%E5%9C%B0AI%E5%B7%A5%E5%85%B7/" class="print-no-link">#本地AI工具</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操</div>
+      <div>https://jycpp.github.io/2026/26-08-02-MCP和大模型如何协同工作.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年8月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/26-07-25-%E5%A6%82%E4%BD%95%E5%B0%86%E5%AE%89%E5%8D%93App%E8%BD%AC%E7%A7%BB%E5%88%B0%E5%8F%A6%E4%B8%80%E5%8F%B0%E6%89%8B%E6%9C%BA%E4%B8%8A.html" title="如何将安卓App转移到另一台手机上">
+                        <span class="hidden-mobile">如何将安卓App转移到另一台手机上</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

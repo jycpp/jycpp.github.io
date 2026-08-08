@@ -1,0 +1,1219 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Jet C++ Blog">
+<meta property="og:url" content="https://jycpp.github.io/page/10/index.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Jet Yan">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Slogan Today: &lt;br /&gt;Everything can be Dockerized. &lt;br /&gt;万物皆可Docker"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/23-07-13-mermaid%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B%E5%9B%BE%E8%AE%A9markdown%E7%94%BB%E8%B5%B7%E6%9D%A5.html" target="_blank">
+          Mermaid绘制流程图让Markdown画起来
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/23-07-13-mermaid%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B%E5%9B%BE%E8%AE%A9markdown%E7%94%BB%E8%B5%B7%E6%9D%A5.html" target="_blank">
+        <div>
+          Mermaid 流程图：用 Markdown 绘制可视化逻辑作为一名老程序员，我对于markdown格式的文件可谓情有独钟，因为它的简洁性和易读性让我能够快速地编写文档和笔记。然而，在编写技术文档时，我发现markdown的表达能力有限，特别是对于复杂的逻辑流程和图表展示。 为了解决这个问题，我开始寻找一种更强大的工具来支持markdown文档中的图表展示，而Mermaid就是这样的一个工具。但是
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-13 17:27" pubdate>
+              2023-07-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" class="category-chain-item">系统架构</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/JavaScript/">#JavaScript</a>
+            
+              <a href="/tags/Mermaid/">#Mermaid</a>
+            
+              <a href="/tags/Markdown/">#Markdown</a>
+            
+              <a href="/tags/%E6%B5%81%E7%A8%8B%E5%9B%BE/">#流程图</a>
+            
+              <a href="/tags/%E6%97%B6%E5%BA%8F%E5%9B%BE/">#时序图</a>
+            
+              <a href="/tags/%E7%B1%BB%E5%9B%BE/">#类图</a>
+            
+              <a href="/tags/%E7%8A%B6%E6%80%81%E5%9B%BE/">#状态图</a>
+            
+              <a href="/tags/%E7%94%98%E7%89%B9%E5%9B%BE/">#甘特图</a>
+            
+              <a href="/tags/%E9%A5%BC%E5%9B%BE/">#饼图</a>
+            
+              <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/">#可视化</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/23-06-26-MacBook%20Air%E5%8D%87%E7%BA%A7M.2%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98%E8%B8%A9%E5%9D%91%E8%AE%B0.html" target="_blank">
+          MacBook Air升级M.2固态硬盘踩坑记
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/23-06-26-MacBook%20Air%E5%8D%87%E7%BA%A7M.2%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98%E8%B8%A9%E5%9D%91%E8%AE%B0.html" target="_blank">
+        <div>
+          听说2014年至2017年之间生产的MacBook Air可以升级自带的SSD固态硬盘，于是查了一下我平时用的不多的那台老电脑，发现是2015年入手的，内存4GB，存储空间是128GB的固态硬盘，现在来看真的很小了。  前几年用这台电脑还可以装XCode做开发，后来因为要安装iPhone模拟器，以及其他一些用于开发的iOS SDK，特别是XCode自带的SDK，一个版本就需要几个GB的空间，于是很
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-06-26 17:27" pubdate>
+              2023-06-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD/" class="category-chain-item">兴趣爱好</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD/%E7%94%B5%E8%84%91%E6%95%B0%E7%A0%81/" class="category-chain-item">电脑数码</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/MacBook-Air/">#MacBook Air</a>
+            
+              <a href="/tags/SSD%E5%8D%87%E7%BA%A7/">#SSD升级</a>
+            
+              <a href="/tags/%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98/">#固态硬盘</a>
+            
+              <a href="/tags/M-2%E6%8E%A5%E5%8F%A3/">#M.2接口</a>
+            
+              <a href="/tags/%E8%BD%AC%E6%8E%A5%E5%8D%A1/">#转接卡</a>
+            
+              <a href="/tags/%E6%97%B6%E9%97%B4%E6%9C%BA%E5%99%A8/">#时间机器</a>
+            
+              <a href="/tags/%E7%A1%AC%E4%BB%B6%E6%8B%86%E6%9C%BA/">#硬件拆机</a>
+            
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%81%A2%E5%A4%8D/">#操作系统恢复</a>
+            
+              <a href="/tags/%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/">#备份恢复</a>
+            
+              <a href="/tags/%E8%9E%BA%E4%B8%9D%E5%88%80%E8%A7%84%E6%A0%BC/">#螺丝刀规格</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/23-05-19-%E5%BE%AE%E4%BF%A1%E5%92%8C%E6%8A%96%E9%9F%B3%E7%9A%84%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F.html" target="_blank">
+          微信和抖音的小程序生态系统
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/23-05-19-%E5%BE%AE%E4%BF%A1%E5%92%8C%E6%8A%96%E9%9F%B3%E7%9A%84%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F.html" target="_blank">
+        <div>
+          微信小程序和抖音小程序的区别 The difference between WeChat Mini Program and Douyin Mini ProgramWeChat mini programs and TikTok mini programs have several differences: 微信小程序和TikTok小程序有几个区别：  1. Ecosystem and Purpose
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-05-19 20:43" pubdate>
+              2023-05-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%92%8CAPP/" class="category-chain-item">小程序和APP</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/">#微信小程序</a>
+            
+              <a href="/tags/%E6%8A%96%E9%9F%B3%E5%B0%8F%E7%A8%8B%E5%BA%8F/">#抖音小程序</a>
+            
+              <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F/">#小程序生态系统</a>
+            
+              <a href="/tags/%E7%94%A8%E6%88%B7%E5%9F%BA%E7%A1%80/">#用户基础</a>
+            
+              <a href="/tags/%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF/">#开发技术</a>
+            
+              <a href="/tags/%E5%8F%98%E7%8E%B0%E6%A8%A1%E5%BC%8F/">#变现模式</a>
+            
+              <a href="/tags/Uniapp/">#Uniapp</a>
+            
+              <a href="/tags/%E5%A4%9A%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91/">#多平台开发</a>
+            
+              <a href="/tags/%E5%A8%B1%E4%B9%90%E4%BD%93%E9%AA%8C/">#娱乐体验</a>
+            
+              <a href="/tags/%E5%AE%9E%E7%94%A8%E6%9C%8D%E5%8A%A1/">#实用服务</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/23-04-21-ALM%EF%BC%88%E5%BA%94%E7%94%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%AE%A1%E7%90%86%EF%BC%89%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9%E8%A7%A3%E6%9E%90.html" target="_blank">
+          ALM（应用生命周期管理）核心内容解析
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/23-04-21-ALM%EF%BC%88%E5%BA%94%E7%94%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%AE%A1%E7%90%86%EF%BC%89%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9%E8%A7%A3%E6%9E%90.html" target="_blank">
+        <div>
+          本文对ALM（应用生命周期管理）核心内容解析。ALM应用生命周期管理是否包含项目管理、文档管理、工作项管理、测试管理、基线管理等内容？主要的概念有哪些？主要的任务有哪些？开发这样一套系统，需要注意什么？ 一、ALM是否包含项目管理、文档管理等内容？ALM是覆盖应用从需求到退役全生命周期的管理框架，包含以下核心模块：    项目管理：进度计划、资源分配、成本跟踪、风险管控等。   需求管理：需求捕获
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-04-21 14:30" pubdate>
+              2023-04-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" class="category-chain-item">系统架构</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/">#配置管理</a>
+            
+              <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/">#项目管理</a>
+            
+              <a href="/tags/ALM/">#ALM</a>
+            
+              <a href="/tags/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%AE%A1%E7%90%86/">#生命周期管理</a>
+            
+              <a href="/tags/%E9%9C%80%E6%B1%82%E7%AE%A1%E7%90%86/">#需求管理</a>
+            
+              <a href="/tags/%E6%B5%8B%E8%AF%95%E7%AE%A1%E7%90%86/">#测试管理</a>
+            
+              <a href="/tags/%E5%9F%BA%E7%BA%BF%E7%AE%A1%E7%90%86/">#基线管理</a>
+            
+              <a href="/tags/%E5%8F%91%E5%B8%83%E7%AE%A1%E7%90%86/">#发布管理</a>
+            
+              <a href="/tags/%E5%BC%80%E5%8F%91%E7%AE%A1%E7%90%86/">#开发管理</a>
+            
+              <a href="/tags/%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86/">#文档管理</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/23-04-15-Serverless-and-Cloud-Function.html" target="_blank">
+          无服务器架构和云函数 Serverless and Cloud Function
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/23-04-15-Serverless-and-Cloud-Function.html" target="_blank">
+        <div>
+          Serverless和云函数Serverless（无服务器架构）和云函数是云计算领域中紧密相关的概念，它们代表了一种创新的开发和部署模式，极大地改变了传统的应用程序架构和运维方式。  Serverless概念：Serverless并不是真的没有服务器，而是开发者无需关心服务器的管理和运维工作，这些由云服务提供商负责。Serverless主要包含函数即服务（FaaS，Function as a Se
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-04-15 20:43" pubdate>
+              2023-04-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E4%BA%91%E8%AE%A1%E7%AE%97/" class="category-chain-item">云计算</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/AWS/">#AWS</a>
+            
+              <a href="/tags/Lambda/">#Lambda</a>
+            
+              <a href="/tags/Serverless/">#Serverless</a>
+            
+              <a href="/tags/%E4%BA%91%E5%87%BD%E6%95%B0/">#云函数</a>
+            
+              <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91/">#阿里云</a>
+            
+              <a href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/">#腾讯云</a>
+            
+              <a href="/tags/%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84/">#无服务器架构</a>
+            
+              <a href="/tags/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8/">#事件驱动</a>
+            
+              <a href="/tags/%E5%A4%9A%E8%AF%AD%E8%A8%80%E6%94%AF%E6%8C%81/">#多语言支持</a>
+            
+              <a href="/tags/%E5%BC%B9%E6%80%A7%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/">#弹性资源管理</a>
+            
+              <a href="/tags/%E4%BA%91%E5%B9%B3%E5%8F%B0/">#云平台</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/23-03-12-%E5%85%83%E5%AE%87%E5%AE%99%E4%B8%80%E5%9C%BA%E8%A7%86%E8%A7%89%E6%AC%BA%E9%AA%97%E7%9A%843D%E7%9B%9B%E5%AE%B4.html" target="_blank">
+          元宇宙：一场视觉欺骗的 3D 盛宴
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/23-03-12-%E5%85%83%E5%AE%87%E5%AE%99%E4%B8%80%E5%9C%BA%E8%A7%86%E8%A7%89%E6%AC%BA%E9%AA%97%E7%9A%843D%E7%9B%9B%E5%AE%B4.html" target="_blank">
+        <div>
+          《红楼梦》第五回中，贾宝玉梦游太虚幻境，目睹”薄命司”判词与”红楼梦”十二支曲，这场精心设计的幻觉实为警幻仙姑对他的点化。太虚幻境的精妙之处，在于通过”假作真时真亦假”的叙事策略，将抽象的命运隐喻转化为具象的感官体验。当贾宝玉在幻境中经历”意淫”之劫时，他的认知系统完全被虚假场景所重构。  三百年后的今天，元宇宙技术正以更精密的方式复刻着这种认知欺骗。计算机图形学通过模拟人眼的双目视差，在平面屏幕
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-12 17:27" pubdate>
+              2023-03-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/" class="category-chain-item">人工智能AIGC</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/3D%E6%8A%80%E6%9C%AF%E5%92%8C%E5%85%83%E5%AE%87%E5%AE%99/" class="category-chain-item">3D技术和元宇宙</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%85%83%E5%AE%87%E5%AE%99/">#元宇宙</a>
+            
+              <a href="/tags/3D%E6%8A%80%E6%9C%AF/">#3D技术</a>
+            
+              <a href="/tags/%E8%A7%86%E8%A7%89%E6%AC%BA%E9%AA%97/">#视觉欺骗</a>
+            
+              <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/">#虚拟现实</a>
+            
+              <a href="/tags/%E5%A4%A7%E8%84%91/">#大脑</a>
+            
+              <a href="/tags/%E5%B9%BB%E8%A7%89/">#幻觉</a>
+            
+              <a href="/tags/%E6%84%9F%E7%9F%A5/">#感知</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/23-03-02-Project-Manager-Act-as-Scrum-Master.html" target="_blank">
+          敏捷开发中项目经理与Scrum Master角色 Project Manager Act as Scrum Master
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/23-03-02-Project-Manager-Act-as-Scrum-Master.html" target="_blank">
+        <div>
+          Scrum Master and Project Manager are not the same, although they have some overlapping functions. Here’s a detailed look at the differences: 1. Definitions and Focus Scrum Master Definition: A Scrum M
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-02 20:42" pubdate>
+              2023-03-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" class="category-chain-item">项目管理</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/" class="category-chain-item">敏捷开发</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/">#敏捷开发</a>
+            
+              <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/">#项目管理</a>
+            
+              <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86/">#项目经理</a>
+            
+              <a href="/tags/Scrum-Master/">#Scrum Master</a>
+            
+              <a href="/tags/Scrum%E6%A1%86%E6%9E%B6/">#Scrum框架</a>
+            
+              <a href="/tags/%E9%A1%B9%E7%9B%AE%E8%A7%84%E5%88%92/">#项目规划</a>
+            
+              <a href="/tags/%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/">#资源管理</a>
+            
+              <a href="/tags/%E5%9B%A2%E9%98%9F%E5%8D%8F%E4%BD%9C/">#团队协作</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/23-03-02-Product-Manager-Act-as-Product-Owner.html" target="_blank">
+          产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/23-03-02-Product-Manager-Act-as-Product-Owner.html" target="_blank">
+        <div>
+          Is it appropriate for product manager to act as product owner in some cases of a project? 在某些情况下，产品经理是否可以作为项目的产品负责人？ In many cases, it is quite appropriate for a product manager to act as a product ow
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-02 20:41" pubdate>
+              2023-03-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" class="category-chain-item">项目管理</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/" class="category-chain-item">敏捷开发</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86/">#产品经理</a>
+            
+              <a href="/tags/%E4%BA%A7%E5%93%81%E8%B4%9F%E8%B4%A3%E4%BA%BA/">#产品负责人</a>
+            
+              <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/">#项目管理</a>
+            
+              <a href="/tags/%E9%A2%86%E5%9F%9F%E7%9F%A5%E8%AF%86/">#领域知识</a>
+            
+              <a href="/tags/%E6%84%BF%E6%99%AF%E5%AF%B9%E9%BD%90/">#愿景对齐</a>
+            
+              <a href="/tags/%E5%88%A9%E7%9B%8A%E7%9B%B8%E5%85%B3%E8%80%85%E7%AE%A1%E7%90%86/">#利益相关者管理</a>
+            
+              <a href="/tags/%E5%86%B3%E7%AD%96%E5%88%B6%E5%AE%9A/">#决策制定</a>
+            
+              <a href="/tags/%E6%97%B6%E9%97%B4%E7%BA%A6%E6%9D%9F/">#时间约束</a>
+            
+              <a href="/tags/%E5%81%8F%E8%A7%81/">#偏见</a>
+            
+              <a href="/tags/%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B/">#开发过程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/23-02-07-Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90CI%E4%B8%8E%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2CD%E8%BF%87%E7%A8%8B%E8%AF%B4%E6%98%8E.html" target="_blank">
+          Jenkins持续集成CI与持续部署CD过程说明
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/23-02-07-Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90CI%E4%B8%8E%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2CD%E8%BF%87%E7%A8%8B%E8%AF%B4%E6%98%8E.html" target="_blank">
+        <div>
+          Jenkins 是一个开源自动化服务器，广泛用于持续集成（Continuous Integration, CI）和持续部署（Continuous Deployment, CD）。通过使用 Jenkins，开发团队可以自动化构建、测试和部署应用程序，从而加快软件开发周期，提高软件质量。 1 持续集成（Continuous Integration）持续集成是一种软件开发实践，其中团队频繁地将代码更改合
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-02-07 00:00" pubdate>
+              2023-02-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86/" class="category-chain-item">运维管理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Jenkins/">#Jenkins</a>
+            
+              <a href="/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">#持续集成</a>
+            
+              <a href="/tags/%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2/">#持续部署</a>
+            
+              <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9C%8D%E5%8A%A1%E5%99%A8/">#自动化服务器</a>
+            
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E5%91%A8%E6%9C%9F/">#软件开发周期</a>
+            
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/">#软件质量</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2022/22-11-23-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98.html" target="_blank">
+          软件项目敏捷开发实战
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/22-11-23-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98.html" target="_blank">
+        <div>
+          敏捷开发实战过程敏捷开发是一个强调灵活性、协作性和快速响应变化的软件开发框架，不同团队和项目可能会根据自身情况进行调整和优化，但核心的流程和原则大致相同，以下是实战中的敏捷开发过程：  项目启动 愿景与目标设定：项目团队与利益相关者共同明确项目的愿景和目标。这包括理解业务需求、确定产品要解决的问题以及预期的成果。例如，对于一款在线教育产品，项目愿景可能是“为全球学生提供便捷、高质量的在线学习体验”
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-11-23 20:41" pubdate>
+              2022-11-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" class="category-chain-item">项目管理</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/" class="category-chain-item">敏捷开发</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/">#敏捷开发</a>
+            
+              <a href="/tags/%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B/">#用户故事</a>
+            
+              <a href="/tags/%E8%BF%AD%E4%BB%A3%E8%A7%84%E5%88%92/">#迭代规划</a>
+            
+              <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%BC%80%E5%8F%91/">#迭代开发</a>
+            
+              <a href="/tags/%E8%BF%AD%E4%BB%A3%E8%AF%84%E5%AE%A1/">#迭代评审</a>
+            
+              <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%9B%9E%E9%A1%BE/">#迭代回顾</a>
+            
+              <a href="/tags/%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98/">#持续交付</a>
+            
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E7%BB%B4%E6%8A%A4/">#软件维护</a>
+            
+              <a href="/tags/%E5%BF%AB%E8%8A%82%E5%A5%8F%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/">#快节奏敏捷开发</a>
+            
+              <a href="/tags/sprint/">#sprint</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/9/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/#board">8</a><a class="page-number" href="/page/9/#board">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/#board">11</a><a class="page-number" href="/page/12/#board">12</a><a class="page-number" href="/page/13/#board">13</a><a class="extend next" rel="next" href="/page/11/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

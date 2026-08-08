@@ -1,0 +1,1068 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Is it appropriate for product manager to act as product owner in some cases of a project? 在某些情况下，产品经理是否可以作为项目的产品负责人？ In many cases, it is quite appropriate for a product manager to act as a product ow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner">
+<meta property="og:url" content="https://jycpp.github.io/2023/23-03-02-Product-Manager-Act-as-Product-Owner.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="Is it appropriate for product manager to act as product owner in some cases of a project? 在某些情况下，产品经理是否可以作为项目的产品负责人？ In many cases, it is quite appropriate for a product manager to act as a product ow">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-02T20:41:51.000Z">
+<meta property="article:modified_time" content="2026-08-08T03:09:42.435Z">
+<meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="产品经理">
+<meta property="article:tag" content="产品负责人">
+<meta property="article:tag" content="项目管理">
+<meta property="article:tag" content="领域知识">
+<meta property="article:tag" content="愿景对齐">
+<meta property="article:tag" content="利益相关者管理">
+<meta property="article:tag" content="决策制定">
+<meta property="article:tag" content="时间约束">
+<meta property="article:tag" content="偏见">
+<meta property="article:tag" content="开发过程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner - Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-02 20:41" pubdate>
+          2023年3月2日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="项目管理"
+        id="heading-436367b06614c1bec6efcd0971a16ef2" role="tab" data-toggle="collapse" href="#collapse-436367b06614c1bec6efcd0971a16ef2"
+        aria-expanded="true"
+      >
+        项目管理
+        <span class="list-group-count">(15)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-436367b06614c1bec6efcd0971a16ef2"
+           role="tabpanel" aria-labelledby="heading-436367b06614c1bec6efcd0971a16ef2">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-04-23-FRP%E5%92%8CApache%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%92%8C%E6%B3%9B%E5%9F%9F%E5%90%8D%E7%BD%91%E7%AB%99%E5%8F%91%E5%B8%83.html" title="FRP和Apache实现内网穿透和泛域名网站发布"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">FRP和Apache实现内网穿透和泛域名网站发布</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-05-21-%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E5%BF%85%E9%A1%BB%E5%AD%A6%E4%BC%9AMVP.html" title="产品经理必须学会MVP"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">产品经理必须学会MVP</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-06-18-%E4%BB%8E%E5%86%92%E7%83%9F%E6%B5%8B%E8%AF%95%E5%88%B0UAT%E6%B5%8B%E8%AF%95.html" title="从冒烟测试到UAT测试"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从冒烟测试到UAT测试</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-10-03-%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E5%B8%88%E8%80%83%E8%AF%95%E8%AE%A1%E7%AE%97%E9%A2%98%E5%B8%B8%E7%94%A8%E6%A6%82%E5%BF%B5.html" title="信息系统项目管理师考试计算题常用概念"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">信息系统项目管理师考试计算题常用概念</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-20-%E6%8B%9B%E6%8A%95%E6%A0%87%E4%BA%89%E8%AE%AE%E9%A2%91%E5%8F%91%E6%98%AF%E5%B7%A7%E5%90%88%E8%BF%98%E6%98%AF%E8%88%86%E8%AE%BA%E6%9A%97%E6%B6%8C.html" title="招投标争议频发：是偶然巧合，还是舆论暗涌"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">招投标争议频发：是偶然巧合，还是舆论暗涌</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-03-12-%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E8%80%83%E9%87%8F%E5%9B%A0%E7%B4%A0.html" title="笔记本电脑系统架构设计的考量因素"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">笔记本电脑系统架构设计的考量因素</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-12-13-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E4%B8%AD%E7%9A%84%E9%A3%8E%E9%99%A9%E6%8E%A7%E5%88%B6.html" title="软件项目管理中的风险控制：破局传统思维，回归创造本质"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软件项目管理中的风险控制：破局传统思维，回归创造本质</span>
+        </a>
+      
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="敏捷开发"
+        id="heading-889270cabdbdff177ec47c7e647e799b" role="tab" data-toggle="collapse" href="#collapse-889270cabdbdff177ec47c7e647e799b"
+        aria-expanded="true"
+      >
+        敏捷开发
+        <span class="list-group-count">(6)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-889270cabdbdff177ec47c7e647e799b"
+           role="tabpanel" aria-labelledby="heading-889270cabdbdff177ec47c7e647e799b">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-03-02-Product-Manager-Act-as-Product-Owner.html" title="产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-08-25-%E6%95%8F%E6%8D%B7%E5%9E%8B%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E4%BB%8E%E5%95%86%E5%8A%A1%E5%90%88%E5%90%8C%E5%88%B0%E6%94%B6%E6%AC%BE%E5%BC%80%E5%8F%91.html" title="敏捷型软件项目从商务合同到收款开发"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">敏捷型软件项目从商务合同到收款开发</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-10-15-%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E4%B8%AD%E5%B9%B3%E8%A1%A1%E8%BF%9B%E5%BA%A6%E5%9F%BA%E5%87%86%E5%92%8C%E8%8C%83%E5%9B%B4%E5%9F%BA%E5%87%86.html" title="敏捷开发中平衡进度基准和范围基准"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">敏捷开发中平衡进度基准和范围基准</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-03-02-Project-Manager-Act-as-Scrum-Master.html" title="敏捷开发中项目经理与Scrum Master角色 Project Manager Act as Scrum Master"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">敏捷开发中项目经理与Scrum Master角色 Project Manager Act as Scrum Master</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-11-05-%E6%95%8F%E6%8D%B7%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E7%9A%84%E6%A6%82%E5%BF%B5.html" title="敏捷软件开发的基本概念 Agile Principles for Software Development"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">敏捷软件开发的基本概念 Agile Principles for Software Development</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-11-23-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98.html" title="软件项目敏捷开发实战"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软件项目敏捷开发实战</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="组织行为"
+        id="heading-83e183c29783f9cf25c7186c9f5cc83a" role="tab" data-toggle="collapse" href="#collapse-83e183c29783f9cf25c7186c9f5cc83a"
+        aria-expanded="false"
+      >
+        组织行为
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-83e183c29783f9cf25c7186c9f5cc83a"
+           role="tabpanel" aria-labelledby="heading-83e183c29783f9cf25c7186c9f5cc83a">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-06-14-%E8%94%A1%E6%A1%93%E5%85%AC%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E8%AE%B3%E7%96%BE%E5%BF%8C%E5%8C%BB.html" title="我们笑蔡桓公愚蠢，却活成了他身边唯唯诺诺的人"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">我们笑蔡桓公愚蠢，却活成了他身边唯唯诺诺的人</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="项目管理实践"
+        id="heading-8691543cc03936caa1ad307228a66309" role="tab" data-toggle="collapse" href="#collapse-8691543cc03936caa1ad307228a66309"
+        aria-expanded="false"
+      >
+        项目管理实践
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-8691543cc03936caa1ad307228a66309"
+           role="tabpanel" aria-labelledby="heading-8691543cc03936caa1ad307228a66309">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-05-10-%E8%BF%99%E4%B8%AA%E5%B0%8F%E7%8E%8B%E5%90%A7%E4%B9%9F%E5%A4%AA%E8%83%BD%E5%B9%B2%E4%BA%86.html" title="这个小王吧也太能干了"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">这个小王吧也太能干了</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Is it appropriate for product manager to act as product owner in some cases of a project?</p>
+<p>在某些情况下，产品经理是否可以作为项目的产品负责人？</p>
+<p>In many cases, it is quite appropriate for a product manager to act as a product owner. Here’s a detailed analysis of the reasons why:</p>
+<p>在许多情况下，产品经理可以作为项目的产品负责人。以下是一些详细的分析原因：</p>
+<h3 id="1-Domain-Knowledge-and-Vision"><a href="#1-Domain-Knowledge-and-Vision" class="headerlink" title="1. Domain Knowledge and Vision"></a>1. Domain Knowledge and Vision</h3><ul>
+<li><strong>Product Understanding</strong>: A product manager typically has in - depth knowledge of the product domain. <ul>
+<li>产品理解：产品经理通常对产品领域有深入的了解。<br>They have been involved in market research, understanding customer needs, and defining the product vision. </li>
+<li>他们参与过市场调研，了解客户需求，并定义了产品愿景。<br>This knowledge is invaluable when acting as a product owner. </li>
+<li>当担任产品负责人时，这些知识非常宝贵。<br>For example, in a mobile app project, the product manager who has studied the target market, competitor apps, and user behavior patterns can effectively translate this understanding into the product backlog as a product owner. </li>
+<li>例如，在一个移动应用项目中，研究过目标市场、竞品应用和用户行为模式的产品经理，作为产品负责人可以有效地将这些理解转化为产品待办事项列表。<br>They can prioritize features based on real - world insights, such as knowing that users of a fitness app value features like workout tracking and social sharing more than other less - used functions.</li>
+<li>他们可以根据实际洞察来确定功能的优先级，例如知道健身应用的用户比其他不常用功能更看重锻炼跟踪和社交分享功能。</li>
+</ul>
+</li>
+</ul>
+<!-- 翻译上一段内容为中文 -->
+
+
+<ul>
+<li><strong>Vision Alignment</strong>: The product manager’s role often encompasses setting the long - term vision for the product. As a product owner, they can ensure that the day - to - day development work, as represented by the product backlog and sprint planning, aligns with this overarching vision. In a software - as - a - service (SaaS) product for project management, the product manager - turned - product - owner can guide the development team to build features that move the product towards its strategic goals, such as improving team collaboration capabilities or enhancing reporting functions to meet the needs of enterprise - level customers.<br>-<strong>愿景对齐</strong>：产品经理的角色通常包括为产品设定长期愿景。作为产品所有者，他们可以确保以产品待办事项和冲刺计划为代表的日常开发工作与这一总体愿景保持一致。在用于项目管理的软件即服务（SaaS）产品中，产品经理转变为产品所有者可以指导开发团队构建将产品推向其战略目标的功能，例如提高团队协作能力或增强报告功能以满足企业级客户的需求。</li>
+</ul>
+<h3 id="2-Stakeholder-Management"><a href="#2-Stakeholder-Management" class="headerlink" title="2. Stakeholder Management"></a>2. Stakeholder Management</h3><ul>
+<li><strong>Internal Coordination</strong>: Product managers are usually well - versed in working with different internal stakeholders such as marketing, sales, and customer support teams. As a product owner, they can bring this collaborative spirit to the development process. For example, they can communicate with the marketing team to understand the product’s positioning and use this information to prioritize features that will have a better market impact. They can also work with the customer support team to identify pain points reported by customers and translate these into actionable items for the development team.</li>
+</ul>
+<p>-<strong>内部协调</strong>：产品经理通常精通与不同的内部利益相关者合作，如营销、销售和客户支持团队。作为产品所有者，他们可以将这种协作精神带到开发过程中。例如，他们可以与营销团队沟通，了解产品的定位，并利用这些信息确定具有更好市场影响的功能的优先级。他们还可以与客户支持团队合作，识别客户报告的痛点，并将其转化为开发团队可操作的项目。</p>
+<ul>
+<li><strong>External Communication</strong>: When it comes to external stakeholders like customers and partners, the product manager’s experience in handling these relationships can be beneficial. As a product owner, they can gather customer feedback more effectively and use it to refine the product backlog. In the case of a product that integrates with third - party services, the product manager - turned - product - owner can communicate with partners to understand their requirements and ensure that the product development takes these into account.</li>
+</ul>
+<p>-<strong>外部沟通</strong>：与客户和合作伙伴等外部利益相关者打交道时，产品经理在处理这些关系方面的经验可能是有益的。作为产品所有者，他们可以更有效地收集客户反馈，并使用这些反馈来完善产品待办事项列表。在与第三方服务集成的产品中，产品经理转变为产品所有者可以与合作伙伴沟通，了解他们的需求，并确保产品开发考虑到这些要求。</p>
+<h3 id="3-Decision-Making-Authority-and-Responsibility"><a href="#3-Decision-Making-Authority-and-Responsibility" class="headerlink" title="3. Decision - Making Authority and Responsibility"></a>3. Decision - Making Authority and Responsibility</h3><ul>
+<li><strong>Feature Prioritization</strong>: Product managers are accustomed to making decisions about feature prioritization based on a combination of customer value, business impact, and resource availability. As a product owner, they can apply this decision - making skill to the product backlog. They can balance the need to quickly deliver valuable features to customers with the development team’s capacity and the overall business goals. For example, in a e - commerce platform project, the product manager - turned - product - owner can decide to prioritize features like improving the checkout process to increase conversion rates over less critical cosmetic changes to the product interface.</li>
+</ul>
+<p>-<strong>功能优先级决策</strong>：产品经理习惯于根据客户价值、业务影响和资源可用性的组合来确定功能优先级。作为产品所有者，他们可以将这种决策 - 制定技能应用于产品待办事项列表。他们可以平衡快速交付有价值功能的需要与开发团队的能力以及整体业务目标。例如，在一个电子商务平台项目中，产品经理转变为产品所有者可以决定优先考虑提高结账流程以</p>
+<ul>
+<li><strong>Accountability</strong>: The product manager already has a sense of accountability for the product’s success in the market. Acting as a product owner, they can extend this accountability to the development process. They are responsible for accepting or rejecting the work done by the development team based on the defined acceptance criteria, ensuring that the product meets the expected quality and functionality standards. This seamless transfer of responsibility can lead to a more efficient and effective development cycle.</li>
+</ul>
+<p>-<strong>责任</strong>：产品经理已经对市场上产品的成功有了一定的认识。作为产品所有者，他们可以将这种责任扩展到开发过程中。他们负责根据定义的验收标准接受或拒绝开发团队完成的工作，确保产品符合预期的质量和功能标准。这种无缝的责任转移可以导致更高效和有效的开发周期。</p>
+<p>However, there are also some potential challenges to consider:<br>然而，也有一些潜在的挑战需要考虑：</p>
+<h3 id="1-Time-and-Focus-Constraints"><a href="#1-Time-and-Focus-Constraints" class="headerlink" title="1. Time and Focus Constraints"></a>1. Time and Focus Constraints</h3><ul>
+<li><strong>Dual Responsibilities</strong>: A product manager has multiple responsibilities beyond the development process, such as market research, go - to - market strategies, and competitor analysis. Acting as a product owner might stretch their time and focus too thin. For example, during a product launch phase, the product manager might be so occupied with marketing activities that they can’t give enough attention to the detailed product backlog grooming and sprint planning required of a product owner.</li>
+</ul>
+<p>-<strong>双重责任</strong>：产品经理除了开发过程之外，还有其他职责，如市场研究、营销战略和竞争对手分析。作为产品所有者可能会将时间和精力过于分散。例如，在产品发布阶段，产品经理可能太忙了，无法给详细的产品待办事项列表 grooming 和冲刺计划提供足够的关注。</p>
+<ul>
+<li><strong>Competing Priorities</strong>: The product manager’s focus on broader market and business aspects might sometimes conflict with the more immediate needs of the development team. They might be tempted to push for features that have a high market impact but are not well - defined or understood from a technical perspective, leading to inefficiencies in the development process.</li>
+</ul>
+<p>-<strong>竞争优先级</strong>：产品经理的关注范围可能会与开发团队更紧迫的需求相冲突。他们可能会试图推动具有高市场影响但从技术角度来说不太明确或难以理解的功能，从而导致开发过程中的低效。</p>
+<h3 id="2-Bias-and-Tunnel-Vision"><a href="#2-Bias-and-Tunnel-Vision" class="headerlink" title="2. Bias and Tunnel Vision"></a>2. Bias and Tunnel Vision</h3><ul>
+<li><strong>Over - Attachment to Vision</strong>: The product manager’s strong vision for the product can sometimes lead to a bias. They might be so attached to a particular product concept that they overlook alternative or more innovative solutions that the development team could propose. As a product owner, it’s important to remain open - minded and receptive to the team’s ideas to foster innovation and improvement.</li>
+</ul>
+<p>-<strong>对愿景的过度关注</strong>：产品经理对产品的愿景有时会导致偏见。他们可能过于专注于特定的产品概念，忽略了开发团队可能提出的其他或更创新的解决方案。作为产品所有者，保持开放的心态和对团队想法的 receptivity 是促进创新和改进的重要因素。</p>
+<ul>
+<li><strong>Market - Focused Tunnel Vision</strong>: Their focus on market and customer needs might lead to a tunnel - vision where they only consider features that are directly related to customer - facing aspects. They might neglect internal technical debt or infrastructure improvements that are crucial for the long - term maintainability and scalability of the product.</li>
+</ul>
+<p>-<strong>市场 - 聚焦的隧道愿景</strong>：他们的关注范围可能导致一个隧道 - 视觉，只考虑与客户 - 面相关的功能。他们可能忽视了对长期维护和可扩展性的重要内部技术债务或基础设施改进。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" class="category-chain-item">项目管理</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/" class="category-chain-item">敏捷开发</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86/" class="print-no-link">#产品经理</a>
+      
+        <a href="/tags/%E4%BA%A7%E5%93%81%E8%B4%9F%E8%B4%A3%E4%BA%BA/" class="print-no-link">#产品负责人</a>
+      
+        <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" class="print-no-link">#项目管理</a>
+      
+        <a href="/tags/%E9%A2%86%E5%9F%9F%E7%9F%A5%E8%AF%86/" class="print-no-link">#领域知识</a>
+      
+        <a href="/tags/%E6%84%BF%E6%99%AF%E5%AF%B9%E9%BD%90/" class="print-no-link">#愿景对齐</a>
+      
+        <a href="/tags/%E5%88%A9%E7%9B%8A%E7%9B%B8%E5%85%B3%E8%80%85%E7%AE%A1%E7%90%86/" class="print-no-link">#利益相关者管理</a>
+      
+        <a href="/tags/%E5%86%B3%E7%AD%96%E5%88%B6%E5%AE%9A/" class="print-no-link">#决策制定</a>
+      
+        <a href="/tags/%E6%97%B6%E9%97%B4%E7%BA%A6%E6%9D%9F/" class="print-no-link">#时间约束</a>
+      
+        <a href="/tags/%E5%81%8F%E8%A7%81/" class="print-no-link">#偏见</a>
+      
+        <a href="/tags/%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B/" class="print-no-link">#开发过程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner</div>
+      <div>https://jycpp.github.io/2023/23-03-02-Product-Manager-Act-as-Product-Owner.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/23-03-02-Project-Manager-Act-as-Scrum-Master.html" title="敏捷开发中项目经理与Scrum Master角色 Project Manager Act as Scrum Master">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">敏捷开发中项目经理与Scrum Master角色 Project Manager Act as Scrum Master</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/23-02-07-Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90CI%E4%B8%8E%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2CD%E8%BF%87%E7%A8%8B%E8%AF%B4%E6%98%8E.html" title="Jenkins持续集成CI与持续部署CD过程说明">
+                        <span class="hidden-mobile">Jenkins持续集成CI与持续部署CD过程说明</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1062 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="敏捷开发实战过程敏捷开发是一个强调灵活性、协作性和快速响应变化的软件开发框架，不同团队和项目可能会根据自身情况进行调整和优化，但核心的流程和原则大致相同，以下是实战中的敏捷开发过程：  项目启动 愿景与目标设定：项目团队与利益相关者共同明确项目的愿景和目标。这包括理解业务需求、确定产品要解决的问题以及预期的成果。例如，对于一款在线教育产品，项目愿景可能是“为全球学生提供便捷、高质量的在线学习体验”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件项目敏捷开发实战">
+<meta property="og:url" content="https://jycpp.github.io/2022/22-11-23-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="敏捷开发实战过程敏捷开发是一个强调灵活性、协作性和快速响应变化的软件开发框架，不同团队和项目可能会根据自身情况进行调整和优化，但核心的流程和原则大致相同，以下是实战中的敏捷开发过程：  项目启动 愿景与目标设定：项目团队与利益相关者共同明确项目的愿景和目标。这包括理解业务需求、确定产品要解决的问题以及预期的成果。例如，对于一款在线教育产品，项目愿景可能是“为全球学生提供便捷、高质量的在线学习体验”">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2025/02/09/MBYKEFuCOdiDy4l.png">
+<meta property="article:published_time" content="2022-11-23T20:41:15.000Z">
+<meta property="article:modified_time" content="2026-08-08T03:09:42.434Z">
+<meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="敏捷开发">
+<meta property="article:tag" content="用户故事">
+<meta property="article:tag" content="迭代规划">
+<meta property="article:tag" content="迭代开发">
+<meta property="article:tag" content="迭代评审">
+<meta property="article:tag" content="迭代回顾">
+<meta property="article:tag" content="持续交付">
+<meta property="article:tag" content="软件维护">
+<meta property="article:tag" content="快节奏敏捷开发">
+<meta property="article:tag" content="sprint">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2025/02/09/MBYKEFuCOdiDy4l.png">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>软件项目敏捷开发实战 - Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="软件项目敏捷开发实战"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-23 20:41" pubdate>
+          2022年11月23日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="项目管理"
+        id="heading-436367b06614c1bec6efcd0971a16ef2" role="tab" data-toggle="collapse" href="#collapse-436367b06614c1bec6efcd0971a16ef2"
+        aria-expanded="true"
+      >
+        项目管理
+        <span class="list-group-count">(15)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-436367b06614c1bec6efcd0971a16ef2"
+           role="tabpanel" aria-labelledby="heading-436367b06614c1bec6efcd0971a16ef2">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-04-23-FRP%E5%92%8CApache%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%92%8C%E6%B3%9B%E5%9F%9F%E5%90%8D%E7%BD%91%E7%AB%99%E5%8F%91%E5%B8%83.html" title="FRP和Apache实现内网穿透和泛域名网站发布"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">FRP和Apache实现内网穿透和泛域名网站发布</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-05-21-%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E5%BF%85%E9%A1%BB%E5%AD%A6%E4%BC%9AMVP.html" title="产品经理必须学会MVP"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">产品经理必须学会MVP</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-06-18-%E4%BB%8E%E5%86%92%E7%83%9F%E6%B5%8B%E8%AF%95%E5%88%B0UAT%E6%B5%8B%E8%AF%95.html" title="从冒烟测试到UAT测试"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从冒烟测试到UAT测试</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-10-03-%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E5%B8%88%E8%80%83%E8%AF%95%E8%AE%A1%E7%AE%97%E9%A2%98%E5%B8%B8%E7%94%A8%E6%A6%82%E5%BF%B5.html" title="信息系统项目管理师考试计算题常用概念"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">信息系统项目管理师考试计算题常用概念</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-20-%E6%8B%9B%E6%8A%95%E6%A0%87%E4%BA%89%E8%AE%AE%E9%A2%91%E5%8F%91%E6%98%AF%E5%B7%A7%E5%90%88%E8%BF%98%E6%98%AF%E8%88%86%E8%AE%BA%E6%9A%97%E6%B6%8C.html" title="招投标争议频发：是偶然巧合，还是舆论暗涌"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">招投标争议频发：是偶然巧合，还是舆论暗涌</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-03-12-%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E8%80%83%E9%87%8F%E5%9B%A0%E7%B4%A0.html" title="笔记本电脑系统架构设计的考量因素"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">笔记本电脑系统架构设计的考量因素</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-12-13-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E4%B8%AD%E7%9A%84%E9%A3%8E%E9%99%A9%E6%8E%A7%E5%88%B6.html" title="软件项目管理中的风险控制：破局传统思维，回归创造本质"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软件项目管理中的风险控制：破局传统思维，回归创造本质</span>
+        </a>
+      
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="敏捷开发"
+        id="heading-889270cabdbdff177ec47c7e647e799b" role="tab" data-toggle="collapse" href="#collapse-889270cabdbdff177ec47c7e647e799b"
+        aria-expanded="true"
+      >
+        敏捷开发
+        <span class="list-group-count">(6)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-889270cabdbdff177ec47c7e647e799b"
+           role="tabpanel" aria-labelledby="heading-889270cabdbdff177ec47c7e647e799b">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-03-02-Product-Manager-Act-as-Product-Owner.html" title="产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-08-25-%E6%95%8F%E6%8D%B7%E5%9E%8B%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E4%BB%8E%E5%95%86%E5%8A%A1%E5%90%88%E5%90%8C%E5%88%B0%E6%94%B6%E6%AC%BE%E5%BC%80%E5%8F%91.html" title="敏捷型软件项目从商务合同到收款开发"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">敏捷型软件项目从商务合同到收款开发</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-10-15-%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E4%B8%AD%E5%B9%B3%E8%A1%A1%E8%BF%9B%E5%BA%A6%E5%9F%BA%E5%87%86%E5%92%8C%E8%8C%83%E5%9B%B4%E5%9F%BA%E5%87%86.html" title="敏捷开发中平衡进度基准和范围基准"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">敏捷开发中平衡进度基准和范围基准</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-03-02-Project-Manager-Act-as-Scrum-Master.html" title="敏捷开发中项目经理与Scrum Master角色 Project Manager Act as Scrum Master"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">敏捷开发中项目经理与Scrum Master角色 Project Manager Act as Scrum Master</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-11-05-%E6%95%8F%E6%8D%B7%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E7%9A%84%E6%A6%82%E5%BF%B5.html" title="敏捷软件开发的基本概念 Agile Principles for Software Development"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">敏捷软件开发的基本概念 Agile Principles for Software Development</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-11-23-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98.html" title="软件项目敏捷开发实战"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">软件项目敏捷开发实战</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="组织行为"
+        id="heading-83e183c29783f9cf25c7186c9f5cc83a" role="tab" data-toggle="collapse" href="#collapse-83e183c29783f9cf25c7186c9f5cc83a"
+        aria-expanded="false"
+      >
+        组织行为
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-83e183c29783f9cf25c7186c9f5cc83a"
+           role="tabpanel" aria-labelledby="heading-83e183c29783f9cf25c7186c9f5cc83a">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-06-14-%E8%94%A1%E6%A1%93%E5%85%AC%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E8%AE%B3%E7%96%BE%E5%BF%8C%E5%8C%BB.html" title="我们笑蔡桓公愚蠢，却活成了他身边唯唯诺诺的人"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">我们笑蔡桓公愚蠢，却活成了他身边唯唯诺诺的人</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="项目管理实践"
+        id="heading-8691543cc03936caa1ad307228a66309" role="tab" data-toggle="collapse" href="#collapse-8691543cc03936caa1ad307228a66309"
+        aria-expanded="false"
+      >
+        项目管理实践
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-8691543cc03936caa1ad307228a66309"
+           role="tabpanel" aria-labelledby="heading-8691543cc03936caa1ad307228a66309">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-05-10-%E8%BF%99%E4%B8%AA%E5%B0%8F%E7%8E%8B%E5%90%A7%E4%B9%9F%E5%A4%AA%E8%83%BD%E5%B9%B2%E4%BA%86.html" title="这个小王吧也太能干了"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">这个小王吧也太能干了</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">软件项目敏捷开发实战</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="敏捷开发实战过程"><a href="#敏捷开发实战过程" class="headerlink" title="敏捷开发实战过程"></a>敏捷开发实战过程</h2><p>敏捷开发是一个强调灵活性、协作性和快速响应变化的软件开发框架，不同团队和项目可能会根据自身情况进行调整和优化，但核心的流程和原则大致相同，以下是实战中的敏捷开发过程：</p>
+<p><img src="https://s2.loli.net/2025/02/09/MBYKEFuCOdiDy4l.png" srcset="/img/loading.gif" lazyload alt="20250209215241"></p>
+<h3 id="项目启动"><a href="#项目启动" class="headerlink" title="项目启动"></a>项目启动</h3><ul>
+<li><strong>愿景与目标设定</strong>：项目团队与利益相关者共同明确项目的愿景和目标。这包括理解业务需求、确定产品要解决的问题以及预期的成果。例如，对于一款在线教育产品，项目愿景可能是“为全球学生提供便捷、高质量的在线学习体验”，目标可能是在特定时间内上线具有核心课程和互动功能的平台。</li>
+<li><strong>团队组建与培训</strong>：组建跨职能的敏捷团队，成员通常包括产品负责人、开发人员、测试人员、Scrum 大师（如果采用 Scrum 框架）等。确保团队成员理解敏捷开发的原则、价值观和方法，并进行必要的培训。</li>
+</ul>
+<h3 id="需求收集与整理"><a href="#需求收集与整理" class="headerlink" title="需求收集与整理"></a>需求收集与整理</h3><ul>
+<li><strong>用户故事创建</strong>：产品负责人与客户、用户以及其他利益相关者密切合作，将需求转化为用户故事。用户故事以“作为 &lt;用户角色&gt;，我想要 &lt;某种功能或行为&gt;，以便 &lt;达成某种目标或获得某种价值&gt;”的格式来描述。例如，“作为学生，我想要能够在课程视频中做笔记，以便复习时能够快速回顾重点内容”。</li>
+<li><strong>需求梳理会议</strong>：团队定期召开需求梳理会议，对用户故事进行讨论、细化和优先级排序。在这个过程中，团队成员共同理解需求的细节、业务价值和技术实现难度，产品负责人根据业务价值和优先级对用户故事进行排序，形成产品待办事项列表（Product Backlog）。</li>
+</ul>
+<h3 id="迭代规划"><a href="#迭代规划" class="headerlink" title="迭代规划"></a>迭代规划</h3><ul>
+<li><strong>迭代启动会议</strong>：在每个迭代开始前，召开迭代启动会议。团队从产品待办事项列表中选取一定数量的用户故事，根据团队的开发能力和资源情况，确定本次迭代要完成的任务。</li>
+<li><strong>任务分解与估算</strong>：团队将选中的用户故事进一步分解为具体的任务，如代码编写、测试用例编写、数据库设计等。开发人员对每个任务进行时间估算，明确每个任务的工作量和预计完成时间。</li>
+</ul>
+<h3 id="迭代开发"><a href="#迭代开发" class="headerlink" title="迭代开发"></a>迭代开发</h3><ul>
+<li><strong>每日站会</strong>：在迭代过程中，团队每天召开简短的站会（通常 15 分钟左右）。每个团队成员汇报前一天完成的工作、当天计划完成的工作以及遇到的问题和障碍。通过每日站会，团队成员可以及时沟通进展、协调工作，Scrum 大师负责记录问题并协助解决障碍。</li>
+<li><strong>开发与测试并行</strong>：开发人员按照任务计划进行代码编写，同时测试人员根据测试用例对完成的功能进行测试。测试驱动开发（TDD）和行为驱动开发（BDD）等方法在敏捷开发中被广泛应用，开发人员在编写代码前先编写测试用例，确保代码的可测试性和质量。</li>
+<li><strong>持续集成</strong>：开发人员频繁地将自己的代码集成到共享的代码库中，每次集成后都会进行自动化的构建和测试，确保新代码与现有代码的兼容性和稳定性。如果出现问题，团队可以及时发现并解决，避免问题在后期积累。</li>
+</ul>
+<h3 id="迭代评审"><a href="#迭代评审" class="headerlink" title="迭代评审"></a>迭代评审</h3><ul>
+<li><strong>功能演示</strong>：在迭代结束时，团队向利益相关者（包括产品负责人、客户、用户等）演示本次迭代完成的功能。演示以实际的软件操作和展示为主，让利益相关者直观地了解软件的功能和进展情况。</li>
+<li><strong>反馈收集</strong>：利益相关者对演示的功能进行评估，提出反馈意见和建议。这些反馈可能包括功能改进、需求变更、用户体验优化等方面的内容。产品负责人负责收集和整理这些反馈，将其纳入产品待办事项列表中，作为后续迭代的参考。</li>
+</ul>
+<h3 id="迭代回顾"><a href="#迭代回顾" class="headerlink" title="迭代回顾"></a>迭代回顾</h3><ul>
+<li><strong>团队反思</strong>：迭代结束后，团队召开迭代回顾会议。在会议上，团队成员共同回顾本次迭代的过程，包括工作流程、团队协作、沟通情况、遇到的问题和挑战等方面。</li>
+<li><strong>经验总结与改进</strong>：团队成员讨论在本次迭代中哪些方面做得好，哪些方面需要改进，并提出具体的改进措施和建议。这些改进措施将应用到下一个迭代中，以不断提高团队的工作效率和产品质量。</li>
+</ul>
+<h3 id="持续交付与维护"><a href="#持续交付与维护" class="headerlink" title="持续交付与维护"></a>持续交付与维护</h3><ul>
+<li><strong>持续交付</strong>：当软件功能满足发布条件时，团队将软件部署到生产环境中，实现持续交付。持续交付确保软件能够快速、稳定地交付给用户，及时满足用户的需求。</li>
+<li><strong>软件维护与优化</strong>：软件上线后，团队继续对软件进行维护和优化。这包括修复软件中出现的缺陷、根据用户反馈和业务需求进行功能扩展和改进、对软件性能进行优化等。团队通过监控软件的运行情况，收集用户反馈，不断改进软件，提高用户满意度。</li>
+</ul>
+<p>敏捷开发的核心是通过迭代和反馈不断改进产品和过程，强调团队成员之间的紧密协作、快速响应变化以及持续交付价值。在实际应用中，不同的团队可能会根据项目的特点和需求对敏捷开发过程进行适当的调整和定制，以达到最佳的开发效果。  </p>
+<h2 id="快节奏敏捷开发分析"><a href="#快节奏敏捷开发分析" class="headerlink" title="快节奏敏捷开发分析"></a>快节奏敏捷开发分析</h2><p>在项目敏捷开发中，以 2 - 4 周为一个 sprint（冲刺）是一种非常常见且合适的做法，以下从优点和可能存在的挑战两方面来分析：</p>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li><strong>合理的时间跨度</strong>：2 - 4 周的时间长度既足够团队完成一定量有价值的工作，又不会过长导致团队失去紧迫感或遗忘项目初期的目标和需求。例如，对于一个中型规模的软件项目，在 2 - 4 周内，开发团队能够完成若干个功能模块的编码、测试和集成工作，形成一个可展示、可验证的阶段性成果。</li>
+<li><strong>及时反馈与调整</strong>：较短的 sprint 周期使得团队能够频繁地向利益相关者展示工作成果，从而及时获得反馈。利益相关者可以根据实际看到的产品功能，提出改进意见和新的需求。团队能够在后续的 sprint 中迅速响应这些反馈，调整开发方向。这有助于确保最终产品更贴合用户需求，减少因需求变更导致的大量返工。</li>
+<li><strong>有效管理风险</strong>：将项目分解为多个短周期的 sprint，可以降低项目的整体风险。每个 sprint 都是一个相对独立的单元，即使在某个 sprint 中出现问题，如技术难题、人员变动等，对整个项目的影响也相对较小。团队可以在后续的 sprint 中及时调整策略，解决问题，避免风险的积累和扩大。</li>
+<li><strong>保持团队动力</strong>：相对较短的周期可以让团队成员在每个 sprint 中都能看到明显的工作成果，获得成就感，从而保持高昂的工作热情和动力。同时，频繁的迭代也促使团队成员保持专注，提高工作效率，避免拖延。</li>
+</ul>
+<h3 id="可能存在的挑战及应对措施"><a href="#可能存在的挑战及应对措施" class="headerlink" title="可能存在的挑战及应对措施"></a>可能存在的挑战及应对措施</h3><ul>
+<li><strong>规划难度</strong>：要在 2 - 4 周内完成一系列的工作，需要团队进行精确的规划和任务估算。这对团队的经验和能力要求较高。为应对这一挑战，团队可以在每次 sprint 前进行详细的任务分解和估算，参考以往项目的经验数据，同时邀请有经验的成员参与估算过程，提高估算的准确性。</li>
+<li><strong>频繁交接成本</strong>：如果项目涉及多个团队之间的协作，频繁的 sprint 可能会导致交接成本增加。不同团队需要在每个 sprint 开始和结束时进行沟通和协调，以确保工作的顺利衔接。为减少交接成本，团队可以建立标准化的交接流程和文档模板，明确交接的内容和时间节点，同时加强团队之间的沟通和协作培训，提高沟通效率。</li>
+<li><strong>资源配置挑战</strong>：在短周期内完成任务可能需要团队成员具备多种技能，以应对不同类型的工作。如果团队成员的技能单一，可能会出现资源分配不均衡的情况。对此，团队可以通过交叉培训的方式，让成员掌握多种技能，提高团队的整体灵活性和资源利用率。</li>
+</ul>
+<p>以 2 - 4 周为一个 sprint 在项目敏捷开发中具有诸多优势，虽然可能会面临一些挑战，但通过合理的规划和有效的管理措施，这些挑战是可以克服的。因此，这种做法在大多数情况下是合适且可行的。  </p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" class="category-chain-item">项目管理</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/" class="category-chain-item">敏捷开发</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/" class="print-no-link">#敏捷开发</a>
+      
+        <a href="/tags/%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B/" class="print-no-link">#用户故事</a>
+      
+        <a href="/tags/%E8%BF%AD%E4%BB%A3%E8%A7%84%E5%88%92/" class="print-no-link">#迭代规划</a>
+      
+        <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%BC%80%E5%8F%91/" class="print-no-link">#迭代开发</a>
+      
+        <a href="/tags/%E8%BF%AD%E4%BB%A3%E8%AF%84%E5%AE%A1/" class="print-no-link">#迭代评审</a>
+      
+        <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%9B%9E%E9%A1%BE/" class="print-no-link">#迭代回顾</a>
+      
+        <a href="/tags/%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98/" class="print-no-link">#持续交付</a>
+      
+        <a href="/tags/%E8%BD%AF%E4%BB%B6%E7%BB%B4%E6%8A%A4/" class="print-no-link">#软件维护</a>
+      
+        <a href="/tags/%E5%BF%AB%E8%8A%82%E5%A5%8F%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/" class="print-no-link">#快节奏敏捷开发</a>
+      
+        <a href="/tags/sprint/" class="print-no-link">#sprint</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>软件项目敏捷开发实战</div>
+      <div>https://jycpp.github.io/2022/22-11-23-软件项目敏捷开发实战.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/23-02-07-Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90CI%E4%B8%8E%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2CD%E8%BF%87%E7%A8%8B%E8%AF%B4%E6%98%8E.html" title="Jenkins持续集成CI与持续部署CD过程说明">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Jenkins持续集成CI与持续部署CD过程说明</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/22-10-15-%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E4%B8%AD%E5%B9%B3%E8%A1%A1%E8%BF%9B%E5%BA%A6%E5%9F%BA%E5%87%86%E5%92%8C%E8%8C%83%E5%9B%B4%E5%9F%BA%E5%87%86.html" title="敏捷开发中平衡进度基准和范围基准">
+                        <span class="hidden-mobile">敏捷开发中平衡进度基准和范围基准</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

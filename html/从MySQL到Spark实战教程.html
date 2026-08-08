@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>从 MySQL 开发到 Spark 实战 · 思维转换与入门教程</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f6f8fa;
+    --bg-code: #f0f2f5;
+    --text: #1f2328;
+    --text-soft: #57606a;
+    --text-muted: #8b949e;
+    --border: #d0d7de;
+    --border-soft: #e8ecf0;
+    --accent: #0969da;
+    --accent-bg: #ddf4ff;
+    --red: #cf222e;
+    --red-bg: #ffebe9;
+    --green: #1a7f37;
+    --green-bg: #dafbe1;
+    --orange: #bc4c00;
+    --orange-bg: #fff1e5;
+    --purple: #8250df;
+    --purple-bg: #fbefff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 15px;
+  }
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 40px 32px 80px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 48px 0 40px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 40px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+  .header .subtitle {
+    font-size: 16px;
+    color: var(--text-soft);
+  }
+  .header .meta {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .header .meta span {
+    display: inline-block;
+    padding: 2px 10px;
+    background: var(--bg-soft);
+    border-radius: 4px;
+    margin: 0 4px;
+  }
+
+  /* TOC */
+  .toc {
+    background: var(--bg-soft);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 48px;
+  }
+  .toc h2 {
+    font-size: 16px;
+    color: var(--text-soft);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+  }
+  .toc li {
+    counter-increment: toc;
+    padding: 4px 0;
+  }
+  .toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 13px;
+    margin-right: 10px;
+    font-family: "SF Mono", "Consolas", monospace;
+  }
+  .toc a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .toc a:hover {
+    border-bottom-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Sections */
+  section {
+    margin-bottom: 56px;
+  }
+  h2.section-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2.section-title .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: "SF Mono", "Consolas", monospace;
+    flex-shrink: 0;
+  }
+  h3 {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+  h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-soft);
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  p {
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+
+  /* Callouts */
+  .callout {
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .callout-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .callout-blue {
+    background: var(--accent-bg);
+    border-left: 4px solid var(--accent);
+  }
+  .callout-blue .callout-title { color: var(--accent); }
+  .callout-red {
+    background: var(--red-bg);
+    border-left: 4px solid var(--red);
+  }
+  .callout-red .callout-title { color: var(--red); }
+  .callout-green {
+    background: var(--green-bg);
+    border-left: 4px solid var(--green);
+  }
+  .callout-green .callout-title { color: var(--green); }
+  .callout-orange {
+    background: var(--orange-bg);
+    border-left: 4px solid var(--orange);
+  }
+  .callout-orange .callout-title { color: var(--orange); }
+  .callout-purple {
+    background: var(--purple-bg);
+    border-left: 4px solid var(--purple);
+  }
+  .callout-purple .callout-title { color: var(--purple); }
+
+  /* Code */
+  pre {
+    background: var(--bg-code);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin: 14px 0;
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+  code {
+    font-family: "SF Mono", "Fira Code", "Consolas", "Courier New", monospace;
+  }
+  p code, li code, td code {
+    background: var(--bg-code);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--red);
+  }
+  pre code {
+    color: var(--text);
+  }
+  .code-comment { color: #6a737d; }
+  .code-keyword { color: #d73a49; }
+  .code-string { color: #032f62; }
+  .code-func { color: #6f42c1; }
+  .code-label { color: #22863a; }
+
+  /* Tables */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 16px 0;
+    border-radius: 8px;
+    border: 1px solid var(--border-soft);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  th {
+    background: var(--bg-soft);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text);
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-soft);
+    color: var(--text);
+    vertical-align: top;
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  tr:hover td {
+    background: var(--bg-soft);
+  }
+  .td-mysql { color: var(--accent); font-weight: 500; }
+  .td-spark { color: var(--orange); font-weight: 500; }
+
+  /* Lists */
+  ul, ol {
+    margin: 10px 0 14px 24px;
+  }
+  li {
+    margin-bottom: 6px;
+  }
+
+  /* Cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .card {
+    background: var(--bg-soft);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .card h4 {
+    margin-top: 0;
+    color: var(--accent);
+  }
+
+  /* Comparison block */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 16px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-soft);
+  }
+  .compare-side {
+    padding: 18px 20px;
+  }
+  .compare-mysql {
+    background: var(--accent-bg);
+    border-right: 1px solid var(--border-soft);
+  }
+  .compare-spark {
+    background: var(--orange-bg);
+  }
+  .compare-side h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  .compare-mysql h4 { color: var(--accent); }
+  .compare-spark h4 { color: var(--orange); }
+  .compare-side p, .compare-side li {
+    font-size: 13.5px;
+    color: var(--text);
+  }
+
+  /* Flow diagram */
+  .flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+    padding: 14px 10px;
+    font-size: 13px;
+    position: relative;
+  }
+  .flow-step .step-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 8px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 20px;
+    padding: 0 4px;
+  }
+  .flow-step .step-label {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+  .flow-step .step-desc {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+
+  /* Tag */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .tag-mysql { background: var(--accent-bg); color: var(--accent); }
+  .tag-spark { background: var(--orange-bg); color: var(--orange); }
+  .tag-same { background: var(--green-bg); color: var(--green); }
+  .tag-diff { background: var(--red-bg); color: var(--red); }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 40px 0 0;
+    border-top: 1px solid var(--border-soft);
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  @media (max-width: 768px) {
+    .container { padding: 20px 16px 60px; }
+    .compare { grid-template-columns: 1fr; }
+    .compare-mysql { border-right: none; border-bottom: 1px solid var(--border-soft); }
+    .flow { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); justify-content: center; padding: 4px 0; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ==================== HEADER ==================== -->
+<div class="header">
+  <h1>从 MySQL 开发到 Spark 实战</h1>
+  <div class="subtitle">思维转换与入门到实践完整教程</div>
+  <div class="meta">
+    <span>PySpark 3.5.x</span>
+    <span>JDK 11</span>
+    <span>Python 3.8+</span>
+    <span>面向 MySQL 开发者</span>
+  </div>
+</div>
+
+<!-- ==================== TOC ==================== -->
+<div class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#part1">为什么要从 MySQL 转向 Spark —— 能力边界与思维转换</a></li>
+    <li><a href="#part2">概念映射表 —— 你已有的 MySQL 知识如何迁移到 Spark</a></li>
+    <li><a href="#part3">环境搭建 —— 从 MySQL 客户端到 Spark 运行环境</a></li>
+    <li><a href="#part4">第一个 Spark 程序 —— MySQL 开发者的习惯写法 vs Spark 写法</a></li>
+    <li><a href="#part5">SQL 执行引擎的本质区别 —— SQLAlchemy vs SparkSQL 深度对比</a></li>
+    <li><a href="#part6">DataFrame 与 SparkSQL —— 生产核心</a></li>
+    <li><a href="#part7">多数据源联邦查询 —— Spark 的跨库能力</a></li>
+    <li><a href="#part8">表名前缀的真相 —— ods. / mysql_dim. 是什么</a></li>
+    <li><a href="#part9">Spark 如何识别数据源 —— 元数据驱动而非命名约定</a></li>
+    <li><a href="#part10">完整实战 —— 离线日志统计（端到端）</a></li>
+    <li><a href="#part11">常见误区与 FAQ</a></li>
+    <li><a href="#part12">进阶学习路线</a></li>
+  </ol>
+</div>
+
+<!-- ==================== PART 1 ==================== -->
+<section id="part1">
+  <h2 class="section-title"><span class="num">01</span>为什么要从 MySQL 转向 Spark</h2>
+
+  <p>作为 MySQL 开发者，你已经熟悉了关系型数据库的建表、写 SQL、用 ORM 框架操作数据的完整流程。但当数据量从百万级增长到亿级、十亿级时，MySQL 的单机架构会遭遇性能瓶颈——慢查询、锁表、CPU/IO 打满。这就是你需要学习 Spark 的根本原因。</p>
+
+  <div class="compare">
+    <div class="compare-side compare-mysql">
+      <h4>MySQL 的世界</h4>
+      <ul>
+        <li>计算和存储耦合在同一台服务器</li>
+        <li>SQL 语句发给数据库，<strong>数据库自己执行</strong></li>
+        <li>Python/Java 只是"传话筒"，拼接 SQL、接收结果</li>
+        <li>百万级数据表现优秀，千万级开始吃力</li>
+        <li>完整 ACID 事务，支持行级增删改</li>
+        <li>单库查询，跨库 JOIN 需要应用层处理</li>
+      </ul>
+    </div>
+    <div class="compare-side compare-spark">
+      <h4>Spark 的世界</h4>
+      <ul>
+        <li>计算与存储分离，Spark 只负责计算</li>
+        <li>SQL 语句交给 <strong>Spark Catalyst 优化器</strong>解析执行</li>
+        <li>Spark 集群多台机器并行计算，数据拉到 Executor 内存</li>
+        <li>十亿级离线数据常规处理，靠横向扩容提升性能</li>
+        <li>面向批量，不适合高频在线事务</li>
+        <li>原生支持跨 Hive / MySQL / HBase / 文件 联邦查询</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">核心认知转换</div>
+    <p><strong>MySQL 开发者的习惯</strong>：写 SQL → 发给数据库 → 数据库算好返回结果</p>
+    <p><strong>Spark 开发者的思维</strong>：写 SQL → Spark 自己解析优化 → 拆分任务分发到集群多节点并行计算 → 汇总结果</p>
+    <p>差距不在"怎么写 SQL"（语法几乎一样），而在"<strong>谁来执行这条 SQL、在哪台机器上算、数据存在哪里</strong>"。</p>
+  </div>
+
+  <h3>Spark 是什么？</h3>
+  <p>Spark 是通用分布式大数据计算引擎，支持<strong>离线批处理、实时流、SQL 分析、机器学习</strong>，替代老旧 MapReduce，内存计算速度提升 10~100 倍。它本身<strong>不持久化存储任何数据</strong>——数据存在 HDFS / 对象存储 / Hive / MySQL / HBase 等外部系统中，Spark 只负责把数据读出来、在集群内存中并行计算、再把结果写回去。</p>
+</section>
+
+<!-- ==================== PART 2 ==================== -->
+<section id="part2">
+  <h2 class="section-title"><span class="num">02</span>概念映射表</h2>
+  <p>下面这张表是你最需要的——把已有的 MySQL 知识直接映射到 Spark 概念上，快速建立认知框架。</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:22%">概念维度</th>
+          <th class="td-mysql" style="width:36%">MySQL（你熟悉的）</th>
+          <th class="td-spark" style="width:42%">Spark（需要建立的）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>计算载体</strong></td>
+          <td class="td-mysql">数据库服务端单机执行</td>
+          <td class="td-spark">Spark 集群多机器分布式并行计算</td>
+        </tr>
+        <tr>
+          <td><strong>数据存储</strong></td>
+          <td class="td-mysql">数据库本地磁盘 / SSD，行式存储</td>
+          <td class="td-spark">HDFS / 对象存储，列式 Parquet/ORC</td>
+        </tr>
+        <tr>
+          <td><strong>SQL 执行者</strong></td>
+          <td class="td-mysql">MySQL 引擎自己解析执行</td>
+          <td class="td-spark">Spark Catalyst 优化器解析，生成分布式执行计划</td>
+        </tr>
+        <tr>
+          <td><strong>SQL 语法</strong></td>
+          <td class="td-mysql">标准 SQL</td>
+          <td class="td-spark">标准 SQL（<span class="tag tag-same">几乎相同</span>）</td>
+        </tr>
+        <tr>
+          <td><strong>客户端连接</strong></td>
+          <td class="td-mysql">JDBC/ORM 连接单库</td>
+          <td class="td-spark">Connector 统一对接多种数据源，支持联邦查询</td>
+        </tr>
+        <tr>
+          <td><strong>数据规模上限</strong></td>
+          <td class="td-mysql">千万级性能急剧衰减</td>
+          <td class="td-spark">十亿级常规处理，横向扩容</td>
+        </tr>
+        <tr>
+          <td><strong>表概念</strong></td>
+          <td class="td-mysql">数据库中的物理表</td>
+          <td class="td-spark">DataFrame（逻辑表）/ Hive 元数据表 / 临时视图</td>
+        </tr>
+        <tr>
+          <td><strong>Schema</strong></td>
+          <td class="td-mysql">CREATE TABLE 定义列</td>
+          <td class="td-spark">DataFrame 自带 Schema，或从 Hive Metastore 读取</td>
+        </tr>
+        <tr>
+          <td><strong>查询入口</strong></td>
+          <td class="td-mysql">mysql CLI / Navicat / SQLAlchemy</td>
+          <td class="td-spark">SparkSession（2.0+ 统一入口）</td>
+        </tr>
+        <tr>
+          <td><strong>事务支持</strong></td>
+          <td class="td-mysql">完整 ACID 事务</td>
+          <td class="td-spark">有限事务，面向批量，不支持高频单行更新</td>
+        </tr>
+        <tr>
+          <td><strong>数据写入</strong></td>
+          <td class="td-mysql">INSERT/UPDATE/DELETE 行级操作</td>
+          <td class="td-spark">批量写入：overwrite 覆盖 / append 追加</td>
+        </tr>
+        <tr>
+          <td><strong>缓存机制</strong></td>
+          <td class="td-mysql">数据库自身 Buffer Pool</td>
+          <td class="td-spark">cache() 将中间结果缓存到集群内存</td>
+        </tr>
+        <tr>
+          <td><strong>优化器</strong></td>
+          <td class="td-mysql">MySQL 优化器（单机，受内存 CPU 限制）</td>
+          <td class="td-spark">Catalyst 分布式优化器（谓词下推、分区裁剪、Join 优化）</td>
+        </tr>
+        <tr>
+          <td><strong>运行模式</strong></td>
+          <td class="td-mysql">单进程串行</td>
+          <td class="td-spark">local / Standalone / YARN / K8s 集群模式</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ==================== PART 3 ==================== -->
+<section id="part3">
+  <h2 class="section-title"><span class="num">03</span>环境搭建</h2>
+
+  <p>MySQL 开发者习惯用 <code>mysql</code> CLI 或 Navicat 连数据库。Spark 的环境稍有不同——你需要一个 Spark 运行环境来执行代码。以下是三种方案，按推荐程度排序。</p>
+
+  <h3>方案 1：pip 安装 PySpark（推荐新手）</h3>
+  <p>最简单的方式，无需下载 Spark 安装包，一条命令搞定。</p>
+
+  <h4>前置依赖</h4>
+  <ul>
+    <li>Java 11（必须，Spark 底层 JVM 运行）</li>
+    <li>Python 3.8+</li>
+  </ul>
+
+  <pre><code><span class="code-comment"># 安装 PySpark</span>
+pip install pyspark==3.5.0
+
+<span class="code-comment"># 启动交互式终端（类似 mysql CLI）</span>
+pyspark</code></pre>
+
+  <p>出现 <code>Welcome to PySpark 3.5.0</code> 即成功。启动后自动生成两个全局变量：</p>
+  <ul>
+    <li><code>spark</code>：SparkSession（2.0+ 统一入口，相当于你的数据库连接）</li>
+    <li><code>sc</code>：SparkContext（底层 RDD 上下文）</li>
+  </ul>
+
+  <h3>方案 2：完整 Spark 安装包（Linux/Mac）</h3>
+  <pre><code><span class="code-comment"># 下载解压</span>
+wget https://archive.apache.org/dist/spark/spark-3.5.0/spark-3.5.0-bin-hadoop3.tgz
+tar -xzf spark-3.5.0-bin-hadoop3.tgz -C /opt/
+ln -s /opt/spark-3.5.0-bin-hadoop3 /opt/spark
+
+<span class="code-comment"># 环境变量</span>
+export SPARK_HOME=/opt/spark
+export PATH=$SPARK_HOME/bin:$PATH
+
+<span class="code-comment"># 验证</span>
+pyspark</code></pre>
+
+  <h3>方案 3：Windows（避坑要点）</h3>
+  <div class="callout callout-orange">
+    <div class="callout-title">Windows 避坑</div>
+    <ol>
+      <li>解压 Spark 到<strong>无中文、无空格路径</strong>，如 <code>D:\spark</code></li>
+      <li>下载对应 Hadoop 版本的 <code>winutils.exe</code>，配置 <code>HADOOP_HOME</code></li>
+      <li>环境变量添加 <code>SPARK_HOME</code>，Path 追加 <code>%SPARK_HOME%\bin</code></li>
+      <li>cmd 执行 <code>pyspark</code></li>
+    </ol>
+  </div>
+
+  <h3>方案 4：在线免安装（Jupyter/Colab）</h3>
+  <pre><code><span class="code-comment"># Jupyter Notebook 或 Google Colab 中直接执行</span>
+pip install pyspark
+
+<span class="code-keyword">from</span> pyspark.sql <span class="code-keyword">import</span> SparkSession
+spark = SparkSession.builder.appName(<span class="code-string">"demo"</span>).getOrCreate()</code></pre>
+</section>
+
+<!-- ==================== PART 4 ==================== -->
+<section id="part4">
+  <h2 class="section-title"><span class="num">04</span>第一个 Spark 程序</h2>
+
+  <p>下面用同一个需求——"统计用户行为日志中各页面的 UV"——对比 MySQL 写法和 Spark 写法，让你直观感受差异。</p>
+
+  <div class="compare">
+    <div class="compare-side compare-mysql">
+      <h4>MySQL + SQLAlchemy 写法（你熟悉的）</h4>
+      <pre><code><span class="code-keyword">from</span> sqlalchemy <span class="code-keyword">import</span> create_engine
+
+engine = create_engine(
+    <span class="code-string">"mysql+pymysql://user:pass@host/db"</span>
+)
+
+<span class="code-comment"># SQL 交给 MySQL 执行</span>
+sql = <span class="code-string">"""
+SELECT page, COUNT(DISTINCT uid) AS uv
+FROM user_log
+GROUP BY page
+"""</span>
+
+result = engine.execute(sql)
+<span class="code-keyword">for</span> row <span class="code-keyword">in</span> result:
+    print(row)</code></pre>
+      <p style="margin-top:10px">MySQL 服务端执行全部计算，Python 只接收结果。</p>
+    </div>
+    <div class="compare-side compare-spark">
+      <h4>Spark SQL 写法（需要掌握的）</h4>
+      <pre><code><span class="code-keyword">from</span> pyspark.sql <span class="code-keyword">import</span> SparkSession
+
+<span class="code-comment"># 1. 创建 SparkSession（固定模板）</span>
+spark = SparkSession.builder \
+    .appName(<span class="code-string">"UV统计"</span>) \
+    .master(<span class="code-string">"local[*]"</span>) \
+    .enableHiveSupport() \
+    .getOrCreate()
+
+<span class="code-comment"># 2. SQL 交给 Spark 集群执行</span>
+spark.sql(<span class="code-string">"""
+SELECT page, COUNT(DISTINCT uid) AS uv
+FROM ods.user_log
+GROUP BY page
+"""</span>).show()
+
+<span class="code-comment"># 3. 关闭</span>
+spark.stop()</code></pre>
+      <p style="margin-top:10px">Spark 自己解析 SQL，分发到集群并行计算。</p>
+    </div>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-title">关键发现</div>
+    <p><strong>SQL 语句本身几乎一模一样</strong>！区别在于：<code>engine.execute(sql)</code> 把 SQL 发给 MySQL 执行；<code>spark.sql(sql)</code> 把 SQL 交给 Spark 自己的 Catalyst 优化器解析执行。</p>
+  </div>
+
+  <h3>Spark 程序固定模板（可复制到 .py 文件运行）</h3>
+  <pre><code><span class="code-keyword">from</span> pyspark.sql <span class="code-keyword">import</span> SparkSession
+
+<span class="code-comment"># ===== 固定模板：所有 PySpark 代码的开头 =====</span>
+spark = SparkSession.builder \
+    .appName(<span class="code-string">"MyApp"</span>) \
+    .master(<span class="code-string">"local[*]"</span>) \
+    .getOrCreate()
+
+<span class="code-comment"># ===== 你的业务逻辑 =====</span>
+df = spark.read.csv(<span class="code-string">"data.csv"</span>, header=True, inferSchema=True)
+df.createOrReplaceTempView(<span class="code-string">"my_table"</span>)
+spark.sql(<span class="code-string">"SELECT * FROM my_table LIMIT 10"</span>).show()
+
+<span class="code-comment"># ===== 固定结尾 =====</span>
+spark.stop()</code></pre>
+
+  <p>运行命令：</p>
+  <pre><code>spark-submit --master local[*] my_app.py</code></pre>
+</section>
+
+<!-- ==================== PART 5 ==================== -->
+<section id="part5">
+  <h2 class="section-title"><span class="num">05</span>SQL 执行引擎的本质区别</h2>
+
+  <p>这是从 MySQL 转向 Spark 最核心的知识点——理解 SQL 在两种环境下"谁来执行"的根本差异。</p>
+
+  <h3>执行流程对比</h3>
+
+  <div class="flow">
+    <div class="flow-step" style="background:var(--accent-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--accent); color:#fff;">1</div>
+      <div class="step-label">Python 代码</div>
+      <div class="step-desc">拼接 SQL 字符串</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="background:var(--accent-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--accent); color:#fff;">2</div>
+      <div class="step-label">SQLAlchemy</div>
+      <div class="step-desc">转发 SQL</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="background:var(--accent-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--accent); color:#fff;">3</div>
+      <div class="step-label">MySQL 服务端</div>
+      <div class="step-desc">解析 + 执行 + 返回</div>
+    </div>
+  </div>
+  <p style="text-align:center; font-size:13px; color:var(--accent); font-weight:600; margin-top:-8px;">MySQL 路径：全部计算压在数据库单机</p>
+
+  <div style="height:20px;"></div>
+
+  <div class="flow">
+    <div class="flow-step" style="background:var(--orange-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--orange); color:#fff;">1</div>
+      <div class="step-label">Python 代码</div>
+      <div class="step-desc">拼接 SQL 字符串</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="background:var(--orange-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--orange); color:#fff;">2</div>
+      <div class="step-label">Spark Catalyst</div>
+      <div class="step-desc">解析优化生成计划</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="background:var(--orange-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--orange); color:#fff;">3</div>
+      <div class="step-label">Spark 集群</div>
+      <div class="step-desc">多 Executor 并行计算</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="background:var(--orange-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--orange); color:#fff;">4</div>
+      <div class="step-label">外部存储</div>
+      <div class="step-desc">HDFS/MySQL 只提供数据</div>
+    </div>
+  </div>
+  <p style="text-align:center; font-size:13px; color:var(--orange); font-weight:600; margin-top:-8px;">Spark 路径：计算收拢到 Spark 集群，存储只提供原始数据</p>
+
+  <h3>分维度详细对比</h3>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>对比维度</th>
+          <th class="td-mysql">SQLAlchemy（普通数据库 SQL）</th>
+          <th class="td-spark">Spark SQL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>计算载体</strong></td>
+          <td class="td-mysql">数据库服务端（单节点）</td>
+          <td class="td-spark">Spark 集群多机器分布式并行</td>
+        </tr>
+        <tr>
+          <td><strong>SQL 作用域</strong></td>
+          <td class="td-mysql">仅能查询单一关系库</td>
+          <td class="td-spark">支持联邦查询：Hive + MySQL + ES + Kafka</td>
+        </tr>
+        <tr>
+          <td><strong>优化器</strong></td>
+          <td class="td-mysql">数据库自带优化器，受单机限制</td>
+          <td class="td-spark">Catalyst 分布式优化器，谓词下推、分区裁剪</td>
+        </tr>
+        <tr>
+          <td><strong>数据处理上限</strong></td>
+          <td class="td-mysql">千万级性能急剧衰减</td>
+          <td class="td-spark">十亿级常规处理</td>
+        </tr>
+        <tr>
+          <td><strong>执行模式</strong></td>
+          <td class="td-mysql">单进程串行，无分布式分片</td>
+          <td class="td-spark">自动分片、多 Executor 并行</td>
+        </tr>
+        <tr>
+          <td><strong>内存机制</strong></td>
+          <td class="td-mysql">数据库缓存，Python 客户端不参与</td>
+          <td class="td-spark">中间结果缓存到集群内存 cache()</td>
+        </tr>
+        <tr>
+          <td><strong>适用场景</strong></td>
+          <td class="td-mysql">业务系统增删改查、小维度查询</td>
+          <td class="td-spark">数仓 ETL、海量日志分析、跨源统计</td>
+        </tr>
+        <tr>
+          <td><strong>事务支持</strong></td>
+          <td class="td-mysql">完整 ACID 事务</td>
+          <td class="td-spark">有限事务，面向批量</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">最容易混淆的点：Spark 通过 JDBC 读取 MySQL 时</div>
+    <p>很多人误以为 <code>spark.read.jdbc()</code> 等价于 SQLAlchemy，实际完全不同：</p>
+    <ul>
+      <li><strong>SQLAlchemy</strong>：一次性拉取全量数据到 Python 内存，单机处理</li>
+      <li><strong>Spark JDBC</strong>：支持分区下推，多并发分片从 MySQL 拉取 → 数据落到 Spark 集群分布式内存 → 过滤、聚合、Join 全部在集群并行执行 → 仅把过滤条件下推给 MySQL 减少传输</li>
+    </ul>
+    <p>简言之：Spark JDBC 是"把 MySQL 数据搬到 Spark 集群算"，SQLAlchemy 是"让 MySQL 自己算"。</p>
+  </div>
+</section>
+
+<!-- ==================== PART 6 ==================== -->
+<section id="part6">
+  <h2 class="section-title"><span class="num">06</span>DataFrame 与 SparkSQL</h2>
+
+  <p>对 MySQL 开发者来说，DataFrame 就是一张<strong>分布式数据表</strong>——带字段名、数据类型，兼容标准 SQL，性能最优。这是生产环境的核心，必学。</p>
+
+  <h3>Spark 三层数据抽象</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>DataFrame / Dataset <span class="tag tag-spark">生产首选</span></h4>
+      <p>带 Schema 的结构化表，支持 SQL 和 Catalyst 自动优化，性能远高于 RDD。相当于 MySQL 中的表。</p>
+    </div>
+    <div class="card">
+      <h4>RDD <span class="tag tag-mysql">底层原理</span></h4>
+      <p>无结构的原始分布式集合，底层 API。复杂底层开发才用，日常不需要。理解原理即可。</p>
+    </div>
+    <div class="card">
+      <h4>共享存储</h4>
+      <p>HDFS / 对象存储、Hive 元数据。相当于 MySQL 的磁盘存储，但 Spark 不拥有数据。</p>
+    </div>
+  </div>
+
+  <h3>6.1 手动创建 DataFrame</h3>
+  <pre><code><span class="code-comment"># 类似 MySQL 的 CREATE TABLE ... VALUES</span>
+data = [
+    (<span class="code-string">"Alice"</span>, <span class="code-string">"北京"</span>, <span class="code-string">"2024-01-01"</span>, <span class="code-string">"home"</span>),
+    (<span class="code-string">"Bob"</span>, <span class="code-string">"上海"</span>, <span class="code-string">"2024-01-01"</span>, <span class="code-string">"search"</span>),
+    (<span class="code-string">"Alice"</span>, <span class="code-string">"北京"</span>, <span class="code-string">"2024-01-02"</span>, <span class="code-string">"cart"</span>),
+]
+
+df = spark.createDataFrame(data, [<span class="code-string">"name"</span>, <span class="code-string">"city"</span>, <span class="code-string">"date"</span>, <span class="code-string">"page"</span>])
+df.show()
+<span class="code-comment"># +-----+----+----------+------+
+# | name|city|      date|  page|
+# +-----+----+----------+------+
+# |Alice|北京|2024-01-01|  home|
+# |  Bob|上海|2024-01-01|search|
+# |Alice|北京|2024-01-02|  cart|
+# +-----+----+----------+------+</span></code></pre>
+
+  <h3>6.2 DSL 链式操作（类 pandas / ORM 写法）</h3>
+  <pre><code><span class="code-comment"># 类似 SQLAlchemy ORM 的链式查询</span>
+df.filter(df.city == <span class="code-string">"北京"</span>) \
+  .groupBy(<span class="code-string">"page"</span>) \
+  .count() \
+  .show()
+
+<span class="code-comment"># +----+-----+
+# |page|count|
+# +----+-----+
+# |home|    1|
+# |cart|    1|
+# +----+-----+</span></code></pre>
+
+  <h3>6.3 SparkSQL 标准 SQL 查询（最常用）</h3>
+  <div class="callout callout-blue">
+    <div class="callout-title">核心模式</div>
+    <p>将 DataFrame 注册为临时视图 → 直接写 SQL 查询。这和 MySQL 中写 SQL 的体验几乎一致。</p>
+  </div>
+  <pre><code><span class="code-comment"># 注册临时视图（类似给表起个别名）</span>
+df.createOrReplaceTempView(<span class="code-string">"user_log"</span>)
+
+<span class="code-comment"># 直接写标准 SQL，语法和 MySQL 基本一致</span>
+result = spark.sql(<span class="code-string">"""
+SELECT page, COUNT(DISTINCT name) AS uv
+FROM user_log
+GROUP BY page
+ORDER BY uv DESC
+"""</span>)
+result.show()</code></pre>
+
+  <h3>6.4 读写外部文件</h3>
+  <pre><code><span class="code-comment"># 读 CSV（类似 MySQL 的 LOAD DATA INFILE）</span>
+df = spark.read.csv(<span class="code-string">"hdfs://xxx/data/user_log.csv"</span>,
+                     header=True, inferSchema=True)
+
+<span class="code-comment"># 读 Parquet（列式存储，Spark 性能最优格式）</span>
+df = spark.read.parquet(<span class="code-string">"hdfs://xxx/data/user_log.parquet"</span>)
+
+<span class="code-comment"># 写入结果（类似 INSERT INTO ... SELECT）</span>
+result.write.mode(<span class="code-string">"overwrite"</span>) \
+       .parquet(<span class="code-string">"hdfs://xxx/output/uv_result"</span>)</code></pre>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>写入模式 mode</th>
+          <th>行为</th>
+          <th>MySQL 类比</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>overwrite</code></td><td>覆盖已有数据</td><td>TRUNCATE + INSERT</td></tr>
+        <tr><td><code>append</code></td><td>追加到已有数据</td><td>INSERT INTO</td></tr>
+        <tr><td><code>ignore</code></td><td>存在则不写入</td><td>INSERT IGNORE</td></tr>
+        <tr><td><code>errorifexists</code></td><td>存在直接报错（默认）</td><td>CREATE TABLE（已存在则报错）</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ==================== PART 7 ==================== -->
+<section id="part7">
+  <h2 class="section-title"><span class="num">07</span>多数据源联邦查询</h2>
+
+  <p>这是 MySQL 开发者最需要理解的能力差异——MySQL 只能查自己库里的表，而 Spark 可以在<strong>一条 SQL 中同时关联 Hive 表、MySQL 表、HBase 表、文件</strong>，所有计算在 Spark 集群内完成。</p>
+
+  <h3>场景：三表关联查询</h3>
+  <pre><code><span class="code-comment">-- Hive 离线日志 + MySQL 业务维度 + HBase 用户画像 三表关联</span>
+<span class="code-keyword">SELECT</span>
+    a.page,
+    b.user_name,
+    c.user_tag,
+    <span class="code-func">COUNT</span>(<span class="code-keyword">DISTINCT</span> a.uid) <span class="code-keyword">AS</span> uv
+<span class="code-keyword">FROM</span> ods.user_log a
+<span class="code-keyword">JOIN</span> mysql_dim.user b <span class="code-keyword">ON</span> a.uid = b.uid
+<span class="code-keyword">JOIN</span> hbase_user c <span class="code-keyword">ON</span> a.uid = c.uid
+<span class="code-keyword">GROUP BY</span> a.page, b.user_name, c.user_tag</code></pre>
+
+  <div class="callout callout-red">
+    <div class="callout-title">MySQL 开发者的第一反应</div>
+    <p>在 MySQL 中这不可能——你没法在一条 SQL 里 JOIN 另一个数据库系统的表。通常做法是分别查两张表，在 Python 本地内存 JOIN，数据量大直接 OOM。</p>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-title">Spark 的做法</div>
+    <ol>
+      <li>分别通过不同 Connector 拉取三类数据</li>
+      <li>数据全部加载到 Spark 集群内存 / 磁盘</li>
+      <li>在 Spark 集群内部完成分布式 JOIN、去重、聚合</li>
+      <li>MySQL / HBase / Hive 只负责提供原始数据，不参与复杂计算</li>
+    </ol>
+  </div>
+
+  <h3>四种数据源的接入方式</h3>
+
+  <h4>① Hive 表（最常用）</h4>
+  <pre><code><span class="code-comment"># 开启 Hive 支持，自动读取 Hive Metastore 中的表</span>
+spark = SparkSession.builder \
+    .appName(<span class="code-string">"app"</span>) \
+    .enableHiveSupport() \
+    .getOrCreate()
+
+<span class="code-comment"># 直接查询，无需额外配置</span>
+spark.sql(<span class="code-string">"SELECT * FROM ods.user_log LIMIT 10"</span>).show()</code></pre>
+
+  <h4>② MySQL 表（JDBC 外部数据源）</h4>
+  <pre><code><span class="code-comment"># 方式 1：临时读取后注册视图</span>
+mysql_df = spark.read \
+    .format(<span class="code-string">"jdbc"</span>) \
+    .option(<span class="code-string">"url"</span>, <span class="code-string">"jdbc:mysql://host:3306/db"</span>) \
+    .option(<span class="code-string">"dbtable"</span>, <span class="code-string">"user"</span>) \
+    .option(<span class="code-string">"user"</span>, <span class="code-string">"root"</span>) \
+    .option(<span class="code-string">"password"</span>, <span class="code-string">"xxx"</span>) \
+    .load()
+
+mysql_df.createOrReplaceTempView(<span class="code-string">"mysql_dim.user"</span>)
+
+<span class="code-comment"># 方式 2：创建永久外部表（映射关系存入 Hive Metastore）</span>
+spark.sql(<span class="code-string">"""
+CREATE TABLE IF NOT EXISTS mysql_dim.user
+USING jdbc
+OPTIONS (
+    url 'jdbc:mysql://host:3306/db',
+    dbtable 'user',
+    user 'root',
+    password 'xxx'
+)
+"""</span>)</code></pre>
+
+  <h4>③ 原始文件（CSV/Parquet/JSON）</h4>
+  <pre><code>df = spark.read.csv(<span class="code-string">"hdfs://xxx/data/log.csv"</span>, header=True)
+df.createOrReplaceTempView(<span class="code-string">"file_log"</span>)</code></pre>
+
+  <h4>④ HBase 表</h4>
+  <pre><code>df = spark.read \
+    .format(<span class="code-string">"org.apache.phoenix.spark"</span>) \
+    .option(<span class="code-string">"table"</span>, <span class="code-string">"user_profile"</span>) \
+    .option(<span class="code-string">"zkUrl"</span>, <span class="code-string">"host:2181"</span>) \
+    .load()
+df.createOrReplaceTempView(<span class="code-string">"hbase_user"</span>)</code></pre>
+</section>
+
+<!-- ==================== PART 8 ==================== -->
+<section id="part8">
+  <h2 class="section-title"><span class="num">08</span>表名前缀的真相</h2>
+
+  <p>MySQL 开发者看到 <code>ods.user_log</code>、<code>mysql_dim.user</code> 这样的表名，自然会问：这些前缀是 Spark 的标准约定吗？看到 <code>ods.</code> 就知道是 Hive？看到 <code>mysql_dim.</code> 就知道是 MySQL？</p>
+
+  <div class="callout callout-red">
+    <div class="callout-title">答案：不是！</div>
+    <p>Apache Spark 源码、官方文档<strong>没有强制约定</strong>表名前缀与数据源的对应关系。Spark 完全不通过库名前缀判断数据源类型。</p>
+  </div>
+
+  <h3>ods. 的来源：数仓分层标准（Hive 专属）</h3>
+  <p><code>ods</code> 是离线数仓分层标准中的<strong>贴源原始数据层</strong>（Operational Data Store），所有从 MySQL、日志同步过来的原始数据统一存在 Hive 的 <code>ods</code> 库下。这是行业通用的人工命名规范，不是 Spark 内核逻辑。</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>分层</th>
+          <th>全称</th>
+          <th>含义</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>ods</code></td><td>Operational Data Store</td><td>原始贴源层</td></tr>
+        <tr><td><code>dwd</code></td><td>Data Warehouse Detail</td><td>明细清洗层</td></tr>
+        <tr><td><code>dws</code></td><td>Data Warehouse Summary</td><td>汇总宽表层</td></tr>
+        <tr><td><code>dim</code></td><td>Dimension</td><td>公共维度表（Hive 内部维度）</td></tr>
+        <tr><td><code>ads</code></td><td>Application Data Store</td><td>应用指标层</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>mysql_dim. 是企业自定义规则</h3>
+  <p>企业为了一眼区分"Hive 维度"和"MySQL 业务维度"做的命名区分：</p>
+  <ul>
+    <li><code>dim.xxx</code>：Hive 内部存储的静态维度表（HDFS）</li>
+    <li><code>mysql_dim.xxx</code>：映射 MySQL 库的维度表</li>
+    <li><code>hbase_xxx</code>：映射 HBase 表</li>
+    <li><code>file_temp</code>：文件注册的临时视图</li>
+  </ul>
+
+  <div class="callout callout-orange">
+    <div class="callout-title">关键误区</div>
+    <p><strong>误区</strong>：Spark 靠小数点前的前缀自动路由数据源</p>
+    <p><strong>事实</strong>：你完全可以把 MySQL 视图注册成 <code>ods.test</code>，Spark 依旧读 MySQL，不会读 Hive。前缀只是<strong>给人看的</strong>，程序逻辑完全不依赖。</p>
+  </div>
+</section>
+
+<!-- ==================== PART 9 ==================== -->
+<section id="part9">
+  <h2 class="section-title"><span class="num">09</span>Spark 如何识别数据源</h2>
+
+  <p>既然不靠表名前缀，那 Spark 怎么知道 <code>ods.user_log</code> 是 Hive 表、<code>mysql_dim.user</code> 是 MySQL 表？答案是：<strong>靠"这张表是在哪种元数据载体里注册的"</strong>。</p>
+
+  <h3>先分清两种表对象</h3>
+  <div class="compare">
+    <div class="compare-side compare-mysql">
+      <h4>永久表（托管 / 外部）</h4>
+      <ul>
+        <li>元数据持久存在 Hive Metastore 或 Spark Catalog</li>
+        <li>重启 Spark 后还能直接查询</li>
+        <li>相当于 MySQL 中的物理表</li>
+      </ul>
+    </div>
+    <div class="compare-side compare-spark">
+      <h4>临时视图（TempView）</h4>
+      <ul>
+        <li>只存在当前 Spark 会话内存</li>
+        <li>重启失效，必须代码先读数据源再注册</li>
+        <li>相当于 SQL 中的 WITH 临时表</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>逐表识别逻辑</h3>
+
+  <h4>ods.user_log → Hive 数据源</h4>
+  <div class="flow">
+    <div class="flow-step" style="background:var(--green-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--green); color:#fff;">1</div>
+      <div class="step-label">SQL 解析</div>
+      <div class="step-desc">识别 ods.user_log</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="background:var(--green-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--green); color:#fff;">2</div>
+      <div class="step-label">查 Metastore</div>
+      <div class="step-desc">返回存储路径和 Schema</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="background:var(--green-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--green); color:#fff;">3</div>
+      <div class="step-label">Hive Connector</div>
+      <div class="step-desc">读取 HDFS 上的文件</div>
+    </div>
+  </div>
+  <p>前提：代码开启了 <code>enableHiveSupport()</code>。哪怕你把库改名成 <code>aaa.bbb</code>，只要元数据在 Hive Metastore，Spark 依旧走 HDFS 读取。</p>
+
+  <h4>mysql_dim.user → MySQL 数据源</h4>
+  <div class="flow">
+    <div class="flow-step" style="background:var(--accent-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--accent); color:#fff;">1</div>
+      <div class="step-label">SQL 解析</div>
+      <div class="step-desc">识别临时视图</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="background:var(--accent-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--accent); color:#fff;">2</div>
+      <div class="step-label">查会话内存</div>
+      <div class="step-desc">发现绑定了 JDBC</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="background:var(--accent-bg); border-radius:8px;">
+      <div class="step-icon" style="background:var(--accent); color:#fff;">3</div>
+      <div class="step-label">JDBC Connector</div>
+      <div class="step-desc">从 MySQL 拉取数据</div>
+    </div>
+  </div>
+
+  <h4>hbase_user → HBase 数据源</h4>
+  <p>同样是临时视图模式，Spark 内存记录该视图绑定的是 HBase 连接器，查询时走 HBase ZK 读取 HFile 数据。</p>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">统一执行流程</div>
+    <ol>
+      <li>Spark SQL 解析器拆分三张表</li>
+      <li>分别查表元数据来源：Hive Metastore / 临时视图 / 外部表定义</li>
+      <li>Catalyst 优化器生成分布式计划，分别下发任务拉取数据（支持谓词下推）</li>
+      <li>所有数据拉到 Spark 集群 Executor 内存</li>
+      <li>集群内部完成 JOIN、DISTINCT、GROUP BY</li>
+      <li>汇总结果输出</li>
+    </ol>
+  </div>
+
+  <h3>Spark 3.x 正规方案：Multi Catalog</h3>
+  <p>企业正式环境不靠视图和命名区分，而是配置多 Catalog，语法天然隔离：</p>
+  <pre><code><span class="code-comment"># spark-defaults.conf 配置</span>
+spark.sql.catalog.hive_catalog  org.apache.spark.sql.hive.HiveCatalog
+spark.sql.catalog.mysql_catalog com.mysql.jdbc.MySQLCatalog
+spark.sql.catalog.mysql_catalog.url jdbc:mysql://host:3306
+
+<span class="code-comment"># SQL 中通过 Catalog 名天然隔离数据源</span>
+<span class="code-keyword">SELECT</span> *
+<span class="code-keyword">FROM</span> hive_catalog.ods.user_log a
+<span class="code-keyword">JOIN</span> mysql_catalog.dim.user b <span class="code-keyword">ON</span> a.uid = b.uid</code></pre>
+  <p>此时 <code>.</code> 前面第一层是 Catalog 名称，Spark 配置文件绑定了 Catalog 与对应数据源，是程序层面的官方区分方案。</p>
+</section>
+
+<!-- ==================== PART 10 ==================== -->
+<section id="part10">
+  <h2 class="section-title"><span class="num">10</span>完整实战</h2>
+
+  <p>需求：读取用户行为日志（CSV），统计各页面访问 UV，写入结果文件。这是从 MySQL 开发者视角的端到端 Spark 实战。</p>
+
+  <pre><code><span class="code-keyword">from</span> pyspark.sql <span class="code-keyword">import</span> SparkSession
+<span class="code-keyword">from</span> pyspark.sql.functions <span class="code-keyword">import</span> col
+
+<span class="code-comment"># ===== 1. 创建 SparkSession =====</span>
+spark = SparkSession.builder \
+    .appName(<span class="code-string">"PageUV"</span>) \
+    .master(<span class="code-string">"local[*]"</span>) \
+    .getOrCreate()
+
+<span class="code-comment"># ===== 2. 读取数据（类似 LOAD DATA INFILE）=====</span>
+df = spark.read.csv(
+    <span class="code-string">"hdfs://xxx/data/user_log.csv"</span>,
+    header=True,
+    inferSchema=True
+)
+
+<span class="code-comment"># ===== 3. 注册临时视图 =====</span>
+df.createOrReplaceTempView(<span class="code-string">"user_log"</span>)
+
+<span class="code-comment"># ===== 4. 执行 SQL（和 MySQL 写法一致）=====</span>
+result = spark.sql(<span class="code-string">"""
+SELECT
+    page,
+    COUNT(DISTINCT uid) AS uv,
+    COUNT(*) AS pv
+FROM user_log
+WHERE date >= '2024-01-01'
+GROUP BY page
+ORDER BY uv DESC
+"""</span>)
+
+<span class="code-comment"># ===== 5. 查看结果 =====</span>
+result.show()
+
+<span class="code-comment"># +------+---+---+
+# |  page| uv| pv|
+# +------+---+---+
+# |  home|150|300|
+# |search|120|250|
+# |  cart| 80|100|
+# +------+---+---+</span>
+
+<span class="code-comment"># ===== 6. 写入结果文件（类似 INSERT INTO ... SELECT）=====</span>
+result.write.mode(<span class="code-string">"overwrite"</span>) \
+       .parquet(<span class="code-string">"hdfs://xxx/output/uv_result"</span>)
+
+<span class="code-comment"># ===== 7. 关闭 =====</span>
+spark.stop()</code></pre>
+
+  <div class="callout callout-green">
+    <div class="callout-title">MySQL 开发者注意</div>
+    <p>如果你之前用 SQLAlchemy 做同样的分析：数据全量拉到 Python 内存 → 本地 pandas 聚合 → 千万行数据直接 OOM。Spark 的做法是：数据分散在 HDFS 多台服务器，Spark 拆分任务并行统计，几分钟出结果。</p>
+  </div>
+</section>
+
+<!-- ==================== PART 11 ==================== -->
+<section id="part11">
+  <h2 class="section-title"><span class="num">11</span>常见误区与 FAQ</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>Spark 是一种语言吗？</h4>
+      <p><strong>不是</strong>。Spark 是分布式计算框架，你用 Python/PySpark SQL/Scala 编写逻辑。类似 MySQL 不是语言，SQL 才是语言。</p>
+    </div>
+    <div class="card">
+      <h4>RDD 和 DataFrame 选哪个？</h4>
+      <p><strong>生产全部用 DataFrame</strong>。自带 Catalyst 优化器，速度比原生 RDD 快数倍。RDD 只在理解底层原理时接触。</p>
+    </div>
+    <div class="card">
+      <h4>local[*] 什么时候删掉？</h4>
+      <p>本地测试保留 <code>.master("local[*]")</code>；提交 YARN 集群运行时删除，改用 <code>spark-submit --master yarn</code>。</p>
+    </div>
+    <div class="card">
+      <h4>数据存在哪里？</h4>
+      <p>底层存储 HDFS / 对象存储，Spark <strong>只负责计算，不持久化数据</strong>。这和 MySQL"数据在自己磁盘上"完全不同。</p>
+    </div>
+    <div class="card">
+      <h4>表名前缀能判断数据源吗？</h4>
+      <p><strong>不能</strong>。<code>ods.</code> <code>mysql_dim.</code> 只是行业/企业命名规范，Spark 靠元数据（Metastore / Catalog / 临时视图绑定）识别数据源。</p>
+    </div>
+    <div class="card">
+      <h4>SparkSQL 和 MySQL SQL 语法一样吗？</h4>
+      <p><span class="tag tag-same">基本相同</span> 标准 SELECT/JOIN/GROUP BY 语法一致。差异：Spark 不支持行级 UPDATE/DELETE（需 Hudi/Iceberg），写入是批量覆盖/追加模式。</p>
+    </div>
+  </div>
+
+  <h3>Spark 与生态组件分工总结</h3>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>组件</th>
+          <th>定位</th>
+          <th>适用场景</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Spark</strong></td>
+          <td>通用分布式计算引擎</td>
+          <td>离线 ETL 分层、实时流、复杂大表 JOIN、机器学习</td>
+        </tr>
+        <tr>
+          <td><strong>Trino/Presto</strong></td>
+          <td>交互式联邦 SQL 引擎</td>
+          <td>分析师 Ad-hoc 查询、跨 MySQL/Hive/ES 多源关联、BI 报表</td>
+        </tr>
+        <tr>
+          <td><strong>Hive</strong></td>
+          <td>数据仓库元数据管理</td>
+          <td>表结构、分区管理、HiveQL 兼容、元数据中心</td>
+        </tr>
+        <tr>
+          <td><strong>MySQL</strong></td>
+          <td>关系型数据库</td>
+          <td>业务系统增删改查、小维度查询、后台业务接口</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ==================== PART 12 ==================== -->
+<section id="part12">
+  <h2 class="section-title"><span class="num">12</span>进阶学习路线</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>1. Spark 核心</h4>
+      <p>分区机制、缓存 cache、广播变量、累加器</p>
+    </div>
+    <div class="card">
+      <h4>2. Spark SQL 进阶</h4>
+      <p>窗口函数、分区写入、Hive 分区表操作</p>
+    </div>
+    <div class="card">
+      <h4>3. 实时计算</h4>
+      <p>Structured Streaming 消费 Kafka</p>
+    </div>
+    <div class="card">
+      <h4>4. 集群部署</h4>
+      <p>YARN 提交任务、参数调优</p>
+    </div>
+    <div class="card">
+      <h4>5. 数据湖</h4>
+      <p>Iceberg / Hudi 与 Spark 集成</p>
+    </div>
+    <div class="card">
+      <h4>6. Spark + Notebook</h4>
+      <p>Jupyter/Zeppelin 交互式分析工作流</p>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">给 MySQL 开发者的建议</div>
+    <ol>
+      <li><strong>不要试图用 Spark 替代 MySQL</strong>——它们是互补关系，不是替代关系。业务系统用 MySQL，海量离线分析用 Spark。</li>
+      <li><strong>从 SparkSQL 开始</strong>——你的 SQL 技能直接复用，先学会 <code>spark.sql()</code> 跑通分析任务，再深入 DataFrame DSL。</li>
+      <li><strong>重点理解执行模型差异</strong>——不是语法难学，而是"谁来算"这个思维转变最重要。</li>
+      <li><strong>配套分工</strong>：业务后台用 SQLAlchemy + MySQL；海量离线加工用 Spark SQL；分析师自助查询用 Trino/Presto；元数据管理用 Hive。</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<div class="footer">
+  <p>从 MySQL 开发到 Spark 实战 · 思维转换与入门教程</p>
+  <p style="margin-top:4px;">基于 Spark 3.5.x / PySpark / JDK 11 — 面向 MySQL 开发者视角重构</p>
+</div>
+
+</div>
+</body>
+</html>

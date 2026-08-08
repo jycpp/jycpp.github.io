@@ -1,0 +1,1374 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="手底这台2014款11英寸MacBook Air，静静躺在桌角已有多年。机身轻薄依旧，金属外壳磨出了淡淡的使用痕迹，开机后屏幕弹出的macOS Big Sur 11.7.11更新提示，让我倏然愣神。已是2026年，主流macOS迭代到全新大版本，新系统功能繁复、界面新潮，而这台十年前的老Air，还在接收末代安全补丁，像一位守着旧时光的故人。 十年光阴弹指而过，从这台老设备回望苹果Mac、Wind">
+<meta property="og:type" content="article">
+<meta property="og:title" content="花儿尚有重开日，苹果已无少年时">
+<meta property="og:url" content="https://jycpp.github.io/2026/26-05-24-%E8%8A%B1%E5%84%BF%E5%B0%9A%E6%9C%89%E9%87%8D%E5%BC%80%E6%97%A5%E8%8B%B9%E6%9E%9C%E5%B7%B2%E6%97%A0%E5%B0%91%E5%B9%B4%E6%97%B6.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="手底这台2014款11英寸MacBook Air，静静躺在桌角已有多年。机身轻薄依旧，金属外壳磨出了淡淡的使用痕迹，开机后屏幕弹出的macOS Big Sur 11.7.11更新提示，让我倏然愣神。已是2026年，主流macOS迭代到全新大版本，新系统功能繁复、界面新潮，而这台十年前的老Air，还在接收末代安全补丁，像一位守着旧时光的故人。 十年光阴弹指而过，从这台老设备回望苹果Mac、Wind">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://files.seeusercontent.com/2026/06/13/zHq2/02.jpg">
+<meta property="og:image" content="https://files.seeusercontent.com/2026/06/14/pQo5/macOS-Big-Sur-01.png">
+<meta property="og:image" content="https://files.seeusercontent.com/2026/06/14/oO5k/macOS-Big-Sur-02.png">
+<meta property="og:image" content="https://files.seeusercontent.com/2026/06/14/r3Wh/macOS-Big-Sur-03.png">
+<meta property="article:published_time" content="2026-05-24T16:30:00.000Z">
+<meta property="article:modified_time" content="2026-08-08T03:09:42.441Z">
+<meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="MacBook Air">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="macOS">
+<meta property="article:tag" content="苹果">
+<meta property="article:tag" content="系统更新">
+<meta property="article:tag" content="硬件迭代">
+<meta property="article:tag" content="自研芯片">
+<meta property="article:tag" content="Apple Silicon">
+<meta property="article:tag" content="生态变迁">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://files.seeusercontent.com/2026/06/13/zHq2/02.jpg">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>花儿尚有重开日，苹果已无少年时 - Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="花儿尚有重开日，苹果已无少年时"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-24 16:30" pubdate>
+          2026年5月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="兴趣爱好"
+        id="heading-fe9682b5f5e5a5cde297931c35839ca2" role="tab" data-toggle="collapse" href="#collapse-fe9682b5f5e5a5cde297931c35839ca2"
+        aria-expanded="true"
+      >
+        兴趣爱好
+        <span class="list-group-count">(20)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-fe9682b5f5e5a5cde297931c35839ca2"
+           role="tabpanel" aria-labelledby="heading-fe9682b5f5e5a5cde297931c35839ca2">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2021/21-07-20-%E4%BB%8E%E9%BE%99%E7%8E%8B%E5%B8%83%E9%9B%A8%E7%9C%8B%E3%80%8A%E8%A5%BF%E6%B8%B8%E8%AE%B0%E3%80%8B%E9%87%8C%E5%88%B6%E5%BA%A6%E9%82%A3%E7%82%B9%E4%BA%8B.html" title="从龙王布雨看《西游记》里制度那点事"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从龙王布雨看《西游记》里制度那点事</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-03-16-%E5%85%A8%E7%90%83%E4%BE%9B%E5%BA%94%E9%93%BE%E6%9A%97%E6%88%98%E8%B0%81%E5%9C%A8%E4%B8%BA%E7%BE%8E%E5%9B%BD%E5%85%B3%E7%A8%8E%E4%B9%B0%E5%8D%95.html" title="全球供应链暗战：谁在为美国关税买单？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">全球供应链暗战：谁在为美国关税买单？</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2013/13-12-28-%E5%AD%94%E5%AD%90%E7%9A%84%E4%BA%A4%E5%8F%8B%E8%A7%82.html" title="孔子的交友观"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">孔子的交友观</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-11-06-%E6%95%B0%E5%AD%97%E4%BA%BA%E6%B0%91%E5%B8%81%E4%B8%80%E5%9C%BA%E8%8D%92%E8%AF%9E%E7%9A%84%E6%8A%80%E6%9C%AF%E9%AA%97%E5%B1%80.html" title="数字人民币：一场荒诞的技术骗局？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">数字人民币：一场荒诞的技术骗局？</span>
+        </a>
+      
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="历史"
+        id="heading-c827d8dbb76ce33219f64c6749893159" role="tab" data-toggle="collapse" href="#collapse-c827d8dbb76ce33219f64c6749893159"
+        aria-expanded="false"
+      >
+        历史
+        <span class="list-group-count">(2)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-c827d8dbb76ce33219f64c6749893159"
+           role="tabpanel" aria-labelledby="heading-c827d8dbb76ce33219f64c6749893159">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-10-18-%E6%98%A5%E7%A7%8B%E6%97%A0%E4%B9%89%E6%88%98%E4%BD%86%E6%88%98%E6%88%98%E4%B9%89%E5%BD%93%E5%85%88.html" title="春秋无义战，但战战义当先"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">春秋无义战，但战战义当先</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2017/17-12-15-%E7%BE%8E%E5%9B%BD%E7%8B%AC%E7%AB%8B%E4%B8%8E%E6%AF%94%E5%88%A9%E6%97%B6%E8%AF%9E%E7%94%9F%E7%9A%84%E5%9D%87%E8%A1%A1%E9%80%BB%E8%BE%91.html" title="英法博弈下的两颗棋子：美国独立与比利时诞生的均衡逻辑"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">英法博弈下的两颗棋子：美国独立与比利时诞生的均衡逻辑</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="历史文化"
+        id="heading-159980ad0ed72447effd204a68dae594" role="tab" data-toggle="collapse" href="#collapse-159980ad0ed72447effd204a68dae594"
+        aria-expanded="false"
+      >
+        历史文化
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-159980ad0ed72447effd204a68dae594"
+           role="tabpanel" aria-labelledby="heading-159980ad0ed72447effd204a68dae594">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2020/20-11-21-%E4%BB%8E%E6%9B%B9%E5%88%BF%E8%AE%BA%E6%88%98%E5%88%B0%E5%AD%99%E5%AD%90%E5%85%B5%E6%B3%95%E7%9A%84%E7%A4%BC%E5%B4%A9%E4%B9%90%E5%9D%8F%E6%97%B6%E4%BB%A3%E7%9A%84%E6%97%A0%E5%A5%88.html" title="从曹刿论战到孙子兵法：礼崩乐坏时代孔夫子的无奈"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从曹刿论战到孙子兵法：礼崩乐坏时代孔夫子的无奈</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="影视娱乐"
+        id="heading-63f98de66248d6d5632e2fba861d9816" role="tab" data-toggle="collapse" href="#collapse-63f98de66248d6d5632e2fba861d9816"
+        aria-expanded="false"
+      >
+        影视娱乐
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-63f98de66248d6d5632e2fba861d9816"
+           role="tabpanel" aria-labelledby="heading-63f98de66248d6d5632e2fba861d9816">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2020/20-09-11-Star%20Wars%20Series%20Timeline.html" title="Star Wars Series Timeline"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Star Wars Series Timeline</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="数码科技"
+        id="heading-8ebbeab8447022bc8d171bd79c2f979c" role="tab" data-toggle="collapse" href="#collapse-8ebbeab8447022bc8d171bd79c2f979c"
+        aria-expanded="true"
+      >
+        数码科技
+        <span class="list-group-count">(2)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-8ebbeab8447022bc8d171bd79c2f979c"
+           role="tabpanel" aria-labelledby="heading-8ebbeab8447022bc8d171bd79c2f979c">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-04-12-%E7%BD%91%E7%9B%98%E4%B9%8B%E4%BA%8E%E7%A1%AC%E7%9B%98%E7%9A%84%E5%8F%96%E8%88%8D.html" title="网盘之于硬盘的取舍：不是鱼和熊掌的关系"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">网盘之于硬盘的取舍：不是鱼和熊掌的关系</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-05-24-%E8%8A%B1%E5%84%BF%E5%B0%9A%E6%9C%89%E9%87%8D%E5%BC%80%E6%97%A5%E8%8B%B9%E6%9E%9C%E5%B7%B2%E6%97%A0%E5%B0%91%E5%B9%B4%E6%97%B6.html" title="花儿尚有重开日，苹果已无少年时"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">花儿尚有重开日，苹果已无少年时</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="文学阅读"
+        id="heading-62856d868f5251c6da712cb9e2a40432" role="tab" data-toggle="collapse" href="#collapse-62856d868f5251c6da712cb9e2a40432"
+        aria-expanded="false"
+      >
+        文学阅读
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-62856d868f5251c6da712cb9e2a40432"
+           role="tabpanel" aria-labelledby="heading-62856d868f5251c6da712cb9e2a40432">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-07-05-%E3%80%8A%E4%BA%8C%E5%8D%81%E5%B9%B4%E7%9B%AE%E7%9D%B9%E4%B9%8B%E6%80%AA%E7%8E%B0%E7%8A%B6%E3%80%8B%E9%98%85%E8%AF%BB%E7%B4%A2%E5%BC%95.html" title="《二十年目睹之怪现状》阅读索引"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">《二十年目睹之怪现状》阅读索引</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="无线电技术"
+        id="heading-fbec965cbfd880ac8d165234be54cb28" role="tab" data-toggle="collapse" href="#collapse-fbec965cbfd880ac8d165234be54cb28"
+        aria-expanded="false"
+      >
+        无线电技术
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-fbec965cbfd880ac8d165234be54cb28"
+           role="tabpanel" aria-labelledby="heading-fbec965cbfd880ac8d165234be54cb28">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-03-29-%E6%97%A0%E7%BA%BF%E5%AF%B9%E8%AE%B2%E6%8A%80%E6%9C%AF%E5%92%8C%E5%AF%B9%E8%AE%B2%E6%9C%BA%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90.html" title="无线对讲技术和对讲机原理分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">无线对讲技术和对讲机原理分析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="生活技巧"
+        id="heading-5c663125e0b9b747f7fd41a97d4cc01d" role="tab" data-toggle="collapse" href="#collapse-5c663125e0b9b747f7fd41a97d4cc01d"
+        aria-expanded="false"
+      >
+        生活技巧
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-5c663125e0b9b747f7fd41a97d4cc01d"
+           role="tabpanel" aria-labelledby="heading-5c663125e0b9b747f7fd41a97d4cc01d">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-04-12-%E9%80%89%E4%B8%80%E6%AC%BE%E7%9C%9F%E6%AD%A3%E9%9D%99%E9%9F%B3%E7%9A%84%E8%80%83%E8%AF%95%E6%89%8B%E8%A1%A8.html" title="选一款真正静音的考试手表，到底有多难？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">选一款真正静音的考试手表，到底有多难？</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="生活随笔"
+        id="heading-d261fc3ddf01b74f54d6f2173f72f9ae" role="tab" data-toggle="collapse" href="#collapse-d261fc3ddf01b74f54d6f2173f72f9ae"
+        aria-expanded="false"
+      >
+        生活随笔
+        <span class="list-group-count">(2)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-d261fc3ddf01b74f54d6f2173f72f9ae"
+           role="tabpanel" aria-labelledby="heading-d261fc3ddf01b74f54d6f2173f72f9ae">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-07-11-%E4%B8%8A%E6%B5%B7%E6%9C%89%E5%A4%9A%E5%8D%B7%E7%9C%8B%E7%9C%8B%E5%8F%B0%E9%A3%8E%E5%B7%B4%E5%A8%81%E5%B0%B1%E7%9F%A5%E9%81%93%E4%BA%86.html" title="上海有多卷，看看台风 “巴威” 就知道了"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">上海有多卷，看看台风 “巴威” 就知道了</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-09-07-%E5%91%8A%E5%88%AB%E5%88%9D%E7%A7%8B%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A3%B0%E8%9D%89%E9%B8%A3.html" title="告别，初秋的最后一声蝉鸣"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">告别，初秋的最后一声蝉鸣</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="电脑数码"
+        id="heading-929229401fbf2b66f4a34faaa192a22b" role="tab" data-toggle="collapse" href="#collapse-929229401fbf2b66f4a34faaa192a22b"
+        aria-expanded="false"
+      >
+        电脑数码
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-929229401fbf2b66f4a34faaa192a22b"
+           role="tabpanel" aria-labelledby="heading-929229401fbf2b66f4a34faaa192a22b">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-06-26-MacBook%20Air%E5%8D%87%E7%BA%A7M.2%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98%E8%B8%A9%E5%9D%91%E8%AE%B0.html" title="MacBook Air升级M.2固态硬盘踩坑记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">MacBook Air升级M.2固态硬盘踩坑记</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="社会现象"
+        id="heading-8ca98f0121144b0cede09f30dcffd19b" role="tab" data-toggle="collapse" href="#collapse-8ca98f0121144b0cede09f30dcffd19b"
+        aria-expanded="false"
+      >
+        社会现象
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-8ca98f0121144b0cede09f30dcffd19b"
+           role="tabpanel" aria-labelledby="heading-8ca98f0121144b0cede09f30dcffd19b">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-05-14-%E5%BD%93%E6%8B%9B%E6%8A%95%E6%A0%87%E6%B2%A6%E4%B8%BA%E6%8F%90%E6%AC%BE%E6%9C%BA.html" title="当招投标沦为“提款机”：重庆某学院的操作真的撕了行业遮羞布"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">当招投标沦为“提款机”：重庆某学院的操作真的撕了行业遮羞布</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="系统维护"
+        id="heading-e58e33693da01b6a53217de6d1d89bd7" role="tab" data-toggle="collapse" href="#collapse-e58e33693da01b6a53217de6d1d89bd7"
+        aria-expanded="false"
+      >
+        系统维护
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-e58e33693da01b6a53217de6d1d89bd7"
+           role="tabpanel" aria-labelledby="heading-e58e33693da01b6a53217de6d1d89bd7">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-09-14-WinPE%E5%AE%89%E8%A3%85Windows11%E7%9A%84Security%20Violation%E9%94%99%E8%AF%AF.html" title="WinPE安装Windows11的Security Violation错误"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">WinPE安装Windows11的Security Violation错误</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="网络安全"
+        id="heading-a9fbbd40048656862e149a84b77b9b40" role="tab" data-toggle="collapse" href="#collapse-a9fbbd40048656862e149a84b77b9b40"
+        aria-expanded="false"
+      >
+        网络安全
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-a9fbbd40048656862e149a84b77b9b40"
+           role="tabpanel" aria-labelledby="heading-a9fbbd40048656862e149a84b77b9b40">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-03-01-%E8%9C%82%E7%AA%9D%E7%BD%91%E7%BB%9C%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E4%BD%8D%E7%BD%AE%E6%B3%84%E9%9C%B2%E9%A3%8E%E9%99%A9%E5%88%86%E6%9E%90.html" title="蜂窝网络定位技术原理与位置泄露风险分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">蜂窝网络定位技术原理与位置泄露风险分析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="诗歌创作"
+        id="heading-e1b2e3a2937c01714702d04977262201" role="tab" data-toggle="collapse" href="#collapse-e1b2e3a2937c01714702d04977262201"
+        aria-expanded="false"
+      >
+        诗歌创作
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-e1b2e3a2937c01714702d04977262201"
+           role="tabpanel" aria-labelledby="heading-e1b2e3a2937c01714702d04977262201">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-12-01-%E6%88%91%E5%80%9F%E4%BA%BA%E9%97%B4%E4%BA%8C%E4%B8%A4%E5%A2%A8.html" title="我借人间二两墨"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">我借人间二两墨</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">花儿尚有重开日，苹果已无少年时</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://files.seeusercontent.com/2026/06/13/zHq2/02.jpg" srcset="/img/loading.gif" lazyload alt="花儿苹果电脑与少年02.jpg"></p>
+<p>手底这台2014款11英寸MacBook Air，静静躺在桌角已有多年。机身轻薄依旧，金属外壳磨出了淡淡的使用痕迹，开机后屏幕弹出的<strong>macOS Big Sur 11.7.11</strong>更新提示，让我倏然愣神。已是2026年，主流macOS迭代到全新大版本，新系统功能繁复、界面新潮，而这台十年前的老Air，还在接收末代安全补丁，像一位守着旧时光的故人。</p>
+<p>十年光阴弹指而过，从这台老设备回望苹果Mac、Windows、Linux三大桌面生态的变迁，才真切读懂：数码产品迭代永不停歇，硬件会老去，系统会更新，曾经意气风发的苹果笔记本，也终究走过了属于它的少年时代。花儿枯荣尚能再度绽放，可一代产品、一段行业岁月，却再也回不到最初的模样。</p>
+<h2 id="一、2014年：群雄并起，各领风骚的黄金年代"><a href="#一、2014年：群雄并起，各领风骚的黄金年代" class="headerlink" title="一、2014年：群雄并起，各领风骚的黄金年代"></a>一、2014年：群雄并起，各领风骚的黄金年代</h2><p>把时间拨回2014年，这台11英寸MacBook Air正是苹果桌面端的<strong>销量王者</strong>。彼时的苹果，还处在极简美学与实用体验完美平衡的“少年期”。</p>
+<p>硬件层面，2014款MacBook Air延续了经典楔形机身，无风扇设计、极致轻薄的特质，让它成为移动办公的标杆。在当年的笔记本市场里，它没有花哨的触控屏、冗余的接口，专注于续航、便携与稳定，是无数学生、职场人的首选。同期苹果主力桌面系统为<strong>OS X Yosemite（优胜美地）</strong>，版本号10.10，这也是OS X正式走向现代扁平化设计的关键一步。拟物风格彻底退场，半透明磨砂栏、全新通知中心、连续互通雏形登场，界面清爽灵动，系统流畅度拉满，老硬件也能跑得从容。</p>
+<p>横向来看，2014年的Windows正处在转型阵痛期。微软主力系统是<strong>Windows 8.1</strong>，延续了Win8激进的磁贴界面，强行融合桌面与触控两大逻辑，传统键鼠用户怨声载道。桌面生态臃肿、弹窗繁多、病毒骚扰仍是常态，笔记本硬件普遍厚重、续航拉胯，和MacBook Air的轻薄体验形成鲜明反差。Windows阵营靠着庞大的软件生态、游戏支持、办公刚需守住基本盘，但在颜值、流畅度、续航上，完全不敌同期Mac。</p>
+<p>而2014年的Linux，则依旧是小众圈子的“玩物”。主流发行版如Ubuntu 14.04 LTS，主打稳定开源，界面朴素，硬件适配参差不齐，日常娱乐、商用软件极度匮乏。它扎根于服务器、开发者领域，普通大众几乎不会将其作为主力桌面系统。三大系统格局清晰：<strong>Mac主打颜值、流畅、办公生态；Windows垄断大众消费、游戏、商用软件；Linux深耕服务端与极客圈</strong>。</p>
+<p>那是苹果Mac最意气风发的少年时光。设计独树一帜，系统轻量纯粹，硬件口碑登顶，一步步从小众高端，走向大众视野，收获了大批忠实用户。</p>
+<h2 id="二、2015—2020：系统更名，生态扩张，稳步蜕变"><a href="#二、2015—2020：系统更名，生态扩张，稳步蜕变" class="headerlink" title="二、2015—2020：系统更名，生态扩张，稳步蜕变"></a>二、2015—2020：系统更名，生态扩张，稳步蜕变</h2><p>2016年是苹果桌面系统的重要分水岭：沿用多年的<strong>OS X</strong>正式更名为<strong>macOS</strong>，和iOS、watchOS统一命名体系，苹果全平台生态融合战略全面启动。从macOS Sierra开始，接力、隔空播放、剪贴板通用等跨设备功能陆续落地，Mac不再是孤立的电脑，而是苹果移动生态的一环。</p>
+<p>这五年间，Mac硬件也悄然改变。经典的MacBook Air慢慢淡出舞台，苹果发力MacBook Pro，全面转向Retina高刷屏、蝶式键盘、一体化机身，接口逐步精简，HDMI、USB-A、SD卡相继退场，统一为USB-C。设计愈发精致，但也开始舍弃老用户习惯的实用接口，“极简”慢慢走向“偏执”。</p>
+<p>2020年，<strong>macOS Big Sur（11.0）</strong> 正式发布，也就是我这台老Air停驻的最终大版本。这次更新堪称一次“大换血”：界面全面向iOS&#x2F;iPadOS靠拢，图标圆角化、控制中心重做、Safari浏览器大幅升级，系统底层深度适配苹果自研芯片做铺垫。对于2014款MacBook Air而言，Big Sur已是<strong>硬件能承载的天花板</strong>。苹果划定了硬件淘汰线，十年前的老机型，自此告别大版本迭代，仅保留零星安全补丁，就像如今收到的11.7.11更新，只为维系基础安全，不再增添任何新功能。</p>
+<p>同期的Windows完成了彻底翻身。2015年<strong>Windows 10</strong>问世，微软砍掉了Win8失败的触控逻辑，回归传统桌面，兼顾流畅度与兼容性。后续数年持续打磨，稳定性、续航、界面设计不断优化，笔记本硬件也全面追赶轻薄化浪潮。到2020年，Windows在颜值、续航、做工上，已经大幅缩小和Mac的差距，凭借海量软件、游戏、外设支持，牢牢占据全球桌面主流。</p>
+<p>Linux则在这段时间稳步发展。Ubuntu、Deepin等发行版优化桌面体验，国产Linux系统开始发力，办公软件、影音工具逐步完善。虽然依旧小众，但在开发者、政企办公、国产化领域站稳脚跟，桌面体验不再是“简陋”的代名词，慢慢拥有了稳定的使用群体。</p>
+<p>此时的苹果，早已不是当年那个纯粹做电脑的品牌。Mac沦为苹果全生态中的一环，设计、功能都要向手机、平板妥协。曾经独有的“纯粹感”，慢慢被生态捆绑取代，苹果的少年锐气，开始慢慢收敛。</p>
+<h2 id="三、2021—2026：自研芯片时代，苹果走向“成熟”，再无旧日少年"><a href="#三、2021—2026：自研芯片时代，苹果走向“成熟”，再无旧日少年" class="headerlink" title="三、2021—2026：自研芯片时代，苹果走向“成熟”，再无旧日少年"></a>三、2021—2026：自研芯片时代，苹果走向“成熟”，再无旧日少年</h2><p>2021年，苹果正式推出<strong>Apple Silicon自研芯片</strong>，M系列处理器登场，这是Mac诞生以来最大的一次硬件变革。Intel架构彻底落幕，Mac进入全新纪元。新机型性能爆炸、续航逆天、静音无噪，软硬件深度绑定，优化达到新高度。</p>
+<p>从macOS Monterey一路迭代到2026年最新的大版本，新系统功能愈发繁杂：跨设备协同能力拉满、AI功能深度植入、隐私安全层层加码、专业创作工具持续强化。新MacBook做工顶尖、性能无敌，专业创作者、高端用户趋之若鹜。</p>
+<p>可繁华之下，昔日那个“少年苹果”已然不在。</p>
+<p>曾经的Mac，系统轻量、硬件亲民（相对高端本而言）、逻辑简单，一台老机器用上七八年依旧顺滑；如今的新macOS功能堆砌，全平台联动复杂，软硬件高度锁死。苹果的硬件淘汰节奏加快，生态闭环越收越紧：软件严格审核、外设高度限制、系统权限收紧，追求极致安全与生态统一的同时，也丢掉了早年Mac自由、灵动、随性的气质。</p>
+<p>再看横向对比：Windows 11经过多年打磨，生态体量无人能及，兼顾娱乐、办公、游戏、专业生产，硬件选择百花齐放，从百元入门本到高端创作本应有尽有，兼容性依旧是最大王牌。Linux在国产化浪潮下蓬勃发展，桌面生态日趋完善，政企、办公、服务器领域份额持续上涨，开源自由的特质愈发鲜明。</p>
+<p>三大系统如今各有疆域，却再也回不到2014年那种“各有锋芒、简单纯粹”的时代。</p>
+<p><img src="https://files.seeusercontent.com/2026/06/14/pQo5/macOS-Big-Sur-01.png" srcset="/img/loading.gif" lazyload alt="macOS Big Sur 01.png"></p>
+<p><img src="https://files.seeusercontent.com/2026/06/14/oO5k/macOS-Big-Sur-02.png" srcset="/img/loading.gif" lazyload alt="macOS Big Sur 02.png"></p>
+<p><img src="https://files.seeusercontent.com/2026/06/14/r3Wh/macOS-Big-Sur-03.png" srcset="/img/loading.gif" lazyload alt="macOS Big Sur 03.png"></p>
+<h2 id="四、旧机仍在，时光不返，苹果再无少年时"><a href="#四、旧机仍在，时光不返，苹果再无少年时" class="headerlink" title="四、旧机仍在，时光不返，苹果再无少年时"></a>四、旧机仍在，时光不返，苹果再无少年时</h2><p>看着这台坚守在macOS Big Sur 11.7.11的2014款MacBook Air，它还能正常浏览网页、处理文档、收发邮件，完成最基础的办公需求。十年时光，它依旧坚守岗位，硬件未曾彻底老去，可属于它、属于旧款Mac时代的岁月，早已落幕。</p>
+<p>花儿凋零，待到春风拂过便能再度盛开；数码产品迭代，品牌风格变迁，却是一去不复返。</p>
+<p>早年的苹果Mac，像一位意气风发的少年：敢做设计创新，敢引领行业潮流，系统干净纯粹，硬件兼顾体验与实用，不被生态绑架，不被利益裹挟。而如今的苹果，已是商业巨头，稳重、强大、精致、闭环，坐拥顶尖技术与庞大生态，却再也没有当年那份少年般的锐气与洒脱。</p>
+<p>新的macOS版本还在不断更新，新的Mac硬件轮番登场，科技永远向前奔跑。我们享受着新技术带来的便利与强大，也难免怀念过去那段简单美好的时光。</p>
+<p>这台老MacBook Air的安全更新或许还会持续一段时间，它会安静地陪着我走过余下的时光。它就像一枚时光书签，夹在数码发展的册页里，提醒着我们：<strong>时代滚滚向前，万物不断更迭。美好过往值得回味，但我们终究要迎着新的浪潮前行。</strong></p>
+<p>花儿尚有重开日，苹果已无少年时。愿每一台老设备都能安然落幕，也愿前行的科技，永远保留一份最初的真诚。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD/" class="category-chain-item">兴趣爱好</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD/%E6%95%B0%E7%A0%81%E7%A7%91%E6%8A%80/" class="category-chain-item">数码科技</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+      
+        <a href="/tags/MacBook-Air/" class="print-no-link">#MacBook Air</a>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+        <a href="/tags/macOS/" class="print-no-link">#macOS</a>
+      
+        <a href="/tags/%E8%8B%B9%E6%9E%9C/" class="print-no-link">#苹果</a>
+      
+        <a href="/tags/%E7%B3%BB%E7%BB%9F%E6%9B%B4%E6%96%B0/" class="print-no-link">#系统更新</a>
+      
+        <a href="/tags/%E7%A1%AC%E4%BB%B6%E8%BF%AD%E4%BB%A3/" class="print-no-link">#硬件迭代</a>
+      
+        <a href="/tags/%E8%87%AA%E7%A0%94%E8%8A%AF%E7%89%87/" class="print-no-link">#自研芯片</a>
+      
+        <a href="/tags/Apple-Silicon/" class="print-no-link">#Apple Silicon</a>
+      
+        <a href="/tags/%E7%94%9F%E6%80%81%E5%8F%98%E8%BF%81/" class="print-no-link">#生态变迁</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>花儿尚有重开日，苹果已无少年时</div>
+      <div>https://jycpp.github.io/2026/26-05-24-花儿尚有重开日苹果已无少年时.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/26-06-12-%E9%92%89%E9%92%89%E6%B2%A1%E4%BA%86%E6%97%A0%E6%8B%9B%E9%98%BF%E9%87%8CAI%E8%BF%98%E6%9C%89%E8%BE%99%E5%90%97.html" title="钉钉没了 “无招”，阿里 AI 还有辙吗？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">钉钉没了 “无招”，阿里 AI 还有辙吗？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/26-05-10-%E8%BF%99%E4%B8%AA%E5%B0%8F%E7%8E%8B%E5%90%A7%E4%B9%9F%E5%A4%AA%E8%83%BD%E5%B9%B2%E4%BA%86.html" title="这个小王吧也太能干了">
+                        <span class="hidden-mobile">这个小王吧也太能干了</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

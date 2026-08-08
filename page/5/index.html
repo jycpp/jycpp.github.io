@@ -1,0 +1,1226 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Jet C++ Blog">
+<meta property="og:url" content="https://jycpp.github.io/page/5/index.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Jet Yan">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Slogan Today: &lt;br /&gt;Everything can be Dockerized. &lt;br /&gt;万物皆可Docker"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/25-07-05-%E3%80%8A%E4%BA%8C%E5%8D%81%E5%B9%B4%E7%9B%AE%E7%9D%B9%E4%B9%8B%E6%80%AA%E7%8E%B0%E7%8A%B6%E3%80%8B%E9%98%85%E8%AF%BB%E7%B4%A2%E5%BC%95.html" target="_blank">
+          《二十年目睹之怪现状》阅读索引
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/25-07-05-%E3%80%8A%E4%BA%8C%E5%8D%81%E5%B9%B4%E7%9B%AE%E7%9D%B9%E4%B9%8B%E6%80%AA%E7%8E%B0%E7%8A%B6%E3%80%8B%E9%98%85%E8%AF%BB%E7%B4%A2%E5%BC%95.html" target="_blank">
+        <div>
+          《二十年目睹之怪现状》 描写的是1884年中法之战到1904年前后20年间，社会上的种种怪现状。本书借主角“九死一生”二十年间宦海沉浮的亲历见闻，以白描笔法勾勒出晚清光怪陆离的社会群像，阅读的主要故事索引如下：  《官场现形》：转运局黑棺江苏候补知县化装苦力逃亡，后竟被官吏活封于茶叶箱充作“柩”运出，只为遮掩丑闻。（暴露官场草菅人命、虚伪遮丑）   《伦常乖舛》：苟观察逼嫁道台苟才为巴结权贵，竟
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-07-05 10:08" pubdate>
+              2025-07-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD/" class="category-chain-item">兴趣爱好</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD/%E6%96%87%E5%AD%A6%E9%98%85%E8%AF%BB/" class="category-chain-item">文学阅读</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%8C%E5%8D%81%E5%B9%B4%E7%9B%AE%E7%9D%B9%E4%B9%8B%E6%80%AA%E7%8E%B0%E7%8A%B6/">#二十年目睹之怪现状</a>
+            
+              <a href="/tags/%E6%99%9A%E6%B8%85/">#晚清</a>
+            
+              <a href="/tags/%E5%AE%98%E5%9C%BA%E7%8E%B0%E5%BD%A2/">#官场现形</a>
+            
+              <a href="/tags/%E4%BC%A6%E5%B8%B8%E5%B4%A9%E5%9D%8F/">#伦常崩坏</a>
+            
+              <a href="/tags/%E5%95%86%E7%95%8C%E9%AD%8D%E9%AD%89/">#商界魍魉</a>
+            
+              <a href="/tags/%E5%86%9B%E6%A2%B0%E8%85%90%E8%B4%A5/">#军械腐败</a>
+            
+              <a href="/tags/%E7%A7%91%E5%9C%BA%E8%8D%92%E8%AF%9E/">#科场荒诞</a>
+            
+              <a href="/tags/%E5%90%B4%E8%B6%BC%E4%BA%BA/">#吴趼人</a>
+            
+              <a href="/tags/%E4%B9%9D%E6%AD%BB%E4%B8%80%E7%94%9F/">#九死一生</a>
+            
+              <a href="/tags/%E6%9C%AB%E4%B8%96%E6%80%AA%E8%B1%A1/">#末世怪象</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/25-06-21-Android%20Wi-Fi%20%E8%BF%9E%E6%8E%A5%E6%8E%A7%E5%88%B6%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B%E4%B8%8E%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88.html" target="_blank">
+          Android Wi-Fi 连接控制技术演进与实现方案
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/25-06-21-Android%20Wi-Fi%20%E8%BF%9E%E6%8E%A5%E6%8E%A7%E5%88%B6%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B%E4%B8%8E%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88.html" target="_blank">
+        <div>
+          随着 Android 系统的不断发展，Wi-Fi 连接控制的实现方式也在不断变化。特别是从 Android 10 开始，Google 加强了对用户隐私和安全的保护，使得 Wi-Fi 连接的实现变得更加复杂。本文将详细介绍不同 Android 版本下 Wi-Fi 连接的实现方式及其技术要点。 Android 10 之前版本的 Wi-Fi 连接在 Android 10（API 29）之前，应用可以直接
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-06-21 09:15" pubdate>
+              2025-06-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86/" class="category-chain-item">运维管理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">#Android</a>
+            
+              <a href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/">#权限管理</a>
+            
+              <a href="/tags/Wi-Fi%E8%BF%9E%E6%8E%A5/">#Wi-Fi连接</a>
+            
+              <a href="/tags/WifiNetworkSuggestion/">#WifiNetworkSuggestion</a>
+            
+              <a href="/tags/WifiNetworkSpecifier/">#WifiNetworkSpecifier</a>
+            
+              <a href="/tags/Android-10/">#Android 10</a>
+            
+              <a href="/tags/Android-12/">#Android 12</a>
+            
+              <a href="/tags/%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4/">#隐私保护</a>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E6%8E%A7%E5%88%B6/">#网络连接控制</a>
+            
+              <a href="/tags/API%E6%BC%94%E8%BF%9B/">#API演进</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/25-06-15-%E9%98%BF%E9%87%8C%E4%BA%91%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%BB%84%E7%9A%84%E7%BD%91%E6%AE%B5%E5%88%86%E6%9E%90.html" target="_blank">
+          阿里云的网络安全组的网段分析
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/25-06-15-%E9%98%BF%E9%87%8C%E4%BA%91%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%BB%84%E7%9A%84%E7%BD%91%E6%AE%B5%E5%88%86%E6%9E%90.html" target="_blank">
+        <div>
+          我们在阿里云服务器后台查询的IP地址信息如下： inet 172.19.144.227  netmask 255.255.240.0  broadcast 172.19.159.255，  这个IP地址跟我们平时通过SSH连接的IP地址不同，是一个局域网地址，但是又不同于我们平时的“192.168.xxx.xxx”的IP地址。  如果有多台服务器在阿里云机房并且在同一个区可用区（例如杭州C区），
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-06-15 14:45" pubdate>
+              2025-06-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E4%BA%91%E8%AE%A1%E7%AE%97/" class="category-chain-item">云计算</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B1%80%E5%9F%9F%E7%BD%91/">#局域网</a>
+            
+              <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91/">#阿里云</a>
+            
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">#服务器</a>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%BB%84/">#网络安全组</a>
+            
+              <a href="/tags/IP%E5%9C%B0%E5%9D%80/">#IP地址</a>
+            
+              <a href="/tags/%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81/">#子网掩码</a>
+            
+              <a href="/tags/%E5%B9%BF%E6%92%AD%E5%9C%B0%E5%9D%80/">#广播地址</a>
+            
+              <a href="/tags/%E7%BD%91%E6%AE%B5/">#网段</a>
+            
+              <a href="/tags/CIDR/">#CIDR</a>
+            
+              <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/">#二进制</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/25-06-14-%E6%B2%A1%E6%9C%89%E6%BA%90%E5%A4%B4%E6%B4%BB%E6%B0%B4%E7%9A%84AIGC%E8%83%BD%E8%B5%B0%E5%A4%9A%E8%BF%9C.html" target="_blank">
+          <img src="https://s2.loli.net/2025/06/14/MVpxXl3SwJ5URcO.jpg" srcset="/img/loading.gif" lazyload alt="没有“源头活水”的生成式人工智能(AIGC)能走多远？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/25-06-14-%E6%B2%A1%E6%9C%89%E6%BA%90%E5%A4%B4%E6%B4%BB%E6%B0%B4%E7%9A%84AIGC%E8%83%BD%E8%B5%B0%E5%A4%9A%E8%BF%9C.html" target="_blank">
+          没有“源头活水”的生成式人工智能(AIGC)能走多远？
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/25-06-14-%E6%B2%A1%E6%9C%89%E6%BA%90%E5%A4%B4%E6%B4%BB%E6%B0%B4%E7%9A%84AIGC%E8%83%BD%E8%B5%B0%E5%A4%9A%E8%BF%9C.html" target="_blank">
+        <div>
+          AI 问答替代网页搜索成为用户获取知识的主要渠道，但是 AI 问答的结果仍以既有的知识体系和网页搜索内容为基础重新组织。这其中最关键的是网页产出量的减少 —— 没有访问量的网页内容创作者自然会逐渐流失。古人说 “问渠那得清如许？为有源头活水来”，但照此趋势，现实却与古诗描述恰恰相反：若没有创作者对网页内容的持续更新，未来的 AIGC（生成式人工智能）或将陷入 “自我循环” 的困境。   当我们习
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-06-14 14:30" pubdate>
+              2025-06-14
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/" class="category-chain-item">人工智能AIGC</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/%E6%8A%80%E6%9C%AF%E4%BC%A6%E7%90%86/" class="category-chain-item">技术伦理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#人工智能</a>
+            
+              <a href="/tags/AIGC/">#AIGC</a>
+            
+              <a href="/tags/%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%8F%96/">#知识获取</a>
+            
+              <a href="/tags/%E5%86%85%E5%AE%B9%E7%94%9F%E6%80%81/">#内容生态</a>
+            
+              <a href="/tags/%E7%BD%91%E9%A1%B5%E6%90%9C%E7%B4%A2/">#网页搜索</a>
+            
+              <a href="/tags/%E5%88%9B%E4%BD%9C%E8%80%85/">#创作者</a>
+            
+              <a href="/tags/%E7%9F%A5%E8%AF%86%E5%A4%9A%E6%A0%B7%E6%80%A7/">#知识多样性</a>
+            
+              <a href="/tags/%E7%AE%97%E6%B3%95%E6%95%B4%E5%90%88/">#算法整合</a>
+            
+              <a href="/tags/%E7%94%9F%E6%88%90%E5%BC%8F%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#生成式人工智能</a>
+            
+              <a href="/tags/%E6%8A%80%E6%9C%AF%E5%8F%91%E5%B1%95/">#技术发展</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/25-06-10-Ubuntu%20Server%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C.html" target="_blank">
+          Ubuntu Server初始化操作，安全性和加固
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/25-06-10-Ubuntu%20Server%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C.html" target="_blank">
+        <div>
+          我们以Ubuntu Server 24.04为例，介绍Ubuntu Server的初始化操作，包括安装、配置和安全加固。 kanban   Ubuntu Server 24.04      相关操作内容提纲   初始化操作     Ubuntu Server安装过程       Ubuntu Server初始化过程   安全加固     认识防火墙ufw     认识OpenSSH Server
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-06-10 21:30" pubdate>
+              2025-06-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86/" class="category-chain-item">运维管理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Docker/">#Docker</a>
+            
+              <a href="/tags/MySQL/">#MySQL</a>
+            
+              <a href="/tags/PHP/">#PHP</a>
+            
+              <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91/">#阿里云</a>
+            
+              <a href="/tags/Apache/">#Apache</a>
+            
+              <a href="/tags/Nginx/">#Nginx</a>
+            
+              <a href="/tags/SSH/">#SSH</a>
+            
+              <a href="/tags/Ubuntu-Server/">#Ubuntu Server</a>
+            
+              <a href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/">#防火墙</a>
+            
+              <a href="/tags/UFW/">#UFW</a>
+            
+              <a href="/tags/%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA/">#安全加固</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/25-06-10-2025%E5%B9%B4%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%80%89%E5%93%AA%E4%B8%AA.html" target="_blank">
+          <img src="https://s2.loli.net/2025/06/10/crZkHdERf1NjpCF.png" srcset="/img/loading.gif" lazyload alt="2025年服务器操作系统选哪个，Ubuntu是否合适？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/25-06-10-2025%E5%B9%B4%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%80%89%E5%93%AA%E4%B8%AA.html" target="_blank">
+          2025年服务器操作系统选哪个，Ubuntu是否合适？
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/25-06-10-2025%E5%B9%B4%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%80%89%E5%93%AA%E4%B8%AA.html" target="_blank">
+        <div>
+          服务器操作系统选哪个在CentOS没有专项CentOS Stream之前，服务器端选择操作系统，它无疑是不二的选择，首先，这个操作系统有Redhat公司的背书，其次，这个操作系统是免费的，最后，这个操作系统是开源的，这是一个非常好的选择。随着2024年6月30日最后一个CentOS稳定版本7.9的维护周期结束，服务器端操作系统混战的时代已经开始了。 现在好多操作系统，嘴上不说来自CentOS，但是
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-06-10 09:15" pubdate>
+              2025-06-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86/" class="category-chain-item">运维管理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Ubuntu/">#Ubuntu</a>
+            
+              <a href="/tags/AWS/">#AWS</a>
+            
+              <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91/">#阿里云</a>
+            
+              <a href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/">#腾讯云</a>
+            
+              <a href="/tags/CentOS/">#CentOS</a>
+            
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">#服务器操作系统</a>
+            
+              <a href="/tags/RHEL/">#RHEL</a>
+            
+              <a href="/tags/OpenEuler/">#OpenEuler</a>
+            
+              <a href="/tags/Alibaba-Cloud-Linux/">#Alibaba Cloud Linux</a>
+            
+              <a href="/tags/Anolis/">#Anolis</a>
+            
+              <a href="/tags/TencentOS/">#TencentOS</a>
+            
+              <a href="/tags/OpenCloudOS/">#OpenCloudOS</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/25-06-02-Dockerfile%E8%84%9A%E6%9C%AC%E5%88%86%E6%9E%90%E4%B8%8Ecompose%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B.html" target="_blank">
+          Dockerfile脚本分析与compose应用案例
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/25-06-02-Dockerfile%E8%84%9A%E6%9C%AC%E5%88%86%E6%9E%90%E4%B8%8Ecompose%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B.html" target="_blank">
+        <div>
+          玩转Docker，如果不会写Dockerfile脚本，就像天天谈论汽车而没有驾照一样尴尬。我们以人人微服务开发框架提供的一个Dockerfile脚本为例，分析Dockerfile脚本的编写，并基于这个脚本，将Docker上传到私有镜像仓库后，通过Docker-compose启动多个容器，实现微服务的部署。 Dockerfile脚步分析12345678910111213# 构建镜像，执行命令：【do
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-06-02 17:27" pubdate>
+              2025-06-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86/" class="category-chain-item">运维管理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/">#环境变量</a>
+            
+              <a href="/tags/Dockerfile/">#Dockerfile</a>
+            
+              <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">#微服务</a>
+            
+              <a href="/tags/Docker-Compose/">#Docker Compose</a>
+            
+              <a href="/tags/%E9%95%9C%E5%83%8F%E6%9E%84%E5%BB%BA/">#镜像构建</a>
+            
+              <a href="/tags/%E5%AE%B9%E5%99%A8%E9%83%A8%E7%BD%B2/">#容器部署</a>
+            
+              <a href="/tags/SkyWalking/">#SkyWalking</a>
+            
+              <a href="/tags/JVM%E5%8F%82%E6%95%B0/">#JVM参数</a>
+            
+              <a href="/tags/%E6%97%B6%E5%8C%BA%E8%AE%BE%E7%BD%AE/">#时区设置</a>
+            
+              <a href="/tags/%E5%AD%97%E4%BD%93%E9%85%8D%E7%BD%AE/">#字体配置</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/25-05-29-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E7%89%88%E6%9C%AC%E5%88%86%E6%94%AF%E5%8F%8A%E5%90%88%E5%B9%B6.html" target="_blank">
+          温故知新：Git版本分支及合并
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/25-05-29-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E7%89%88%E6%9C%AC%E5%88%86%E6%94%AF%E5%8F%8A%E5%90%88%E5%B9%B6.html" target="_blank">
+        <div>
+          在讲解Git版本分支的管理之前，我们先复习一下Git中版本控制的几个仓库以及他们之间的关系：  工作区（Working Directory）：这是你在本地计算机上进行文件编辑的地方。你可以在工作区中创建、修改和删除文件。  暂存区（Stage）：暂存区是一个中间状态，用于暂存即将提交到仓库的文件。你可以使用git add命令将工作区中的文件添加到暂存区。  本地仓库（Local Repositor
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-29 15:28" pubdate>
+              2025-05-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" class="category-chain-item">系统架构</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93/">#远程仓库</a>
+            
+              <a href="/tags/Git/">#Git</a>
+            
+              <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/">#版本控制</a>
+            
+              <a href="/tags/%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86/">#分支管理</a>
+            
+              <a href="/tags/Git-Flow/">#Git Flow</a>
+            
+              <a href="/tags/%E5%8A%9F%E8%83%BD%E5%88%86%E6%94%AF/">#功能分支</a>
+            
+              <a href="/tags/%E5%8F%91%E5%B8%83%E5%88%86%E6%94%AF/">#发布分支</a>
+            
+              <a href="/tags/%E7%83%AD%E4%BF%AE%E5%A4%8D%E5%88%86%E6%94%AF/">#热修复分支</a>
+            
+              <a href="/tags/%E5%90%88%E5%B9%B6%E6%93%8D%E4%BD%9C/">#合并操作</a>
+            
+              <a href="/tags/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/">#本地仓库</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/25-05-28-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E5%85%8B%E9%9A%86%E9%A1%B9%E7%9B%AE%E5%88%B0%E6%9C%AC%E5%9C%B0.html" target="_blank">
+          温故知新：Git克隆远程项目到本地开发环境
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/25-05-28-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E5%85%8B%E9%9A%86%E9%A1%B9%E7%9B%AE%E5%88%B0%E6%9C%AC%E5%9C%B0.html" target="_blank">
+        <div>
+          如果你哪天思维近视了，比如我，突然就想不起来怎么把远程仓库克隆到本地，反映过来后，我想还是再总结一篇文章吧。 如果你没有忘记这些基础内容，也可以看看之前我总结的关于Git的其他内容：  MacOS下的Git操作及XCode协作 在GitLab和GitHub之间同步Git版本仓库的代码  在命令行中使用 Git 下载远程项目（即 克隆仓库）是最基础的操作之一。以下是完整的操作指南： 1. 基本命令：
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-28 09:30" pubdate>
+              2025-05-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E7%BD%91%E7%AB%99%E5%BB%BA%E8%AE%BE/" class="category-chain-item">网站建设</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GitLab/">#GitLab</a>
+            
+              <a href="/tags/GitHub/">#GitHub</a>
+            
+              <a href="/tags/%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93/">#远程仓库</a>
+            
+              <a href="/tags/Git/">#Git</a>
+            
+              <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/">#版本控制</a>
+            
+              <a href="/tags/SSH/">#SSH</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/25-05-20-%E6%8B%9B%E6%8A%95%E6%A0%87%E4%BA%89%E8%AE%AE%E9%A2%91%E5%8F%91%E6%98%AF%E5%B7%A7%E5%90%88%E8%BF%98%E6%98%AF%E8%88%86%E8%AE%BA%E6%9A%97%E6%B6%8C.html" target="_blank">
+          招投标争议频发：是偶然巧合，还是舆论暗涌
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/25-05-20-%E6%8B%9B%E6%8A%95%E6%A0%87%E4%BA%89%E8%AE%AE%E9%A2%91%E5%8F%91%E6%98%AF%E5%B7%A7%E5%90%88%E8%BF%98%E6%98%AF%E8%88%86%E8%AE%BA%E6%9A%97%E6%B6%8C.html" target="_blank">
+        <div>
+          2025年5月20日，最近几天的热点新闻，三句话不离招投标，为什么?是有人在故意炒作吗？ （1）18岁演员黄杨钿甜炫富几百万的耳环，关联其老爸曾经在四川雅安的招标采购部门工作，而且正值雅安地震之后没几年，个中有没有故事，却留给读者猜。 （2）安徽凤阳县，就是惩治贪官最厉害的皇帝朱元璋的老家，凤阳楼顶部坍塌，网友质疑招投标的同时，官方的辟谣重点不在这里，而是强调屋顶的瓦片脱落。   上周刚写了一
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 14:35" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" class="category-chain-item">项目管理</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%8B%9B%E6%8A%95%E6%A0%87/">#招投标</a>
+            
+              <a href="/tags/%E5%85%AC%E5%B9%B3%E6%80%A7/">#公平性</a>
+            
+              <a href="/tags/%E5%85%AC%E5%85%B1%E8%B5%84%E6%BA%90/">#公共资源</a>
+            
+              <a href="/tags/%E5%B7%A5%E7%A8%8B%E8%B4%A8%E9%87%8F/">#工程质量</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/4/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/#board">13</a><a class="extend next" rel="next" href="/page/6/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1454 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="《红楼梦》第五回中，贾宝玉梦游太虚幻境，目睹”薄命司”判词与”红楼梦”十二支曲，这场精心设计的幻觉实为警幻仙姑对他的点化。太虚幻境的精妙之处，在于通过”假作真时真亦假”的叙事策略，将抽象的命运隐喻转化为具象的感官体验。当贾宝玉在幻境中经历”意淫”之劫时，他的认知系统完全被虚假场景所重构。  三百年后的今天，元宇宙技术正以更精密的方式复刻着这种认知欺骗。计算机图形学通过模拟人眼的双目视差，在平面屏幕">
+<meta property="og:type" content="article">
+<meta property="og:title" content="元宇宙：一场视觉欺骗的 3D 盛宴">
+<meta property="og:url" content="https://jycpp.github.io/2023/23-03-12-%E5%85%83%E5%AE%87%E5%AE%99%E4%B8%80%E5%9C%BA%E8%A7%86%E8%A7%89%E6%AC%BA%E9%AA%97%E7%9A%843D%E7%9B%9B%E5%AE%B4.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="《红楼梦》第五回中，贾宝玉梦游太虚幻境，目睹”薄命司”判词与”红楼梦”十二支曲，这场精心设计的幻觉实为警幻仙姑对他的点化。太虚幻境的精妙之处，在于通过”假作真时真亦假”的叙事策略，将抽象的命运隐喻转化为具象的感官体验。当贾宝玉在幻境中经历”意淫”之劫时，他的认知系统完全被虚假场景所重构。  三百年后的今天，元宇宙技术正以更精密的方式复刻着这种认知欺骗。计算机图形学通过模拟人眼的双目视差，在平面屏幕">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2025/03/16/VUTiorxK5jEtglm.jpg">
+<meta property="og:image" content="https://s2.loli.net/2025/03/16/BV2h68RiQm1EWx7.jpg">
+<meta property="article:published_time" content="2023-03-12T17:27:20.000Z">
+<meta property="article:modified_time" content="2026-08-08T03:09:42.435Z">
+<meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="元宇宙">
+<meta property="article:tag" content="3D技术">
+<meta property="article:tag" content="视觉欺骗">
+<meta property="article:tag" content="虚拟现实">
+<meta property="article:tag" content="大脑">
+<meta property="article:tag" content="幻觉">
+<meta property="article:tag" content="感知">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2025/03/16/VUTiorxK5jEtglm.jpg">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>元宇宙：一场视觉欺骗的 3D 盛宴 - Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://s2.loli.net/2025/03/16/BV2h68RiQm1EWx7.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="元宇宙：一场视觉欺骗的 3D 盛宴"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-12 17:27" pubdate>
+          2023年3月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="人工智能AIGC"
+        id="heading-5982a74f80de427ff759239de050441d" role="tab" data-toggle="collapse" href="#collapse-5982a74f80de427ff759239de050441d"
+        aria-expanded="true"
+      >
+        人工智能AIGC
+        <span class="list-group-count">(21)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-5982a74f80de427ff759239de050441d"
+           role="tabpanel" aria-labelledby="heading-5982a74f80de427ff759239de050441d">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-10-23-A10%E8%B7%9FRTX4090%E5%8F%8AA100%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94.html" title="A10跟RTX4090及A100性能对比"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">A10跟RTX4090及A100性能对比</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-03-09-%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%BE%8E%E5%9B%BD%E7%BB%A7%E6%98%9F%E7%90%83%E5%A4%A7%E6%88%98%E8%AE%A1%E5%88%92%E5%90%8E%E7%9A%84%E6%88%98%E7%95%A5%E9%AA%97%E5%B1%80.html" title="人工智能：美国继星球大战计划后的又一 “战略骗局”？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">人工智能：美国继星球大战计划后的又一 “战略骗局”？</span>
+        </a>
+      
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="3D技术和元宇宙"
+        id="heading-247a79f7325be1fea14b7d9ad5f9ea80" role="tab" data-toggle="collapse" href="#collapse-247a79f7325be1fea14b7d9ad5f9ea80"
+        aria-expanded="true"
+      >
+        3D技术和元宇宙
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-247a79f7325be1fea14b7d9ad5f9ea80"
+           role="tabpanel" aria-labelledby="heading-247a79f7325be1fea14b7d9ad5f9ea80">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-03-12-%E5%85%83%E5%AE%87%E5%AE%99%E4%B8%80%E5%9C%BA%E8%A7%86%E8%A7%89%E6%AC%BA%E9%AA%97%E7%9A%843D%E7%9B%9B%E5%AE%B4.html" title="元宇宙：一场视觉欺骗的 3D 盛宴"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">元宇宙：一场视觉欺骗的 3D 盛宴</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="AI伦理与社会影响"
+        id="heading-5802c77abed440125a0587f462e0c38b" role="tab" data-toggle="collapse" href="#collapse-5802c77abed440125a0587f462e0c38b"
+        aria-expanded="false"
+      >
+        AI伦理与社会影响
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-5802c77abed440125a0587f462e0c38b"
+           role="tabpanel" aria-labelledby="heading-5802c77abed440125a0587f462e0c38b">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-04-06-%E4%BB%8E%E9%AD%8F%E5%88%99%E8%A5%BF%E4%BA%8B%E4%BB%B6%E5%88%B0AI%E6%8A%95%E6%AF%92.html" title="从魏则西事件到AI投毒，豆包会成为下一个百度吗？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从魏则西事件到AI投毒，豆包会成为下一个百度吗？</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="AI工具"
+        id="heading-0db0a530bff4dee7eef6f5af1bd99309" role="tab" data-toggle="collapse" href="#collapse-0db0a530bff4dee7eef6f5af1bd99309"
+        aria-expanded="false"
+      >
+        AI工具
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-0db0a530bff4dee7eef6f5af1bd99309"
+           role="tabpanel" aria-labelledby="heading-0db0a530bff4dee7eef6f5af1bd99309">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-07-05-%E7%AC%AC%E4%B8%80%E6%89%B9%E7%94%A8%E5%B0%8F%E9%BE%99%E8%99%BE%E7%9A%84%E4%BA%BA%E9%83%BD%E9%A3%9E%E5%A4%A9%E6%88%90%E4%BB%99%E4%BA%86%E5%90%97.html" title="第一批用小龙虾的人都飞天成仙了吗？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">第一批用小龙虾的人都飞天成仙了吗？</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="AI工具实操"
+        id="heading-e1a8373a2cc5a47058c063792d9236ba" role="tab" data-toggle="collapse" href="#collapse-e1a8373a2cc5a47058c063792d9236ba"
+        aria-expanded="false"
+      >
+        AI工具实操
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-e1a8373a2cc5a47058c063792d9236ba"
+           role="tabpanel" aria-labelledby="heading-e1a8373a2cc5a47058c063792d9236ba">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-08-02-MCP%E5%92%8C%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%A6%82%E4%BD%95%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C.html" title="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="AI技能工程"
+        id="heading-b22283d8207f3cec51ff7d97aa82e1e7" role="tab" data-toggle="collapse" href="#collapse-b22283d8207f3cec51ff7d97aa82e1e7"
+        aria-expanded="false"
+      >
+        AI技能工程
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-b22283d8207f3cec51ff7d97aa82e1e7"
+           role="tabpanel" aria-labelledby="heading-b22283d8207f3cec51ff7d97aa82e1e7">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-06-21-%E4%BB%8EPromote%E5%88%B0Skill%E7%9A%84%E4%BF%A1%E6%81%AF%E5%B7%AE%E5%8F%98%E7%8E%B0%E7%84%A6%E8%99%91.html" title="从Promote到Skill的信息差变现焦虑"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从Promote到Skill的信息差变现焦虑</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="AI智能体开发"
+        id="heading-f6cdfe2e84cf3a492c459eb4eef87609" role="tab" data-toggle="collapse" href="#collapse-f6cdfe2e84cf3a492c459eb4eef87609"
+        aria-expanded="false"
+      >
+        AI智能体开发
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-f6cdfe2e84cf3a492c459eb4eef87609"
+           role="tabpanel" aria-labelledby="heading-f6cdfe2e84cf3a492c459eb4eef87609">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-10-11-AI%E6%99%BA%E8%83%BD%E4%BD%93%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E5%B9%B3%E5%8F%B0%E5%88%86%E6%9E%90.html" title="AI智能体开发常用平台分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">AI智能体开发常用平台分析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="企业AI战略"
+        id="heading-ce4fbc2f2c348b1d65b1c29e07a0eca2" role="tab" data-toggle="collapse" href="#collapse-ce4fbc2f2c348b1d65b1c29e07a0eca2"
+        aria-expanded="false"
+      >
+        企业AI战略
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-ce4fbc2f2c348b1d65b1c29e07a0eca2"
+           role="tabpanel" aria-labelledby="heading-ce4fbc2f2c348b1d65b1c29e07a0eca2">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-06-12-%E9%92%89%E9%92%89%E6%B2%A1%E4%BA%86%E6%97%A0%E6%8B%9B%E9%98%BF%E9%87%8CAI%E8%BF%98%E6%9C%89%E8%BE%99%E5%90%97.html" title="钉钉没了 “无招”，阿里 AI 还有辙吗？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">钉钉没了 “无招”，阿里 AI 还有辙吗？</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="图像处理"
+        id="heading-7808a68ee1b34dab43011429a12de19e" role="tab" data-toggle="collapse" href="#collapse-7808a68ee1b34dab43011429a12de19e"
+        aria-expanded="false"
+      >
+        图像处理
+        <span class="list-group-count">(2)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-7808a68ee1b34dab43011429a12de19e"
+           role="tabpanel" aria-labelledby="heading-7808a68ee1b34dab43011429a12de19e">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-11-29-Nano%20Banana%E4%BD%BF%E7%94%A8%E5%88%9D%E4%BD%93%E9%AA%8C.html" title="Nano Banana使用初体验"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Nano Banana使用初体验</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2019/19-08-20-%E5%8E%8B%E7%BC%A9png%E6%A0%BC%E5%BC%8F%E5%9B%BE%E7%89%87%E7%9A%84%E5%A4%A7%E5%B0%8F.html" title="压缩png格式图片的大小"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">压缩png格式图片的大小</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="大语言模型"
+        id="heading-faf3ef15d22b0a54f1d7520545b242f7" role="tab" data-toggle="collapse" href="#collapse-faf3ef15d22b0a54f1d7520545b242f7"
+        aria-expanded="false"
+      >
+        大语言模型
+        <span class="list-group-count">(5)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-faf3ef15d22b0a54f1d7520545b242f7"
+           role="tabpanel" aria-labelledby="heading-faf3ef15d22b0a54f1d7520545b242f7">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-08-21-AnythingLLM%E4%B8%8D%E6%98%AF%E7%94%A8%E6%9D%A5%E8%AE%AD%E7%BB%83%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84.html" title="AnythingLLM不是用来训练大模型的"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">AnythingLLM不是用来训练大模型的</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-02-07-Ollama%E9%83%A8%E7%BD%B2DeepSeek%E7%BB%93%E5%90%88OpenWebUI%E4%BD%93%E9%AA%8C.html" title="Ollama部署DeepSeek结合OpenWebUI体验大语言模型"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Ollama部署DeepSeek结合OpenWebUI体验大语言模型</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-09-17-%E4%BB%8EChatGPT%E5%88%B0%E7%94%9F%E6%88%90PPT%E6%96%87%E4%BB%B6.html" title="从ChatGPT到生成PPT文件，中间经历了什么？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从ChatGPT到生成PPT文件，中间经历了什么？</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-02-23-%E6%95%85%E4%BA%8B%E7%9A%84%E6%BC%8F%E6%B4%9E%E5%BC%95%E5%8F%91%E7%9A%84DeepSeek%E7%9A%84%E6%80%9D%E8%80%83.html" title="故事的漏洞引发的DeepSeek的思考"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">故事的漏洞引发的DeepSeek的思考</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-03-05-%E9%A2%86%E5%AF%BC%E3%80%81%E7%A7%98%E4%B9%A6%E5%92%8CDeepSeek.html" title="领导、秘书和DeepSeek"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">领导、秘书和DeepSeek</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="存储技术"
+        id="heading-3c32f0511c104f483ff038c6c292326e" role="tab" data-toggle="collapse" href="#collapse-3c32f0511c104f483ff038c6c292326e"
+        aria-expanded="false"
+      >
+        存储技术
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-3c32f0511c104f483ff038c6c292326e"
+           role="tabpanel" aria-labelledby="heading-3c32f0511c104f483ff038c6c292326e">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-01-10-%E6%9C%BA%E6%A2%B0%E7%A1%AC%E7%9B%98%E6%B6%A8%E4%BB%B7%E8%83%8C%E5%90%8E%E7%9A%84%E4%BA%A7%E4%B8%9A%E9%93%BE%E9%80%BB%E8%BE%91.html" title="机械硬盘涨价背后的产业链逻辑：成本传导与市场博弈"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">机械硬盘涨价背后的产业链逻辑：成本传导与市场博弈</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="技术伦理"
+        id="heading-2914f9f994693926ab075ce9b66aa974" role="tab" data-toggle="collapse" href="#collapse-2914f9f994693926ab075ce9b66aa974"
+        aria-expanded="false"
+      >
+        技术伦理
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-2914f9f994693926ab075ce9b66aa974"
+           role="tabpanel" aria-labelledby="heading-2914f9f994693926ab075ce9b66aa974">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-06-14-%E6%B2%A1%E6%9C%89%E6%BA%90%E5%A4%B4%E6%B4%BB%E6%B0%B4%E7%9A%84AIGC%E8%83%BD%E8%B5%B0%E5%A4%9A%E8%BF%9C.html" title="没有“源头活水”的生成式人工智能(AIGC)能走多远？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">没有“源头活水”的生成式人工智能(AIGC)能走多远？</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="技术哲学"
+        id="heading-864d462af6f581558676925b02f95ab3" role="tab" data-toggle="collapse" href="#collapse-864d462af6f581558676925b02f95ab3"
+        aria-expanded="false"
+      >
+        技术哲学
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-864d462af6f581558676925b02f95ab3"
+           role="tabpanel" aria-labelledby="heading-864d462af6f581558676925b02f95ab3">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-11-21-%E4%BB%8E%E6%89%8B%E6%9C%BA%E7%A6%81%E6%AD%A2%E6%8B%8D%E7%85%A7%E5%92%8CWiFi%E5%88%B0AI%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91.html" title="技术迭代中的争议与破局：从禁止手机拍照和WiFi功能到AI大模型开发的程序员视角"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">技术迭代中的争议与破局：从禁止手机拍照和WiFi功能到AI大模型开发的程序员视角</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="技术架构"
+        id="heading-adf5fad7ad0c35779d2afc9096be3a61" role="tab" data-toggle="collapse" href="#collapse-adf5fad7ad0c35779d2afc9096be3a61"
+        aria-expanded="false"
+      >
+        技术架构
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-adf5fad7ad0c35779d2afc9096be3a61"
+           role="tabpanel" aria-labelledby="heading-adf5fad7ad0c35779d2afc9096be3a61">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-02-07-%E5%8D%83%E9%97%AE%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%A5%B6%E8%8C%B6%E4%BF%83%E9%94%80%E6%B4%BB%E5%8A%A8%E7%BF%BB%E8%BD%A6%E5%88%86%E6%9E%90.html" title="千问大模型奶茶促销活动翻车分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">千问大模型奶茶促销活动翻车分析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="网络安全"
+        id="heading-a9fbbd40048656862e149a84b77b9b40" role="tab" data-toggle="collapse" href="#collapse-a9fbbd40048656862e149a84b77b9b40"
+        aria-expanded="false"
+      >
+        网络安全
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-a9fbbd40048656862e149a84b77b9b40"
+           role="tabpanel" aria-labelledby="heading-a9fbbd40048656862e149a84b77b9b40">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-03-10-%E5%B0%8F%E9%BE%99%E8%99%BE%E7%83%AD%E8%83%8C%E5%90%8E%E7%9A%84%E5%86%B7%E6%80%9D%E8%80%83%E7%AE%97%E5%8A%9B%E6%94%B6%E5%89%B2%E4%B8%8E%E5%AE%89%E5%85%A8.html" title="“小龙虾热” 背后的冷思考：狂欢之下，警惕算力收割与安全深渊"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">“小龙虾热” 背后的冷思考：狂欢之下，警惕算力收割与安全深渊</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">元宇宙：一场视觉欺骗的 3D 盛宴</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>《红楼梦》第五回中，贾宝玉梦游太虚幻境，目睹”薄命司”判词与”红楼梦”十二支曲，这场精心设计的幻觉实为警幻仙姑对他的点化。太虚幻境的精妙之处，在于通过”假作真时真亦假”的叙事策略，将抽象的命运隐喻转化为具象的感官体验。当贾宝玉在幻境中经历”意淫”之劫时，他的认知系统完全被虚假场景所重构。</p>
+<p><img src="https://s2.loli.net/2025/03/16/VUTiorxK5jEtglm.jpg" srcset="/img/loading.gif" lazyload alt="w700d1q75cms_修复后960px"></p>
+<p>三百年后的今天，元宇宙技术正以更精密的方式复刻着这种认知欺骗。计算机图形学通过模拟人眼的双目视差，在平面屏幕上投射出具有纵深感的三维影像。当用户戴上VR设备时，左右眼分别接收略有差异的图像，大脑通过神经计算将其合成为立体场景。这种技术本质上与太虚幻境的”以假乱真”并无二致——都是通过操控感官输入来重塑大脑的认知判断。</p>
+<p>在动画短片《天鹰座裂缝》（ Beyond the Aquila Rift ）中，导演通过赛博朋克式叙事，揭示了元宇宙技术的潜在危机，也是《爱，死亡与机器人》（ Love Death + Robots ）对幻觉成为现实避难所的隐喻。男主角杰克在飞船故障后进入元宇宙系统，与虚拟女友艾米丽展开一段完美恋情。系统通过脑机接口读取他的记忆，将虚拟场景精确匹配他的心理需求。当杰克最终发现真相时，真实世界已因生态崩溃而濒临毁灭。</p>
+<p><img src="https://s2.loli.net/2025/03/16/BV2h68RiQm1EWx7.jpg" srcset="/img/loading.gif" lazyload alt="Screenshot+2021-09-24+15.18.29"></p>
+<p>这个故事映射出现实困境：当元宇宙能够提供比现实更完美的情感体验时，人类是否会选择永久逃避？神经科学研究显示，虚拟社交产生的多巴胺分泌量与真实社交相当，但缺乏真实人际互动的”情感空洞化”风险却被放大。韩国学者的跟踪调查表明，长期使用元宇宙社交的人群，其现实人际关系满意度下降37%，而抑郁倾向上升29%。</p>
+<p>这种技术依赖正在重塑人类的认知模式。斯坦福大学虚拟互动实验室的实验显示，连续使用VR设备30分钟后，参与者对现实物体的三维感知出现偏差，这种现象被称为”虚拟后效”。当技术欺骗成为日常，人类对真实世界的感知能力可能逐渐退化。</p>
+<h2 id="3D技术的视觉陷阱：从生理到心理的欺骗链条"><a href="#3D技术的视觉陷阱：从生理到心理的欺骗链条" class="headerlink" title="3D技术的视觉陷阱：从生理到心理的欺骗链条"></a>3D技术的视觉陷阱：从生理到心理的欺骗链条</h2><p>人类视觉系统的工作原理，为这场技术欺骗提供了生理基础。人眼的晶状体将光线聚焦在视网膜上，形成二维图像，但大脑通过以下机制构建三维感知：</p>
+<ul>
+<li><strong>双目视差</strong>：左右眼视角差异产生深度信息</li>
+<li><strong>运动视差</strong>：头部移动引发的场景变化</li>
+<li><strong>纹理梯度</strong>：物体细节随距离变化的规律</li>
+<li><strong>遮挡关系</strong>：近物遮挡远物的视觉线索</li>
+</ul>
+<p>元宇宙技术正是通过算法精准模拟这些生理机制。例如，Valve Index头显能够以120Hz刷新率同步左右眼画面，配合Inside-Out追踪技术，实现毫米级定位精度。这种沉浸式体验让大脑误以为”看到”的虚拟物体具有真实物理属性，从而产生”具身认知”效应——用户会本能地伸手去抓虚拟茶杯，尽管知道那只是光影幻象。</p>
+<p>这种技术欺骗正在突破传统媒介的局限。电影《头号玩家》中的”绿洲”世界，通过触觉反馈手套和跑步机实现多模态感官欺骗。当玩家在虚拟世界中奔跑时，设备会模拟脚掌接触地面的压力感，进一步强化”真实”幻觉。这种技术叠加，使得元宇宙的欺骗性远超太虚幻境。</p>
+<div class="mermaid">graph TD
+    classDef process fill:#E5F6FF,stroke:#73A6FF,stroke-width:2px
+    
+    A[人眼接收不同图像]:::process --> B[大脑处理视差信息]:::process
+    B --> C[生成三维感知]:::process
+    D[立体显示技术]:::process --> A
+    D -->|左右眼画面差异| A
+    E[头显/眼镜设备]:::process --> D
+    F[神经计算机制]:::process --> B
+    G[大脑误判为真实立体]:::process --> C
+    H[视觉欺骗形成]:::process --> G
+    
+    %% 补充说明
+    A -->|双目视差| B
+    B -->|神经信号整合| C
+    D -->|模拟真实视差| A
+    E -->|分离左右眼图像| D
+    F -->|解析深度信息| B
+    G -->|认知重构| C
+    H -->|技术实现| D</div>
+
+<p><strong>3D 技术视觉陷阱原理示意图</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">双目视差 → 立体图像分离 → 左右眼画面差异 → 神经信号整合 → 三维感知形成<br>               ↗          ↖<br>       立体显示设备        头显/眼镜<br>               ↖          ↗<br>               视觉欺骗机制<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="技术盛宴的尽头：真实与虚幻的哲学思辨"><a href="#技术盛宴的尽头：真实与虚幻的哲学思辨" class="headerlink" title="技术盛宴的尽头：真实与虚幻的哲学思辨"></a>技术盛宴的尽头：真实与虚幻的哲学思辨</h2><p>元宇宙技术的可持续性，本质上是一个哲学命题。柏拉图在《理想国》中提出”洞穴寓言”，指出人类认知受限于感官经验的投射。元宇宙的3D技术，不过是将这种认知局限转化为可操控的商业产品。当扎克伯格宣称”元宇宙将成为人类的第二人生”时，他实际上在重复柏拉图洞穴囚徒的谬误——将影子误认为真实。</p>
+<p>从技术发展角度看，元宇宙面临三大瓶颈：</p>
+<ul>
+<li><strong>算力天花板</strong>：实时渲染8K分辨率3D场景需要千万亿次浮点运算</li>
+<li><strong>交互局限性</strong>：当前设备无法模拟真实触觉的细微差别</li>
+<li><strong>伦理风险</strong>：虚拟身份与现实身份的认知混淆</li>
+</ul>
+<div class="mermaid">graph LR
+    classDef bottleneck fill:#FFE6E6,stroke:#FF6666,stroke-width:2px
+    classDef challenge fill:#E6F7FF,stroke:#66CCFF,stroke-width:2px
+    
+    A[元宇宙三大瓶颈] --> B[算力天花板]
+    A --> C[交互局限性]
+    A --> D[伦理风险]
+    
+    B --> B1[实时渲染需求]
+    B --> B2[数据传输压力]
+    B --> B3[硬件成本制约]
+    
+    C --> C1[触觉反馈缺失]
+    C --> C2[多模态交互不足]
+    C --> C3[延迟与同步问题]
+    
+    D --> D1[隐私泄露风险]
+    D --> D2[虚拟身份认知混淆]
+    D --> D3[数字鸿沟加剧]
+    
+    B1 --> B11[8K@120Hz渲染需千万亿次浮点运算]
+    B1 --> B12[现有GPU算力缺口达100倍]
+    B2 --> B21[5G带宽不足以支撑多人实时交互]
+    B3 --> B31[高端VR设备成本超$1000]
+    
+    C1 --> C11[现有手套仅支持压力反馈]
+    C2 --> C21[嗅觉/味觉交互尚未商用]
+    C3 --> C31[20ms延迟即破坏沉浸感]
+    
+    D1 --> D11[脑机接口数据存在泄露风险]
+    D2 --> D21[虚拟人格可能引发法律纠纷]
+    D3 --> D31[发展中国家数字基建滞后]</div>
+
+<p>这些瓶颈决定了元宇宙的”视觉欺骗”本质无法超越物理规律。就像太虚幻境最终要回归现实，元宇宙也必然面临技术边界的制约。当用户摘下头显，看到的仍是真实世界的物理存在。</p>
+<p>元宇宙的3D盛宴，本质上是人类对完美世界的数字化想象。它继承了太虚幻境的哲学内核，却拥有更强大的技术实现手段。然而，正如贾宝玉最终从幻境中醒来，人类也终将面对技术幻觉的边界。当我们在虚拟世界中建造”数字永生”的神殿时，更需要守护对真实世界的感知能力——毕竟，真正的生命体验，永远发生在血肉之躯与物理世界的交互之中。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/" class="category-chain-item">人工智能AIGC</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/3D%E6%8A%80%E6%9C%AF%E5%92%8C%E5%85%83%E5%AE%87%E5%AE%99/" class="category-chain-item">3D技术和元宇宙</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%85%83%E5%AE%87%E5%AE%99/" class="print-no-link">#元宇宙</a>
+      
+        <a href="/tags/3D%E6%8A%80%E6%9C%AF/" class="print-no-link">#3D技术</a>
+      
+        <a href="/tags/%E8%A7%86%E8%A7%89%E6%AC%BA%E9%AA%97/" class="print-no-link">#视觉欺骗</a>
+      
+        <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" class="print-no-link">#虚拟现实</a>
+      
+        <a href="/tags/%E5%A4%A7%E8%84%91/" class="print-no-link">#大脑</a>
+      
+        <a href="/tags/%E5%B9%BB%E8%A7%89/" class="print-no-link">#幻觉</a>
+      
+        <a href="/tags/%E6%84%9F%E7%9F%A5/" class="print-no-link">#感知</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>元宇宙：一场视觉欺骗的 3D 盛宴</div>
+      <div>https://jycpp.github.io/2023/23-03-12-元宇宙一场视觉欺骗的3D盛宴.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/23-04-15-Serverless-and-Cloud-Function.html" title="无服务器架构和云函数 Serverless and Cloud Function">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">无服务器架构和云函数 Serverless and Cloud Function</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/23-03-02-Project-Manager-Act-as-Scrum-Master.html" title="敏捷开发中项目经理与Scrum Master角色 Project Manager Act as Scrum Master">
+                        <span class="hidden-mobile">敏捷开发中项目经理与Scrum Master角色 Project Manager Act as Scrum Master</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

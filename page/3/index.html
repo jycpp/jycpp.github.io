@@ -1,0 +1,1238 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Jet C++ Blog">
+<meta property="og:url" content="https://jycpp.github.io/page/3/index.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Jet Yan">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Slogan Today: &lt;br /&gt;Everything can be Dockerized. &lt;br /&gt;万物皆可Docker"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/26-02-15-%E5%9C%A8%20macOS%20Terminal%20%E4%B8%AD%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97.html" target="_blank">
+          在 macOS Terminal 中配置代理服务器的完整指南
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/26-02-15-%E5%9C%A8%20macOS%20Terminal%20%E4%B8%AD%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97.html" target="_blank">
+        <div>
+          在 macOS 系统中配置网络代理有多种方式，其中在 Terminal（终端）中设置代理是开发者常用的方法。本文将详细介绍三种不同层级的代理配置方案，从全局系统设置到临时的 Terminal 会话，再到永久的环境变量配置，帮助您根据实际需求选择最合适的方法。 一、全局系统代理设置（最简单但限制多）配置步骤 打开系统设置 进入网络 &gt; Wi-Fi &gt; 选择当前连接的 Wi-Fi（如“4D
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-02-15 10:30" pubdate>
+              2026-02-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/MacOS/" class="category-chain-item">MacOS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/">#环境变量</a>
+            
+              <a href="/tags/macOS/">#macOS</a>
+            
+              <a href="/tags/Terminal/">#Terminal</a>
+            
+              <a href="/tags/%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8/">#代理服务器</a>
+            
+              <a href="/tags/SOCKS5/">#SOCKS5</a>
+            
+              <a href="/tags/HTTP-%E4%BB%A3%E7%90%86/">#HTTP 代理</a>
+            
+              <a href="/tags/Shell-%E9%85%8D%E7%BD%AE/">#Shell 配置</a>
+            
+              <a href="/tags/Zsh/">#Zsh</a>
+            
+              <a href="/tags/Bash/">#Bash</a>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/">#网络配置</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/26-02-15-macOS%20%E4%B8%AD%E8%8B%B1%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2%E8%AF%A6%E8%A7%A3.html" target="_blank">
+          macOS 中英文输入法切换详解
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/26-02-15-macOS%20%E4%B8%AD%E8%8B%B1%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2%E8%AF%A6%E8%A7%A3.html" target="_blank">
+        <div>
+          macOS 中英文输入法切换详解在 macOS 系统中，切换中英文输入的方式并非固定，其行为取决于您当前使用的具体输入法以及系统的键盘快捷键设置。以下是关键点的详细说明： 1. 系统级切换：在不同输入法之间切换  默认快捷键：按下 Caps Lock (大小写锁定) 键，通常用于在“ABC”（英文）输入法和其他已添加的中文（如“简体拼音”）或第三方输入法之间切换。 核心功能：此操作是切换不同的输入
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-02-15 10:00" pubdate>
+              2026-02-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/MacOS/" class="category-chain-item">MacOS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/macOS/">#macOS</a>
+            
+              <a href="/tags/%E8%BE%93%E5%85%A5%E6%B3%95/">#输入法</a>
+            
+              <a href="/tags/%E4%B8%AD%E8%8B%B1%E6%96%87%E5%88%87%E6%8D%A2/">#中英文切换</a>
+            
+              <a href="/tags/%E5%BF%AB%E6%8D%B7%E9%94%AE/">#快捷键</a>
+            
+              <a href="/tags/Caps-Lock/">#Caps Lock</a>
+            
+              <a href="/tags/Shift/">#Shift</a>
+            
+              <a href="/tags/%E5%BE%AE%E4%BF%A1%E8%BE%93%E5%85%A5%E6%B3%95/">#微信输入法</a>
+            
+              <a href="/tags/%E7%AE%80%E4%BD%93%E6%8B%BC%E9%9F%B3/">#简体拼音</a>
+            
+              <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE/">#系统设置</a>
+            
+              <a href="/tags/%E5%85%A8%E8%A7%92%E5%8D%8A%E8%A7%92/">#全角半角</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2026/26-02-07-%E5%8D%83%E9%97%AE%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%A5%B6%E8%8C%B6%E4%BF%83%E9%94%80%E6%B4%BB%E5%8A%A8%E7%BF%BB%E8%BD%A6%E5%88%86%E6%9E%90.html" target="_blank">
+          <img src="https://s2.loli.net/2026/02/08/UMPHFTVaRXEDjI9.jpg" srcset="/img/loading.gif" lazyload alt="千问大模型奶茶促销活动翻车分析">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/26-02-07-%E5%8D%83%E9%97%AE%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%A5%B6%E8%8C%B6%E4%BF%83%E9%94%80%E6%B4%BB%E5%8A%A8%E7%BF%BB%E8%BD%A6%E5%88%86%E6%9E%90.html" target="_blank">
+          千问大模型奶茶促销活动翻车分析
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2026/26-02-07-%E5%8D%83%E9%97%AE%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%A5%B6%E8%8C%B6%E4%BF%83%E9%94%80%E6%B4%BB%E5%8A%A8%E7%BF%BB%E8%BD%A6%E5%88%86%E6%9E%90.html" target="_blank">
+        <div>
+          2026年2月，阿里千问APP推出“春节30亿免单”奶茶促销活动，以“千问，帮我点杯奶茶”的自然语言交互的形式，搭配25元无门槛免单卡福利，瞬间引爆市场，上线4小时订单量便突破200万单。然而，这场旨在抢占AI生活化场景、提升用户活跃度的营销活动，最终却沦为全网热议的“翻车现场”——APP卡顿报错、服务器宕机、订单混乱、用户“吞券”等问题频发，即便官方紧急延长福利有效期、扩容服务器，也难以挽回用户
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-02-07 11:22" pubdate>
+              2026-02-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/" class="category-chain-item">人工智能AIGC</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/" class="category-chain-item">技术架构</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Ollama/">#Ollama</a>
+            
+              <a href="/tags/%E5%8D%83%E9%97%AE%E5%A4%A7%E6%A8%A1%E5%9E%8B/">#千问大模型</a>
+            
+              <a href="/tags/%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82/">#并发请求</a>
+            
+              <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2/">#大模型部署</a>
+            
+              <a href="/tags/%E8%B5%84%E6%BA%90%E6%B6%88%E8%80%97/">#资源消耗</a>
+            
+              <a href="/tags/%E6%B0%B4%E5%B9%B3%E6%89%A9%E5%B1%95/">#水平扩展</a>
+            
+              <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96%E9%83%A8%E7%BD%B2/">#工程化部署</a>
+            
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%95%E6%9C%BA/">#服务器宕机</a>
+            
+              <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E4%BA%A4%E4%BA%92/">#自然语言交互</a>
+            
+              <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">#负载均衡</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/26-01-10-%E6%9C%BA%E6%A2%B0%E7%A1%AC%E7%9B%98%E6%B6%A8%E4%BB%B7%E8%83%8C%E5%90%8E%E7%9A%84%E4%BA%A7%E4%B8%9A%E9%93%BE%E9%80%BB%E8%BE%91.html" target="_blank">
+          机械硬盘涨价背后的产业链逻辑：成本传导与市场博弈
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/26-01-10-%E6%9C%BA%E6%A2%B0%E7%A1%AC%E7%9B%98%E6%B6%A8%E4%BB%B7%E8%83%8C%E5%90%8E%E7%9A%84%E4%BA%A7%E4%B8%9A%E9%93%BE%E9%80%BB%E8%BE%91.html" target="_blank">
+        <div>
+          近年来，机械硬盘（HDD）价格持续上涨，引发市场广泛关注。其背后的原因并非单一因素所致，而是AI需求爆发、生产成本增加、供应链策略调整等多重因素叠加的结果。本文将通过解析产业链各环节的成本传递关系，揭示机械硬盘涨价的深层逻辑，并用流程图直观呈现这一过程。 一、机械硬盘涨价的核心驱动因素 1. AI需求驱动：产能“虹吸效应”人工智能（AI）的快速发展，尤其是大模型训练和推理对存储容量的需求呈指数级增
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-10 10:06" pubdate>
+              2026-01-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/" class="category-chain-item">人工智能AIGC</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/%E5%AD%98%E5%82%A8%E6%8A%80%E6%9C%AF/" class="category-chain-item">存储技术</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#人工智能</a>
+            
+              <a href="/tags/%E6%9C%BA%E6%A2%B0%E7%A1%AC%E7%9B%98/">#机械硬盘</a>
+            
+              <a href="/tags/%E7%A1%AC%E7%9B%98%E6%B6%A8%E4%BB%B7/">#硬盘涨价</a>
+            
+              <a href="/tags/%E4%BA%A7%E4%B8%9A%E9%93%BE/">#产业链</a>
+            
+              <a href="/tags/%E5%AD%98%E5%82%A8%E5%AE%B9%E9%87%8F/">#存储容量</a>
+            
+              <a href="/tags/%E4%BE%9B%E5%BA%94%E9%93%BE/">#供应链</a>
+            
+              <a href="/tags/%E4%BC%81%E4%B8%9A%E7%BA%A7/">#企业级</a>
+            
+              <a href="/tags/%E6%B6%88%E8%B4%B9%E7%BA%A7/">#消费级</a>
+            
+              <a href="/tags/%E6%88%90%E6%9C%AC%E4%BC%A0%E5%AF%BC/">#成本传导</a>
+            
+              <a href="/tags/%E5%B8%82%E5%9C%BA%E5%8D%9A%E5%BC%88/">#市场博弈</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/26-01-03-%E7%90%86%E8%A7%A3CPP%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%8D%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6.html" target="_blank">
+          理解 C++ 编程中的“位与“运算符
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/26-01-03-%E7%90%86%E8%A7%A3CPP%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%8D%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6.html" target="_blank">
+        <div>
+          我们以位掩码 &amp; 0xFF 为例说明计算机中位与运算的完整原理。 1. 语法解析&amp; 运算符 名称：按位与（bitwise AND）运算符 作用：对两个操作数的每个对应位执行逻辑与操作 语法：操作数1 &amp; 操作数2  0xFF 的含义 **0x**：十六进制前缀 **FF**：十六进制的 255 二进制：11111111（8个1）  2. 按位与的真值表   位A 位B A
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-03 14:35" pubdate>
+              2026-01-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" class="category-chain-item">系统架构</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">#性能优化</a>
+            
+              <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/">#二进制</a>
+            
+              <a href="/tags/C/">#C++</a>
+            
+              <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/">#位运算</a>
+            
+              <a href="/tags/%E6%8C%89%E4%BD%8D%E4%B8%8E/">#按位与</a>
+            
+              <a href="/tags/%E4%BD%8D%E6%8E%A9%E7%A0%81/">#位掩码</a>
+            
+              <a href="/tags/uint8-t/">#uint8_t</a>
+            
+              <a href="/tags/uint16-t/">#uint16_t</a>
+            
+              <a href="/tags/%E5%BA%95%E5%B1%82%E7%BC%96%E7%A8%8B/">#底层编程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/26-01-03-%E9%80%9A%E8%BF%87CPP%E7%BC%96%E7%A8%8B%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%8D%95%E5%AD%97%E8%8A%82%E5%92%8C%E5%8F%8C%E5%AD%97%E8%8A%82.html" target="_blank">
+          通过C++编程的变量类型理解计算机的单字节和双字节
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/26-01-03-%E9%80%9A%E8%BF%87CPP%E7%BC%96%E7%A8%8B%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%8D%95%E5%AD%97%E8%8A%82%E5%92%8C%E5%8F%8C%E5%AD%97%E8%8A%82.html" target="_blank">
+        <div>
+          在计算机底层编程、嵌入式开发或数据处理场景中，“单字节”“双字节”是高频出现的概念，但很多初学者容易将其与C++的基础类型混淆。本文将结合int8_t&#x2F;uint8_t、int16_t&#x2F;uint16_t等固定宽度整数类型，从代码实践角度讲清单字节、双字节的本质，以及C++中如何正确使用和输出这些类型。 一、先明确：字节与二进制位的核心关系计算机的最小存储单位是位（bit），表示0
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-03 14:35" pubdate>
+              2026-01-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" class="category-chain-item">系统架构</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">#C++</a>
+            
+              <a href="/tags/uint8-t/">#uint8_t</a>
+            
+              <a href="/tags/uint16-t/">#uint16_t</a>
+            
+              <a href="/tags/%E5%BA%95%E5%B1%82%E7%BC%96%E7%A8%8B/">#底层编程</a>
+            
+              <a href="/tags/%E5%8D%95%E5%AD%97%E8%8A%82/">#单字节</a>
+            
+              <a href="/tags/%E5%8F%8C%E5%AD%97%E8%8A%82/">#双字节</a>
+            
+              <a href="/tags/int8-t/">#int8_t</a>
+            
+              <a href="/tags/int16-t/">#int16_t</a>
+            
+              <a href="/tags/%E5%9B%BA%E5%AE%9A%E5%AE%BD%E5%BA%A6%E7%B1%BB%E5%9E%8B/">#固定宽度类型</a>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">#数据类型</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html" target="_blank">
+          一文搞懂：二进制、十进制、十六进制换算与字节表示原理
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html" target="_blank">
+        <div>
+          在计算机编程和底层开发中，二进制、十进制、十六进制的转换是基础中的基础。很多新手会困惑：为什么计算机偏爱二进制？为什么用0x加两位字符表示一个字节？本文结合239（十进制）、11101111（二进制）、0xEF（十六进制）的实例，把这些问题讲透。 一、三种进制的核心定义首先明确三种进制的本质：不同的计数规则，核心区别是“逢几进一”。    进制 基数 计数规则 字符集 示例（对应同一个值）
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-02 14:35" pubdate>
+              2026-01-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" class="category-chain-item">系统架构</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/">#二进制</a>
+            
+              <a href="/tags/%E5%8D%81%E8%BF%9B%E5%88%B6/">#十进制</a>
+            
+              <a href="/tags/%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6/">#十六进制</a>
+            
+              <a href="/tags/%E5%AD%97%E8%8A%82/">#字节</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/">#计算机</a>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">#编程</a>
+            
+              <a href="/tags/%E8%BD%AC%E6%8D%A2/">#转换</a>
+            
+              <a href="/tags/%E5%AD%98%E5%82%A8/">#存储</a>
+            
+              <a href="/tags/%E6%95%B0%E5%80%BC/">#数值</a>
+            
+              <a href="/tags/%E8%BF%9B%E5%88%B6/">#进制</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html" target="_blank">
+          计算机中的补码表示法与正负数的关系
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html" target="_blank">
+        <div>
+          本文通过具体数字 -47、0xD1 和 209 的关系，深入剖析计算机如何用二进制表示正负数，揭示原码、反码、补码的设计原理与演进历程。   1. 问题的提出在 C++ 中，一个字节 0xD1 既可以表示 209（无符号），也可以表示 -47（有符号）。为什么同一个二进制模式 11010001 会有两种截然不同的值？这背后是计算机表示有符号数的三种历史方案：原码、反码、补码。  2. 直观理解想
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-02 14:35" pubdate>
+              2026-01-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" class="category-chain-item">系统架构</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/">#二进制</a>
+            
+              <a href="/tags/%E8%A1%A5%E7%A0%81/">#补码</a>
+            
+              <a href="/tags/%E5%8E%9F%E7%A0%81/">#原码</a>
+            
+              <a href="/tags/%E5%8F%8D%E7%A0%81/">#反码</a>
+            
+              <a href="/tags/C/">#C++</a>
+            
+              <a href="/tags/%E6%9C%89%E7%AC%A6%E5%8F%B7%E6%95%B0/">#有符号数</a>
+            
+              <a href="/tags/%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B0/">#无符号数</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">#计算机原理</a>
+            
+              <a href="/tags/%E6%95%B0%E5%80%BC%E8%A1%A8%E7%A4%BA/">#数值表示</a>
+            
+              <a href="/tags/%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F/">#类型系统</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/25-12-13-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E4%B8%AD%E7%9A%84%E9%A3%8E%E9%99%A9%E6%8E%A7%E5%88%B6.html" target="_blank">
+          <img src="https://s2.loli.net/2026/02/07/cjkwFQ658qOPyM3.jpg" srcset="/img/loading.gif" lazyload alt="软件项目管理中的风险控制：破局传统思维，回归创造本质">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/25-12-13-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E4%B8%AD%E7%9A%84%E9%A3%8E%E9%99%A9%E6%8E%A7%E5%88%B6.html" target="_blank">
+          软件项目管理中的风险控制：破局传统思维，回归创造本质
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/25-12-13-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E4%B8%AD%E7%9A%84%E9%A3%8E%E9%99%A9%E6%8E%A7%E5%88%B6.html" target="_blank">
+        <div>
+          在数字化转型全面渗透产业的当下，软件项目已成为企业核心竞争力的载体，但项目延期、成本超支、需求失控、交付质量不达标等问题依旧普遍存在。相较于成熟度极高的传统工程类项目管理，软件项目管理因创造性、不确定性、知识密集型的核心属性，无法照搬流水线式的管控逻辑。当前行业内大量项目经理仍沿用传统工程思维应对软件风险，将人力堆砌当作万能解法，进一步放大了项目失控的概率。唯有厘清两类项目管理的本质差异，精准定
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-13 14:27" pubdate>
+              2025-12-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" class="category-chain-item">项目管理</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/">#敏捷开发</a>
+            
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/">#软件项目管理</a>
+            
+              <a href="/tags/%E9%A3%8E%E9%99%A9%E6%8E%A7%E5%88%B6/">#风险控制</a>
+            
+              <a href="/tags/%E9%9C%80%E6%B1%82%E9%A3%8E%E9%99%A9/">#需求风险</a>
+            
+              <a href="/tags/%E5%95%86%E5%8A%A1%E9%A3%8E%E9%99%A9/">#商务风险</a>
+            
+              <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E9%A3%8E%E9%99%A9/">#项目管理风险</a>
+            
+              <a href="/tags/%E7%80%91%E5%B8%83%E6%B5%81/">#瀑布流</a>
+            
+              <a href="/tags/%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F/">#迭代模式</a>
+            
+              <a href="/tags/%E4%BA%BA%E5%8A%9B%E5%A0%86%E7%A0%8C/">#人力堆砌</a>
+            
+              <a href="/tags/%E9%9C%80%E6%B1%82%E5%8F%98%E6%9B%B4/">#需求变更</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/25-11-29-Nano%20Banana%E4%BD%BF%E7%94%A8%E5%88%9D%E4%BD%93%E9%AA%8C.html" target="_blank">
+          Nano Banana使用初体验
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/25-11-29-Nano%20Banana%E4%BD%BF%E7%94%A8%E5%88%9D%E4%BD%93%E9%AA%8C.html" target="_blank">
+        <div>
+          Nano Banana最近火的不得了，抽空体验一把，先说结论：相比较于豆包和通义千问，以及抖音旗下的即梦App，Nano Banana的使用体验要简单得多，而且基本可以实现你想要实现的修图要求，而不像很多国产大模型，返回的结果经常莫名其妙，比如说最基本的去水印和抠图，不知道是因为政策限制还是蒸馏或套壳的原因，经常处理不了。 应用案例一：去除文字下面是清除图片上文字的操作步骤：  打开Nano Ba
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-11-29 14:30" pubdate>
+              2025-11-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/" class="category-chain-item">人工智能AIGC</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDAIGC/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" class="category-chain-item">图像处理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#人工智能</a>
+            
+              <a href="/tags/AIGC/">#AIGC</a>
+            
+              <a href="/tags/Nano-Banana/">#Nano Banana</a>
+            
+              <a href="/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/">#图片处理</a>
+            
+              <a href="/tags/AI%E4%BF%AE%E5%9B%BE/">#AI修图</a>
+            
+              <a href="/tags/%E5%8E%BB%E6%B0%B4%E5%8D%B0/">#去水印</a>
+            
+              <a href="/tags/%E6%8A%A0%E5%9B%BE/">#抠图</a>
+            
+              <a href="/tags/%E5%9B%BE%E5%83%8F%E7%BC%96%E8%BE%91/">#图像编辑</a>
+            
+              <a href="/tags/%E4%BF%AE%E5%9B%BE%E5%B7%A5%E5%85%B7/">#修图工具</a>
+            
+              <a href="/tags/%E6%99%BA%E8%83%BD%E5%9B%BE%E5%83%8F/">#智能图像</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/2/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/#board">13</a><a class="extend next" rel="next" href="/page/4/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1966 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="我们以Ubuntu Server 24.04为例，介绍Ubuntu Server的初始化操作，包括安装、配置和安全加固。 kanban   Ubuntu Server 24.04      相关操作内容提纲   初始化操作     Ubuntu Server安装过程       Ubuntu Server初始化过程   安全加固     认识防火墙ufw     认识OpenSSH Server">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu Server初始化操作，安全性和加固">
+<meta property="og:url" content="https://jycpp.github.io/2025/25-06-10-Ubuntu%20Server%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="我们以Ubuntu Server 24.04为例，介绍Ubuntu Server的初始化操作，包括安装、配置和安全加固。 kanban   Ubuntu Server 24.04      相关操作内容提纲   初始化操作     Ubuntu Server安装过程       Ubuntu Server初始化过程   安全加固     认识防火墙ufw     认识OpenSSH Server">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-10T21:30:45.000Z">
+<meta property="article:modified_time" content="2026-08-08T03:09:42.438Z">
+<meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="阿里云">
+<meta property="article:tag" content="Apache">
+<meta property="article:tag" content="Nginx">
+<meta property="article:tag" content="SSH">
+<meta property="article:tag" content="Ubuntu Server">
+<meta property="article:tag" content="防火墙">
+<meta property="article:tag" content="UFW">
+<meta property="article:tag" content="安全加固">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>Ubuntu Server初始化操作，安全性和加固 - Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Ubuntu Server初始化操作，安全性和加固"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-10 21:30" pubdate>
+          2025年6月10日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          24 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="软件开发"
+        id="heading-a41622d744ac9c55f5266dcc90ac7599" role="tab" data-toggle="collapse" href="#collapse-a41622d744ac9c55f5266dcc90ac7599"
+        aria-expanded="true"
+      >
+        软件开发
+        <span class="list-group-count">(70)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-a41622d744ac9c55f5266dcc90ac7599"
+           role="tabpanel" aria-labelledby="heading-a41622d744ac9c55f5266dcc90ac7599">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-07-19-Edge%E5%92%8CChrome%E6%8F%92%E4%BB%B6%EF%BC%9A%E5%9B%BE%E7%89%87%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BD%E5%99%A8.html" title="Edge和Chrome插件：图片批量下载器"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Edge和Chrome插件：图片批量下载器</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2011/11-10-12-PHP%E4%B8%AD9%E4%B8%AA%E9%87%8D%E8%A6%81%E5%AE%9E%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0%E5%92%8C%E5%8A%9F%E8%83%BD.html" title="PHP 知识：9 个重要实用的 PHP 函数和功能"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">PHP 知识：9 个重要实用的 PHP 函数和功能</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-03-15-Threejs%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE%9E%E6%88%98.html" title="Threejs从入门到实战一文说明白"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Threejs从入门到实战一文说明白</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2011/11-03-13-Ubuntu%E4%B8%8BSwap%E5%88%86%E5%8C%BA%E7%9A%84%E8%B0%83%E6%95%B4%E5%92%8C%E4%BC%98%E5%8C%96.html" title="Ubuntu 下 Swap 分区的调整和优化"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Ubuntu 下 Swap 分区的调整和优化</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2011/11-08-11-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0VS2005%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E6%A3%80%E6%9F%A5.html" title="学习笔记：VS2005内存泄露检查"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">学习笔记：VS2005内存泄露检查</span>
+        </a>
+      
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="MacOS"
+        id="heading-0a5b7edb55b772c60bfa8af868b679cf" role="tab" data-toggle="collapse" href="#collapse-0a5b7edb55b772c60bfa8af868b679cf"
+        aria-expanded="false"
+      >
+        MacOS
+        <span class="list-group-count">(5)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-0a5b7edb55b772c60bfa8af868b679cf"
+           role="tabpanel" aria-labelledby="heading-0a5b7edb55b772c60bfa8af868b679cf">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-01-14-MacOS%E4%B8%8B%E7%9A%84Git%E6%93%8D%E4%BD%9C%E5%8F%8AXCode%E5%8D%8F%E4%BD%9C.html" title="MacOS下的Git操作及XCode协作"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">MacOS下的Git操作及XCode协作</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-02-15-macOS%20%E4%B8%AD%E8%8B%B1%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2%E8%AF%A6%E8%A7%A3.html" title="macOS 中英文输入法切换详解"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">macOS 中英文输入法切换详解</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-02-22-macOS%E5%AE%89%E8%A3%85nginx%E6%96%B9%E6%A1%88%E6%A2%B3%E7%90%86.html" title="macOS安装nginx方案梳理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">macOS安装nginx方案梳理</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-02-15-%E5%9C%A8%20macOS%20Terminal%20%E4%B8%AD%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97.html" title="在 macOS Terminal 中配置代理服务器的完整指南"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在 macOS Terminal 中配置代理服务器的完整指南</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-12-26-%E5%AD%A6%E4%B9%A0Objective-C%E8%AF%BB%E8%BF%99%E4%B8%AA%E5%B0%B1%E8%B6%B3%E5%A4%9F%E4%BA%86.html" title="学习Objective-C的一些笔记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">学习Objective-C的一些笔记</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="PHP编程"
+        id="heading-07ba74ada3ba4fd5f731c7113d524e0d" role="tab" data-toggle="collapse" href="#collapse-07ba74ada3ba4fd5f731c7113d524e0d"
+        aria-expanded="false"
+      >
+        PHP编程
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-07ba74ada3ba4fd5f731c7113d524e0d"
+           role="tabpanel" aria-labelledby="heading-07ba74ada3ba4fd5f731c7113d524e0d">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2019/19-05-21-PHP%E4%B8%AD%E7%9A%84%E9%AD%94%E6%B3%95%E5%87%BD%E6%95%B0__call%E5%9C%A8ThinkPHP%E4%B8%AD%E7%9A%84%E5%A6%99%E7%94%A8.html" title="PHP中的魔法函数 “__call” 在ThinkPHP中的妙用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">PHP中的魔法函数 “__call” 在ThinkPHP中的妙用</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="云计算"
+        id="heading-1fefd5a9127ae81cd9e10ebb95084366" role="tab" data-toggle="collapse" href="#collapse-1fefd5a9127ae81cd9e10ebb95084366"
+        aria-expanded="false"
+      >
+        云计算
+        <span class="list-group-count">(5)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-1fefd5a9127ae81cd9e10ebb95084366"
+           role="tabpanel" aria-labelledby="heading-1fefd5a9127ae81cd9e10ebb95084366">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2022/22-07-16-AWS-Lambda%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98.html" title="AWS-Lambda开发实战"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">AWS-Lambda开发实战</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-07-13-AWS%E7%9A%84S3%E5%92%8CEC2.html" title="AWS的S3和EC2"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">AWS的S3和EC2</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-05-19-%E8%87%AA%E5%BB%BADocker%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E5%99%A8.html" title="在CentOS上搭建自己的Docker镜像加速器"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在CentOS上搭建自己的Docker镜像加速器</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-04-15-Serverless-and-Cloud-Function.html" title="无服务器架构和云函数 Serverless and Cloud Function"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">无服务器架构和云函数 Serverless and Cloud Function</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-15-%E9%98%BF%E9%87%8C%E4%BA%91%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%BB%84%E7%9A%84%E7%BD%91%E6%AE%B5%E5%88%86%E6%9E%90.html" title="阿里云的网络安全组的网段分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">阿里云的网络安全组的网段分析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="区块链技术"
+        id="heading-649e6048a32c09299e1c952347ccac7e" role="tab" data-toggle="collapse" href="#collapse-649e6048a32c09299e1c952347ccac7e"
+        aria-expanded="false"
+      >
+        区块链技术
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-649e6048a32c09299e1c952347ccac7e"
+           role="tabpanel" aria-labelledby="heading-649e6048a32c09299e1c952347ccac7e">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-01-10-%E5%8C%BA%E5%9D%97%E9%93%BE%E7%9A%84%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86.html" title="区块链的技术原理与项目开发实践"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">区块链的技术原理与项目开发实践</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="大语言模型"
+        id="heading-faf3ef15d22b0a54f1d7520545b242f7" role="tab" data-toggle="collapse" href="#collapse-faf3ef15d22b0a54f1d7520545b242f7"
+        aria-expanded="false"
+      >
+        大语言模型
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-faf3ef15d22b0a54f1d7520545b242f7"
+           role="tabpanel" aria-labelledby="heading-faf3ef15d22b0a54f1d7520545b242f7">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-08-10-Open%20WebUI%E5%87%BD%E6%95%B0Function%E7%9A%84%E8%B0%83%E7%94%A8%E6%AD%A5%E9%AA%A4.html" title="Open WebUI函数Function的调用步骤"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Open WebUI函数Function的调用步骤</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-08-10-Open%20WebUI%E5%B7%A5%E5%85%B7Tool%E8%B0%83%E7%94%A8%E7%9A%84%E8%87%AA%E5%8A%A8%E5%92%8C%E6%89%8B%E5%8A%A8%E6%A8%A1%E5%BC%8F.html" title="Open WebUI工具Tool调用的自动和手动模式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Open WebUI工具Tool调用的自动和手动模式</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-08-09-Open%20WebUI%E5%BC%80%E5%8F%91%E9%AB%98%E7%BA%A7%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E5%BA%94%E7%94%A8.html" title="Open WebUI开发高级接口参数应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Open WebUI开发高级接口参数应用</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="小程序和APP"
+        id="heading-7f209bc2e0d708de6099e389e191db5a" role="tab" data-toggle="collapse" href="#collapse-7f209bc2e0d708de6099e389e191db5a"
+        aria-expanded="false"
+      >
+        小程序和APP
+        <span class="list-group-count">(10)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-7f209bc2e0d708de6099e389e191db5a"
+           role="tabpanel" aria-labelledby="heading-7f209bc2e0d708de6099e389e191db5a">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-07-12-Android%E4%B8%AD%E5%AE%9E%E7%8E%B0Activity%E4%B8%8EService%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2.html" title="Android中实现Activity与Service数据交换"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android中实现Activity与Service数据交换</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-07-21-Android%E5%BC%80%E5%8F%91%E4%B8%ADKotlin%E7%9A%84%E8%AF%AD%E6%B3%95%E7%B3%96.html" title="Android开发中Kotlin的语法糖"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android开发中Kotlin的语法糖</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-09-20-Android%E5%BC%80%E5%8F%91%E4%B8%ADadb%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86.html" title="Android开发中adb常用命令整理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android开发中adb常用命令整理</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-09-05-Android%E8%AE%BE%E5%A4%87%E4%B8%ADdp%E5%92%8Cpx%E7%9A%84%E6%8D%A2%E7%AE%97%E5%85%B3%E7%B3%BB.html" title="Android设备中dp和px的换算关系"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android设备中dp和px的换算关系</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-04-15-Uniapp%E9%A1%B9%E7%9B%AE%E9%87%8D%E5%AE%9A%E4%B9%89%E5%B7%A6%E4%B8%8A%E8%A7%92%E7%9A%84%E8%BF%94%E5%9B%9E%E7%AE%AD%E5%A4%B4%E7%9A%84%E4%BA%8B%E4%BB%B6.html" title="Uniapp项目重定义左上角的返回箭头的事件"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Uniapp项目重定义左上角的返回箭头的事件</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-10-23-kotlin%E4%B8%AD%E7%9A%84data%20class%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8.html" title="kotlin中的data class及其应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">kotlin中的data class及其应用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-07-25-%E5%A6%82%E4%BD%95%E5%B0%86%E5%AE%89%E5%8D%93App%E8%BD%AC%E7%A7%BB%E5%88%B0%E5%8F%A6%E4%B8%80%E5%8F%B0%E6%89%8B%E6%9C%BA%E4%B8%8A.html" title="如何将安卓App转移到另一台手机上"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">如何将安卓App转移到另一台手机上</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-05-19-%E5%BE%AE%E4%BF%A1%E5%92%8C%E6%8A%96%E9%9F%B3%E7%9A%84%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F.html" title="微信和抖音的小程序生态系统"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">微信和抖音的小程序生态系统</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-07-20-%E7%90%86%E8%A7%A3Android%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84Context%E5%92%8CActivity.html" title="理解Android开发中的Context和Activity"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">理解Android开发中的Context和Activity</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-12-01-%E9%B8%BF%E8%92%99%E4%BC%9A%E6%88%90%E4%B8%BA%E5%AE%89%E5%8D%93%E5%92%8C%E8%8B%B9%E6%9E%9C%E4%B9%8B%E5%90%8E%E7%9A%84%E8%80%81%E4%B8%89.html" title="鸿蒙要成为安卓和苹果之后的老三优势和挑战"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">鸿蒙要成为安卓和苹果之后的老三优势和挑战</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="微服务"
+        id="heading-79c287218d34050f6bd19986cd05b499" role="tab" data-toggle="collapse" href="#collapse-79c287218d34050f6bd19986cd05b499"
+        aria-expanded="false"
+      >
+        微服务
+        <span class="list-group-count">(4)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-79c287218d34050f6bd19986cd05b499"
+           role="tabpanel" aria-labelledby="heading-79c287218d34050f6bd19986cd05b499">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-09-11-IntelliJ%20IDEA%E4%B8%AD%E9%85%8D%E7%BD%AE%E8%BF%90%E8%A1%8C%E8%B0%83%E8%AF%95%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0.html" title="IntelliJ IDEA中配置运行调试启动命令参数"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">IntelliJ IDEA中配置运行调试启动命令参数</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-12-03-Nacos%E5%9C%A8Java-Based%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8.html" title="Nacos在Java-Based微服务架构中的作用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Nacos在Java-Based微服务架构中的作用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-05-03-Nacos%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB.html" title="Nacos的基础知识汇总"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Nacos的基础知识汇总</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-11-%E8%8B%A5%E4%BE%9D%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6(Ruoyi%20Cloud)%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93.html" title="若依微服务框架(Ruoyi Cloud)知识点总结"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">若依微服务框架(Ruoyi Cloud)知识点总结</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="游戏开发"
+        id="heading-03af44dfb57651192e1e5ff490e35760" role="tab" data-toggle="collapse" href="#collapse-03af44dfb57651192e1e5ff490e35760"
+        aria-expanded="false"
+      >
+        游戏开发
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-03af44dfb57651192e1e5ff490e35760"
+           role="tabpanel" aria-labelledby="heading-03af44dfb57651192e1e5ff490e35760">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-04-28-LayaAir%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0.html" title="LayaAir项目开发中的生命周期函数"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">LayaAir项目开发中的生命周期函数</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="系统架构"
+        id="heading-b2f511d71f9265a279f533d671dee8ab" role="tab" data-toggle="collapse" href="#collapse-b2f511d71f9265a279f533d671dee8ab"
+        aria-expanded="false"
+      >
+        系统架构
+        <span class="list-group-count">(13)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-b2f511d71f9265a279f533d671dee8ab"
+           role="tabpanel" aria-labelledby="heading-b2f511d71f9265a279f533d671dee8ab">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-04-21-ALM%EF%BC%88%E5%BA%94%E7%94%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%AE%A1%E7%90%86%EF%BC%89%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9%E8%A7%A3%E6%9E%90.html" title="ALM（应用生命周期管理）核心内容解析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">ALM（应用生命周期管理）核心内容解析</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-07-20-Android%E4%BD%8E%E5%8A%9F%E8%80%97%E8%93%9D%E7%89%99GATT%E8%AF%BB%E5%86%99%E5%9B%9E%E8%B0%83%E7%9A%84%E5%9D%91.html" title="Android低功耗蓝牙通信中的Context陷阱：被忽略的生命周期依赖"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android低功耗蓝牙通信中的Context陷阱：被忽略的生命周期依赖</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-07-13-mermaid%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B%E5%9B%BE%E8%AE%A9markdown%E7%94%BB%E8%B5%B7%E6%9D%A5.html" title="Mermaid绘制流程图让Markdown画起来"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Mermaid绘制流程图让Markdown画起来</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html" title="一文搞懂：二进制、十进制、十六进制换算与字节表示原理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">一文搞懂：二进制、十进制、十六进制换算与字节表示原理</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-04-03-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0%E6%B8%B8%E6%88%8F%E8%83%8C%E6%99%AF%E9%9F%B3%E4%B9%90%E6%8C%81%E7%BB%AD%E6%92%AD%E6%94%BE.html" title="单例模式实现游戏背景音乐持续播放"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">单例模式实现游戏背景音乐持续播放</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-29-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E7%89%88%E6%9C%AC%E5%88%86%E6%94%AF%E5%8F%8A%E5%90%88%E5%B9%B6.html" title="温故知新：Git版本分支及合并"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">温故知新：Git版本分支及合并</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-03-%E7%90%86%E8%A7%A3CPP%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%8D%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6.html" title="理解 C++ 编程中的“位与“运算符"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">理解 C++ 编程中的“位与“运算符</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-03-07-%E7%A7%91%E6%8A%80%E5%90%91%E5%96%84%E8%8E%AB%E8%AE%A9%E9%99%8D%E7%BB%B4%E6%89%93%E5%87%BB%E6%88%90%E4%B8%BA%E6%97%B6%E4%BB%A3%E7%9A%84%E6%8A%80%E6%9C%AF%E4%B9%8B%E6%AE%87.html" title="科技向善：莫让降维打击成为时代的“技术之殇”"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">科技向善：莫让降维打击成为时代的“技术之殇”</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html" title="计算机中的补码表示法与正负数的关系"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">计算机中的补码表示法与正负数的关系</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-08-10-%E8%BD%AF%E4%BB%B6%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E4%B8%9A%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84.html" title="软件平台的技术架构业务架构应用架构"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软件平台的技术架构业务架构应用架构</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-11-10-%E8%BD%AF%E8%80%83%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%B8%882025%E5%B9%B4%E8%AE%BA%E6%96%87%E6%88%91%E7%9A%84%E9%80%89%E9%A2%98.html" title="软考系统架构师2025年论文我的选题"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软考系统架构师2025年论文我的选题</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-11-12-%E8%BD%AF%E8%80%83%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%B8%882025%E5%B9%B4%E8%8B%B1%E8%AF%AD%E9%A2%98%E5%88%86%E6%9E%90.html" title="软考系统架构设计师2025年英语题分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软考系统架构设计师2025年英语题分析</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-03-%E9%80%9A%E8%BF%87CPP%E7%BC%96%E7%A8%8B%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%8D%95%E5%AD%97%E8%8A%82%E5%92%8C%E5%8F%8C%E5%AD%97%E8%8A%82.html" title="通过C++编程的变量类型理解计算机的单字节和双字节"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">通过C++编程的变量类型理解计算机的单字节和双字节</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="网站建设"
+        id="heading-e9a3d2d73dc4188ec07ebda8feea7964" role="tab" data-toggle="collapse" href="#collapse-e9a3d2d73dc4188ec07ebda8feea7964"
+        aria-expanded="false"
+      >
+        网站建设
+        <span class="list-group-count">(7)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-e9a3d2d73dc4188ec07ebda8feea7964"
+           role="tabpanel" aria-labelledby="heading-e9a3d2d73dc4188ec07ebda8feea7964">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2021/21-08-03-HTTPS%E5%AE%89%E5%85%A8%E7%BD%91%E7%AB%99%E5%8E%9F%E7%90%86%E5%92%8CSSL%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86.html" title="HTTPS安全网站原理和SSL非对称加密"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-06-13-Vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.html" title="Vue项目中的环境变量配置文件"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Vue项目中的环境变量配置文件</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2018/18-05-13-Wordpress%E7%9A%84%E4%BC%AA%E9%9D%99%E6%80%81%E9%85%8D%E7%BD%AE.html" title="Wordpress的伪静态配置：Apache和Nginx两种平台的详细说明"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Wordpress的伪静态配置：Apache和Nginx两种平台的详细说明</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-03-12-uniapp%E9%A1%B9%E7%9B%AECICD%E5%AE%9E%E7%8E%B0Web%E7%89%88%E6%9C%AC%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83.html" title="uniapp项目CICD实现Web版本自动发布"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">uniapp项目CICD实现Web版本自动发布</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-06-16-%E5%88%86%E6%9E%90nodejs%E4%B8%AD%E7%9A%84express%E5%92%8Chttp-server.html" title="分析nodejs中的express和http-server"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">分析nodejs中的express和http-server</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-28-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E5%85%8B%E9%9A%86%E9%A1%B9%E7%9B%AE%E5%88%B0%E6%9C%AC%E5%9C%B0.html" title="温故知新：Git克隆远程项目到本地开发环境"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">温故知新：Git克隆远程项目到本地开发环境</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-07-30-%E7%A8%8B%E5%BA%8F%E5%91%98%E5%BE%80%E4%BA%8B-%E8%B7%A8%E8%B6%8A%E6%97%B6%E4%BB%A3%E7%9A%84%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E5%85%B4%E8%A1%B0%E5%BD%95.html" title="程序员往事：跨越时代的开发工具兴衰录"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">程序员往事：跨越时代的开发工具兴衰录</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="职业规划"
+        id="heading-9d0f8f6f657186a8f0f18f1ea92d1c95" role="tab" data-toggle="collapse" href="#collapse-9d0f8f6f657186a8f0f18f1ea92d1c95"
+        aria-expanded="false"
+      >
+        职业规划
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-9d0f8f6f657186a8f0f18f1ea92d1c95"
+           role="tabpanel" aria-labelledby="heading-9d0f8f6f657186a8f0f18f1ea92d1c95">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-07-21-%E5%86%99%E4%BA%8620%E5%A4%9A%E5%B9%B4%E4%BB%A3%E7%A0%81%E7%A8%8B%E5%BA%8F%E5%91%98%E6%98%AF%E5%90%A6%E5%80%BC%E5%BE%97%E5%B9%B2%E4%B8%80%E8%BE%88%E5%AD%90.html" title="写了20多年代码程序员是否值得干一辈子"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">写了20多年代码程序员是否值得干一辈子</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="运维管理"
+        id="heading-033e45b14e81e1795577d54f37b66366" role="tab" data-toggle="collapse" href="#collapse-033e45b14e81e1795577d54f37b66366"
+        aria-expanded="true"
+      >
+        运维管理
+        <span class="list-group-count">(14)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-033e45b14e81e1795577d54f37b66366"
+           role="tabpanel" aria-labelledby="heading-033e45b14e81e1795577d54f37b66366">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-06-10-2025%E5%B9%B4%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%80%89%E5%93%AA%E4%B8%AA.html" title="2025年服务器操作系统选哪个，Ubuntu是否合适？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">2025年服务器操作系统选哪个，Ubuntu是否合适？</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-21-Android%20Wi-Fi%20%E8%BF%9E%E6%8E%A5%E6%8E%A7%E5%88%B6%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B%E4%B8%8E%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88.html" title="Android Wi-Fi 连接控制技术演进与实现方案"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android Wi-Fi 连接控制技术演进与实现方案</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-05-01-Codex%E5%B1%80%E5%9F%9F%E7%BD%91%E8%BF%9C%E7%A8%8B%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" title="Codex 局域网远程使用指南：macOS 服务端 + SSH 端口转发方案"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Codex 局域网远程使用指南：macOS 服务端 + SSH 端口转发方案</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-05-01-Codex%E5%B9%BF%E5%9F%9F%E7%BD%91%E8%BF%9C%E7%A8%8B%E5%85%B1%E4%BA%AB%E6%8C%87%E5%8D%97.html" title="Codex 广域网远程共享指南：macOS 服务端 + Nginx + SSL（wss 方案）"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Codex 广域网远程共享指南：macOS 服务端 + Nginx + SSL（wss 方案）</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-02-Dockerfile%E8%84%9A%E6%9C%AC%E5%88%86%E6%9E%90%E4%B8%8Ecompose%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B.html" title="Dockerfile脚本分析与compose应用案例"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Dockerfile脚本分析与compose应用案例</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-03-21-Git-Stash-%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%B4%E6%97%B6%E5%82%A8%E7%89%A9%E6%9F%9C.html" title="Git Stash：代码的&#34;临时储物柜&#34;，高效管理开发中的临时修改"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Git Stash：代码的&#34;临时储物柜&#34;，高效管理开发中的临时修改</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-08-05-Gitlab%E4%B8%AD%E8%BF%99%E7%83%A6%E4%BA%BA%E7%9A%84Prometheus.html" title="Gitlab中这烦人的Prometheus"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Gitlab中这烦人的Prometheus</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-02-07-Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90CI%E4%B8%8E%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2CD%E8%BF%87%E7%A8%8B%E8%AF%B4%E6%98%8E.html" title="Jenkins持续集成CI与持续部署CD过程说明"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Jenkins持续集成CI与持续部署CD过程说明</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/20-10-05-Redis%E6%9C%8D%E5%8A%A1%E6%97%A5%E7%A8%8B%E8%BF%90%E7%BB%B4%E7%9F%A5%E8%AF%86%E7%82%B9.html" title="Redis服务日程运维知识点"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Redis服务日程运维知识点</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-10-Ubuntu%20Server%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C.html" title="Ubuntu Server初始化操作，安全性和加固"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">Ubuntu Server初始化操作，安全性和加固</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-05-06-openEuler%2022.03%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95.html" title="openEuler 22.03安装记录"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">openEuler 22.03安装记录</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-06-10-Docker%E6%90%AD%E5%BB%BAPrometheus%E5%92%8CGrafana.html" title="使用Docker搭建Prometheus+Grafana运维监控可视化"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">使用Docker搭建Prometheus+Grafana运维监控可视化</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-17-%E5%88%B6%E4%BD%9C%E7%BB%BF%E8%89%B2%E7%89%88MySQL%E6%95%B0%E6%8D%AE%E5%BA%93.html" title="制作绿色版MySQL数据库适应多项目软件开发"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">制作绿色版MySQL数据库适应多项目软件开发</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-11-18-%E5%9C%A8GitLab%E5%92%8CGitHub%E4%B9%8B%E9%97%B4%E5%90%8C%E6%AD%A5%E4%BB%A3%E7%A0%81.html" title="在GitLab和GitHub之间同步Git版本仓库的代码"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在GitLab和GitHub之间同步Git版本仓库的代码</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Ubuntu Server初始化操作，安全性和加固</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>我们以Ubuntu Server 24.04为例，介绍Ubuntu Server的初始化操作，包括安装、配置和安全加固。</p>
+<div class="mermaid">kanban
+  Ubuntu Server 24.04 
+    相关操作内容提纲
+  初始化操作
+    Ubuntu Server安装过程
+      Ubuntu Server初始化过程
+  安全加固
+    认识防火墙ufw
+    认识OpenSSH Server
+    修改SSH的默认端口
+    添加新用户
+    启用root用户
+  应用功能
+    安装Docker和compose
+    安装AMP：Apache、MySQL和PHP</div>
+
+
+<p>Ubuntu Server 24.04是一个基于Debian的服务器操作系统，适用于需要稳定运行的服务器环境。Ubuntu的产品体系主要包括：</p>
+<ul>
+<li>Ubuntu Desktop：提供桌面环境的Ubuntu版本，适用于个人用户和桌面应用。</li>
+<li>Ubuntu Server：服务器版本，适用于需要在服务器上运行应用的企业用户。</li>
+<li>Ubuntu Core：适用于物联网和边缘计算设备，提供轻量级的操作系统。</li>
+</ul>
+<p>如果你没有机会使用Server版本，也可以使用Ubuntu Desktop版本，它提供了与Server版本相似的功能和工具。</p>
+<h2 id="Ubuntu-Server安装过程"><a href="#Ubuntu-Server安装过程" class="headerlink" title="Ubuntu Server安装过程"></a>Ubuntu Server安装过程</h2><p>Ubuntu Server 24.04的安装步骤：</p>
+<ol>
+<li>下载Ubuntu Server 24.04镜像文件</li>
+<li>创建可引导的USB安装介质</li>
+<li>从USB启动服务器</li>
+<li>选择语言和键盘布局</li>
+<li>配置网络连接（安装过程中可选择自动获取IP）</li>
+<li>配置存储设备</li>
+<li>设置用户账户和密码</li>
+<li>选择安装OpenSSH Server（关键步骤，确保远程访问）</li>
+<li>完成安装并重启</li>
+</ol>
+<h2 id="Ubuntu-Server初始化过程"><a href="#Ubuntu-Server初始化过程" class="headerlink" title="Ubuntu Server初始化过程"></a>Ubuntu Server初始化过程</h2><p>Ubuntu Server 24.04安装完成后，需要进行一些初始化操作，以确保服务器的安全性和功能正常运行。以下是一些常见的初始化步骤：</p>
+<h3 id="1-验证SSH服务是否运行"><a href="#1-验证SSH服务是否运行" class="headerlink" title="1. 验证SSH服务是否运行"></a>1. 验证SSH服务是否运行</h3><p>安装完成后，你可以通过以下方式验证SSH服务是否正在运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 检查SSH服务状态</span><br><span class="hljs-built_in">sudo</span> systemctl status ssh<br><br><span class="hljs-comment"># 如果服务未运行，启动它</span><br><span class="hljs-built_in">sudo</span> systemctl start ssh<br><br><span class="hljs-comment"># 设置SSH服务开机自启</span><br><span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> ssh<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-安装网络工具检查端口状态"><a href="#2-安装网络工具检查端口状态" class="headerlink" title="2. 安装网络工具检查端口状态"></a>2. 安装网络工具检查端口状态</h3><p>Ubuntu Server默认不安装<code>netstat</code>命令，需要手动安装<code>net-tools</code>包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装net-tools包以获取netstat命令</span><br><span class="hljs-built_in">sudo</span> apt update<br><span class="hljs-built_in">sudo</span> apt install net-tools<br><br><span class="hljs-comment"># 使用netstat检查SSH端口状态</span><br>netstat -anotp | grep :22<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-配置静态IP地址"><a href="#3-配置静态IP地址" class="headerlink" title="3. 配置静态IP地址"></a>3. 配置静态IP地址</h3><p>为服务器配置静态IP地址，确保网络连接稳定：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 编辑网络配置文件</span><br><span class="hljs-built_in">sudo</span> nano /etc/netplan/00-installer-config.yaml<br></code></pre></td></tr></table></figure>
+
+<p>文件内容通常类似于：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">network:</span><br>  <span class="hljs-attr">ethernets:</span><br>    <span class="hljs-attr">enp0s3:</span>  <span class="hljs-comment"># 网卡名称，根据实际情况调整</span><br>      <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p>修改为静态IP配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">network:</span><br>  <span class="hljs-attr">ethernets:</span><br>    <span class="hljs-attr">enp0s3:</span>  <span class="hljs-comment"># 网卡名称，根据实际情况调整</span><br>      <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">false</span><br>      <span class="hljs-attr">addresses:</span> [<span class="hljs-number">192.168</span><span class="hljs-number">.0</span><span class="hljs-number">.84</span><span class="hljs-string">/24</span>]<br>      <span class="hljs-attr">routes:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">to:</span> <span class="hljs-string">default</span><br>          <span class="hljs-attr">via:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>  <span class="hljs-comment"># 网关地址，根据实际情况调整</span><br>      <span class="hljs-attr">nameservers:</span><br>        <span class="hljs-attr">addresses:</span> [<span class="hljs-number">8.8</span><span class="hljs-number">.8</span><span class="hljs-number">.8</span>, <span class="hljs-number">8.8</span><span class="hljs-number">.4</span><span class="hljs-number">.4</span>]  <span class="hljs-comment"># DNS服务器，可根据需要调整</span><br>  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p>应用配置更改：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 应用网络配置</span><br><span class="hljs-built_in">sudo</span> netplan apply<br><br><span class="hljs-comment"># 验证IP地址是否已更改</span><br>ip addr show<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-其他常用初始化步骤"><a href="#4-其他常用初始化步骤" class="headerlink" title="4. 其他常用初始化步骤"></a>4. 其他常用初始化步骤</h3><p>完成基本配置后，还可以进行以下初始化操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 更新系统</span><br><span class="hljs-built_in">sudo</span> apt update<br><span class="hljs-built_in">sudo</span> apt upgrade -y<br><br><span class="hljs-comment"># 安装防火墙并开放SSH端口</span><br><span class="hljs-built_in">sudo</span> apt install ufw<br><span class="hljs-built_in">sudo</span> ufw allow 22<br><span class="hljs-built_in">sudo</span> ufw <span class="hljs-built_in">enable</span><br><br><span class="hljs-comment"># 设置时区</span><br><span class="hljs-built_in">sudo</span> timedatectl set-timezone Asia/Shanghai  <span class="hljs-comment"># 根据实际时区调整</span><br><br><span class="hljs-comment"># 创建普通用户并添加到sudo组（可选）</span><br><span class="hljs-built_in">sudo</span> adduser username<br><span class="hljs-built_in">sudo</span> usermod -aG <span class="hljs-built_in">sudo</span> username<br></code></pre></td></tr></table></figure>
+
+<p>通过以上步骤，我们已经完成了Ubuntu Server 24.04的安装和基本初始化配置，包括验证SSH服务、安装网络工具、配置静态IP地址等。</p>
+<h2 id="安全加固Ubuntu-Server"><a href="#安全加固Ubuntu-Server" class="headerlink" title="安全加固Ubuntu Server"></a>安全加固Ubuntu Server</h2><h3 id="认识防火墙ufw"><a href="#认识防火墙ufw" class="headerlink" title="认识防火墙ufw"></a>认识防火墙ufw</h3><p>Ubuntu默认使用的是<code>iptables</code>作为防火墙，但是<code>iptables</code>配置较为复杂，容易出错。为了简化防火墙配置，Ubuntu提供了<code>ufw</code>（Uncomplicated Firewall）工具，它提供了简单易用的命令行界面来管理防火墙规则。</p>
+<h4 id="查看已开放端口列表"><a href="#查看已开放端口列表" class="headerlink" title="查看已开放端口列表"></a>查看已开放端口列表</h4><p>要查看UFW当前已开放的端口和服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 显示已开放的端口（简洁模式）</span><br><span class="hljs-built_in">sudo</span> ufw status<br><br><span class="hljs-comment"># 显示已开放的端口（详细模式）</span><br><span class="hljs-built_in">sudo</span> ufw status verbose<br><br><span class="hljs-comment"># 显示已开放的端口（包含编号）</span><br><span class="hljs-built_in">sudo</span> ufw status numbered<br></code></pre></td></tr></table></figure>
+
+<p>输出示例：</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs nix"><span class="hljs-params">Status:</span> active<br><br>To                         Action      From<br><span class="hljs-operator">-</span>-                         <span class="hljs-operator">-</span>-----      <span class="hljs-operator">-</span>---<br><span class="hljs-number">22</span><span class="hljs-symbol">/tcp</span>                     ALLOW       Anywhere                  <br><span class="hljs-number">80</span><span class="hljs-symbol">/tcp</span>                     ALLOW       Anywhere                  <br><span class="hljs-number">443</span><span class="hljs-symbol">/tcp</span>                    ALLOW       Anywhere                  <br><span class="hljs-number">32000</span>:<span class="hljs-number">32999</span><span class="hljs-symbol">/tcp</span>            ALLOW       Anywhere                  <br><span class="hljs-number">22</span><span class="hljs-symbol">/tcp</span> (v6)                ALLOW       Anywhere (v6)             <br><span class="hljs-number">80</span><span class="hljs-symbol">/tcp</span> (v6)                ALLOW       Anywhere (v6)             <br><span class="hljs-number">443</span><span class="hljs-symbol">/tcp</span> (v6)               ALLOW       Anywhere (v6)             <br><span class="hljs-number">32000</span>:<span class="hljs-number">32999</span><span class="hljs-symbol">/tcp</span> (v6)       ALLOW       Anywhere (v6)<br></code></pre></td></tr></table></figure>
+
+<h4 id="添加端口规则"><a href="#添加端口规则" class="headerlink" title="添加端口规则"></a>添加端口规则</h4><h5 id="1-开放单个端口"><a href="#1-开放单个端口" class="headerlink" title="1. 开放单个端口"></a>1. 开放单个端口</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 开放TCP端口21（FTP）</span><br><span class="hljs-built_in">sudo</span> ufw allow 21/tcp<br><br><span class="hljs-comment"># 开放TCP端口80（HTTP）</span><br><span class="hljs-built_in">sudo</span> ufw allow 80/tcp<br><br><span class="hljs-comment"># 开放TCP端口443（HTTPS）</span><br><span class="hljs-built_in">sudo</span> ufw allow 443/tcp<br></code></pre></td></tr></table></figure>
+
+<h5 id="2-开放端口范围"><a href="#2-开放端口范围" class="headerlink" title="2. 开放端口范围"></a>2. 开放端口范围</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 开放TCP端口范围32000-32999</span><br><span class="hljs-built_in">sudo</span> ufw allow 32000:32999/tcp<br><br><span class="hljs-comment"># 开放UDP端口范围32000-32999（如果需要）</span><br><span class="hljs-built_in">sudo</span> ufw allow 32000:32999/udp<br></code></pre></td></tr></table></figure>
+
+<h5 id="3-从特定IP地址开放端口"><a href="#3-从特定IP地址开放端口" class="headerlink" title="3. 从特定IP地址开放端口"></a>3. 从特定IP地址开放端口</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 只允许IP 192.168.1.100访问端口22（SSH）</span><br><span class="hljs-built_in">sudo</span> ufw allow from 192.168.1.100 to any port 22<br></code></pre></td></tr></table></figure>
+
+<h4 id="删除端口规则"><a href="#删除端口规则" class="headerlink" title="删除端口规则"></a>删除端口规则</h4><p>删除规则有两种方式：通过端口号或通过规则编号。</p>
+<h5 id="1-通过端口号删除"><a href="#1-通过端口号删除" class="headerlink" title="1. 通过端口号删除"></a>1. 通过端口号删除</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 删除端口21的规则</span><br><span class="hljs-built_in">sudo</span> ufw delete allow 21/tcp<br><br><span class="hljs-comment"># 删除端口范围规则</span><br><span class="hljs-built_in">sudo</span> ufw delete allow 32000:32999/tcp<br></code></pre></td></tr></table></figure>
+
+<h5 id="2-通过规则编号删除"><a href="#2-通过规则编号删除" class="headerlink" title="2. 通过规则编号删除"></a>2. 通过规则编号删除</h5><p>先查看带编号的规则列表：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> ufw status numbered<br></code></pre></td></tr></table></figure>
+
+<p>输出示例：</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs nix"><span class="hljs-params">Status:</span> active<br><br>     To                         Action      From<br>     <span class="hljs-operator">-</span>-                         <span class="hljs-operator">-</span>-----      <span class="hljs-operator">-</span>---<br>[ <span class="hljs-number">1</span>] <span class="hljs-number">22</span><span class="hljs-symbol">/tcp</span>                     ALLOW IN    Anywhere                  <br>[ <span class="hljs-number">2</span>] <span class="hljs-number">80</span><span class="hljs-symbol">/tcp</span>                     ALLOW IN    Anywhere                  <br>[ <span class="hljs-number">3</span>] <span class="hljs-number">443</span><span class="hljs-symbol">/tcp</span>                    ALLOW IN    Anywhere                  <br>[ <span class="hljs-number">4</span>] <span class="hljs-number">32000</span>:<span class="hljs-number">32999</span><span class="hljs-symbol">/tcp</span>            ALLOW IN    Anywhere<br></code></pre></td></tr></table></figure>
+
+<p>然后根据编号删除规则：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 删除编号为4的规则</span><br><span class="hljs-built_in">sudo</span> ufw delete 4<br></code></pre></td></tr></table></figure>
+
+<h4 id="端口转发配置"><a href="#端口转发配置" class="headerlink" title="端口转发配置"></a>端口转发配置</h4><p>要配置端口转发，需要先启用IP转发并创建相应规则：</p>
+<h5 id="1-启用IP转发"><a href="#1-启用IP转发" class="headerlink" title="1. 启用IP转发"></a>1. 启用IP转发</h5><p>编辑 <code>/etc/sysctl.conf</code> 文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> nano /etc/sysctl.conf<br></code></pre></td></tr></table></figure>
+
+<p>取消以下行的注释（删除前面的 <code>#</code>）：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">net.ipv4.ip_forward</span>=<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>保存文件后应用更改：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> sysctl -p<br></code></pre></td></tr></table></figure>
+
+<h5 id="2-配置端口转发规则"><a href="#2-配置端口转发规则" class="headerlink" title="2. 配置端口转发规则"></a>2. 配置端口转发规则</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 转发端口8080到80（内部服务器）</span><br><span class="hljs-built_in">sudo</span> ufw route allow proto tcp from any to any port 8080 redirect-to-port 80<br><br><span class="hljs-comment"># 转发特定IP的端口（例如转发192.168.1.100:80到本地8080）</span><br><span class="hljs-built_in">sudo</span> ufw route allow proto tcp from any to 192.168.1.100 port 80 redirect-to-port 8080<br></code></pre></td></tr></table></figure>
+
+<h4 id="丢弃特定端口请求"><a href="#丢弃特定端口请求" class="headerlink" title="丢弃特定端口请求"></a>丢弃特定端口请求</h4><p>要丢弃来自端口25的所有请求（通常用于SMTP服务）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 丢弃所有TCP端口25的流量</span><br><span class="hljs-built_in">sudo</span> ufw deny 25/tcp<br><br><span class="hljs-comment"># 或者，如果想完全阻止，使用reject（会向客户端发送拒绝消息）</span><br><span class="hljs-built_in">sudo</span> ufw reject 25/tcp<br></code></pre></td></tr></table></figure>
+
+<h4 id="保存和恢复规则"><a href="#保存和恢复规则" class="headerlink" title="保存和恢复规则"></a>保存和恢复规则</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 保存当前规则（默认会自动保存）</span><br><span class="hljs-built_in">sudo</span> ufw reload<br><br><span class="hljs-comment"># 禁用UFW（不推荐，除非必要）</span><br><span class="hljs-built_in">sudo</span> ufw <span class="hljs-built_in">disable</span><br><br><span class="hljs-comment"># 启用UFW</span><br><span class="hljs-built_in">sudo</span> ufw <span class="hljs-built_in">enable</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="查看规则文件"><a href="#查看规则文件" class="headerlink" title="查看规则文件"></a>查看规则文件</h4><p>UFW规则存储在以下位置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 主要规则文件</span><br><span class="hljs-built_in">cat</span> /etc/ufw/user.rules<br><br><span class="hljs-comment"># IPv6规则</span><br><span class="hljs-built_in">cat</span> /etc/ufw/user6.rules<br></code></pre></td></tr></table></figure>
+
+<h4 id="重置UFW（谨慎使用）"><a href="#重置UFW（谨慎使用）" class="headerlink" title="重置UFW（谨慎使用）"></a>重置UFW（谨慎使用）</h4><p>这将删除所有规则并重置UFW：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> ufw reset<br></code></pre></td></tr></table></figure>
+
+<h3 id="认识OpenSSH-Server"><a href="#认识OpenSSH-Server" class="headerlink" title="认识OpenSSH Server"></a>认识OpenSSH Server</h3><p>OpenSSH Server是一个开源的SSH服务器实现，用于提供安全的远程登录和文件传输功能。它是Linux和Unix系统中最常用的SSH服务器之一。</p>
+<p>在Ubuntu上，OpenSSH Server通常已经默认安装。可以通过以下命令检查是否已安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 检查 SSH 服务状态</span><br><span class="hljs-built_in">sudo</span> systemctl status ssh<br><br><span class="hljs-comment"># 如果未安装，尝试安装 OpenSSH 服务器</span><br><span class="hljs-built_in">sudo</span> apt update<br><span class="hljs-built_in">sudo</span> apt install openssh-server<br><br><br><span class="hljs-comment"># 使用正确的服务名称重启</span><br><span class="hljs-built_in">sudo</span> systemctl restart ssh<br><br><span class="hljs-comment"># 验证服务状态</span><br><span class="hljs-built_in">sudo</span> systemctl status ssh<br><br><span class="hljs-comment"># 检查 SSH 服务是否在开机启动</span><br><span class="hljs-built_in">sudo</span> systemctl is-enabled ssh<br><br><span class="hljs-comment"># 设置 SSH 服务开机自启</span><br><span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> ssh<br></code></pre></td></tr></table></figure>
+
+<p>与防火墙相关的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 确保防火墙允许 SSH 连接</span><br><span class="hljs-built_in">sudo</span> ufw allow ssh<br><span class="hljs-comment"># 或者使用端口号</span><br><span class="hljs-built_in">sudo</span> ufw allow 22/tcp<br><br><span class="hljs-comment"># 重新加载防火墙规则</span><br><span class="hljs-built_in">sudo</span> ufw reload<br><br></code></pre></td></tr></table></figure>
+
+<p>配置相关的指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br><span class="hljs-comment"># 查看 SSH 配置文件是否存在</span><br><span class="hljs-built_in">ls</span> -l /etc/ssh/sshd_config<br><br><span class="hljs-comment"># 如果配置文件不存在，重新安装 OpenSSH</span><br><span class="hljs-built_in">sudo</span> apt purge openssh-server<br><span class="hljs-built_in">sudo</span> apt install openssh-server<br><br><br><span class="hljs-comment"># 本地检查 SSH 服务是否监听</span><br>ss -tulpn | grep :22<br><br><span class="hljs-comment"># 从另一台机器测试连接</span><br>ssh username@server_ip<br><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="修改SSH的默认端口"><a href="#修改SSH的默认端口" class="headerlink" title="修改SSH的默认端口"></a>修改SSH的默认端口</h3><p>默认情况下，SSH服务使用的是22端口，这往往是黑客攻击的目标和对象，是暴力破解的主要入口。为了提高安全性，我们可以将SSH服务的默认端口修改为其他端口，如2233。</p>
+<p>修改SSH的默认端口为2233，需要进行以下步骤：</p>
+<ol>
+<li>编辑SSH配置文件：</li>
+</ol>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> nano /etc/ssh/sshd_config<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>找到并修改<code>Port</code>参数，将其值改为2233：</li>
+</ol>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Port 2233<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>保存文件并退出编辑器。</li>
+</ol>
+<p>跟普通的端口不同，还需要以下操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. 重新加载 systemd 守护进程配置</span><br><span class="hljs-built_in">sudo</span> systemctl daemon-reload<br><br><span class="hljs-comment"># 2. 重启 SSH socket 服务（这会重新生成配置）</span><br><span class="hljs-built_in">sudo</span> systemctl restart ssh.socket<br><br><span class="hljs-comment"># 3. 最后重启 SSH 服务</span><br><span class="hljs-built_in">sudo</span> systemctl restart ssh<br><br><span class="hljs-comment"># 4. 验证新端口是否生效</span><br><span class="hljs-built_in">sudo</span> ss -tulpn | grep sshd<br></code></pre></td></tr></table></figure>
+
+<p>这个时候不要急于重启服务器，因为刚才设置的防火墙中你还没有打开新的SSH端口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> ufw allow 2233/tcp<br></code></pre></td></tr></table></figure>
+
+<p>这项配置好之后重启服务器即可，这样就可以通过2233端口来访问SSH服务了。</p>
+<h3 id="添加新用户"><a href="#添加新用户" class="headerlink" title="添加新用户"></a>添加新用户</h3><p>假设您要创建用户 developer：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br><span class="hljs-comment"># 创建用户（会提示设置密码）</span><br><span class="hljs-built_in">sudo</span> adduser developer<br><br><span class="hljs-comment"># 添加到 sudo 组</span><br><span class="hljs-built_in">sudo</span> usermod -aG <span class="hljs-built_in">sudo</span> developer<br><br><span class="hljs-comment"># 验证组 membership</span><br><span class="hljs-built_in">groups</span> developer<br><br><span class="hljs-comment"># 切换用户测试</span><br>su - developer<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">whoami</span>  <span class="hljs-comment"># 应显示 root</span><br><span class="hljs-built_in">exit</span>  <span class="hljs-comment"># 返回原始用户</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="启用root用户"><a href="#启用root用户" class="headerlink" title="启用root用户"></a>启用root用户</h3><p>在Ubuntu Server中启用root用户，可按以下步骤进行：</p>
+<ol>
+<li>使用sudo命令切换到root用户：<code>sudo su</code>。</li>
+<li>更改root用户的密码：<code>passwd root</code>，按照提示输入新密码并确认。</li>
+<li>编辑<code>/etc/ssh/sshd_config</code>文件，找到<code>PermitRootLogin prohibit - password</code>这一行，将其修改为<code>PermitRootLogin yes</code>。</li>
+<li>重启ssh服务：<code>sudo service ssh restart</code>或<code>sudo systemctl restart ssh</code>。</li>
+</ol>
+<p>完成以上步骤后，就可以使用root用户登录Ubuntu Server了。不过，root用户拥有最高权限，使用时需格外谨慎，以免因误操作导致系统出现问题。</p>
+<h2 id="Ubuntu-Server的应用功能"><a href="#Ubuntu-Server的应用功能" class="headerlink" title="Ubuntu Server的应用功能"></a>Ubuntu Server的应用功能</h2><h3 id="安装Docker和compose（阿里云）"><a href="#安装Docker和compose（阿里云）" class="headerlink" title="安装Docker和compose（阿里云）"></a>安装Docker和compose（阿里云）</h3><p>如果是本地安装Docker，一般都是在安装操作系统的过程中选择安装的。</p>
+<p>在云服务器上，我们以阿里云为例，可以参考文档：<br><a target="_blank" rel="noopener" href="https://help.aliyun.com/zh/ecs/use-cases/install-and-use-docker">https://help.aliyun.com/zh/ecs/use-cases/install-and-use-docker</a></p>
+<p>主要的操作命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#更新包管理工具</span><br><span class="hljs-built_in">sudo</span> apt-get update<br><br><span class="hljs-comment">#添加Docker软件包源</span><br><span class="hljs-built_in">sudo</span> apt-get -y install apt-transport-https ca-certificates curl software-properties-common<br><br><span class="hljs-built_in">sudo</span> curl -fsSL http://mirrors.cloud.aliyuncs.com/docker-ce/linux/ubuntu/gpg | <span class="hljs-built_in">sudo</span> apt-key add -<br><br><span class="hljs-built_in">sudo</span> add-apt-repository -y <span class="hljs-string">&quot;deb [arch=<span class="hljs-subst">$(dpkg --print-architecture)</span>] http://mirrors.cloud.aliyuncs.com/docker-ce/linux/ubuntu <span class="hljs-subst">$(lsb_release -cs)</span> stable&quot;</span><br><br><span class="hljs-comment">#安装Docker社区版本，容器运行时containerd.io，以及Docker构建和Compose插件</span><br><br><span class="hljs-built_in">sudo</span> apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin<br><br><span class="hljs-comment">#启动Docker</span><br><span class="hljs-built_in">sudo</span> systemctl start docker<br><br><span class="hljs-comment">#设置Docker守护进程在系统启动时自动启动</span><br><span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> docker<br></code></pre></td></tr></table></figure>
+
+<p>以上过程安装了Docker和Docker compose，你可以使用以下命令来验证：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#验证Docker是否安装成功</span><br>docker --version<br><br><span class="hljs-comment">#显示 Docker version 28.2.2, build e6534b4</span><br><br><span class="hljs-comment">#验证Docker compose是否安装成功</span><br>docker compose version<br><br><span class="hljs-comment">#显示 Docker Compose version v2.36.2</span><br><br></code></pre></td></tr></table></figure>
+
+<p>在阿里云服务器上可以使用阿里云的Docker镜像加速服务，<br>需要设置的文件：&#x2F;etc&#x2F;docker&#x2F;daemon.json<br>内容为：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;registry-mirrors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;https://xxxxxxx.mirror.aliyuncs.com&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;debug&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;experimental&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;registry-mirrors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;https://xxxxxxx.mirror.aliyuncs.com&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>如果加速镜像没有生效，在pull镜像的时候，还是会走默认的Docker 官方（registry-1.docker.io），<br>需要在控制台开启相关服务：<br><a target="_blank" rel="noopener" href="https://cr.console.aliyun.com/">https://cr.console.aliyun.com/</a></p>
+<p>更新镜像源文件后，重启服务使镜像源生效：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs Bash"><span class="hljs-built_in">sudo</span> systemctl daemon-reload<br><span class="hljs-built_in">sudo</span> systemctl restart docker<br><br><span class="hljs-comment">#在阿里云的环境下，确认镜像仓库使用的是阿里云的</span><br>docker info<br><br><span class="hljs-comment">#显示类似：</span><br><span class="hljs-comment">#Registry Mirrors:</span><br><span class="hljs-comment"># https://xxxxxxx.mirror.aliyuncs.com</span><br><span class="hljs-comment">#即代表仓库已经使用阿里云的 </span><br><br></code></pre></td></tr></table></figure>
+
+
+<p>在Docker基础上组网和部署服务的过程我们在后续文章中介绍。</p>
+<h3 id="安装AMP：Apache、MySQL和PHP"><a href="#安装AMP：Apache、MySQL和PHP" class="headerlink" title="安装AMP：Apache、MySQL和PHP"></a>安装AMP：Apache、MySQL和PHP</h3><p>如果你希望通过Docker解决PHP和MySQL的问题，那么你可以考虑使用Docker Compose来管理它们。我们这里讨论的是在Ubuntu Server上直接安装AMP（Apache、MySQL和PHP）的方法。</p>
+<ol>
+<li><strong>安装Apache</strong>：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt-get update<br><span class="hljs-built_in">sudo</span> apt-get install apache2<br></code></pre></td></tr></table></figure>
+
+<p>对应的配置文件在： <code>/etc/apache2/apache2.conf</code>。<br>配置多个网站和扩展配置的文件在目录： <code>/etc/apache2/sites-available</code>。</p>
+<p>网站目录文件在： <code>/var/www/html</code>。</p>
+<ol start="2">
+<li><strong>安装MySQL</strong>：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt-get update<br><span class="hljs-built_in">sudo</span> apt-get install mysql-server<br></code></pre></td></tr></table></figure>
+
+<p>对应的配置文件在： <code>/etc/mysql/mysql.conf.d/mysqld.cnf</code>。<br>在配置文件中，你可以设置MySQL的数据文件目录、日志文件目录、端口号等，不然不做特殊设置，他们的默认值分别是：<br>（1）数据文件目录： <code>/var/lib/mysql</code>。<br>（2）日志文件目录： <code>/var/log/mysql</code>。<br>（3）端口号： <code>3306</code>。</p>
+<ol start="3">
+<li><strong>安装PHP</strong>：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt-get update<br><span class="hljs-built_in">sudo</span> apt-get install php libapache2-mod-php php-mysql<br></code></pre></td></tr></table></figure>
+
+<p>对应的配置文件在： <code>/etc/php/8.2/apache2/php.ini</code>。</p>
+<ol start="4">
+<li><strong>管理Apache和MySQL</strong>：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#启动Apache</span><br><span class="hljs-built_in">sudo</span> systemctl start apache2<br><span class="hljs-comment">#启动MySQL</span><br><span class="hljs-built_in">sudo</span> systemctl start mysql<br><span class="hljs-comment">#重启Apache</span><br><span class="hljs-built_in">sudo</span> systemctl restart apache2<br><span class="hljs-comment">#重启MySQL</span><br><span class="hljs-built_in">sudo</span> systemctl restart mysql<br><span class="hljs-comment">#停止Apache</span><br><span class="hljs-built_in">sudo</span> systemctl stop apache2<br><span class="hljs-comment">#停止MySQL</span><br><span class="hljs-built_in">sudo</span> systemctl stop mysql<br><br><span class="hljs-comment">#设置Apache和MySQL开机自启动</span><br><span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> apache2<br><span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> mysql<br></code></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><strong>安装Nginx</strong>：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt-get update<br><span class="hljs-built_in">sudo</span> apt-get install nginx<br></code></pre></td></tr></table></figure>
+
+<p>对应的配置文件在： <code>/etc/nginx/nginx.conf</code>。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86/" class="category-chain-item">运维管理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Docker/" class="print-no-link">#Docker</a>
+      
+        <a href="/tags/MySQL/" class="print-no-link">#MySQL</a>
+      
+        <a href="/tags/PHP/" class="print-no-link">#PHP</a>
+      
+        <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91/" class="print-no-link">#阿里云</a>
+      
+        <a href="/tags/Apache/" class="print-no-link">#Apache</a>
+      
+        <a href="/tags/Nginx/" class="print-no-link">#Nginx</a>
+      
+        <a href="/tags/SSH/" class="print-no-link">#SSH</a>
+      
+        <a href="/tags/Ubuntu-Server/" class="print-no-link">#Ubuntu Server</a>
+      
+        <a href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" class="print-no-link">#防火墙</a>
+      
+        <a href="/tags/UFW/" class="print-no-link">#UFW</a>
+      
+        <a href="/tags/%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA/" class="print-no-link">#安全加固</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Ubuntu Server初始化操作，安全性和加固</div>
+      <div>https://jycpp.github.io/2025/25-06-10-Ubuntu Server初始化操作.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/25-06-14-%E6%B2%A1%E6%9C%89%E6%BA%90%E5%A4%B4%E6%B4%BB%E6%B0%B4%E7%9A%84AIGC%E8%83%BD%E8%B5%B0%E5%A4%9A%E8%BF%9C.html" title="没有“源头活水”的生成式人工智能(AIGC)能走多远？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">没有“源头活水”的生成式人工智能(AIGC)能走多远？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/25-06-10-2025%E5%B9%B4%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%80%89%E5%93%AA%E4%B8%AA.html" title="2025年服务器操作系统选哪个，Ubuntu是否合适？">
+                        <span class="hidden-mobile">2025年服务器操作系统选哪个，Ubuntu是否合适？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
