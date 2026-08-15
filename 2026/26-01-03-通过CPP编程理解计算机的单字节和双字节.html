@@ -27,17 +27,17 @@
 <meta property="og:description" content="在计算机底层编程、嵌入式开发或数据处理场景中，“单字节”“双字节”是高频出现的概念，但很多初学者容易将其与C++的基础类型混淆。本文将结合int8_t&#x2F;uint8_t、int16_t&#x2F;uint16_t等固定宽度整数类型，从代码实践角度讲清单字节、双字节的本质，以及C++中如何正确使用和输出这些类型。 一、先明确：字节与二进制位的核心关系计算机的最小存储单位是位（bit），表示0">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-03T14:35:42.000Z">
-<meta property="article:modified_time" content="2026-08-08T07:13:50.537Z">
+<meta property="article:modified_time" content="2026-08-15T15:30:53.884Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="C++">
-<meta property="article:tag" content="uint8_t">
-<meta property="article:tag" content="uint16_t">
-<meta property="article:tag" content="底层编程">
 <meta property="article:tag" content="单字节">
 <meta property="article:tag" content="双字节">
 <meta property="article:tag" content="int8_t">
+<meta property="article:tag" content="uint8_t">
 <meta property="article:tag" content="int16_t">
+<meta property="article:tag" content="uint16_t">
 <meta property="article:tag" content="固定宽度类型">
+<meta property="article:tag" content="底层编程">
 <meta property="article:tag" content="数据类型">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(70)</span>
+        <span class="list-group-count">(71)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1158,7 +1158,7 @@
         aria-expanded="false"
       >
         运维管理
-        <span class="list-group-count">(14)</span>
+        <span class="list-group-count">(15)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1185,6 +1185,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">Android Wi-Fi 连接控制技术演进与实现方案</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-16-CodeBuddy%E4%B8%8EWorkBuddy%E5%AF%B9%E6%AF%94%E5%8F%8ASkill%E5%92%8CMCP%E8%BF%81%E7%A7%BB.html" title="CodeBuddy 与 WorkBuddy 产品对比及 Skill / MCP 迁移指南"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">CodeBuddy 与 WorkBuddy 产品对比及 Skill / MCP 迁移指南</span>
         </a>
       
     
@@ -1473,21 +1482,21 @@ true
       
         <a href="/tags/C/" class="print-no-link">#C++</a>
       
-        <a href="/tags/uint8-t/" class="print-no-link">#uint8_t</a>
-      
-        <a href="/tags/uint16-t/" class="print-no-link">#uint16_t</a>
-      
-        <a href="/tags/%E5%BA%95%E5%B1%82%E7%BC%96%E7%A8%8B/" class="print-no-link">#底层编程</a>
-      
         <a href="/tags/%E5%8D%95%E5%AD%97%E8%8A%82/" class="print-no-link">#单字节</a>
       
         <a href="/tags/%E5%8F%8C%E5%AD%97%E8%8A%82/" class="print-no-link">#双字节</a>
       
         <a href="/tags/int8-t/" class="print-no-link">#int8_t</a>
       
+        <a href="/tags/uint8-t/" class="print-no-link">#uint8_t</a>
+      
         <a href="/tags/int16-t/" class="print-no-link">#int16_t</a>
       
+        <a href="/tags/uint16-t/" class="print-no-link">#uint16_t</a>
+      
         <a href="/tags/%E5%9B%BA%E5%AE%9A%E5%AE%BD%E5%BA%A6%E7%B1%BB%E5%9E%8B/" class="print-no-link">#固定宽度类型</a>
+      
+        <a href="/tags/%E5%BA%95%E5%B1%82%E7%BC%96%E7%A8%8B/" class="print-no-link">#底层编程</a>
       
         <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="print-no-link">#数据类型</a>
       
@@ -1546,9 +1555,9 @@ true
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/26-01-03-%E7%90%86%E8%A7%A3CPP%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%8D%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6.html" title="理解 C++ 编程中的“位与“运算符">
+                      <a href="/2026/26-01-10-%E6%9C%BA%E6%A2%B0%E7%A1%AC%E7%9B%98%E6%B6%A8%E4%BB%B7%E8%83%8C%E5%90%8E%E7%9A%84%E4%BA%A7%E4%B8%9A%E9%93%BE%E9%80%BB%E8%BE%91.html" title="机械硬盘涨价背后的产业链逻辑：成本传导与市场博弈">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">理解 C++ 编程中的“位与“运算符</span>
+                        <span class="hidden-mobile">机械硬盘涨价背后的产业链逻辑：成本传导与市场博弈</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -1556,8 +1565,8 @@ true
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html" title="一文搞懂：二进制、十进制、十六进制换算与字节表示原理">
-                        <span class="hidden-mobile">一文搞懂：二进制、十进制、十六进制换算与字节表示原理</span>
+                      <a href="/2026/26-01-03-%E7%90%86%E8%A7%A3CPP%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%8D%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6.html" title="理解 C++ 编程中的“位与“运算符">
+                        <span class="hidden-mobile">理解 C++ 编程中的“位与“运算符</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

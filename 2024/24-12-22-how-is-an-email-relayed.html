@@ -29,12 +29,12 @@
 <meta property="og:image" content="https://s2.loli.net/2025/02/09/KgNuAh2tLGxF7MB.jpg">
 <meta property="og:image" content="https://s2.loli.net/2025/02/09/Kzp9rqIWTOLtehn.png">
 <meta property="article:published_time" content="2024-12-22T17:27:20.000Z">
-<meta property="article:modified_time" content="2026-08-08T07:13:50.533Z">
+<meta property="article:modified_time" content="2026-08-15T15:30:53.880Z">
 <meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="邮件服务器">
 <meta property="article:tag" content="电子邮件">
 <meta property="article:tag" content="邮件协议">
 <meta property="article:tag" content="SMTP">
-<meta property="article:tag" content="邮件服务器">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://s2.loli.net/2025/02/09/KgNuAh2tLGxF7MB.jpg">
   
@@ -451,7 +451,7 @@ true
 
 <p>In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check and locate the receiver’s email server. This is crucial as it serves as the destination for our message.</p>
 <p><img src="https://s2.loli.net/2025/02/09/KgNuAh2tLGxF7MB.jpg" srcset="/img/loading.gif" lazyload alt="1_(238)(3)-1024px"></p>
-<p>To check the email server corresponding to a specific email address, a useful command that comes in handy is ‘nslookup’. Here’s how it works: First, you open the command prompt or terminal on your computer. Then, after typing in the ‘nslookup’ command, you need to set the query type as’mx’. This query type specifically helps us to find the mail exchange records for the domain. For example, if the email address is “<a href="mailto:&#101;&#120;&#97;&#x6d;&#x70;&#x6c;&#101;&#x40;&#101;&#120;&#97;&#109;&#112;&#x6c;&#x65;&#46;&#x63;&#x6f;&#109;">&#101;&#120;&#97;&#x6d;&#x70;&#x6c;&#101;&#x40;&#101;&#120;&#97;&#109;&#112;&#x6c;&#x65;&#46;&#x63;&#x6f;&#109;</a>“, you would type in the domain part which is “example.com” after setting the’mx’ query type. The system will then return the information about the email server responsible for handling emails for that domain.</p>
+<p>To check the email server corresponding to a specific email address, a useful command that comes in handy is ‘nslookup’. Here’s how it works: First, you open the command prompt or terminal on your computer. Then, after typing in the ‘nslookup’ command, you need to set the query type as’mx’. This query type specifically helps us to find the mail exchange records for the domain. For example, if the email address is “<a href="mailto:&#101;&#120;&#x61;&#x6d;&#112;&#x6c;&#101;&#64;&#x65;&#x78;&#x61;&#x6d;&#x70;&#108;&#101;&#x2e;&#99;&#x6f;&#109;">&#101;&#120;&#x61;&#x6d;&#112;&#x6c;&#101;&#64;&#x65;&#x78;&#x61;&#x6d;&#x70;&#108;&#101;&#x2e;&#99;&#x6f;&#109;</a>“, you would type in the domain part which is “example.com” after setting the’mx’ query type. The system will then return the information about the email server responsible for handling emails for that domain.</p>
 <p><img src="https://s2.loli.net/2025/02/09/Kzp9rqIWTOLtehn.png" srcset="/img/loading.gif" lazyload alt="20250209212804"></p>
 <p>Once we’ve identified the email server, the next step is to establish a connection with it. We can achieve this by using socket communication. Through this method, the TCP network packets of the SMTP (Simple Mail Transfer Protocol) will be transferred over the connection. The SMTP protocol is the standard for sending emails across the Internet. For example, in a Python program, you might use the’socket’ library to create a socket object and then connect to the server’s IP address and port (usually port 25 for SMTP). Here’s a simple code snippet to illustrate this concept:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> socket<br><br><span class="hljs-comment"># Create a socket object</span><br>s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br><br><span class="hljs-comment"># Connect to the server</span><br>server_address = (<span class="hljs-string">&#x27;mail.example.com&#x27;</span>, <span class="hljs-number">25</span>)  <span class="hljs-comment"># Replace with actual server address and port</span><br>s.connect(server_address)<br><br><span class="hljs-comment"># You can then start interacting with the server using SMTP commands</span><br><span class="hljs-comment"># This is just a basic connection example and further commands would be needed for a full email sending process</span><br></code></pre></td></tr></table></figure>
@@ -500,13 +500,13 @@ true
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
+        <a href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="print-no-link">#邮件服务器</a>
+      
         <a href="/tags/%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6/" class="print-no-link">#电子邮件</a>
       
         <a href="/tags/%E9%82%AE%E4%BB%B6%E5%8D%8F%E8%AE%AE/" class="print-no-link">#邮件协议</a>
       
         <a href="/tags/SMTP/" class="print-no-link">#SMTP</a>
-      
-        <a href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="print-no-link">#邮件服务器</a>
       
     </div>
   
