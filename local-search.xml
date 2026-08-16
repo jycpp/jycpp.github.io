@@ -22,6 +22,8 @@
     
     <tags>
       
+      <tag>配置</tag>
+      
       <tag>Skill</tag>
       
       <tag>CodeBuddy</tag>
@@ -31,8 +33,6 @@
       <tag>MCP</tag>
       
       <tag>迁移</tag>
-      
-      <tag>配置</tag>
       
       <tag>腾讯</tag>
       
@@ -411,9 +411,9 @@
     
     <tags>
       
-      <tag>Windows</tag>
-      
       <tag>MacBook Air</tag>
+      
+      <tag>Windows</tag>
       
       <tag>Linux</tag>
       
@@ -458,6 +458,8 @@
       
       <tag>项目经理</tag>
       
+      <tag>案例分析</tag>
+      
       <tag>招投标</tag>
       
       <tag>软件项目管理</tag>
@@ -471,8 +473,6 @@
       <tag>团队建设</tag>
       
       <tag>项目进度</tag>
-      
-      <tag>案例分析</tag>
       
     </tags>
     
@@ -501,8 +501,6 @@
       
       <tag>Nginx</tag>
       
-      <tag>SSL</tag>
-      
       <tag>网络安全</tag>
       
       <tag>Codex</tag>
@@ -510,6 +508,8 @@
       <tag>远程开发</tag>
       
       <tag>广域网</tag>
+      
+      <tag>SSL</tag>
       
       <tag>wss</tag>
       
@@ -548,9 +548,9 @@
       
       <tag>Windows</tag>
       
-      <tag>局域网</tag>
-      
       <tag>SSH</tag>
+      
+      <tag>局域网</tag>
       
       <tag>macOS</tag>
       
@@ -620,13 +620,13 @@
     
     <tags>
       
+      <tag>数据安全</tag>
+      
       <tag>网盘</tag>
       
       <tag>硬盘</tag>
       
       <tag>云存储</tag>
-      
-      <tag>数据安全</tag>
       
       <tag>百度网盘</tag>
       
@@ -845,9 +845,9 @@
     
     <tags>
       
-      <tag>软件开发</tag>
-      
       <tag>人工智能</tag>
+      
+      <tag>软件开发</tag>
       
       <tag>科技向善</tag>
       
@@ -1226,51 +1226,6 @@
   
   
   <entry>
-    <title>计算机中的补码表示法与正负数的关系</title>
-    <link href="/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html"/>
-    <url>/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html</url>
-    
-    <content type="html"><![CDATA[<blockquote><p>本文通过具体数字 <strong>-47</strong>、<strong>0xD1</strong> 和 <strong>209</strong> 的关系，深入剖析计算机如何用二进制表示正负数，揭示原码、反码、补码的设计原理与演进历程。</p></blockquote><hr><h2 id="1-问题的提出"><a href="#1-问题的提出" class="headerlink" title="1. 问题的提出"></a>1. 问题的提出</h2><p>在 C++ 中，一个字节 <code>0xD1</code> 既可以表示 <strong>209</strong>（无符号），也可以表示 <strong>-47</strong>（有符号）。<br>为什么同一个二进制模式 <code>11010001</code> 会有两种截然不同的值？<br>这背后是计算机表示有符号数的三种历史方案：<strong>原码</strong>、<strong>反码</strong>、<strong>补码</strong>。</p><hr><h2 id="2-直观理解"><a href="#2-直观理解" class="headerlink" title="2. 直观理解"></a>2. 直观理解</h2><p>想象一个 <strong>圆环时钟</strong>（模 256）：  </p><ul><li>从 0 点顺时针走 47 步到达 47  </li><li>从 0 点逆时针走 47 步也到达同一个位置  </li><li>逆时针 47 步 &#x3D; 顺时针 <code>(256 - 47) = 209</code> 步</li></ul><p>因此，在 8 位系统中：  </p><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">-<span class="hljs-number">47</span> ≡ <span class="hljs-number">209</span> (<span class="hljs-keyword">mod</span> <span class="hljs-number">256</span>)<br></code></pre></td></tr></table></figure><p><code>209</code> 的二进制正是 <code>11010001</code> &#x3D; <code>0xD1</code>。<br>这就是补码的<strong>模运算本质</strong>：负数 &#x3D; 模 - 绝对值。</p><hr><h2 id="3-三种编码方式的演进"><a href="#3-三种编码方式的演进" class="headerlink" title="3. 三种编码方式的演进"></a>3. 三种编码方式的演进</h2><h3 id="3-1-原码（Sign-Magnitude）"><a href="#3-1-原码（Sign-Magnitude）" class="headerlink" title="3.1 原码（Sign-Magnitude）"></a>3.1 原码（Sign-Magnitude）</h3><p>最高位为符号位（0 正，1 负），其余位表示数值的绝对值。</p><p><strong>8 位原码范围</strong>：-127 到 +127<br><strong>问题</strong>：存在 <code>+0</code> 和 <code>-0</code> 两种零，浪费编码，且加减法需判断符号，电路复杂。</p><h3 id="3-2-反码（Ones’-Complement）"><a href="#3-2-反码（Ones’-Complement）" class="headerlink" title="3.2 反码（Ones’ Complement）"></a>3.2 反码（Ones’ Complement）</h3><p>负数 &#x3D; 符号位 1 + 数值位按位取反。</p><p><strong>8 位反码范围</strong>：-127 到 +127<br><strong>问题</strong>：仍然有两个零（+0 &#x3D; 00000000，-0 &#x3D; 11111111）。</p><h3 id="3-3-补码（Two’s-Complement）"><a href="#3-3-补码（Two’s-Complement）" class="headerlink" title="3.3 补码（Two’s Complement）"></a>3.3 补码（Two’s Complement）</h3><p>负数 &#x3D; 反码 + 1。<br><strong>解决了双零问题</strong>，统一了加减法运算，成为现代计算机标准。</p><hr><h2 id="4-从-47-到-47-的补码计算"><a href="#4-从-47-到-47-的补码计算" class="headerlink" title="4. 从 +47 到 -47 的补码计算"></a>4. 从 +47 到 -47 的补码计算</h2><p>以 8 位系统为例：</p><ol><li><p><strong>+47 的二进制</strong><br>47 &#x3D; 32 + 8 + 4 + 2 + 1 → <code>00101111</code></p></li><li><p><strong>取反（反码）</strong><br><code>00101111</code> → <code>11010000</code></p></li><li><p><strong>加 1（补码）</strong><br><code>11010000 + 1 = 11010001</code> &#x3D; <code>0xD1</code></p></li></ol><p>验证：<br><code>0xD1</code> 作为无符号数 &#x3D; 209<br><code>209 - 256 = -47</code> ✅</p><hr><h2 id="5-完整的对比表"><a href="#5-完整的对比表" class="headerlink" title="5. 完整的对比表"></a>5. 完整的对比表</h2><table><thead><tr><th>数值</th><th>原码</th><th>反码</th><th>补码（现代使用）</th></tr></thead><tbody><tr><td>+0</td><td>00000000</td><td>00000000</td><td>00000000</td></tr><tr><td>-0</td><td>10000000</td><td>11111111</td><td>不存在！</td></tr><tr><td>+1</td><td>00000001</td><td>00000001</td><td>00000001</td></tr><tr><td>-1</td><td>10000001</td><td>11111110</td><td>11111111</td></tr><tr><td>+47</td><td>00101111</td><td>00101111</td><td>00101111</td></tr><tr><td>-47</td><td>10101111</td><td>11010000</td><td>11010001 (&#x3D;0xD1)</td></tr></tbody></table><hr><h2 id="6-为什么补码没有-“-0”？"><a href="#6-为什么补码没有-“-0”？" class="headerlink" title="6. 为什么补码没有 “-0”？"></a>6. 为什么补码没有 “-0”？</h2><p>在反码中：  </p><ul><li><code>-0 = 11111111</code> → 取反 → <code>00000000 = +0</code> ❌ 逻辑混乱</li></ul><p>在补码中：  </p><ul><li><code>10000000</code> 按补码规则反向推导：<br>先减 1：<code>10000000 - 1 = 01111111</code><br>取反：<code>10000000</code> &#x3D; 128<br>所以该数为 <strong>-128</strong>，不是 -0！</li></ul><p><strong>结论</strong>：补码中 0 只有一种表示 <code>00000000</code>，范围 -128 到 +127。</p><hr><h2 id="7-Mermaid-图示：补码计算流程"><a href="#7-Mermaid-图示：补码计算流程" class="headerlink" title="7. Mermaid 图示：补码计算流程"></a>7. Mermaid 图示：补码计算流程</h2><div class="mermaid">graph TD    A[+47 二进制: 00101111] --> B[按位取反]    B --> C[11010000]    C --> D[加 1]    D --> E[-47 补码: 11010001 = 0xD1]    E --> F[无符号解释: 209]    E --> G[有符号解释: -47]</div><hr><h2 id="8-C-代码演示"><a href="#8-C-代码演示" class="headerlink" title="8. C++ 代码演示"></a>8. C++ 代码演示</h2><h3 id="8-1-类型解释决定数值意义"><a href="#8-1-类型解释决定数值意义" class="headerlink" title="8.1 类型解释决定数值意义"></a>8.1 类型解释决定数值意义</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iomanip&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdint&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">uint8_t</span> byte = <span class="hljs-number">0xD1</span>;  <span class="hljs-comment">// 二进制 11010001</span><br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;十六进制: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase <br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte) &lt;&lt; std::endl;  <span class="hljs-comment">// 0xD1</span><br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;作为 uint8_t (无符号): &quot;</span> &lt;&lt; std::dec <br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte) &lt;&lt; std::endl;  <span class="hljs-comment">// 209</span><br>    <br>    <span class="hljs-type">int8_t</span> signed_byte = <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int8_t</span>&gt;(byte);<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;作为 int8_t (有符号): &quot;</span> &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(signed_byte) <br>              &lt;&lt; std::endl;  <span class="hljs-comment">// -47</span><br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure><h3 id="8-2-补码反向推导验证"><a href="#8-2-补码反向推导验证" class="headerlink" title="8.2 补码反向推导验证"></a>8.2 补码反向推导验证</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 验证 0xD1 是 -47</span><br><span class="hljs-type">uint8_t</span> hex_d1 = <span class="hljs-number">0xD1</span>;<br><span class="hljs-type">int</span> back_to_signed = <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int8_t</span>&gt;(hex_d1);<br>std::cout &lt;&lt; <span class="hljs-string">&quot;0xD1 作为 int8_t: &quot;</span> &lt;&lt; back_to_signed &lt;&lt; std::endl;  <span class="hljs-comment">// -47</span><br></code></pre></td></tr></table></figure><hr><h2 id="9-内存视角与类型系统"><a href="#9-内存视角与类型系统" class="headerlink" title="9. 内存视角与类型系统"></a>9. 内存视角与类型系统</h2><p>在内存中，<code>0xD1</code> 的二进制模式固定为 <code>11010001</code>：  </p><ul><li>程序 A 读取为 <code>uint8_t</code> → 解释为 <strong>209</strong>  </li><li>程序 B 读取为 <code>int8_t</code> → 解释为 <strong>-47</strong></li></ul><p><strong>类型决定解释方式</strong>，这是计算机系统的强大之处。</p><hr><h2 id="10-实际应用"><a href="#10-实际应用" class="headerlink" title="10. 实际应用"></a>10. 实际应用</h2><ul><li><strong>网络协议</strong>：字节流常按无符号解释（如校验和 0xD1 &#x3D; 209）  </li><li><strong>音频&#x2F;传感器</strong>：按有符号解释（如温度 -47°C）  </li><li><strong>位运算</strong>：<code>&amp; 0xFF</code> 可截取低字节，与补码表示无关，是纯位操作</li></ul><hr><h2 id="11-总结"><a href="#11-总结" class="headerlink" title="11. 总结"></a>11. 总结</h2><ul><li><strong>原码</strong>：直观但有 ±0 问题  </li><li><strong>反码</strong>：改进但仍存双零  </li><li><strong>补码</strong>：通过“取反加一”消除双零，统一加减法，成为现代标准  </li><li><strong>-47</strong>、<strong>0xD1</strong>、<strong>209</strong> 是同一二进制在不同类型下的三种身份  </li><li>理解补码是掌握计算机算术、类型系统和底层编程的关键</li></ul><blockquote><p>补码不仅是技术妥协，更是人类为机器设计的优雅数学映射。</p></blockquote>]]></content>
-    
-    
-    <categories>
-      
-      <category>软件开发</category>
-      
-      <category>系统架构</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>二进制</tag>
-      
-      <tag>补码</tag>
-      
-      <tag>原码</tag>
-      
-      <tag>反码</tag>
-      
-      <tag>C++</tag>
-      
-      <tag>有符号数</tag>
-      
-      <tag>无符号数</tag>
-      
-      <tag>计算机原理</tag>
-      
-      <tag>数值表示</tag>
-      
-      <tag>类型系统</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>一文搞懂：二进制、十进制、十六进制换算与字节表示原理</title>
     <link href="/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html"/>
     <url>/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html</url>
@@ -1308,6 +1263,51 @@
       <tag>数值</tag>
       
       <tag>进制</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>计算机中的补码表示法与正负数的关系</title>
+    <link href="/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html"/>
+    <url>/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>本文通过具体数字 <strong>-47</strong>、<strong>0xD1</strong> 和 <strong>209</strong> 的关系，深入剖析计算机如何用二进制表示正负数，揭示原码、反码、补码的设计原理与演进历程。</p></blockquote><hr><h2 id="1-问题的提出"><a href="#1-问题的提出" class="headerlink" title="1. 问题的提出"></a>1. 问题的提出</h2><p>在 C++ 中，一个字节 <code>0xD1</code> 既可以表示 <strong>209</strong>（无符号），也可以表示 <strong>-47</strong>（有符号）。<br>为什么同一个二进制模式 <code>11010001</code> 会有两种截然不同的值？<br>这背后是计算机表示有符号数的三种历史方案：<strong>原码</strong>、<strong>反码</strong>、<strong>补码</strong>。</p><hr><h2 id="2-直观理解"><a href="#2-直观理解" class="headerlink" title="2. 直观理解"></a>2. 直观理解</h2><p>想象一个 <strong>圆环时钟</strong>（模 256）：  </p><ul><li>从 0 点顺时针走 47 步到达 47  </li><li>从 0 点逆时针走 47 步也到达同一个位置  </li><li>逆时针 47 步 &#x3D; 顺时针 <code>(256 - 47) = 209</code> 步</li></ul><p>因此，在 8 位系统中：  </p><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">-<span class="hljs-number">47</span> ≡ <span class="hljs-number">209</span> (<span class="hljs-keyword">mod</span> <span class="hljs-number">256</span>)<br></code></pre></td></tr></table></figure><p><code>209</code> 的二进制正是 <code>11010001</code> &#x3D; <code>0xD1</code>。<br>这就是补码的<strong>模运算本质</strong>：负数 &#x3D; 模 - 绝对值。</p><hr><h2 id="3-三种编码方式的演进"><a href="#3-三种编码方式的演进" class="headerlink" title="3. 三种编码方式的演进"></a>3. 三种编码方式的演进</h2><h3 id="3-1-原码（Sign-Magnitude）"><a href="#3-1-原码（Sign-Magnitude）" class="headerlink" title="3.1 原码（Sign-Magnitude）"></a>3.1 原码（Sign-Magnitude）</h3><p>最高位为符号位（0 正，1 负），其余位表示数值的绝对值。</p><p><strong>8 位原码范围</strong>：-127 到 +127<br><strong>问题</strong>：存在 <code>+0</code> 和 <code>-0</code> 两种零，浪费编码，且加减法需判断符号，电路复杂。</p><h3 id="3-2-反码（Ones’-Complement）"><a href="#3-2-反码（Ones’-Complement）" class="headerlink" title="3.2 反码（Ones’ Complement）"></a>3.2 反码（Ones’ Complement）</h3><p>负数 &#x3D; 符号位 1 + 数值位按位取反。</p><p><strong>8 位反码范围</strong>：-127 到 +127<br><strong>问题</strong>：仍然有两个零（+0 &#x3D; 00000000，-0 &#x3D; 11111111）。</p><h3 id="3-3-补码（Two’s-Complement）"><a href="#3-3-补码（Two’s-Complement）" class="headerlink" title="3.3 补码（Two’s Complement）"></a>3.3 补码（Two’s Complement）</h3><p>负数 &#x3D; 反码 + 1。<br><strong>解决了双零问题</strong>，统一了加减法运算，成为现代计算机标准。</p><hr><h2 id="4-从-47-到-47-的补码计算"><a href="#4-从-47-到-47-的补码计算" class="headerlink" title="4. 从 +47 到 -47 的补码计算"></a>4. 从 +47 到 -47 的补码计算</h2><p>以 8 位系统为例：</p><ol><li><p><strong>+47 的二进制</strong><br>47 &#x3D; 32 + 8 + 4 + 2 + 1 → <code>00101111</code></p></li><li><p><strong>取反（反码）</strong><br><code>00101111</code> → <code>11010000</code></p></li><li><p><strong>加 1（补码）</strong><br><code>11010000 + 1 = 11010001</code> &#x3D; <code>0xD1</code></p></li></ol><p>验证：<br><code>0xD1</code> 作为无符号数 &#x3D; 209<br><code>209 - 256 = -47</code> ✅</p><hr><h2 id="5-完整的对比表"><a href="#5-完整的对比表" class="headerlink" title="5. 完整的对比表"></a>5. 完整的对比表</h2><table><thead><tr><th>数值</th><th>原码</th><th>反码</th><th>补码（现代使用）</th></tr></thead><tbody><tr><td>+0</td><td>00000000</td><td>00000000</td><td>00000000</td></tr><tr><td>-0</td><td>10000000</td><td>11111111</td><td>不存在！</td></tr><tr><td>+1</td><td>00000001</td><td>00000001</td><td>00000001</td></tr><tr><td>-1</td><td>10000001</td><td>11111110</td><td>11111111</td></tr><tr><td>+47</td><td>00101111</td><td>00101111</td><td>00101111</td></tr><tr><td>-47</td><td>10101111</td><td>11010000</td><td>11010001 (&#x3D;0xD1)</td></tr></tbody></table><hr><h2 id="6-为什么补码没有-“-0”？"><a href="#6-为什么补码没有-“-0”？" class="headerlink" title="6. 为什么补码没有 “-0”？"></a>6. 为什么补码没有 “-0”？</h2><p>在反码中：  </p><ul><li><code>-0 = 11111111</code> → 取反 → <code>00000000 = +0</code> ❌ 逻辑混乱</li></ul><p>在补码中：  </p><ul><li><code>10000000</code> 按补码规则反向推导：<br>先减 1：<code>10000000 - 1 = 01111111</code><br>取反：<code>10000000</code> &#x3D; 128<br>所以该数为 <strong>-128</strong>，不是 -0！</li></ul><p><strong>结论</strong>：补码中 0 只有一种表示 <code>00000000</code>，范围 -128 到 +127。</p><hr><h2 id="7-Mermaid-图示：补码计算流程"><a href="#7-Mermaid-图示：补码计算流程" class="headerlink" title="7. Mermaid 图示：补码计算流程"></a>7. Mermaid 图示：补码计算流程</h2><div class="mermaid">graph TD    A[+47 二进制: 00101111] --> B[按位取反]    B --> C[11010000]    C --> D[加 1]    D --> E[-47 补码: 11010001 = 0xD1]    E --> F[无符号解释: 209]    E --> G[有符号解释: -47]</div><hr><h2 id="8-C-代码演示"><a href="#8-C-代码演示" class="headerlink" title="8. C++ 代码演示"></a>8. C++ 代码演示</h2><h3 id="8-1-类型解释决定数值意义"><a href="#8-1-类型解释决定数值意义" class="headerlink" title="8.1 类型解释决定数值意义"></a>8.1 类型解释决定数值意义</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iomanip&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdint&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">uint8_t</span> byte = <span class="hljs-number">0xD1</span>;  <span class="hljs-comment">// 二进制 11010001</span><br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;十六进制: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase <br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte) &lt;&lt; std::endl;  <span class="hljs-comment">// 0xD1</span><br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;作为 uint8_t (无符号): &quot;</span> &lt;&lt; std::dec <br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte) &lt;&lt; std::endl;  <span class="hljs-comment">// 209</span><br>    <br>    <span class="hljs-type">int8_t</span> signed_byte = <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int8_t</span>&gt;(byte);<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;作为 int8_t (有符号): &quot;</span> &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(signed_byte) <br>              &lt;&lt; std::endl;  <span class="hljs-comment">// -47</span><br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure><h3 id="8-2-补码反向推导验证"><a href="#8-2-补码反向推导验证" class="headerlink" title="8.2 补码反向推导验证"></a>8.2 补码反向推导验证</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 验证 0xD1 是 -47</span><br><span class="hljs-type">uint8_t</span> hex_d1 = <span class="hljs-number">0xD1</span>;<br><span class="hljs-type">int</span> back_to_signed = <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int8_t</span>&gt;(hex_d1);<br>std::cout &lt;&lt; <span class="hljs-string">&quot;0xD1 作为 int8_t: &quot;</span> &lt;&lt; back_to_signed &lt;&lt; std::endl;  <span class="hljs-comment">// -47</span><br></code></pre></td></tr></table></figure><hr><h2 id="9-内存视角与类型系统"><a href="#9-内存视角与类型系统" class="headerlink" title="9. 内存视角与类型系统"></a>9. 内存视角与类型系统</h2><p>在内存中，<code>0xD1</code> 的二进制模式固定为 <code>11010001</code>：  </p><ul><li>程序 A 读取为 <code>uint8_t</code> → 解释为 <strong>209</strong>  </li><li>程序 B 读取为 <code>int8_t</code> → 解释为 <strong>-47</strong></li></ul><p><strong>类型决定解释方式</strong>，这是计算机系统的强大之处。</p><hr><h2 id="10-实际应用"><a href="#10-实际应用" class="headerlink" title="10. 实际应用"></a>10. 实际应用</h2><ul><li><strong>网络协议</strong>：字节流常按无符号解释（如校验和 0xD1 &#x3D; 209）  </li><li><strong>音频&#x2F;传感器</strong>：按有符号解释（如温度 -47°C）  </li><li><strong>位运算</strong>：<code>&amp; 0xFF</code> 可截取低字节，与补码表示无关，是纯位操作</li></ul><hr><h2 id="11-总结"><a href="#11-总结" class="headerlink" title="11. 总结"></a>11. 总结</h2><ul><li><strong>原码</strong>：直观但有 ±0 问题  </li><li><strong>反码</strong>：改进但仍存双零  </li><li><strong>补码</strong>：通过“取反加一”消除双零，统一加减法，成为现代标准  </li><li><strong>-47</strong>、<strong>0xD1</strong>、<strong>209</strong> 是同一二进制在不同类型下的三种身份  </li><li>理解补码是掌握计算机算术、类型系统和底层编程的关键</li></ul><blockquote><p>补码不仅是技术妥协，更是人类为机器设计的优雅数学映射。</p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>软件开发</category>
+      
+      <category>系统架构</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>二进制</tag>
+      
+      <tag>补码</tag>
+      
+      <tag>原码</tag>
+      
+      <tag>反码</tag>
+      
+      <tag>C++</tag>
+      
+      <tag>有符号数</tag>
+      
+      <tag>无符号数</tag>
+      
+      <tag>计算机原理</tag>
+      
+      <tag>数值表示</tag>
+      
+      <tag>类型系统</tag>
       
     </tags>
     
@@ -1422,6 +1422,8 @@
     
     <tags>
       
+      <tag>知识库</tag>
+      
       <tag>软考</tag>
       
       <tag>系统架构设计师</tag>
@@ -1435,8 +1437,6 @@
       <tag>集中式网络</tag>
       
       <tag>去中心化网络</tag>
-      
-      <tag>知识库</tag>
       
       <tag>鲁棒性</tag>
       
@@ -1527,6 +1527,51 @@
       <tag>城濮之战</tag>
       
       <tag>泓水之战</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>JWT 认证完整原理、JWKS 机制与前后端实战代码总结</title>
+    <link href="/2025/25-10-05-JWT%E8%AE%A4%E8%AF%81%E5%AE%8C%E6%95%B4%E5%8E%9F%E7%90%86JWKS%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%AE%9E%E6%88%98%E4%BB%A3%E7%A0%81%E6%80%BB%E7%BB%93.html"/>
+    <url>/2025/25-10-05-JWT%E8%AE%A4%E8%AF%81%E5%AE%8C%E6%95%B4%E5%8E%9F%E7%90%86JWKS%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%AE%9E%E6%88%98%E4%BB%A3%E7%A0%81%E6%80%BB%E7%BB%93.html</url>
+    
+    <content type="html"><![CDATA[<p>JWT（JSON Web Token）是目前互联网主流的<strong>无状态身份认证方案</strong>，广泛应用于单体项目、微服务、SSO 单点登录、OAuth2.0&#x2F;OIDC 第三方授权场景。相较于传统 Session 认证，JWT 无需服务端存储会话信息，依靠签名校验实现身份鉴权，配合 JWKS 公钥地址可实现密钥无感轮换，完美适配分布式系统架构。</p><p>本文将从 JWT 基础结构、完整认证流程、JWKS 公钥网址核心作用、带&#x2F;不带 Kid 的 Token 差异、Node.js 与 SpringBoot 实战验签代码全方位总结 JWT 核心知识。</p><h2 id="一、JWT-三段结构-Mermaid-示意图"><a href="#一、JWT-三段结构-Mermaid-示意图" class="headerlink" title="一、JWT 三段结构 Mermaid 示意图"></a>一、JWT 三段结构 Mermaid 示意图</h2><p>标准 JWT 由 <strong>Header（头部）、Payload（载荷）、Signature（签名）</strong> 三部分组成，通过 <code>.</code> 拼接为完整令牌，前两段为 Base64Url 编码明文，最后一段为加密签名，不可篡改。</p><div class="mermaid">graph LR    A[JWT完整令牌Header.Payload.Signature] --> B[Header 头部]    A --> C[Payload 载荷]    A --> D[Signature 签名]        B --> B1[加密算法:RS256/HS256]    B --> B2[可选字段:kid 密钥唯一标识]    C --> C1[标准声明:exp过期时间/iat签发时间]    C --> C2[自定义声明:用户ID/角色/权限]    D --> D1[私钥加密生成公钥全局验签]</div><h3 id="1-1-带-Kid-不带-Kid-的-JWT-结构详解"><a href="#1-1-带-Kid-不带-Kid-的-JWT-结构详解" class="headerlink" title="1.1 带 Kid &#x2F; 不带 Kid 的 JWT 结构详解"></a>1.1 带 Kid &#x2F; 不带 Kid 的 JWT 结构详解</h3><h4 id="1）不带-Kid-的-JWT（单体应用专用）"><a href="#1）不带-Kid-的-JWT（单体应用专用）" class="headerlink" title="1）不带 Kid 的 JWT（单体应用专用）"></a>1）不带 Kid 的 JWT（单体应用专用）</h4><p>适用于系统仅存在<strong>唯一一对公私钥</strong>、无需密钥轮换的单体项目，服务端直接使用本地固定公钥验签，无需 JWKS 公钥地址。</p><p><strong>Header 解码内容</strong></p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;alg&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;RS256&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;typ&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;JWT&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure><p><strong>Payload 解码内容</strong></p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;sub&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;10001&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;张三&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;admin&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;iat&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1715000000</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;exp&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1715864000</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure><h4 id="2）带-Kid-的-JWT（微服务-JWKS-标准）"><a href="#2）带-Kid-的-JWT（微服务-JWKS-标准）" class="headerlink" title="2）带 Kid 的 JWT（微服务&#x2F;JWKS 标准）"></a>2）带 Kid 的 JWT（微服务&#x2F;JWKS 标准）</h4><p><strong>Kid（密钥唯一标识）</strong>是适配 JWKS 多密钥、密钥平滑轮换的核心字段，微服务、SSO、第三方授权场景必须携带。服务端可根据 Token 头部的 kid，在 JWKS 公钥集合中精准匹配对应公钥完成验签。</p><p><strong>Header 解码内容</strong></p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;alg&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;RS256&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;typ&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;JWT&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;kid&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;key-2026-05&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure><p>Payload 载荷内容与无 Kid 模式一致，仅头部新增密钥标识字段。</p><h2 id="二、Mermaid-时序图（JWT-基础认证流程）"><a href="#二、Mermaid-时序图（JWT-基础认证流程）" class="headerlink" title="二、Mermaid 时序图（JWT 基础认证流程）"></a>二、Mermaid 时序图（JWT 基础认证流程）</h2><p>基础 JWT 认证流程适用于单体应用、无 JWKS、固定公私钥模式，核心逻辑：<strong>私钥签发令牌、公钥本地验签、无状态鉴权</strong>。</p><div class="mermaid">sequenceDiagram    participant 客户端    participant 认证服务端    participant 资源接口服务    客户端->>认证服务端: 1.提交账号密码发起登录    认证服务端-->>认证服务端: 2.校验账号密码合法性    认证服务端->>客户端: 3.私钥签名生成JWT并返回    客户端->>资源接口服务: 4.携带JWT请求业务接口(Header:Bearer)    资源接口服务-->>资源接口服务: 5.本地固定公钥验签+校验过期时间    alt 校验通过        资源接口服务-->>客户端: 6.返回业务数据    else 校验失败/令牌过期        资源接口服务-->>客户端: 7.返回401未授权    end</div><h2 id="三、带-JWKS-公钥网址的完整时序流程"><a href="#三、带-JWKS-公钥网址的完整时序流程" class="headerlink" title="三、带 JWKS 公钥网址的完整时序流程"></a>三、带 JWKS 公钥网址的完整时序流程</h2><p>JWKS（JSON Web Key Set）是分布式系统标准方案，通过公开公钥地址 <code>https://xxx.com/.well-known/jwks.json</code> 维护公钥集合，支持密钥无感轮换，无需服务端改配置、重启服务，是生产环境微服务、SSO 的最优方案。</p><div class="mermaid">sequenceDiagram    participant 客户端    participant 授权中心    participant 业务服务    participant JWKS公钥地址    客户端->>授权中心: 1.账号密码登录    授权中心-->>授权中心: 2.私钥生成带kid的JWT令牌    授权中心->>客户端: 3.返回JWT令牌    客户端->>业务服务: 4.请求业务接口+携带JWT    业务服务->>JWKS公钥地址: 5.远程拉取最新公钥集合    JWKS公钥地址->>业务服务: 6.返回JWKS公钥列表    业务服务-->>业务服务: 7.根据JWT的kid匹配对应公钥    业务服务-->>业务服务: 8.公钥验签+校验令牌过期    alt 校验通过        业务服务->>客户端: 9.放行并返回业务数据    else 校验失败        业务服务->>客户端: 10.返回401未授权    end</div><h2 id="四、JWKS-公钥网址核心作用"><a href="#四、JWKS-公钥网址核心作用" class="headerlink" title="四、JWKS 公钥网址核心作用"></a>四、JWKS 公钥网址核心作用</h2><p>很多开发者疑惑：<strong>无 Kid 的 Token 如何验签？公钥网址的核心价值是什么？</strong>这里做精准总结：</p><ul><li><p><strong>无 Kid 场景</strong>：系统约定仅有唯一公私钥对，业务服务本地硬编码公钥，直接固定公钥验签，无需 JWKS 地址，缺点是无法平滑轮换密钥，换密钥需重启所有服务。</p></li><li><p><strong>有 Kid+JWKS 场景</strong>：公钥网址存储多组公钥，通过 Kid 精准匹配验签，支持新旧密钥共存，实现<strong>密钥无感轮换</strong>，业务零中断。</p></li><li><p>统一验签标准：适配 Keycloak、Auth0 等第三方授权中心，所有微服务统一从公钥地址拉取密钥，无需单独配置。</p></li><li><p>防止令牌伪造：签名由私钥生成，公钥公开仅用于验签，无法篡改令牌内容。</p></li></ul><h2 id="五、Node-js-实战：JWKS-远程拉取公钥验签"><a href="#五、Node-js-实战：JWKS-远程拉取公钥验签" class="headerlink" title="五、Node.js 实战：JWKS 远程拉取公钥验签"></a>五、Node.js 实战：JWKS 远程拉取公钥验签</h2><p>该代码实现自动从 JWKS 公钥地址拉取公钥、根据 Kid 匹配密钥、自动验签，适配标准 JWT 分布式场景。</p><h3 id="5-1-安装依赖"><a href="#5-1-安装依赖" class="headerlink" title="5.1 安装依赖"></a>5.1 安装依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install jsonwebtoken jwks-rsa<br></code></pre></td></tr></table></figure><h3 id="5-2-完整验签代码"><a href="#5-2-完整验签代码" class="headerlink" title="5.2 完整验签代码"></a>5.2 完整验签代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> jwt = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;jsonwebtoken&#x27;</span>);<br><span class="hljs-keyword">const</span> jwksClient = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;jwks-rsa&#x27;</span>);<br><br><span class="hljs-comment">// 远程JWKS公钥地址</span><br><span class="hljs-keyword">const</span> jwksUri = <span class="hljs-string">&#x27;https://xxx.com/.well-known/jwks.json&#x27;</span>;<br><br><span class="hljs-comment">// 初始化JWKS客户端，自动缓存公钥、支持密钥轮换</span><br><span class="hljs-keyword">const</span> client = <span class="hljs-title function_">jwksClient</span>(&#123;<br>  <span class="hljs-attr">jwksUri</span>: jwksUri<br>&#125;);<br><br><span class="hljs-comment">// 根据Token头部kid获取对应公钥</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">getKey</span>(<span class="hljs-params">header, callback</span>) &#123;<br>  client.<span class="hljs-title function_">getSigningKey</span>(header.<span class="hljs-property">kid</span>, <span class="hljs-function">(<span class="hljs-params">err, key</span>) =&gt;</span> &#123;<br>    <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> <span class="hljs-title function_">callback</span>(err);<br>    <span class="hljs-keyword">const</span> signingKey = key.<span class="hljs-property">publicKey</span> || key.<span class="hljs-property">rsaPublicKey</span>;<br>    <span class="hljs-title function_">callback</span>(<span class="hljs-literal">null</span>, signingKey);<br>  &#125;);<br>&#125;<br><br><span class="hljs-comment">// JWT异步验签方法</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">verifyToken</span>(<span class="hljs-params">token</span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>    jwt.<span class="hljs-title function_">verify</span>(token, getKey, &#123;<br>      <span class="hljs-attr">algorithms</span>: [<span class="hljs-string">&#x27;RS256&#x27;</span>]<br>    &#125;, <span class="hljs-function">(<span class="hljs-params">err, decoded</span>) =&gt;</span> &#123;<br>      <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> <span class="hljs-title function_">reject</span>(err);<br>      <span class="hljs-title function_">resolve</span>(decoded);<br>    &#125;);<br>  &#125;);<br>&#125;<br><br><span class="hljs-comment">// 调用示例</span><br><span class="hljs-keyword">const</span> token = <span class="hljs-string">&#x27;你的JWT令牌&#x27;</span>;<br><span class="hljs-title function_">verifyToken</span>(token)<br>  .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">user</span> =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;校验成功，用户信息：&#x27;</span>, user);<br>  &#125;)<br>  .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;校验失败：&#x27;</span>, err.<span class="hljs-property">message</span>);<br>  &#125;);<br></code></pre></td></tr></table></figure><h2 id="六、SpringBoot-实战：JWKS-远程验签-本地公钥验签"><a href="#六、SpringBoot-实战：JWKS-远程验签-本地公钥验签" class="headerlink" title="六、SpringBoot 实战：JWKS 远程验签 + 本地公钥验签"></a>六、SpringBoot 实战：JWKS 远程验签 + 本地公钥验签</h2><h3 id="6-1-核心依赖"><a href="#6-1-核心依赖" class="headerlink" title="6.1 核心依赖"></a>6.1 核心依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Web、Security基础依赖 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-security<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br><span class="hljs-comment">&lt;!-- JJWT核心依赖 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.jsonwebtoken<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jjwt-api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.11.5<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.jsonwebtoken<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jjwt-impl<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.11.5<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.jsonwebtoken<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jjwt-jackson<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.11.5<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br><span class="hljs-comment">&lt;!-- JWKS远程密钥解析依赖 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.nimbusds<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nimbus-jose-jwt<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>9.37.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure><h3 id="6-2-配置文件（application-yml）"><a href="#6-2-配置文件（application-yml）" class="headerlink" title="6.2 配置文件（application.yml）"></a>6.2 配置文件（application.yml）</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">jwt:</span><br>  <span class="hljs-comment"># 远程JWKS公钥地址（分布式场景）</span><br>  <span class="hljs-attr">jwks-uri:</span> <span class="hljs-string">https://xxx.com/.well-known/jwks.json</span><br>  <span class="hljs-comment"># 本地公钥（单体无Kid场景）</span><br>  <span class="hljs-attr">public-key:</span> <span class="hljs-string">|</span><br><span class="hljs-string">    -----BEGIN PUBLIC KEY-----</span><br><span class="hljs-string">    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQE...</span><br><span class="hljs-string">    -----END PUBLIC KEY-----</span><br><span class="hljs-string"></span>  <span class="hljs-attr">algorithm:</span> <span class="hljs-string">RS256</span><br></code></pre></td></tr></table></figure><h3 id="6-3-模式一：JWKS-远程自动验签（支持-Kid、密钥轮换）"><a href="#6-3-模式一：JWKS-远程自动验签（支持-Kid、密钥轮换）" class="headerlink" title="6.3 模式一：JWKS 远程自动验签（支持 Kid、密钥轮换）"></a>6.3 模式一：JWKS 远程自动验签（支持 Kid、密钥轮换）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.nimbusds.jose.JWSAlgorithm;<br><span class="hljs-keyword">import</span> com.nimbusds.jose.jwk.JWKSet;<br><span class="hljs-keyword">import</span> com.nimbusds.jose.jwk.source.ImmutableJWKSet;<br><span class="hljs-keyword">import</span> com.nimbusds.jose.jwk.source.JWKSource;<br><span class="hljs-keyword">import</span> com.nimbusds.jose.proc.JWSKeySelector;<br><span class="hljs-keyword">import</span> com.nimbusds.jose.proc.JWSVerificationKeySelector;<br><span class="hljs-keyword">import</span> com.nimbusds.jose.proc.SecurityContext;<br><span class="hljs-keyword">import</span> com.nimbusds.jwt.JWTClaimsSet;<br><span class="hljs-keyword">import</span> com.nimbusds.jwt.proc.ConfigurableJWTProcessor;<br><span class="hljs-keyword">import</span> com.nimbusds.jwt.proc.DefaultJWTProcessor;<br><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><br><span class="hljs-keyword">import</span> javax.annotation.PostConstruct;<br><span class="hljs-keyword">import</span> java.net.URL;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JwksJwtUtil</span> &#123;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;jwt.jwks-uri&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String jwksUri;<br><br>    <span class="hljs-keyword">private</span> ConfigurableJWTProcessor&lt;SecurityContext&gt; jwtProcessor;<br><br>    <span class="hljs-meta">@PostConstruct</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">// 远程加载公钥集合</span><br>        <span class="hljs-type">JWKSet</span> <span class="hljs-variable">jwkSet</span> <span class="hljs-operator">=</span> JWKSet.load(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(jwksUri));<br>        JWKSource&lt;SecurityContext&gt; jwkSource = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ImmutableJWKSet</span>&lt;&gt;(jwkSet);<br>        <span class="hljs-comment">// 指定验签算法</span><br>        JWSKeySelector&lt;SecurityContext&gt; keySelector =<br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">JWSVerificationKeySelector</span>&lt;&gt;(JWSAlgorithm.RS256, jwkSource);<br>        <span class="hljs-comment">// 初始化验签处理器，自动根据kid匹配公钥</span><br>        jwtProcessor = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DefaultJWTProcessor</span>&lt;&gt;();<br>        jwtProcessor.setJWSKeySelector(keySelector);<br>    &#125;<br><br>    <span class="hljs-comment">// 远程验签核心方法</span><br>    <span class="hljs-keyword">public</span> JWTClaimsSet <span class="hljs-title function_">verifyToken</span><span class="hljs-params">(String token)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-keyword">return</span> jwtProcessor.process(token, <span class="hljs-literal">null</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h3 id="6-4-模式二：本地公钥验签（无-Kid-单体场景）"><a href="#6-4-模式二：本地公钥验签（无-Kid-单体场景）" class="headerlink" title="6.4 模式二：本地公钥验签（无 Kid 单体场景）"></a>6.4 模式二：本地公钥验签（无 Kid 单体场景）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> io.jsonwebtoken.Claims;<br><span class="hljs-keyword">import</span> io.jsonwebtoken.Jws;<br><span class="hljs-keyword">import</span> io.jsonwebtoken.Jwts;<br><span class="hljs-keyword">import</span> io.jsonwebtoken.security.Keys;<br><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><br><span class="hljs-keyword">import</span> jakarta.annotation.PostConstruct;<br><span class="hljs-keyword">import</span> java.security.PublicKey;<br><span class="hljs-keyword">import</span> java.util.Base64;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JwtNoKidUtil</span> &#123;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;jwt.public-key&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String publicKeyStr;<br><br>    <span class="hljs-keyword">private</span> PublicKey publicKey;<br><br>    <span class="hljs-comment">// 初始化加载本地公钥</span><br>    <span class="hljs-meta">@PostConstruct</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">byte</span>[] keyBytes = Base64.getMimeDecoder().decode(<br>                publicKeyStr.replace(<span class="hljs-string">&quot;-----BEGIN PUBLIC KEY-----&quot;</span>,<span class="hljs-string">&quot;&quot;</span>)<br>                        .replace(<span class="hljs-string">&quot;-----END PUBLIC KEY-----&quot;</span>,<span class="hljs-string">&quot;&quot;</span>)<br>        );<br>        publicKey = Keys.x509(keyBytes);<br>    &#125;<br><br>    <span class="hljs-comment">// 固定公钥验签，无kid匹配逻辑</span><br>    <span class="hljs-keyword">public</span> Jws&lt;Claims&gt; <span class="hljs-title function_">verify</span><span class="hljs-params">(String token)</span>&#123;<br>        <span class="hljs-keyword">return</span> Jwts.parserBuilder()<br>                .setSigningKey(publicKey)<br>                .build()<br>                .parseClaimsJws(token);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h3 id="6-5-全局鉴权拦截器"><a href="#6-5-全局鉴权拦截器" class="headerlink" title="6.5 全局鉴权拦截器"></a>6.5 全局鉴权拦截器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.nimbusds.jwt.JWTClaimsSet;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><span class="hljs-keyword">import</span> org.springframework.web.servlet.HandlerInterceptor;<br><br><span class="hljs-keyword">import</span> javax.servlet.http.HttpServletRequest;<br><span class="hljs-keyword">import</span> javax.servlet.http.HttpServletResponse;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JwtAuthInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HandlerInterceptor</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> JwksJwtUtil jwksJwtUtil;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">JwtAuthInterceptor</span><span class="hljs-params">(JwksJwtUtil jwksJwtUtil)</span> &#123;<br>        <span class="hljs-built_in">this</span>.jwksJwtUtil = jwksJwtUtil;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">preHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">authHeader</span> <span class="hljs-operator">=</span> request.getHeader(<span class="hljs-string">&quot;Authorization&quot;</span>);<br>        <span class="hljs-keyword">if</span> (authHeader == <span class="hljs-literal">null</span> || !authHeader.startsWith(<span class="hljs-string">&quot;Bearer &quot;</span>)) &#123;<br>            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">token</span> <span class="hljs-operator">=</span> authHeader.substring(<span class="hljs-number">7</span>);<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">JWTClaimsSet</span> <span class="hljs-variable">claims</span> <span class="hljs-operator">=</span> jwksJwtUtil.verifyToken(token);<br>            <span class="hljs-comment">// 解析用户信息存入上下文</span><br>            request.setAttribute(<span class="hljs-string">&quot;userId&quot;</span>, claims.getSubject());<br>            request.setAttribute(<span class="hljs-string">&quot;role&quot;</span>, claims.getClaim(<span class="hljs-string">&quot;role&quot;</span>));<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h3 id="6-6-拦截器注册配置"><a href="#6-6-拦截器注册配置" class="headerlink" title="6.6 拦截器注册配置"></a>6.6 拦截器注册配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;<br><span class="hljs-keyword">import</span> org.springframework.web.servlet.config.annotation.InterceptorRegistry;<br><span class="hljs-keyword">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurer;<br><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WebConfig</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">WebMvcConfigurer</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> JwtAuthInterceptor jwtAuthInterceptor;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">WebConfig</span><span class="hljs-params">(JwtAuthInterceptor jwtAuthInterceptor)</span> &#123;<br>        <span class="hljs-built_in">this</span>.jwtAuthInterceptor = jwtAuthInterceptor;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addInterceptors</span><span class="hljs-params">(InterceptorRegistry registry)</span> &#123;<br>        registry.addInterceptor(jwtAuthInterceptor)<br>                .addPathPatterns(<span class="hljs-string">&quot;/**&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/login&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="七、核心知识点总结对比"><a href="#七、核心知识点总结对比" class="headerlink" title="七、核心知识点总结对比"></a>七、核心知识点总结对比</h2><table><thead><tr><th>特性</th><th>无 Kid + 本地公钥</th><th>有 Kid + JWKS 公钥网址</th></tr></thead><tbody><tr><td>适用场景</td><td>单体项目、密钥长期不变</td><td>微服务、SSO、第三方授权、需密钥轮换</td></tr><tr><td>公钥获取方式</td><td>本地配置文件硬编码</td><td>远程拉取 jwks.json 公钥集合</td></tr><tr><td>密钥轮换</td><td>不支持，换密钥需重启所有服务、用户强制下线</td><td>支持无感轮换，新旧密钥共存，业务零中断</td></tr><tr><td>扩展性</td><td>差，仅支持单密钥</td><td>极强，支持多密钥并行验签</td></tr></tbody></table><h2 id="八、最终核心结论"><a href="#八、最终核心结论" class="headerlink" title="八、最终核心结论"></a>八、最终核心结论</h2><p>1. JWT 无 Kid 时，服务端<strong>不做密钥选择</strong>，直接使用本地唯一公钥验签，架构简单但无法平滑迭代；</p><p>2. JWT 带 Kid + JWKS 公钥网址是生产环境标准方案，依靠 Kid 精准匹配公钥，实现分布式系统统一鉴权、密钥无感更新；</p><p>3. 验签逻辑永远在<strong>服务端执行</strong>，前端仅负责存储和携带 Token，永不参与签名校验；</p><p>4. RS256 非对称加密是企业级首选，私钥签名、公钥验签，安全性远高于 HS256 对称加密。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>软件开发</category>
+      
+      <category>微服务</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>SpringBoot</tag>
+      
+      <tag>微服务</tag>
+      
+      <tag>JWT</tag>
+      
+      <tag>认证</tag>
+      
+      <tag>JWKS</tag>
+      
+      <tag>Token</tag>
+      
+      <tag>签名</tag>
+      
+      <tag>验签</tag>
+      
+      <tag>OAuth2</tag>
+      
+      <tag>Node.js</tag>
       
     </tags>
     
@@ -1652,43 +1697,6 @@
   
   
   <entry>
-    <title>Open WebUI工具Tool调用的自动和手动模式</title>
-    <link href="/2025/25-08-10-Open%20WebUI%E5%B7%A5%E5%85%B7Tool%E8%B0%83%E7%94%A8%E7%9A%84%E8%87%AA%E5%8A%A8%E5%92%8C%E6%89%8B%E5%8A%A8%E6%A8%A1%E5%BC%8F.html"/>
-    <url>/2025/25-08-10-Open%20WebUI%E5%B7%A5%E5%85%B7Tool%E8%B0%83%E7%94%A8%E7%9A%84%E8%87%AA%E5%8A%A8%E5%92%8C%E6%89%8B%E5%8A%A8%E6%A8%A1%E5%BC%8F.html</url>
-    
-    <content type="html"><![CDATA[<p>基于上文《Open WebUI开发高级接口参数应用》的知识，我们可以进一步了解Open WebUI的工具调用模式。</p><p>你的理解非常正确！在实际使用中，Open WebUI确实会<strong>自动完成函数调用的全流程</strong>（模型生成指令→调用工具后端→整理结果），无需程序员手动解析<code>model_resp</code>和调用工具API。之前的示例展示手动步骤，是为了拆解底层逻辑，让你看清“黑盒”内部的工作原理。</p><p>下面明确两种模式的区别，并补充<strong>自动调用工具的具体配置和代码</strong>，帮你理清实际应用中的流程：</p><h3 id="1-Open-WebUI的两种工具调用模式"><a href="#1-Open-WebUI的两种工具调用模式" class="headerlink" title="1 Open WebUI的两种工具调用模式"></a>1 Open WebUI的两种工具调用模式</h3><h4 id="1-1-自动模式（生产环境常用）"><a href="#1-1-自动模式（生产环境常用）" class="headerlink" title="1.1 自动模式（生产环境常用）"></a>1.1 自动模式（生产环境常用）</h4><ul><li><strong>核心特点</strong>：Open WebUI内置了工具调用的“中间层”，会自动处理：  <ul><li>模型生成的<code>function_call</code>指令解析；  </li><li>调用工具后端API（如天气服务）；  </li><li>将工具返回的结果回传给模型，生成最终回答。</li></ul></li><li><strong>程序员无需干预</strong>：只需确保工具函数已正确注册（包含后端地址），并在API请求中启用工具调用开关。</li></ul><h4 id="1-2-手动模式（调试-定制化场景）"><a href="#1-2-手动模式（调试-定制化场景）" class="headerlink" title="1.2 手动模式（调试&#x2F;定制化场景）"></a>1.2 手动模式（调试&#x2F;定制化场景）</h4><ul><li><strong>核心特点</strong>：程序员手动解析模型生成的<code>function_call</code>，自行调用工具后端，再将结果返回给模型。  </li><li><strong>用途</strong>：用于调试工具调用逻辑、定制特殊的调用规则（如添加权限校验、日志记录），或在Open WebUI未支持自动模式的旧版本中使用。</li></ul><h3 id="2-自动模式：让Open-WebUI自动完成工具调用（实际使用方式）"><a href="#2-自动模式：让Open-WebUI自动完成工具调用（实际使用方式）" class="headerlink" title="2 自动模式：让Open WebUI自动完成工具调用（实际使用方式）"></a>2 自动模式：让Open WebUI自动完成工具调用（实际使用方式）</h3><p>要启用自动模式，只需在Open WebUI中完成<strong>工具注册配置</strong>，并在API请求中添加<code>tools: true</code>参数（或在UI中启用工具）。以下是具体步骤：</p><h4 id="步骤1：注册工具时配置“自动调用”"><a href="#步骤1：注册工具时配置“自动调用”" class="headerlink" title="步骤1：注册工具时配置“自动调用”"></a>步骤1：注册工具时配置“自动调用”</h4><p>在Open WebUI中注册<code>get_weather</code>函数时，需确保：  </p><ul><li>工具的后端地址（<code>servers.url</code>）正确且可被Open WebUI访问（如<code>http://host.docker.internal:5000</code>，避免跨域问题）；  </li><li>在工具详情页开启“Auto-invoke”（自动调用）开关（不同版本可能叫“Enable Auto Call”）。</li></ul><p>此时，Open WebUI会记住工具的后端地址，并自动处理调用逻辑。</p><h4 id="步骤2：发送API请求时启用工具调用"><a href="#步骤2：发送API请求时启用工具调用" class="headerlink" title="步骤2：发送API请求时启用工具调用"></a>步骤2：发送API请求时启用工具调用</h4><p>只需在请求中添加<code>tools: true</code>（告知Open WebUI“允许自动调用工具”），无需手动处理<code>function_call</code>：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> uuid<br><br>API_URL = <span class="hljs-string">&quot;http://localhost:3000/api/chat/completions&quot;</span><br>API_KEY = <span class="hljs-string">&quot;你的API密钥&quot;</span><br>headers = &#123;<span class="hljs-string">&quot;Authorization&quot;</span>: <span class="hljs-string">f&quot;Bearer <span class="hljs-subst">&#123;API_KEY&#125;</span>&quot;</span>, <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span>&#125;<br><br><span class="hljs-comment"># 用户提问：&quot;上海的天气如何？&quot;</span><br>payload = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,  <span class="hljs-comment"># 支持函数调用的模型</span><br>    <span class="hljs-string">&quot;messages&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;id&quot;</span>: uuid.uuid4().<span class="hljs-built_in">hex</span>,<br>            <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,<br>            <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;上海的天气如何？&quot;</span>,<br>            <span class="hljs-string">&quot;parentId&quot;</span>: <span class="hljs-literal">None</span><br>        &#125;<br>    ],<br>    <span class="hljs-string">&quot;tools&quot;</span>: true,  <span class="hljs-comment"># 关键：启用自动工具调用</span><br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span><br>&#125;<br><br><span class="hljs-comment"># 发送请求后，Open WebUI会自动完成全流程</span><br>response = requests.post(API_URL, json=payload, headers=headers)<br>final_answer = response.json()[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;content&quot;</span>]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;自动调用工具后的回答：<span class="hljs-subst">&#123;final_answer&#125;</span>&quot;</span>)<br><span class="hljs-comment"># 输出：上海当前天气为晴，气温25℃。</span><br></code></pre></td></tr></table></figure><h4 id="自动模式的底层逻辑（Open-WebUI内部处理）"><a href="#自动模式的底层逻辑（Open-WebUI内部处理）" class="headerlink" title="自动模式的底层逻辑（Open WebUI内部处理）"></a>自动模式的底层逻辑（Open WebUI内部处理）</h4><p>当<code>tools: true</code>时，Open WebUI会在内部执行以下步骤（无需程序员参与）：  </p><ol><li>模型生成<code>function_call</code>指令（<code>&#123;&quot;name&quot;: &quot;get_weather&quot;, &quot;parameters&quot;: &#123;&quot;city&quot;: &quot;上海&quot;&#125;&#125;</code>）；  </li><li>Open WebUI的中间层解析指令，调用<code>http://localhost:5000/get_weather</code>（工具注册时配置的地址）；  </li><li>接收天气服务返回的<code>&#123;&quot;temperature&quot;: 25, &quot;condition&quot;: &quot;晴&quot;&#125;</code>；  </li><li>将结果回传给模型，生成自然语言回答；  </li><li>返回最终结果给用户。</li></ol><h3 id="3-为什么需要了解手动模式？"><a href="#3-为什么需要了解手动模式？" class="headerlink" title="3 为什么需要了解手动模式？"></a>3 为什么需要了解手动模式？</h3><p>手动模式虽然不常用，但能帮你：  </p><ol><li><strong>调试问题</strong>：当自动调用失败时（如工具后端超时、参数错误），可手动解析<code>function_call</code>排查问题；  </li><li><strong>定制化需求</strong>：例如在调用工具前添加权限校验（如“仅VIP用户可查询天气”），或记录调用日志；  </li><li><strong>理解原理</strong>：看清模型、工具、后端之间的交互链路，遇到复杂场景时能更灵活地扩展。</li></ol><h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4 总结"></a>4 总结</h3><ul><li><strong>实际使用</strong>：优先用自动模式，通过<code>tools: true</code>和正确注册工具，让Open WebUI自动完成调用；  </li><li><strong>原理学习</strong>：手动模式用于拆解流程，理解<code>function_call</code>的生成、工具调用、结果反馈的全链路。</li></ul><p>两种模式的核心差异在于“谁来处理<code>function_call</code>指令”——自动模式由Open WebUI处理，手动模式由程序员处理。掌握这一点，就能灵活应对不同场景了。</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>软件开发</category>
-      
-      <category>大语言模型</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>Open WebUI</tag>
-      
-      <tag>大模型</tag>
-      
-      <tag>API接口</tag>
-      
-      <tag>智能体</tag>
-      
-      <tag>工具注册</tag>
-      
-      <tag>天气查询</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>Open WebUI函数Function的调用步骤</title>
     <link href="/2025/25-08-10-Open%20WebUI%E5%87%BD%E6%95%B0Function%E7%9A%84%E8%B0%83%E7%94%A8%E6%AD%A5%E9%AA%A4.html"/>
     <url>/2025/25-08-10-Open%20WebUI%E5%87%BD%E6%95%B0Function%E7%9A%84%E8%B0%83%E7%94%A8%E6%AD%A5%E9%AA%A4.html</url>
@@ -1717,9 +1725,46 @@
       
       <tag>工具调用</tag>
       
+      <tag>系统提示词</tag>
+      
       <tag>天气查询</tag>
       
-      <tag>系统提示词</tag>
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Open WebUI工具Tool调用的自动和手动模式</title>
+    <link href="/2025/25-08-10-Open%20WebUI%E5%B7%A5%E5%85%B7Tool%E8%B0%83%E7%94%A8%E7%9A%84%E8%87%AA%E5%8A%A8%E5%92%8C%E6%89%8B%E5%8A%A8%E6%A8%A1%E5%BC%8F.html"/>
+    <url>/2025/25-08-10-Open%20WebUI%E5%B7%A5%E5%85%B7Tool%E8%B0%83%E7%94%A8%E7%9A%84%E8%87%AA%E5%8A%A8%E5%92%8C%E6%89%8B%E5%8A%A8%E6%A8%A1%E5%BC%8F.html</url>
+    
+    <content type="html"><![CDATA[<p>基于上文《Open WebUI开发高级接口参数应用》的知识，我们可以进一步了解Open WebUI的工具调用模式。</p><p>你的理解非常正确！在实际使用中，Open WebUI确实会<strong>自动完成函数调用的全流程</strong>（模型生成指令→调用工具后端→整理结果），无需程序员手动解析<code>model_resp</code>和调用工具API。之前的示例展示手动步骤，是为了拆解底层逻辑，让你看清“黑盒”内部的工作原理。</p><p>下面明确两种模式的区别，并补充<strong>自动调用工具的具体配置和代码</strong>，帮你理清实际应用中的流程：</p><h3 id="1-Open-WebUI的两种工具调用模式"><a href="#1-Open-WebUI的两种工具调用模式" class="headerlink" title="1 Open WebUI的两种工具调用模式"></a>1 Open WebUI的两种工具调用模式</h3><h4 id="1-1-自动模式（生产环境常用）"><a href="#1-1-自动模式（生产环境常用）" class="headerlink" title="1.1 自动模式（生产环境常用）"></a>1.1 自动模式（生产环境常用）</h4><ul><li><strong>核心特点</strong>：Open WebUI内置了工具调用的“中间层”，会自动处理：  <ul><li>模型生成的<code>function_call</code>指令解析；  </li><li>调用工具后端API（如天气服务）；  </li><li>将工具返回的结果回传给模型，生成最终回答。</li></ul></li><li><strong>程序员无需干预</strong>：只需确保工具函数已正确注册（包含后端地址），并在API请求中启用工具调用开关。</li></ul><h4 id="1-2-手动模式（调试-定制化场景）"><a href="#1-2-手动模式（调试-定制化场景）" class="headerlink" title="1.2 手动模式（调试&#x2F;定制化场景）"></a>1.2 手动模式（调试&#x2F;定制化场景）</h4><ul><li><strong>核心特点</strong>：程序员手动解析模型生成的<code>function_call</code>，自行调用工具后端，再将结果返回给模型。  </li><li><strong>用途</strong>：用于调试工具调用逻辑、定制特殊的调用规则（如添加权限校验、日志记录），或在Open WebUI未支持自动模式的旧版本中使用。</li></ul><h3 id="2-自动模式：让Open-WebUI自动完成工具调用（实际使用方式）"><a href="#2-自动模式：让Open-WebUI自动完成工具调用（实际使用方式）" class="headerlink" title="2 自动模式：让Open WebUI自动完成工具调用（实际使用方式）"></a>2 自动模式：让Open WebUI自动完成工具调用（实际使用方式）</h3><p>要启用自动模式，只需在Open WebUI中完成<strong>工具注册配置</strong>，并在API请求中添加<code>tools: true</code>参数（或在UI中启用工具）。以下是具体步骤：</p><h4 id="步骤1：注册工具时配置“自动调用”"><a href="#步骤1：注册工具时配置“自动调用”" class="headerlink" title="步骤1：注册工具时配置“自动调用”"></a>步骤1：注册工具时配置“自动调用”</h4><p>在Open WebUI中注册<code>get_weather</code>函数时，需确保：  </p><ul><li>工具的后端地址（<code>servers.url</code>）正确且可被Open WebUI访问（如<code>http://host.docker.internal:5000</code>，避免跨域问题）；  </li><li>在工具详情页开启“Auto-invoke”（自动调用）开关（不同版本可能叫“Enable Auto Call”）。</li></ul><p>此时，Open WebUI会记住工具的后端地址，并自动处理调用逻辑。</p><h4 id="步骤2：发送API请求时启用工具调用"><a href="#步骤2：发送API请求时启用工具调用" class="headerlink" title="步骤2：发送API请求时启用工具调用"></a>步骤2：发送API请求时启用工具调用</h4><p>只需在请求中添加<code>tools: true</code>（告知Open WebUI“允许自动调用工具”），无需手动处理<code>function_call</code>：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> uuid<br><br>API_URL = <span class="hljs-string">&quot;http://localhost:3000/api/chat/completions&quot;</span><br>API_KEY = <span class="hljs-string">&quot;你的API密钥&quot;</span><br>headers = &#123;<span class="hljs-string">&quot;Authorization&quot;</span>: <span class="hljs-string">f&quot;Bearer <span class="hljs-subst">&#123;API_KEY&#125;</span>&quot;</span>, <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span>&#125;<br><br><span class="hljs-comment"># 用户提问：&quot;上海的天气如何？&quot;</span><br>payload = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,  <span class="hljs-comment"># 支持函数调用的模型</span><br>    <span class="hljs-string">&quot;messages&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;id&quot;</span>: uuid.uuid4().<span class="hljs-built_in">hex</span>,<br>            <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,<br>            <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;上海的天气如何？&quot;</span>,<br>            <span class="hljs-string">&quot;parentId&quot;</span>: <span class="hljs-literal">None</span><br>        &#125;<br>    ],<br>    <span class="hljs-string">&quot;tools&quot;</span>: true,  <span class="hljs-comment"># 关键：启用自动工具调用</span><br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span><br>&#125;<br><br><span class="hljs-comment"># 发送请求后，Open WebUI会自动完成全流程</span><br>response = requests.post(API_URL, json=payload, headers=headers)<br>final_answer = response.json()[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;content&quot;</span>]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;自动调用工具后的回答：<span class="hljs-subst">&#123;final_answer&#125;</span>&quot;</span>)<br><span class="hljs-comment"># 输出：上海当前天气为晴，气温25℃。</span><br></code></pre></td></tr></table></figure><h4 id="自动模式的底层逻辑（Open-WebUI内部处理）"><a href="#自动模式的底层逻辑（Open-WebUI内部处理）" class="headerlink" title="自动模式的底层逻辑（Open WebUI内部处理）"></a>自动模式的底层逻辑（Open WebUI内部处理）</h4><p>当<code>tools: true</code>时，Open WebUI会在内部执行以下步骤（无需程序员参与）：  </p><ol><li>模型生成<code>function_call</code>指令（<code>&#123;&quot;name&quot;: &quot;get_weather&quot;, &quot;parameters&quot;: &#123;&quot;city&quot;: &quot;上海&quot;&#125;&#125;</code>）；  </li><li>Open WebUI的中间层解析指令，调用<code>http://localhost:5000/get_weather</code>（工具注册时配置的地址）；  </li><li>接收天气服务返回的<code>&#123;&quot;temperature&quot;: 25, &quot;condition&quot;: &quot;晴&quot;&#125;</code>；  </li><li>将结果回传给模型，生成自然语言回答；  </li><li>返回最终结果给用户。</li></ol><h3 id="3-为什么需要了解手动模式？"><a href="#3-为什么需要了解手动模式？" class="headerlink" title="3 为什么需要了解手动模式？"></a>3 为什么需要了解手动模式？</h3><p>手动模式虽然不常用，但能帮你：  </p><ol><li><strong>调试问题</strong>：当自动调用失败时（如工具后端超时、参数错误），可手动解析<code>function_call</code>排查问题；  </li><li><strong>定制化需求</strong>：例如在调用工具前添加权限校验（如“仅VIP用户可查询天气”），或记录调用日志；  </li><li><strong>理解原理</strong>：看清模型、工具、后端之间的交互链路，遇到复杂场景时能更灵活地扩展。</li></ol><h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4 总结"></a>4 总结</h3><ul><li><strong>实际使用</strong>：优先用自动模式，通过<code>tools: true</code>和正确注册工具，让Open WebUI自动完成调用；  </li><li><strong>原理学习</strong>：手动模式用于拆解流程，理解<code>function_call</code>的生成、工具调用、结果反馈的全链路。</li></ul><p>两种模式的核心差异在于“谁来处理<code>function_call</code>指令”——自动模式由Open WebUI处理，手动模式由程序员处理。掌握这一点，就能灵活应对不同场景了。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>软件开发</category>
+      
+      <category>大语言模型</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Open WebUI</tag>
+      
+      <tag>大模型</tag>
+      
+      <tag>API接口</tag>
+      
+      <tag>智能体</tag>
+      
+      <tag>天气查询</tag>
+      
+      <tag>工具注册</tag>
       
     </tags>
     
@@ -1789,13 +1834,13 @@
       
       <tag>Android</tag>
       
-      <tag>低功耗蓝牙</tag>
-      
-      <tag>GATT</tag>
+      <tag>Activity</tag>
       
       <tag>Context</tag>
       
-      <tag>Activity</tag>
+      <tag>低功耗蓝牙</tag>
+      
+      <tag>GATT</tag>
       
       <tag>生命周期</tag>
       
@@ -1879,9 +1924,9 @@
       
       <tag>Android</tag>
       
-      <tag>Wi-Fi连接</tag>
-      
       <tag>权限管理</tag>
+      
+      <tag>Wi-Fi连接</tag>
       
       <tag>WifiNetworkSuggestion</tag>
       
@@ -1922,9 +1967,9 @@
     
     <tags>
       
-      <tag>局域网</tag>
-      
       <tag>阿里云</tag>
+      
+      <tag>服务器</tag>
       
       <tag>网络安全组</tag>
       
@@ -1940,7 +1985,7 @@
       
       <tag>二进制</tag>
       
-      <tag>服务器</tag>
+      <tag>局域网</tag>
       
     </tags>
     
@@ -2012,17 +2057,17 @@
     
     <tags>
       
-      <tag>PHP</tag>
-      
       <tag>Apache</tag>
       
       <tag>Nginx</tag>
       
+      <tag>PHP</tag>
+      
+      <tag>阿里云</tag>
+      
       <tag>Docker</tag>
       
       <tag>MySQL</tag>
-      
-      <tag>阿里云</tag>
       
       <tag>SSH</tag>
       
@@ -2067,9 +2112,9 @@
       
       <tag>腾讯云</tag>
       
-      <tag>服务器操作系统</tag>
-      
       <tag>CentOS</tag>
+      
+      <tag>服务器操作系统</tag>
       
       <tag>RHEL</tag>
       
@@ -2108,11 +2153,9 @@
     
     <tags>
       
-      <tag>环境变量</tag>
+      <tag>Dockerfile</tag>
       
       <tag>微服务</tag>
-      
-      <tag>Dockerfile</tag>
       
       <tag>Docker Compose</tag>
       
@@ -2127,6 +2170,8 @@
       <tag>时区设置</tag>
       
       <tag>字体配置</tag>
+      
+      <tag>环境变量</tag>
       
     </tags>
     
@@ -2153,11 +2198,11 @@
     
     <tags>
       
-      <tag>远程仓库</tag>
-      
       <tag>Git</tag>
       
       <tag>版本控制</tag>
+      
+      <tag>远程仓库</tag>
       
       <tag>分支管理</tag>
       
@@ -2198,17 +2243,17 @@
     
     <tags>
       
-      <tag>GitLab</tag>
+      <tag>Git</tag>
       
-      <tag>GitHub</tag>
+      <tag>版本控制</tag>
+      
+      <tag>GitLab</tag>
       
       <tag>远程仓库</tag>
       
-      <tag>Git</tag>
-      
       <tag>SSH</tag>
       
-      <tag>版本控制</tag>
+      <tag>GitHub</tag>
       
     </tags>
     
@@ -2266,9 +2311,9 @@
     
     <tags>
       
-      <tag>MySQL</tag>
-      
       <tag>数据库</tag>
+      
+      <tag>MySQL</tag>
       
       <tag>绿色版</tag>
       
@@ -2360,11 +2405,13 @@
       
       <tag>Docker</tag>
       
-      <tag>SpringBoot</tag>
+      <tag>Kubernetes</tag>
       
       <tag>若依微服务框架</tag>
       
       <tag>Ruoyi Cloud</tag>
+      
+      <tag>SpringBoot</tag>
       
       <tag>微服务</tag>
       
@@ -2373,8 +2420,6 @@
       <tag>前端</tag>
       
       <tag>数据库</tag>
-      
-      <tag>Kubernetes</tag>
       
     </tags>
     
@@ -2403,7 +2448,7 @@
       
       <tag>资源管理</tag>
       
-      <tag>事件处理</tag>
+      <tag>性能优化</tag>
       
       <tag>游戏开发</tag>
       
@@ -2413,9 +2458,9 @@
       
       <tag>场景管理</tag>
       
-      <tag>生命周期函数</tag>
+      <tag>事件处理</tag>
       
-      <tag>性能优化</tag>
+      <tag>生命周期函数</tag>
       
       <tag>动画控制</tag>
       
@@ -2624,6 +2669,8 @@
     
     <tags>
       
+      <tag>数据隐私</tag>
+      
       <tag>人工智能</tag>
       
       <tag>星球大战计划</tag>
@@ -2633,8 +2680,6 @@
       <tag>技术竞争</tag>
       
       <tag>经济负担</tag>
-      
-      <tag>数据隐私</tag>
       
       <tag>军事科技</tag>
       
@@ -2704,9 +2749,11 @@
     
     <tags>
       
-      <tag>DeepSeek</tag>
-      
       <tag>大语言模型</tag>
+      
+      <tag>人工智能</tag>
+      
+      <tag>DeepSeek</tag>
       
       <tag>推理模型</tag>
       
@@ -2723,8 +2770,6 @@
       <tag>逻辑漏洞</tag>
       
       <tag>资金循环</tag>
-      
-      <tag>人工智能</tag>
       
     </tags>
     
@@ -2753,7 +2798,7 @@
       
       <tag>Docker</tag>
       
-      <tag>Windows</tag>
+      <tag>大语言模型</tag>
       
       <tag>Ollama</tag>
       
@@ -2761,9 +2806,9 @@
       
       <tag>OpenWebUI</tag>
       
-      <tag>大语言模型</tag>
-      
       <tag>本地部署</tag>
+      
+      <tag>Windows</tag>
       
       <tag>Linux</tag>
       
@@ -2778,7 +2823,7 @@
     <link href="/2024/24-12-22-how-is-an-email-relayed.html"/>
     <url>/2024/24-12-22-how-is-an-email-relayed.html</url>
     
-    <content type="html"><![CDATA[<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113711540866975&bvid=BV1CtCAYYEdj&cid=27519618287&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="min-height:400px; min-width:700px; margin:0 auto;"></iframe><p>In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check and locate the receiver’s email server. This is crucial as it serves as the destination for our message.</p><p><img src="https://s2.loli.net/2025/02/09/KgNuAh2tLGxF7MB.jpg" alt="1_(238)(3)-1024px"></p><p>To check the email server corresponding to a specific email address, a useful command that comes in handy is ‘nslookup’. Here’s how it works: First, you open the command prompt or terminal on your computer. Then, after typing in the ‘nslookup’ command, you need to set the query type as’mx’. This query type specifically helps us to find the mail exchange records for the domain. For example, if the email address is “<a href="mailto:&#101;&#120;&#x61;&#x6d;&#112;&#x6c;&#101;&#64;&#x65;&#x78;&#x61;&#x6d;&#x70;&#108;&#101;&#x2e;&#99;&#x6f;&#109;">&#101;&#120;&#x61;&#x6d;&#112;&#x6c;&#101;&#64;&#x65;&#x78;&#x61;&#x6d;&#x70;&#108;&#101;&#x2e;&#99;&#x6f;&#109;</a>“, you would type in the domain part which is “example.com” after setting the’mx’ query type. The system will then return the information about the email server responsible for handling emails for that domain.</p><p><img src="https://s2.loli.net/2025/02/09/Kzp9rqIWTOLtehn.png" alt="20250209212804"></p><p>Once we’ve identified the email server, the next step is to establish a connection with it. We can achieve this by using socket communication. Through this method, the TCP network packets of the SMTP (Simple Mail Transfer Protocol) will be transferred over the connection. The SMTP protocol is the standard for sending emails across the Internet. For example, in a Python program, you might use the’socket’ library to create a socket object and then connect to the server’s IP address and port (usually port 25 for SMTP). Here’s a simple code snippet to illustrate this concept:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> socket<br><br><span class="hljs-comment"># Create a socket object</span><br>s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br><br><span class="hljs-comment"># Connect to the server</span><br>server_address = (<span class="hljs-string">&#x27;mail.example.com&#x27;</span>, <span class="hljs-number">25</span>)  <span class="hljs-comment"># Replace with actual server address and port</span><br>s.connect(server_address)<br><br><span class="hljs-comment"># You can then start interacting with the server using SMTP commands</span><br><span class="hljs-comment"># This is just a basic connection example and further commands would be needed for a full email sending process</span><br></code></pre></td></tr></table></figure><p>After the network connection is successfully established and the session is initialized, we need to focus on organizing the email content. This should be done meticulously in accordance with the format of email files. It includes specifying the sender’s email addresses clearly and ensuring the correct encoding of the characters. For example, if you are using UTF-8 encoding, you need to set the appropriate headers in the email content to indicate this. The email content should also follow the proper structure with fields like “From:”, “To:”, “Subject:”, and the body of the message.</p><p>In a particular scenario like email marketing, where we usually need to reach out to multiple recipients, things get a bit more complicated. We need to set multiple receivers’ email addresses. And this information should be properly included in the email file content. If we choose to set these receivers’ email addresses one by one or separately, then we will have to organize multiple similar email contents, which can be time-consuming but might be necessary depending on the specific requirements. For instance, if we have a list of email addresses in a text file, we might read them one by one in a loop and create separate email messages for each recipient in our programming code.</p><p>Finally, once everything is set up and the email content is ready, we can send this email or multiple emails as per our requirements. After the sending process is completed successfully, we should disconnect the connection to free up resources and end the communication session with the email server. This ensures a smooth and proper email sending process from start to finish.</p><p>Please note that the above code is just a simple example for demonstrating the connection part, and in a real-world application, more comprehensive handling of SMTP commands and error handling would be required to ensure the emails are sent correctly. </p>]]></content>
+    <content type="html"><![CDATA[<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113711540866975&bvid=BV1CtCAYYEdj&cid=27519618287&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="min-height:400px; min-width:700px; margin:0 auto;"></iframe><p>In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check and locate the receiver’s email server. This is crucial as it serves as the destination for our message.</p><p><img src="https://s2.loli.net/2025/02/09/KgNuAh2tLGxF7MB.jpg" alt="1_(238)(3)-1024px"></p><p>To check the email server corresponding to a specific email address, a useful command that comes in handy is ‘nslookup’. Here’s how it works: First, you open the command prompt or terminal on your computer. Then, after typing in the ‘nslookup’ command, you need to set the query type as’mx’. This query type specifically helps us to find the mail exchange records for the domain. For example, if the email address is “<a href="mailto:&#x65;&#120;&#x61;&#x6d;&#112;&#108;&#x65;&#64;&#x65;&#120;&#97;&#x6d;&#x70;&#108;&#x65;&#46;&#x63;&#x6f;&#109;">&#x65;&#120;&#x61;&#x6d;&#112;&#108;&#x65;&#64;&#x65;&#120;&#97;&#x6d;&#x70;&#108;&#x65;&#46;&#x63;&#x6f;&#109;</a>“, you would type in the domain part which is “example.com” after setting the’mx’ query type. The system will then return the information about the email server responsible for handling emails for that domain.</p><p><img src="https://s2.loli.net/2025/02/09/Kzp9rqIWTOLtehn.png" alt="20250209212804"></p><p>Once we’ve identified the email server, the next step is to establish a connection with it. We can achieve this by using socket communication. Through this method, the TCP network packets of the SMTP (Simple Mail Transfer Protocol) will be transferred over the connection. The SMTP protocol is the standard for sending emails across the Internet. For example, in a Python program, you might use the’socket’ library to create a socket object and then connect to the server’s IP address and port (usually port 25 for SMTP). Here’s a simple code snippet to illustrate this concept:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> socket<br><br><span class="hljs-comment"># Create a socket object</span><br>s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br><br><span class="hljs-comment"># Connect to the server</span><br>server_address = (<span class="hljs-string">&#x27;mail.example.com&#x27;</span>, <span class="hljs-number">25</span>)  <span class="hljs-comment"># Replace with actual server address and port</span><br>s.connect(server_address)<br><br><span class="hljs-comment"># You can then start interacting with the server using SMTP commands</span><br><span class="hljs-comment"># This is just a basic connection example and further commands would be needed for a full email sending process</span><br></code></pre></td></tr></table></figure><p>After the network connection is successfully established and the session is initialized, we need to focus on organizing the email content. This should be done meticulously in accordance with the format of email files. It includes specifying the sender’s email addresses clearly and ensuring the correct encoding of the characters. For example, if you are using UTF-8 encoding, you need to set the appropriate headers in the email content to indicate this. The email content should also follow the proper structure with fields like “From:”, “To:”, “Subject:”, and the body of the message.</p><p>In a particular scenario like email marketing, where we usually need to reach out to multiple recipients, things get a bit more complicated. We need to set multiple receivers’ email addresses. And this information should be properly included in the email file content. If we choose to set these receivers’ email addresses one by one or separately, then we will have to organize multiple similar email contents, which can be time-consuming but might be necessary depending on the specific requirements. For instance, if we have a list of email addresses in a text file, we might read them one by one in a loop and create separate email messages for each recipient in our programming code.</p><p>Finally, once everything is set up and the email content is ready, we can send this email or multiple emails as per our requirements. After the sending process is completed successfully, we should disconnect the connection to free up resources and end the communication session with the email server. This ensures a smooth and proper email sending process from start to finish.</p><p>Please note that the above code is just a simple example for demonstrating the connection part, and in a real-world application, more comprehensive handling of SMTP commands and error handling would be required to ensure the emails are sent correctly. </p>]]></content>
     
     
     <categories>
@@ -2792,13 +2837,13 @@
     
     <tags>
       
-      <tag>邮件服务器</tag>
-      
       <tag>电子邮件</tag>
       
       <tag>邮件协议</tag>
       
       <tag>SMTP</tag>
+      
+      <tag>邮件服务器</tag>
       
     </tags>
     
@@ -2915,8 +2960,6 @@
     
     <tags>
       
-      <tag>软件开发</tag>
-      
       <tag>敏捷开发</tag>
       
       <tag>Scrum框架</tag>
@@ -2924,6 +2967,8 @@
       <tag>瀑布流模型</tag>
       
       <tag>螺旋模型</tag>
+      
+      <tag>软件开发</tag>
       
     </tags>
     
@@ -2995,17 +3040,17 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>大语言模型</tag>
+      
+      <tag>ChatGPT</tag>
+      
+      <tag>生成PPT文件</tag>
       
       <tag>人工智能</tag>
       
       <tag>案例分析</tag>
       
-      <tag>ChatGPT</tag>
-      
-      <tag>生成PPT文件</tag>
+      <tag>Python</tag>
       
       <tag>自动化处理</tag>
       
@@ -3036,13 +3081,11 @@
     
     <tags>
       
-      <tag>大语言模型</tag>
-      
-      <tag>数据隐私</tag>
+      <tag>AnythingLLM</tag>
       
       <tag>知识库</tag>
       
-      <tag>AnythingLLM</tag>
+      <tag>大语言模型</tag>
       
       <tag>训练</tag>
       
@@ -3055,6 +3098,8 @@
       <tag>微调训练</tag>
       
       <tag>计算资源</tag>
+      
+      <tag>数据隐私</tag>
       
       <tag>Hugging Face</tag>
       
@@ -3095,13 +3140,11 @@
       
       <tag>Docker</tag>
       
-      <tag>GitLab</tag>
-      
-      <tag>性能优化</tag>
-      
       <tag>配置</tag>
       
       <tag>Prometheus</tag>
+      
+      <tag>GitLab</tag>
       
       <tag>监控</tag>
       
@@ -3110,6 +3153,8 @@
       <tag>数据保留</tag>
       
       <tag>容器</tag>
+      
+      <tag>性能优化</tag>
       
     </tags>
     
@@ -3183,15 +3228,13 @@
       
       <tag>Android</tag>
       
-      <tag>Kotlin</tag>
-      
-      <tag>权限管理</tag>
+      <tag>Activity</tag>
       
       <tag>Context</tag>
       
-      <tag>Activity</tag>
-      
       <tag>权限请求</tag>
+      
+      <tag>Kotlin</tag>
       
       <tag>多态性</tag>
       
@@ -3200,6 +3243,8 @@
       <tag>AppCompatActivity</tag>
       
       <tag>类型转换</tag>
+      
+      <tag>权限管理</tag>
       
     </tags>
     
@@ -3324,15 +3369,15 @@
     
     <tags>
       
-      <tag>Docker</tag>
-      
       <tag>可视化</tag>
       
-      <tag>Kubernetes</tag>
+      <tag>Docker</tag>
       
       <tag>Prometheus</tag>
       
       <tag>Grafana</tag>
+      
+      <tag>Kubernetes</tag>
       
       <tag>Alertmanager</tag>
       
@@ -3369,21 +3414,21 @@
       
       <tag>缓存</tag>
       
-      <tag>端口</tag>
-      
       <tag>Docker</tag>
       
-      <tag>HTTPS</tag>
+      <tag>镜像加速器</tag>
+      
+      <tag>Registry</tag>
       
       <tag>CentOS</tag>
+      
+      <tag>HTTPS</tag>
       
       <tag>服务器</tag>
       
       <tag>配置</tag>
       
-      <tag>镜像加速器</tag>
-      
-      <tag>Registry</tag>
+      <tag>端口</tag>
       
       <tag>客户端</tag>
       
@@ -3414,19 +3459,19 @@
       
       <tag>项目管理</tag>
       
-      <tag>Git</tag>
-      
-      <tag>版本控制</tag>
-      
-      <tag>Dockerfile</tag>
-      
       <tag>MacOS</tag>
       
+      <tag>Git</tag>
+      
       <tag>XCode</tag>
+      
+      <tag>版本控制</tag>
       
       <tag>Gitee</tag>
       
       <tag>代码提交</tag>
+      
+      <tag>Dockerfile</tag>
       
     </tags>
     
@@ -3541,13 +3586,13 @@
       
       <tag>项目管理</tag>
       
-      <tag>Git</tag>
-      
-      <tag>版本控制</tag>
-      
       <tag>MacOS</tag>
       
+      <tag>Git</tag>
+      
       <tag>XCode</tag>
+      
+      <tag>版本控制</tag>
       
       <tag>Gitee</tag>
       
@@ -3578,8 +3623,6 @@
     
     <tags>
       
-      <tag>数据安全</tag>
-      
       <tag>区块链</tag>
       
       <tag>分布式存储</tag>
@@ -3593,6 +3636,8 @@
       <tag>链式结构</tag>
       
       <tag>哈希算法</tag>
+      
+      <tag>数据安全</tag>
       
       <tag>不可篡改</tag>
       
@@ -3830,8 +3875,6 @@
     
     <tags>
       
-      <tag>Nacos</tag>
-      
       <tag>IntelliJ IDEA</tag>
       
       <tag>Spring Boot</tag>
@@ -3849,6 +3892,8 @@
       <tag>VM Options</tag>
       
       <tag>Program arguments</tag>
+      
+      <tag>Nacos</tag>
       
     </tags>
     
@@ -3875,17 +3920,17 @@
     
     <tags>
       
-      <tag>敏捷开发</tag>
-      
-      <tag>迭代开发</tag>
-      
       <tag>项目管理</tag>
+      
+      <tag>敏捷开发</tag>
       
       <tag>商务合同</tag>
       
       <tag>项目收款</tag>
       
       <tag>范围管理</tag>
+      
+      <tag>迭代开发</tag>
       
       <tag>变更管理</tag>
       
@@ -4010,8 +4055,6 @@
     
     <tags>
       
-      <tag>JavaScript</tag>
-      
       <tag>Mermaid</tag>
       
       <tag>Markdown</tag>
@@ -4029,6 +4072,8 @@
       <tag>饼图</tag>
       
       <tag>可视化</tag>
+      
+      <tag>JavaScript</tag>
       
     </tags>
     
@@ -4145,8 +4190,6 @@
     
     <tags>
       
-      <tag>配置管理</tag>
-      
       <tag>项目管理</tag>
       
       <tag>ALM</tag>
@@ -4160,6 +4203,8 @@
       <tag>基线管理</tag>
       
       <tag>发布管理</tag>
+      
+      <tag>配置管理</tag>
       
       <tag>开发管理</tag>
       
@@ -4190,13 +4235,13 @@
     
     <tags>
       
-      <tag>AWS</tag>
-      
-      <tag>Lambda</tag>
-      
       <tag>Serverless</tag>
       
       <tag>云函数</tag>
+      
+      <tag>AWS</tag>
+      
+      <tag>Lambda</tag>
       
       <tag>阿里云</tag>
       
@@ -4276,13 +4321,13 @@
     
     <tags>
       
-      <tag>敏捷开发</tag>
-      
       <tag>项目管理</tag>
       
       <tag>项目经理</tag>
       
       <tag>Scrum Master</tag>
+      
+      <tag>敏捷开发</tag>
       
       <tag>Scrum框架</tag>
       
@@ -4401,11 +4446,11 @@
       
       <tag>敏捷开发</tag>
       
+      <tag>迭代开发</tag>
+      
       <tag>用户故事</tag>
       
       <tag>迭代规划</tag>
-      
-      <tag>迭代开发</tag>
       
       <tag>迭代评审</tag>
       
@@ -4489,13 +4534,13 @@
     
     <tags>
       
-      <tag>Postfix</tag>
-      
-      <tag>邮件转发</tag>
+      <tag>邮件服务器</tag>
       
       <tag>MySQL</tag>
       
-      <tag>邮件服务器</tag>
+      <tag>Postfix</tag>
+      
+      <tag>邮件转发</tag>
       
       <tag>Dovecot</tag>
       
@@ -4579,15 +4624,15 @@
     
     <tags>
       
-      <tag>Node.js</tag>
-      
       <tag>AWS</tag>
       
       <tag>Lambda</tag>
       
-      <tag>AWS CDK</tag>
-      
       <tag>Python</tag>
+      
+      <tag>Node.js</tag>
+      
+      <tag>AWS CDK</tag>
       
       <tag>Visual Studio Code</tag>
       
@@ -4712,11 +4757,11 @@
     
     <tags>
       
-      <tag>MVP</tag>
-      
       <tag>产品经理</tag>
       
       <tag>软件开发</tag>
+      
+      <tag>MVP</tag>
       
       <tag>核心功能</tag>
       
@@ -4757,6 +4802,10 @@
     
     <tags>
       
+      <tag>邮件服务器</tag>
+      
+      <tag>MySQL</tag>
+      
       <tag>Postfix</tag>
       
       <tag>邮件转发</tag>
@@ -4764,10 +4813,6 @@
       <tag>虚拟别名映射</tag>
       
       <tag>数据库配置</tag>
-      
-      <tag>MySQL</tag>
-      
-      <tag>邮件服务器</tag>
       
       <tag>主配置文件</tag>
       
@@ -4800,6 +4845,8 @@
     
     <tags>
       
+      <tag>元宇宙</tag>
+      
       <tag>Vue</tag>
       
       <tag>Threejs</tag>
@@ -4817,8 +4864,6 @@
       <tag>动画循环</tag>
       
       <tag>脚手架开发</tag>
-      
-      <tag>元宇宙</tag>
       
       <tag>MetaVerse</tag>
       
@@ -4851,7 +4896,11 @@
     
     <tags>
       
+      <tag>配置管理</tag>
+      
       <tag>Nacos</tag>
+      
+      <tag>SpringBoot</tag>
       
       <tag>服务注册</tag>
       
@@ -4861,11 +4910,7 @@
       
       <tag>服务健康检查</tag>
       
-      <tag>配置管理</tag>
-      
       <tag>Java应用</tag>
-      
-      <tag>SpringBoot</tag>
       
       <tag>Gateway网关</tag>
       
@@ -4898,15 +4943,15 @@
       
       <tag>GitLab</tag>
       
+      <tag>远程仓库</tag>
+      
       <tag>GitHub</tag>
+      
+      <tag>局域网</tag>
       
       <tag>同步代码</tag>
       
       <tag>备份项目</tag>
-      
-      <tag>远程仓库</tag>
-      
-      <tag>局域网</tag>
       
     </tags>
     
@@ -5089,9 +5134,9 @@
     
     <tags>
       
-      <tag>Vite</tag>
-      
       <tag>Node.js</tag>
+      
+      <tag>Vite</tag>
       
       <tag>express</tag>
       
@@ -5134,9 +5179,11 @@
     
     <tags>
       
-      <tag>Vue</tag>
+      <tag>JavaScript</tag>
       
       <tag>环境变量</tag>
+      
+      <tag>Vue</tag>
       
       <tag>Vite</tag>
       
@@ -5151,8 +5198,6 @@
       <tag>构建工具</tag>
       
       <tag>npm</tag>
-      
-      <tag>JavaScript</tag>
       
     </tags>
     
@@ -5181,21 +5226,21 @@
       
       <tag>Nacos</tag>
       
-      <tag>单机模式</tag>
-      
-      <tag>控制台</tag>
+      <tag>Docker</tag>
       
       <tag>端口</tag>
       
-      <tag>Docker</tag>
+      <tag>Windows</tag>
+      
+      <tag>单机模式</tag>
+      
+      <tag>控制台</tag>
       
       <tag>服务注册</tag>
       
       <tag>配置中心</tag>
       
       <tag>稳定版本</tag>
-      
-      <tag>Windows</tag>
       
       <tag>安装</tag>
       
