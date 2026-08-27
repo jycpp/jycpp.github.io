@@ -94,11 +94,11 @@
   
   
   <entry>
-    <title>从预训练到 RLHF：大语言模型训练范式的演进与工程实践</title>
+    <title>从预训练到RLHF：大语言模型训练范式的演进与工程实践</title>
     <link href="/2026/26-08-02-%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E8%8C%83%E5%BC%8F%E7%9A%84%E6%BC%94%E8%BF%9B%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.html"/>
     <url>/2026/26-08-02-%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E8%8C%83%E5%BC%8F%E7%9A%84%E6%BC%94%E8%BF%9B%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.html</url>
     
-    <content type="html"><![CDATA[<h1 id="从预训练到-RLHF：大语言模型训练范式的演进与工程实践"><a href="#从预训练到-RLHF：大语言模型训练范式的演进与工程实践" class="headerlink" title="从预训练到 RLHF：大语言模型训练范式的演进与工程实践"></a>从预训练到 RLHF：大语言模型训练范式的演进与工程实践</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>大语言模型（LLM）的训练并非单一过程，而是由<strong>预训练（Pre-training）</strong>、<strong>监督微调（Supervised Fine-Tuning, SFT）</strong> 和<strong>强化学习（Reinforcement Learning, RL）</strong> 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用的本质区别，并探讨检索增强生成（RAG）作为模型能力补充机制的设计定位。</p><p>为了更通俗易懂的解释以下内容，我做了一个HTML网页来说明：<br><a href="/html/llm_training_article.html">从”读书”到”做人”：大语言模型训练全揭秘</a></p><hr><h2 id="一、三段式训练总览"><a href="#一、三段式训练总览" class="headerlink" title="一、三段式训练总览"></a>一、三段式训练总览</h2><p>现代大语言模型的完整训练流水线可抽象为以下三个阶段：</p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">原始语料库（TB级无标注文本）<br>        │<br>        ▼<br>┌─────────────────────────────┐<br>│    第一阶段：预训练          │<br>│    目标：学习语言规律与知识   │<br>│    方法：自监督（下一词预测） │<br>│    产出：<span class="hljs-keyword">Base </span>模型           │<br>└──────────┬──────────────────┘<br>           │<br>           ▼<br>┌─────────────────────────────┐<br>│    第二阶段：监督微调 SFT    │<br>│    目标：学习指令跟随能力     │<br>│    方法：有监督（指令-回复对）│<br>│    产出：<span class="hljs-keyword">Instruct </span>模型       │<br>└──────────┬──────────────────┘<br>           │<br>           ▼<br>┌─────────────────────────────┐<br>│    第三阶段：强化学习 RLHF   │<br>│    目标：对齐人类偏好         │<br>│    方法：PPO + 奖励模型      │<br>│    产出：Aligned 模型        │<br>└─────────────────────────────┘<br></code></pre></td></tr></table></figure><p><strong>核心观点</strong>：预训练决定模型的知识上限，SFT 赋予模型实用性，RL 确保模型的可控性与安全性。三者缺一不可。</p><hr><h2 id="二、各阶段技术详解"><a href="#二、各阶段技术详解" class="headerlink" title="二、各阶段技术详解"></a>二、各阶段技术详解</h2><h3 id="2-1-预训练（Pre-training）"><a href="#2-1-预训练（Pre-training）" class="headerlink" title="2.1 预训练（Pre-training）"></a>2.1 预训练（Pre-training）</h3><p><strong>目标</strong>：在无标注数据上学习语言的统计规律、语法结构、事实知识与世界常识。</p><p><strong>训练方式</strong>：自监督学习，核心任务是<strong>下一词预测（Next Token Prediction）</strong>。给定上文序列 ( x_1, x_2, …, x_{t-1} )，模型预测下一个 token ( x_t ) 的概率分布，损失函数为交叉熵：</p><p>$$<br>\mathcal{L}<em>{\text{PT}} &#x3D; -\sum</em>{t&#x3D;1}^{T} \log P(x_t | x_{&lt;t})<br>$$</p><p><strong>数据规模</strong>：通常为数 TB 至数十 TB 的文本数据，涵盖网页、书籍、论文、代码等。</p><p><strong>关键特征</strong>：</p><ul><li>不需要人工标注，数据获取成本低</li><li>计算开销极大（数万 GPU 小时）</li><li>产出模型具备语言生成能力，但<strong>无法理解指令意图</strong></li></ul><h3 id="2-2-监督微调（Supervised-Fine-Tuning-SFT）"><a href="#2-2-监督微调（Supervised-Fine-Tuning-SFT）" class="headerlink" title="2.2 监督微调（Supervised Fine-Tuning, SFT）"></a>2.2 监督微调（Supervised Fine-Tuning, SFT）</h3><p><strong>目标</strong>：使模型学会遵循人类指令，完成问答、翻译、摘要等具体任务。</p><p><strong>训练方式</strong>：在<strong>人工标注的指令-回复对</strong>上进行有监督学习。每条数据格式为：</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">&#123;<br>  &quot;instruction&quot;: &quot;用通俗的语言解释什么是黑洞&quot;,<br>  &quot;output&quot;: &quot;黑洞是宇宙中引力极强的区域，任何东西都无法逃脱……&quot;<br>&#125;<br></code></pre></td></tr></table></figure><p>模型以 instruction 为输入，以 output 为目标进行最大似然估计：</p><p>$$<br>\mathcal{L}<em>{\text{SFT}} &#x3D; -\sum</em>{t&#x3D;1}^{T} \log P(y_t | x, y_{&lt;t})<br>$$</p><p>其中 ( x ) 为指令，( y ) 为标准回复。</p><p><strong>数据规模</strong>：通常为万级至十万级高质量样本，<strong>质量远重要于数量</strong>。</p><p><strong>关键特征</strong>：</p><ul><li>将“会说话”的模型转变为“会做事”的模型</li><li>训练成本远低于预训练（千级 GPU 小时）</li><li>模型可能产生表面服从但实质错误的回复（即“幻觉”）</li></ul><h3 id="2-3-强化学习（Reinforcement-Learning-from-Human-Feedback-RLHF）"><a href="#2-3-强化学习（Reinforcement-Learning-from-Human-Feedback-RLHF）" class="headerlink" title="2.3 强化学习（Reinforcement Learning from Human Feedback, RLHF）"></a>2.3 强化学习（Reinforcement Learning from Human Feedback, RLHF）</h3><p><strong>目标</strong>：使模型的输出更符合人类偏好——更有用、更无害、更诚实。</p><p><strong>训练方式</strong>：引入<strong>奖励模型（Reward Model）</strong> 作为人类偏好的代理，使用 <strong>PPO（Proximal Policy Optimization）</strong> 算法优化策略模型。</p><p><strong>完整流程分三步</strong>：</p><ol><li><strong>收集偏好数据</strong>：对同一 prompt，让 SFT 模型生成多个候选回复，由人工标注员排序</li><li><strong>训练奖励模型</strong>：以排序数据训练一个回归模型，为任意回复输出一个标量分数</li><li><strong>策略优化</strong>：使用 PPO 算法，以奖励模型的分数为奖励信号，微调 SFT 模型</li></ol><p>PPO 的目标函数简化为：</p><p>$$<br>\mathcal{L}<em>{\text{RL}} &#x3D; \mathbb{E}</em>{(s,a)}[\min(\frac{\pi_\theta(a|s)}{\pi_{\text{old}}(a|s)} A(s,a), \text{clip}(\dots))]<br>$$</p><p>其中 ( A(s,a) ) 为优势函数，衡量当前动作相对于平均水平的优劣。</p><p><strong>关键特征</strong>：</p><ul><li>显著提升模型的有用性和安全性</li><li>训练稳定性较差，超参数敏感</li><li>过度优化可能导致“奖励黑客”（reward hacking）现象</li></ul><hr><h2 id="三、模型分类思维导图"><a href="#三、模型分类思维导图" class="headerlink" title="三、模型分类思维导图"></a>三、模型分类思维导图</h2><p>以下从四个维度对现有大语言模型进行分类：</p><div class="mermaid">mindmap  root((大语言模型))    按训练阶段      Base 模型        GPT-3 原始版        LLaMA 原始版      Instruct 模型        Llama-2-chat        Qwen-Instruct      Aligned 模型        GPT-4        Claude 3    按架构类型      仅有 Decoder        GPT 系列        LLaMA 系列      Encoder-Decoder        T5        BART      MoE 混合专家        Mixtral 8x7B        DeepSeek-MoE    按应用场景      通用对话        ChatGPT        Claude      代码生成        Codex        StarCoder      数学推理        Minerva        Qwen-Math    按增强手段      纯训练型        传统 LLM      检索增强型        RAG 架构      工具调用型        Function Calling 模型</div><h3 id="选型速查表"><a href="#选型速查表" class="headerlink" title="选型速查表"></a>选型速查表</h3><table><thead><tr><th>使用场景</th><th>推荐模型类型</th><th>示例</th></tr></thead><tbody><tr><td>文本续写、补全</td><td>Base 模型</td><td><code>llama-3-base</code></td></tr><tr><td>日常对话、问答</td><td>Instruct 模型</td><td><code>llama-3-instruct</code></td></tr><tr><td>高安全性场景</td><td>Aligned 模型</td><td><code>claude-3-opus</code></td></tr><tr><td>代码辅助</td><td>代码专用模型</td><td><code>deepseek-coder</code></td></tr><tr><td>私有知识问答</td><td>Base 模型 + RAG</td><td><code>llama-3-base</code> + 向量库</td></tr></tbody></table><hr><h2 id="四、模型训练与模型调用的关系"><a href="#四、模型训练与模型调用的关系" class="headerlink" title="四、模型训练与模型调用的关系"></a>四、模型训练与模型调用的关系</h2><p>模型训练与模型调用是两个性质截然不同的阶段，但在工程实践中紧密关联。</p><h3 id="4-1-核心区别"><a href="#4-1-核心区别" class="headerlink" title="4.1 核心区别"></a>4.1 核心区别</h3><table><thead><tr><th>维度</th><th>模型训练</th><th>模型调用（推理）</th></tr></thead><tbody><tr><td><strong>目标</strong></td><td>更新模型权重</td><td>利用已有权重生成输出</td></tr><tr><td><strong>计算负载</strong></td><td>极高（GPU 密集）</td><td>较低（单卡可运行）</td></tr><tr><td><strong>数据流向</strong></td><td>批量数据 → 梯度更新 → 权重</td><td>单条输入 → 前向传播 → 输出</td></tr><tr><td><strong>耗时</strong></td><td>数天至数月</td><td>毫秒至秒级</td></tr><tr><td><strong>硬件要求</strong></td><td>多卡集群、高显存</td><td>单卡甚至 CPU 可运行</td></tr><tr><td><strong>频率</strong></td><td>低频（一次训练，多次复用）</td><td>高频（每次用户请求触发）</td></tr></tbody></table><h3 id="4-2-两者关系示意图"><a href="#4-2-两者关系示意图" class="headerlink" title="4.2 两者关系示意图"></a>4.2 两者关系示意图</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs bash">                    ┌──────────────┐<br>                    │  训练数据集    │<br>                    └──────┬───────┘<br>                           │<br>                           ▼<br>┌──────────────────────────────────────────────┐<br>│              模型训练流水线                    │<br>│                                              │<br>│  预训练 ──→ SFT ──→ RLHF ──→ 模型权重导出     │<br>│                                              │<br>└──────────────────────┬───────────────────────┘<br>                       │<br>                       ▼<br>              ┌──────────────────┐<br>              │  模型权重文件     │<br>              │  (如 .bin/.safetensors) │<br>              └────────┬─────────┘<br>                       │<br>                       ▼<br>┌──────────────────────────────────────────────┐<br>│              模型推理服务                      │<br>│                                              │<br>│  加载权重 ──→ 接收请求 ──→ 前向计算 ──→ 返回结果│<br>│                                              │<br>└──────────────────────────────────────────────┘<br></code></pre></td></tr></table></figure><p><strong>关键认知</strong>：</p><ul><li>训练是一次性的投资，推理是持续的服务</li><li>同一个模型可以被无数次调用，但权重只在训练阶段改变</li><li>推理时也可以进行<strong>少量参数更新</strong>（如 LoRA 适配器），但这属于<strong>持续微调</strong>，本质上仍是训练行为</li></ul><h3 id="4-3-工程实践中的常见模式"><a href="#4-3-工程实践中的常见模式" class="headerlink" title="4.3 工程实践中的常见模式"></a>4.3 工程实践中的常见模式</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs">训练阶段（离线，高算力集群）<br>  ├── 基础模型训练（大厂完成）<br>  ├── 领域微调（企业自有数据）<br>  └── 持续更新（线上数据回流）<br><br>调用阶段（在线，低延迟服务）<br>  ├── 单轮推理（普通问答）<br>  ├── 流式输出（打字机效果）<br>  └── 批量处理（离线任务）<br></code></pre></td></tr></table></figure><hr><h2 id="五、RAG-与大语言模型的关系"><a href="#五、RAG-与大语言模型的关系" class="headerlink" title="五、RAG 与大语言模型的关系"></a>五、RAG 与大语言模型的关系</h2><p>检索增强生成（Retrieval-Augmented Generation, RAG）是一种<strong>不修改模型权重</strong>的能力增强机制，它与模型训练形成互补关系。</p><h3 id="5-1-核心定位"><a href="#5-1-核心定位" class="headerlink" title="5.1 核心定位"></a>5.1 核心定位</h3><p><strong>RAG ≠ 模型训练</strong>。RAG 是在模型推理时引入外部知识源的架构设计，而非对模型本身的训练或微调。</p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">传统 <span class="hljs-keyword">LLM </span>推理：<br>用户提问 ──→ <span class="hljs-keyword">LLM（仅依赖内部知识）──→ </span>回复<br><br>RAG 增强推理：<br>用户提问 ──→ 检索外部知识库 ──→ <span class="hljs-keyword">LLM（参考检索结果）──→ </span>回复<br></code></pre></td></tr></table></figure><h3 id="5-2-RAG-工作流程"><a href="#5-2-RAG-工作流程" class="headerlink" title="5.2 RAG 工作流程"></a>5.2 RAG 工作流程</h3><div class="mermaid">flowchart LR    A[用户输入] --> B{意图识别}    B -->|需要外部知识| C[向量检索]    B -->|无需外部知识| D[直接推理]    C --> E[知识库<br/>文档片段]    E --> F[拼接 Prompt]    F --> G[LLM 推理]    D --> G    G --> H[最终回复]        subgraph I[离线索引构建]        J[原始文档] --> K[文本分块]        K --> L[向量化嵌入]        L --> M[(向量数据库)]    end        M -.-> C</div><h3 id="5-3-RAG-与训练增强的对比"><a href="#5-3-RAG-与训练增强的对比" class="headerlink" title="5.3 RAG 与训练增强的对比"></a>5.3 RAG 与训练增强的对比</h3><table><thead><tr><th>维度</th><th>RAG</th><th>模型微调（SFT&#x2F;RL）</th></tr></thead><tbody><tr><td><strong>是否修改权重</strong></td><td>❌ 否</td><td>✅ 是</td></tr><tr><td><strong>知识来源</strong></td><td>外部数据库</td><td>模型内部参数</td></tr><tr><td><strong>知识更新速度</strong></td><td>即时（增删文档即可）</td><td>慢（需重新训练）</td></tr><tr><td><strong>幻觉控制</strong></td><td>强（可约束到检索结果）</td><td>弱（依赖训练数据质量）</td></tr><tr><td><strong>计算成本</strong></td><td>低（仅检索 + 推理）</td><td>高（需 GPU 训练）</td></tr><tr><td><strong>适用场景</strong></td><td>动态知识、私有数据</td><td>固定能力、风格对齐</td></tr></tbody></table><h3 id="5-4-两者协同的最佳实践"><a href="#5-4-两者协同的最佳实践" class="headerlink" title="5.4 两者协同的最佳实践"></a>5.4 两者协同的最佳实践</h3><p>在实际系统中，RAG 与模型训练通常是<strong>分层配合</strong>的关系：</p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">┌──────────────────────────────────────────────┐<br>│                应用层                          │<br>│                                               │<br>│  ┌─────────┐    ┌──────────┐    ┌──────────┐ │<br>│  │ 对话系统 │    │ 知识问答  │    │ 代码助手  │ │<br>│  └────┬────┘    └────┬─────┘    └────┬─────┘ │<br>│       │              │               │        │<br>├───────┴──────────────┴───────────────┴────────┤<br>│              能力增强层                        │<br>│                                               │<br>│  ┌─────────────────────┐  ┌─────────────────┐ │<br>│  │ RAG 检索模块         │  │ Tool Calling    │ │<br>│  │ （向量库 + 检索器）   │  │ （API 调用）     │ │<br>│  └──────────┬──────────┘  └────────┬────────┘ │<br>│             │                       │          │<br>├─────────────┴───────────────────────┴──────────┤<br>│              模型推理层                         │<br>│                                               │<br>│  ┌──────────────────────────────────────────┐  │<br>│  │  <span class="hljs-keyword">LLM </span>推理引擎                              │  │<br>│  │  （加载 Aligned 模型权重）                  │  │<br>│  └──────────────────────────────────────────┘  │<br>│                                               │<br>├────────────────────────────────────────────────┤<br>│              模型训练层                         │<br>│                                               │<br>│  ┌──────────┐  ┌──────┐  ┌──────┐            │<br>│  │ 预训练    │  │ SFT  │  │ RLHF │            │<br>│  └──────────┘  └──────┘  └──────┘            │<br>└────────────────────────────────────────────────┘<br></code></pre></td></tr></table></figure><p><strong>关键结论</strong>：</p><ul><li><strong>RAG 解决的是知识的时效性和专有性问题</strong>，让模型不必记住所有知识</li><li><strong>训练解决的是模型的底层能力和行为对齐问题</strong>，这是 RAG 无法替代的</li><li>最佳实践是：<strong>用训练打造一个强大的基础模型，用 RAG 为其注入实时和私有的知识</strong></li></ul><hr><h2 id="六、全文总结"><a href="#六、全文总结" class="headerlink" title="六、全文总结"></a>六、全文总结</h2><h3 id="五句话记住本文核心"><a href="#五句话记住本文核心" class="headerlink" title="五句话记住本文核心"></a>五句话记住本文核心</h3><ol><li><strong>预训练</strong>让模型学会语言规律，产出 Base 模型</li><li><strong>SFT</strong> 让模型学会遵循指令，产出 Instruct 模型</li><li><strong>RLHF</strong> 让模型学会人类偏好，产出 Aligned 模型</li><li><strong>训练是离线的一次性投入，调用是在线的持续性服务</strong></li><li><strong>RAG 不修改模型权重，而是在推理时为模型补充外部知识</strong></li></ol><h3 id="完整生命周期总览"><a href="#完整生命周期总览" class="headerlink" title="完整生命周期总览"></a>完整生命周期总览</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs routeros">原始数据 ──→ 预训练 ──→ SFT ──→ RLHF ──→ 模型部署 ──→ 推理服务<br>                                                        │<br>                                                   ┌────┴────┐<br>                                                   │  RAG     │<br>                                                   │ <span class="hljs-built_in"> Tool </span>   │<br>                                                   │  Memory  │<br>                                                   └─────────┘<br></code></pre></td></tr></table></figure><hr><p><em>作者注：本文所述流程适用于 GPT-4、Claude、LLaMA 等主流大语言模型。具体实现细节因模型架构和厂商策略而异，建议以各模型官方技术报告为准。</em></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践"><a href="#从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践" class="headerlink" title="从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践"></a>从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>大语言模型（LLM）的训练并非单一过程，而是由<strong>预训练（Pre-training）</strong>、<strong>监督微调（Supervised Fine-Tuning, SFT）</strong> 和<strong>强化学习（Reinforcement Learning, RL）</strong> 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用的本质区别，并探讨检索增强生成（RAG）作为模型能力补充机制的设计定位。</p><p>关于标题中的RLHF，是指强化学习（Reinforcement Learning, RL）的Human Feedback（HF）版本，用于对齐模型与人类偏好。</p><p>为了更通俗易懂的解释以下内容，我做了一个HTML网页来说明：<br><a href="/html/llm_training_article.html">从”读书”到”做人”：大语言模型训练全流程</a></p><hr><h2 id="一、三段式训练总览"><a href="#一、三段式训练总览" class="headerlink" title="一、三段式训练总览"></a>一、三段式训练总览</h2><p>现代大语言模型的完整训练流水线可抽象为以下三个阶段：</p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">原始语料库（TB级无标注文本）<br>        │<br>        ▼<br>┌─────────────────────────────┐<br>│    第一阶段：预训练          │<br>│    目标：学习语言规律与知识   │<br>│    方法：自监督（下一词预测） │<br>│    产出：<span class="hljs-keyword">Base </span>模型           │<br>└──────────┬──────────────────┘<br>           │<br>           ▼<br>┌─────────────────────────────┐<br>│    第二阶段：监督微调 SFT    │<br>│    目标：学习指令跟随能力     │<br>│    方法：有监督（指令-回复对）│<br>│    产出：<span class="hljs-keyword">Instruct </span>模型       │<br>└──────────┬──────────────────┘<br>           │<br>           ▼<br>┌─────────────────────────────┐<br>│    第三阶段：强化学习 RLHF   │<br>│    目标：对齐人类偏好         │<br>│    方法：PPO + 奖励模型      │<br>│    产出：Aligned 模型        │<br>└─────────────────────────────┘<br></code></pre></td></tr></table></figure><p><strong>核心观点</strong>：预训练决定模型的知识上限，SFT 赋予模型实用性，RL 确保模型的可控性与安全性。三者缺一不可。</p><hr><h2 id="二、各阶段技术详解"><a href="#二、各阶段技术详解" class="headerlink" title="二、各阶段技术详解"></a>二、各阶段技术详解</h2><h3 id="2-1-预训练（Pre-training）"><a href="#2-1-预训练（Pre-training）" class="headerlink" title="2.1 预训练（Pre-training）"></a>2.1 预训练（Pre-training）</h3><p><strong>目标</strong>：在无标注数据上学习语言的统计规律、语法结构、事实知识与世界常识。</p><p><strong>训练方式</strong>：自监督学习，核心任务是<strong>下一词预测（Next Token Prediction）</strong>。给定上文序列 ( x_1, x_2, …, x_{t-1} )，模型预测下一个 token ( x_t ) 的概率分布，损失函数为交叉熵：</p><p>$$<br>\mathcal{L}<em>{\text{PT}} &#x3D; -\sum</em>{t&#x3D;1}^{T} \log P(x_t | x_{&lt;t})<br>$$</p><p><strong>数据规模</strong>：通常为数 TB 至数十 TB 的文本数据，涵盖网页、书籍、论文、代码等。</p><p><strong>关键特征</strong>：</p><ul><li>不需要人工标注，数据获取成本低</li><li>计算开销极大（数万 GPU 小时）</li><li>产出模型具备语言生成能力，但<strong>无法理解指令意图</strong></li></ul><h3 id="2-2-监督微调（Supervised-Fine-Tuning-SFT）"><a href="#2-2-监督微调（Supervised-Fine-Tuning-SFT）" class="headerlink" title="2.2 监督微调（Supervised Fine-Tuning, SFT）"></a>2.2 监督微调（Supervised Fine-Tuning, SFT）</h3><p><strong>目标</strong>：使模型学会遵循人类指令，完成问答、翻译、摘要等具体任务。</p><p><strong>训练方式</strong>：在<strong>人工标注的指令-回复对</strong>上进行有监督学习。每条数据格式为：</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">&#123;<br>  &quot;instruction&quot;: &quot;用通俗的语言解释什么是黑洞&quot;,<br>  &quot;output&quot;: &quot;黑洞是宇宙中引力极强的区域，任何东西都无法逃脱……&quot;<br>&#125;<br></code></pre></td></tr></table></figure><p>模型以 instruction 为输入，以 output 为目标进行最大似然估计：</p><p>$$<br>\mathcal{L}<em>{\text{SFT}} &#x3D; -\sum</em>{t&#x3D;1}^{T} \log P(y_t | x, y_{&lt;t})<br>$$</p><p>其中 ( x ) 为指令，( y ) 为标准回复。</p><p><strong>数据规模</strong>：通常为万级至十万级高质量样本，<strong>质量远重要于数量</strong>。</p><p><strong>关键特征</strong>：</p><ul><li>将“会说话”的模型转变为“会做事”的模型</li><li>训练成本远低于预训练（千级 GPU 小时）</li><li>模型可能产生表面服从但实质错误的回复（即“幻觉”）</li></ul><h3 id="2-3-强化学习（Reinforcement-Learning-from-Human-Feedback-RLHF）"><a href="#2-3-强化学习（Reinforcement-Learning-from-Human-Feedback-RLHF）" class="headerlink" title="2.3 强化学习（Reinforcement Learning from Human Feedback, RLHF）"></a>2.3 强化学习（Reinforcement Learning from Human Feedback, RLHF）</h3><p><strong>目标</strong>：使模型的输出更符合人类偏好——更有用、更无害、更诚实。</p><p><strong>训练方式</strong>：引入<strong>奖励模型（Reward Model）</strong> 作为人类偏好的代理，使用 <strong>PPO（Proximal Policy Optimization）</strong> 算法优化策略模型。</p><p><strong>完整流程分三步</strong>：</p><ol><li><strong>收集偏好数据</strong>：对同一 prompt，让 SFT 模型生成多个候选回复，由人工标注员排序</li><li><strong>训练奖励模型</strong>：以排序数据训练一个回归模型，为任意回复输出一个标量分数</li><li><strong>策略优化</strong>：使用 PPO 算法，以奖励模型的分数为奖励信号，微调 SFT 模型</li></ol><p>PPO 的目标函数简化为：</p><p>$$<br>\mathcal{L}<em>{\text{RL}} &#x3D; \mathbb{E}</em>{(s,a)}[\min(\frac{\pi_\theta(a|s)}{\pi_{\text{old}}(a|s)} A(s,a), \text{clip}(\dots))]<br>$$</p><p>其中 ( A(s,a) ) 为优势函数，衡量当前动作相对于平均水平的优劣。</p><p><strong>关键特征</strong>：</p><ul><li>显著提升模型的有用性和安全性</li><li>训练稳定性较差，超参数敏感</li><li>过度优化可能导致“奖励黑客”（reward hacking）现象</li></ul><hr><h2 id="三、模型分类思维导图"><a href="#三、模型分类思维导图" class="headerlink" title="三、模型分类思维导图"></a>三、模型分类思维导图</h2><p>以下从四个维度对现有大语言模型进行分类：</p><div class="mermaid">mindmap  root((大语言模型))    按训练阶段      Base 模型        GPT-3 原始版        LLaMA 原始版      Instruct 模型        Llama-2-chat        Qwen-Instruct      Aligned 模型        GPT-4        Claude 3    按架构类型      仅有 Decoder        GPT 系列        LLaMA 系列      Encoder-Decoder        T5        BART      MoE 混合专家        Mixtral 8x7B        DeepSeek-MoE    按应用场景      通用对话        ChatGPT        Claude      代码生成        Codex        StarCoder      数学推理        Minerva        Qwen-Math    按增强手段      纯训练型        传统 LLM      检索增强型        RAG 架构      工具调用型        Function Calling 模型</div><h3 id="选型速查表"><a href="#选型速查表" class="headerlink" title="选型速查表"></a>选型速查表</h3><table><thead><tr><th>使用场景</th><th>推荐模型类型</th><th>示例</th></tr></thead><tbody><tr><td>文本续写、补全</td><td>Base 模型</td><td><code>llama-3-base</code></td></tr><tr><td>日常对话、问答</td><td>Instruct 模型</td><td><code>llama-3-instruct</code></td></tr><tr><td>高安全性场景</td><td>Aligned 模型</td><td><code>claude-3-opus</code></td></tr><tr><td>代码辅助</td><td>代码专用模型</td><td><code>deepseek-coder</code></td></tr><tr><td>私有知识问答</td><td>Base 模型 + RAG</td><td><code>llama-3-base</code> + 向量库</td></tr></tbody></table><hr><h2 id="四、模型训练与模型调用的关系"><a href="#四、模型训练与模型调用的关系" class="headerlink" title="四、模型训练与模型调用的关系"></a>四、模型训练与模型调用的关系</h2><p>模型训练与模型调用是两个性质截然不同的阶段，但在工程实践中紧密关联。</p><h3 id="4-1-核心区别"><a href="#4-1-核心区别" class="headerlink" title="4.1 核心区别"></a>4.1 核心区别</h3><table><thead><tr><th>维度</th><th>模型训练</th><th>模型调用（推理）</th></tr></thead><tbody><tr><td><strong>目标</strong></td><td>更新模型权重</td><td>利用已有权重生成输出</td></tr><tr><td><strong>计算负载</strong></td><td>极高（GPU 密集）</td><td>较低（单卡可运行）</td></tr><tr><td><strong>数据流向</strong></td><td>批量数据 → 梯度更新 → 权重</td><td>单条输入 → 前向传播 → 输出</td></tr><tr><td><strong>耗时</strong></td><td>数天至数月</td><td>毫秒至秒级</td></tr><tr><td><strong>硬件要求</strong></td><td>多卡集群、高显存</td><td>单卡甚至 CPU 可运行</td></tr><tr><td><strong>频率</strong></td><td>低频（一次训练，多次复用）</td><td>高频（每次用户请求触发）</td></tr></tbody></table><h3 id="4-2-两者关系示意图"><a href="#4-2-两者关系示意图" class="headerlink" title="4.2 两者关系示意图"></a>4.2 两者关系示意图</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs bash">                    ┌──────────────┐<br>                    │  训练数据集    │<br>                    └──────┬───────┘<br>                           │<br>                           ▼<br>┌──────────────────────────────────────────────┐<br>│              模型训练流水线                    │<br>│                                              │<br>│  预训练 ──→ SFT ──→ RLHF ──→ 模型权重导出     │<br>│                                              │<br>└──────────────────────┬───────────────────────┘<br>                       │<br>                       ▼<br>              ┌──────────────────┐<br>              │  模型权重文件     │<br>              │  (如 .bin/.safetensors) │<br>              └────────┬─────────┘<br>                       │<br>                       ▼<br>┌──────────────────────────────────────────────┐<br>│              模型推理服务                      │<br>│                                              │<br>│  加载权重 ──→ 接收请求 ──→ 前向计算 ──→ 返回结果│<br>│                                              │<br>└──────────────────────────────────────────────┘<br></code></pre></td></tr></table></figure><p><strong>关键认知</strong>：</p><ul><li>训练是一次性的投资，推理是持续的服务</li><li>同一个模型可以被无数次调用，但权重只在训练阶段改变</li><li>推理时也可以进行<strong>少量参数更新</strong>（如 LoRA 适配器），但这属于<strong>持续微调</strong>，本质上仍是训练行为</li></ul><h3 id="4-3-工程实践中的常见模式"><a href="#4-3-工程实践中的常见模式" class="headerlink" title="4.3 工程实践中的常见模式"></a>4.3 工程实践中的常见模式</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs">训练阶段（离线，高算力集群）<br>  ├── 基础模型训练（大厂完成）<br>  ├── 领域微调（企业自有数据）<br>  └── 持续更新（线上数据回流）<br><br>调用阶段（在线，低延迟服务）<br>  ├── 单轮推理（普通问答）<br>  ├── 流式输出（打字机效果）<br>  └── 批量处理（离线任务）<br></code></pre></td></tr></table></figure><hr><h2 id="五、RAG-与大语言模型的关系"><a href="#五、RAG-与大语言模型的关系" class="headerlink" title="五、RAG 与大语言模型的关系"></a>五、RAG 与大语言模型的关系</h2><p>检索增强生成（Retrieval-Augmented Generation, RAG）是一种<strong>不修改模型权重</strong>的能力增强机制，它与模型训练形成互补关系。</p><h3 id="5-1-核心定位"><a href="#5-1-核心定位" class="headerlink" title="5.1 核心定位"></a>5.1 核心定位</h3><p><strong>RAG ≠ 模型训练</strong>。RAG 是在模型推理时引入外部知识源的架构设计，而非对模型本身的训练或微调。</p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">传统 <span class="hljs-keyword">LLM </span>推理：<br>用户提问 ──→ <span class="hljs-keyword">LLM（仅依赖内部知识）──→ </span>回复<br><br>RAG 增强推理：<br>用户提问 ──→ 检索外部知识库 ──→ <span class="hljs-keyword">LLM（参考检索结果）──→ </span>回复<br></code></pre></td></tr></table></figure><h3 id="5-2-RAG-工作流程"><a href="#5-2-RAG-工作流程" class="headerlink" title="5.2 RAG 工作流程"></a>5.2 RAG 工作流程</h3><div class="mermaid">flowchart LR    A[用户输入] --> B{意图识别}    B -->|需要外部知识| C[向量检索]    B -->|无需外部知识| D[直接推理]    C --> E[知识库<br/>文档片段]    E --> F[拼接 Prompt]    F --> G[LLM 推理]    D --> G    G --> H[最终回复]        subgraph I[离线索引构建]        J[原始文档] --> K[文本分块]        K --> L[向量化嵌入]        L --> M[(向量数据库)]    end        M -.-> C</div><h3 id="5-3-RAG-与训练增强的对比"><a href="#5-3-RAG-与训练增强的对比" class="headerlink" title="5.3 RAG 与训练增强的对比"></a>5.3 RAG 与训练增强的对比</h3><table><thead><tr><th>维度</th><th>RAG</th><th>模型微调（SFT&#x2F;RL）</th></tr></thead><tbody><tr><td><strong>是否修改权重</strong></td><td>❌ 否</td><td>✅ 是</td></tr><tr><td><strong>知识来源</strong></td><td>外部数据库</td><td>模型内部参数</td></tr><tr><td><strong>知识更新速度</strong></td><td>即时（增删文档即可）</td><td>慢（需重新训练）</td></tr><tr><td><strong>幻觉控制</strong></td><td>强（可约束到检索结果）</td><td>弱（依赖训练数据质量）</td></tr><tr><td><strong>计算成本</strong></td><td>低（仅检索 + 推理）</td><td>高（需 GPU 训练）</td></tr><tr><td><strong>适用场景</strong></td><td>动态知识、私有数据</td><td>固定能力、风格对齐</td></tr></tbody></table><h3 id="5-4-两者协同的最佳实践"><a href="#5-4-两者协同的最佳实践" class="headerlink" title="5.4 两者协同的最佳实践"></a>5.4 两者协同的最佳实践</h3><p>在实际系统中，RAG 与模型训练通常是<strong>分层配合</strong>的关系：</p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">┌──────────────────────────────────────────────┐<br>│                应用层                          │<br>│                                               │<br>│  ┌─────────┐    ┌──────────┐    ┌──────────┐ │<br>│  │ 对话系统 │    │ 知识问答  │    │ 代码助手  │ │<br>│  └────┬────┘    └────┬─────┘    └────┬─────┘ │<br>│       │              │               │        │<br>├───────┴──────────────┴───────────────┴────────┤<br>│              能力增强层                        │<br>│                                               │<br>│  ┌─────────────────────┐  ┌─────────────────┐ │<br>│  │ RAG 检索模块         │  │ Tool Calling    │ │<br>│  │ （向量库 + 检索器）   │  │ （API 调用）     │ │<br>│  └──────────┬──────────┘  └────────┬────────┘ │<br>│             │                       │          │<br>├─────────────┴───────────────────────┴──────────┤<br>│              模型推理层                         │<br>│                                               │<br>│  ┌──────────────────────────────────────────┐  │<br>│  │  <span class="hljs-keyword">LLM </span>推理引擎                              │  │<br>│  │  （加载 Aligned 模型权重）                  │  │<br>│  └──────────────────────────────────────────┘  │<br>│                                               │<br>├────────────────────────────────────────────────┤<br>│              模型训练层                         │<br>│                                               │<br>│  ┌──────────┐  ┌──────┐  ┌──────┐            │<br>│  │ 预训练    │  │ SFT  │  │ RLHF │            │<br>│  └──────────┘  └──────┘  └──────┘            │<br>└────────────────────────────────────────────────┘<br></code></pre></td></tr></table></figure><p><strong>关键结论</strong>：</p><ul><li><strong>RAG 解决的是知识的时效性和专有性问题</strong>，让模型不必记住所有知识</li><li><strong>训练解决的是模型的底层能力和行为对齐问题</strong>，这是 RAG 无法替代的</li><li>最佳实践是：<strong>用训练打造一个强大的基础模型，用 RAG 为其注入实时和私有的知识</strong></li></ul><hr><h2 id="六、全文总结"><a href="#六、全文总结" class="headerlink" title="六、全文总结"></a>六、全文总结</h2><h3 id="五句话记住本文核心"><a href="#五句话记住本文核心" class="headerlink" title="五句话记住本文核心"></a>五句话记住本文核心</h3><ol><li><strong>预训练</strong>让模型学会语言规律，产出 Base 模型</li><li><strong>SFT</strong> 让模型学会遵循指令，产出 Instruct 模型</li><li><strong>RLHF</strong> 让模型学会人类偏好，产出 Aligned 模型</li><li><strong>训练是离线的一次性投入，调用是在线的持续性服务</strong></li><li><strong>RAG 不修改模型权重，而是在推理时为模型补充外部知识</strong></li></ol><h3 id="完整生命周期总览"><a href="#完整生命周期总览" class="headerlink" title="完整生命周期总览"></a>完整生命周期总览</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs routeros">原始数据 ──→ 预训练 ──→ SFT ──→ RLHF ──→ 模型部署 ──→ 推理服务<br>                                                        │<br>                                                   ┌────┴────┐<br>                                                   │  RAG     │<br>                                                   │ <span class="hljs-built_in"> Tool </span>   │<br>                                                   │  Memory  │<br>                                                   └─────────┘<br></code></pre></td></tr></table></figure><hr><p><em>作者注：本文所述流程适用于 GPT-4、Claude、LLaMA 等主流大语言模型。具体实现细节因模型架构和厂商策略而异，建议以各模型官方技术报告为准。</em></p>]]></content>
     
     
     <categories>
@@ -456,9 +456,9 @@
     
     <tags>
       
-      <tag>MacBook Air</tag>
-      
       <tag>Windows</tag>
+      
+      <tag>MacBook Air</tag>
       
       <tag>Linux</tag>
       
@@ -546,6 +546,8 @@
       
       <tag>Nginx</tag>
       
+      <tag>SSL</tag>
+      
       <tag>网络安全</tag>
       
       <tag>Codex</tag>
@@ -553,8 +555,6 @@
       <tag>远程开发</tag>
       
       <tag>广域网</tag>
-      
-      <tag>SSL</tag>
       
       <tag>wss</tag>
       
@@ -593,9 +593,9 @@
       
       <tag>Windows</tag>
       
-      <tag>SSH</tag>
-      
       <tag>局域网</tag>
+      
+      <tag>SSH</tag>
       
       <tag>macOS</tag>
       
@@ -890,9 +890,9 @@
     
     <tags>
       
-      <tag>人工智能</tag>
-      
       <tag>软件开发</tag>
+      
+      <tag>人工智能</tag>
       
       <tag>科技向善</tag>
       
@@ -1598,6 +1598,8 @@
     
     <tags>
       
+      <tag>Node.js</tag>
+      
       <tag>SpringBoot</tag>
       
       <tag>微服务</tag>
@@ -1615,8 +1617,6 @@
       <tag>验签</tag>
       
       <tag>OAuth2</tag>
-      
-      <tag>Node.js</tag>
       
     </tags>
     
@@ -2012,6 +2012,8 @@
     
     <tags>
       
+      <tag>局域网</tag>
+      
       <tag>阿里云</tag>
       
       <tag>服务器</tag>
@@ -2029,8 +2031,6 @@
       <tag>CIDR</tag>
       
       <tag>二进制</tag>
-      
-      <tag>局域网</tag>
       
     </tags>
     
@@ -2108,11 +2108,11 @@
       
       <tag>PHP</tag>
       
-      <tag>阿里云</tag>
-      
       <tag>Docker</tag>
       
       <tag>MySQL</tag>
+      
+      <tag>阿里云</tag>
       
       <tag>SSH</tag>
       
@@ -2198,6 +2198,8 @@
     
     <tags>
       
+      <tag>环境变量</tag>
+      
       <tag>Dockerfile</tag>
       
       <tag>微服务</tag>
@@ -2215,8 +2217,6 @@
       <tag>时区设置</tag>
       
       <tag>字体配置</tag>
-      
-      <tag>环境变量</tag>
       
     </tags>
     
@@ -2243,11 +2243,11 @@
     
     <tags>
       
+      <tag>远程仓库</tag>
+      
       <tag>Git</tag>
       
       <tag>版本控制</tag>
-      
-      <tag>远程仓库</tag>
       
       <tag>分支管理</tag>
       
@@ -2288,17 +2288,17 @@
     
     <tags>
       
+      <tag>GitLab</tag>
+      
+      <tag>GitHub</tag>
+      
+      <tag>远程仓库</tag>
+      
       <tag>Git</tag>
       
       <tag>版本控制</tag>
       
-      <tag>GitLab</tag>
-      
-      <tag>远程仓库</tag>
-      
       <tag>SSH</tag>
-      
-      <tag>GitHub</tag>
       
     </tags>
     
@@ -2356,9 +2356,9 @@
     
     <tags>
       
-      <tag>数据库</tag>
-      
       <tag>MySQL</tag>
+      
+      <tag>数据库</tag>
       
       <tag>绿色版</tag>
       
@@ -2450,13 +2450,13 @@
       
       <tag>Docker</tag>
       
+      <tag>SpringBoot</tag>
+      
       <tag>Kubernetes</tag>
       
       <tag>若依微服务框架</tag>
       
       <tag>Ruoyi Cloud</tag>
-      
-      <tag>SpringBoot</tag>
       
       <tag>微服务</tag>
       
@@ -2495,17 +2495,17 @@
       
       <tag>性能优化</tag>
       
-      <tag>游戏开发</tag>
-      
       <tag>LayaAir</tag>
       
-      <tag>TypeScript</tag>
+      <tag>生命周期函数</tag>
       
       <tag>场景管理</tag>
       
-      <tag>事件处理</tag>
+      <tag>游戏开发</tag>
       
-      <tag>生命周期函数</tag>
+      <tag>TypeScript</tag>
+      
+      <tag>事件处理</tag>
       
       <tag>动画控制</tag>
       
@@ -2538,6 +2538,8 @@
       
       <tag>Uniapp</tag>
       
+      <tag>事件处理</tag>
+      
       <tag>H5</tag>
       
       <tag>小程序</tag>
@@ -2547,8 +2549,6 @@
       <tag>导航栏</tag>
       
       <tag>返回按钮</tag>
-      
-      <tag>事件处理</tag>
       
       <tag>onBackPress</tag>
       
@@ -2583,21 +2583,21 @@
       
       <tag>资源管理</tag>
       
-      <tag>单例模式</tag>
+      <tag>LayaAir</tag>
+      
+      <tag>场景管理</tag>
       
       <tag>游戏开发</tag>
       
-      <tag>LayaAir</tag>
+      <tag>TypeScript</tag>
+      
+      <tag>单例模式</tag>
       
       <tag>Laya引擎</tag>
       
       <tag>背景音乐</tag>
       
-      <tag>TypeScript</tag>
-      
       <tag>设计模式</tag>
-      
-      <tag>场景管理</tag>
       
       <tag>音效控制</tag>
       
@@ -2843,6 +2843,8 @@
       
       <tag>Docker</tag>
       
+      <tag>Windows</tag>
+      
       <tag>大语言模型</tag>
       
       <tag>Ollama</tag>
@@ -2852,8 +2854,6 @@
       <tag>OpenWebUI</tag>
       
       <tag>本地部署</tag>
-      
-      <tag>Windows</tag>
       
       <tag>Linux</tag>
       
@@ -2868,7 +2868,7 @@
     <link href="/2024/24-12-22-how-is-an-email-relayed.html"/>
     <url>/2024/24-12-22-how-is-an-email-relayed.html</url>
     
-    <content type="html"><![CDATA[<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113711540866975&bvid=BV1CtCAYYEdj&cid=27519618287&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="min-height:400px; min-width:700px; margin:0 auto;"></iframe><p>In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check and locate the receiver’s email server. This is crucial as it serves as the destination for our message.</p><p><img src="https://s2.loli.net/2025/02/09/KgNuAh2tLGxF7MB.jpg" alt="1_(238)(3)-1024px"></p><p>To check the email server corresponding to a specific email address, a useful command that comes in handy is ‘nslookup’. Here’s how it works: First, you open the command prompt or terminal on your computer. Then, after typing in the ‘nslookup’ command, you need to set the query type as’mx’. This query type specifically helps us to find the mail exchange records for the domain. For example, if the email address is “<a href="mailto:&#101;&#x78;&#x61;&#109;&#112;&#108;&#101;&#64;&#101;&#120;&#97;&#x6d;&#x70;&#108;&#101;&#x2e;&#x63;&#111;&#x6d;">&#101;&#x78;&#x61;&#109;&#112;&#108;&#101;&#64;&#101;&#120;&#97;&#x6d;&#x70;&#108;&#101;&#x2e;&#x63;&#111;&#x6d;</a>“, you would type in the domain part which is “example.com” after setting the’mx’ query type. The system will then return the information about the email server responsible for handling emails for that domain.</p><p><img src="https://s2.loli.net/2025/02/09/Kzp9rqIWTOLtehn.png" alt="20250209212804"></p><p>Once we’ve identified the email server, the next step is to establish a connection with it. We can achieve this by using socket communication. Through this method, the TCP network packets of the SMTP (Simple Mail Transfer Protocol) will be transferred over the connection. The SMTP protocol is the standard for sending emails across the Internet. For example, in a Python program, you might use the’socket’ library to create a socket object and then connect to the server’s IP address and port (usually port 25 for SMTP). Here’s a simple code snippet to illustrate this concept:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> socket<br><br><span class="hljs-comment"># Create a socket object</span><br>s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br><br><span class="hljs-comment"># Connect to the server</span><br>server_address = (<span class="hljs-string">&#x27;mail.example.com&#x27;</span>, <span class="hljs-number">25</span>)  <span class="hljs-comment"># Replace with actual server address and port</span><br>s.connect(server_address)<br><br><span class="hljs-comment"># You can then start interacting with the server using SMTP commands</span><br><span class="hljs-comment"># This is just a basic connection example and further commands would be needed for a full email sending process</span><br></code></pre></td></tr></table></figure><p>After the network connection is successfully established and the session is initialized, we need to focus on organizing the email content. This should be done meticulously in accordance with the format of email files. It includes specifying the sender’s email addresses clearly and ensuring the correct encoding of the characters. For example, if you are using UTF-8 encoding, you need to set the appropriate headers in the email content to indicate this. The email content should also follow the proper structure with fields like “From:”, “To:”, “Subject:”, and the body of the message.</p><p>In a particular scenario like email marketing, where we usually need to reach out to multiple recipients, things get a bit more complicated. We need to set multiple receivers’ email addresses. And this information should be properly included in the email file content. If we choose to set these receivers’ email addresses one by one or separately, then we will have to organize multiple similar email contents, which can be time-consuming but might be necessary depending on the specific requirements. For instance, if we have a list of email addresses in a text file, we might read them one by one in a loop and create separate email messages for each recipient in our programming code.</p><p>Finally, once everything is set up and the email content is ready, we can send this email or multiple emails as per our requirements. After the sending process is completed successfully, we should disconnect the connection to free up resources and end the communication session with the email server. This ensures a smooth and proper email sending process from start to finish.</p><p>Please note that the above code is just a simple example for demonstrating the connection part, and in a real-world application, more comprehensive handling of SMTP commands and error handling would be required to ensure the emails are sent correctly. </p>]]></content>
+    <content type="html"><![CDATA[<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113711540866975&bvid=BV1CtCAYYEdj&cid=27519618287&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="min-height:400px; min-width:700px; margin:0 auto;"></iframe><p>In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check and locate the receiver’s email server. This is crucial as it serves as the destination for our message.</p><p><img src="https://s2.loli.net/2025/02/09/KgNuAh2tLGxF7MB.jpg" alt="1_(238)(3)-1024px"></p><p>To check the email server corresponding to a specific email address, a useful command that comes in handy is ‘nslookup’. Here’s how it works: First, you open the command prompt or terminal on your computer. Then, after typing in the ‘nslookup’ command, you need to set the query type as’mx’. This query type specifically helps us to find the mail exchange records for the domain. For example, if the email address is “<a href="mailto:&#101;&#x78;&#97;&#109;&#x70;&#108;&#x65;&#64;&#101;&#120;&#97;&#x6d;&#112;&#x6c;&#x65;&#x2e;&#x63;&#111;&#109;">&#101;&#x78;&#97;&#109;&#x70;&#108;&#x65;&#64;&#101;&#120;&#97;&#x6d;&#112;&#x6c;&#x65;&#x2e;&#x63;&#111;&#109;</a>“, you would type in the domain part which is “example.com” after setting the’mx’ query type. The system will then return the information about the email server responsible for handling emails for that domain.</p><p><img src="https://s2.loli.net/2025/02/09/Kzp9rqIWTOLtehn.png" alt="20250209212804"></p><p>Once we’ve identified the email server, the next step is to establish a connection with it. We can achieve this by using socket communication. Through this method, the TCP network packets of the SMTP (Simple Mail Transfer Protocol) will be transferred over the connection. The SMTP protocol is the standard for sending emails across the Internet. For example, in a Python program, you might use the’socket’ library to create a socket object and then connect to the server’s IP address and port (usually port 25 for SMTP). Here’s a simple code snippet to illustrate this concept:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> socket<br><br><span class="hljs-comment"># Create a socket object</span><br>s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br><br><span class="hljs-comment"># Connect to the server</span><br>server_address = (<span class="hljs-string">&#x27;mail.example.com&#x27;</span>, <span class="hljs-number">25</span>)  <span class="hljs-comment"># Replace with actual server address and port</span><br>s.connect(server_address)<br><br><span class="hljs-comment"># You can then start interacting with the server using SMTP commands</span><br><span class="hljs-comment"># This is just a basic connection example and further commands would be needed for a full email sending process</span><br></code></pre></td></tr></table></figure><p>After the network connection is successfully established and the session is initialized, we need to focus on organizing the email content. This should be done meticulously in accordance with the format of email files. It includes specifying the sender’s email addresses clearly and ensuring the correct encoding of the characters. For example, if you are using UTF-8 encoding, you need to set the appropriate headers in the email content to indicate this. The email content should also follow the proper structure with fields like “From:”, “To:”, “Subject:”, and the body of the message.</p><p>In a particular scenario like email marketing, where we usually need to reach out to multiple recipients, things get a bit more complicated. We need to set multiple receivers’ email addresses. And this information should be properly included in the email file content. If we choose to set these receivers’ email addresses one by one or separately, then we will have to organize multiple similar email contents, which can be time-consuming but might be necessary depending on the specific requirements. For instance, if we have a list of email addresses in a text file, we might read them one by one in a loop and create separate email messages for each recipient in our programming code.</p><p>Finally, once everything is set up and the email content is ready, we can send this email or multiple emails as per our requirements. After the sending process is completed successfully, we should disconnect the connection to free up resources and end the communication session with the email server. This ensures a smooth and proper email sending process from start to finish.</p><p>Please note that the above code is just a simple example for demonstrating the connection part, and in a real-world application, more comprehensive handling of SMTP commands and error handling would be required to ensure the emails are sent correctly. </p>]]></content>
     
     
     <categories>
@@ -2882,13 +2882,13 @@
     
     <tags>
       
+      <tag>邮件服务器</tag>
+      
       <tag>电子邮件</tag>
       
       <tag>邮件协议</tag>
       
       <tag>SMTP</tag>
-      
-      <tag>邮件服务器</tag>
       
     </tags>
     
@@ -2915,9 +2915,9 @@
     
     <tags>
       
-      <tag>技术创新</tag>
-      
       <tag>HarmonyOS</tag>
+      
+      <tag>技术创新</tag>
       
       <tag>国内市场支持</tag>
       
@@ -2960,6 +2960,8 @@
     
     <tags>
       
+      <tag>技术创新</tag>
+      
       <tag>技术迭代</tag>
       
       <tag>手机拍照</tag>
@@ -2973,8 +2975,6 @@
       <tag>技术争议</tag>
       
       <tag>功能限制</tag>
-      
-      <tag>技术创新</tag>
       
       <tag>安全合规</tag>
       
@@ -3005,6 +3005,8 @@
     
     <tags>
       
+      <tag>软件开发</tag>
+      
       <tag>敏捷开发</tag>
       
       <tag>Scrum框架</tag>
@@ -3012,8 +3014,6 @@
       <tag>瀑布流模型</tag>
       
       <tag>螺旋模型</tag>
-      
-      <tag>软件开发</tag>
       
     </tags>
     
@@ -3085,6 +3085,8 @@
     
     <tags>
       
+      <tag>Python</tag>
+      
       <tag>大语言模型</tag>
       
       <tag>ChatGPT</tag>
@@ -3094,8 +3096,6 @@
       <tag>人工智能</tag>
       
       <tag>案例分析</tag>
-      
-      <tag>Python</tag>
       
       <tag>自动化处理</tag>
       
@@ -3185,11 +3185,11 @@
       
       <tag>Docker</tag>
       
+      <tag>GitLab</tag>
+      
       <tag>配置</tag>
       
       <tag>Prometheus</tag>
-      
-      <tag>GitLab</tag>
       
       <tag>监控</tag>
       
@@ -3273,9 +3273,9 @@
       
       <tag>Android</tag>
       
-      <tag>Activity</tag>
-      
       <tag>Kotlin</tag>
+      
+      <tag>Activity</tag>
       
       <tag>Context</tag>
       
@@ -3414,9 +3414,9 @@
     
     <tags>
       
-      <tag>可视化</tag>
-      
       <tag>Docker</tag>
+      
+      <tag>可视化</tag>
       
       <tag>Prometheus</tag>
       
@@ -3459,7 +3459,11 @@
       
       <tag>缓存</tag>
       
+      <tag>端口</tag>
+      
       <tag>Docker</tag>
+      
+      <tag>HTTPS</tag>
       
       <tag>镜像加速器</tag>
       
@@ -3467,13 +3471,9 @@
       
       <tag>CentOS</tag>
       
-      <tag>HTTPS</tag>
-      
       <tag>服务器</tag>
       
       <tag>配置</tag>
-      
-      <tag>端口</tag>
       
       <tag>客户端</tag>
       
@@ -3920,6 +3920,8 @@
     
     <tags>
       
+      <tag>Nacos</tag>
+      
       <tag>IntelliJ IDEA</tag>
       
       <tag>Spring Boot</tag>
@@ -3937,8 +3939,6 @@
       <tag>VM Options</tag>
       
       <tag>Program arguments</tag>
-      
-      <tag>Nacos</tag>
       
     </tags>
     
@@ -3965,17 +3965,17 @@
     
     <tags>
       
-      <tag>项目管理</tag>
-      
       <tag>敏捷开发</tag>
+      
+      <tag>迭代开发</tag>
+      
+      <tag>项目管理</tag>
       
       <tag>商务合同</tag>
       
       <tag>项目收款</tag>
       
       <tag>范围管理</tag>
-      
-      <tag>迭代开发</tag>
       
       <tag>变更管理</tag>
       
@@ -4100,6 +4100,8 @@
     
     <tags>
       
+      <tag>JavaScript</tag>
+      
       <tag>Mermaid</tag>
       
       <tag>Markdown</tag>
@@ -4117,8 +4119,6 @@
       <tag>饼图</tag>
       
       <tag>可视化</tag>
-      
-      <tag>JavaScript</tag>
       
     </tags>
     
@@ -4235,6 +4235,8 @@
     
     <tags>
       
+      <tag>配置管理</tag>
+      
       <tag>项目管理</tag>
       
       <tag>ALM</tag>
@@ -4248,8 +4250,6 @@
       <tag>基线管理</tag>
       
       <tag>发布管理</tag>
-      
-      <tag>配置管理</tag>
       
       <tag>开发管理</tag>
       
@@ -4280,13 +4280,13 @@
     
     <tags>
       
-      <tag>Serverless</tag>
-      
-      <tag>云函数</tag>
-      
       <tag>AWS</tag>
       
       <tag>Lambda</tag>
+      
+      <tag>Serverless</tag>
+      
+      <tag>云函数</tag>
       
       <tag>阿里云</tag>
       
@@ -4366,13 +4366,13 @@
     
     <tags>
       
+      <tag>敏捷开发</tag>
+      
       <tag>项目管理</tag>
       
       <tag>项目经理</tag>
       
       <tag>Scrum Master</tag>
-      
-      <tag>敏捷开发</tag>
       
       <tag>Scrum框架</tag>
       
@@ -4491,11 +4491,11 @@
       
       <tag>敏捷开发</tag>
       
-      <tag>迭代开发</tag>
-      
       <tag>用户故事</tag>
       
       <tag>迭代规划</tag>
+      
+      <tag>迭代开发</tag>
       
       <tag>迭代评审</tag>
       
@@ -4579,13 +4579,13 @@
     
     <tags>
       
-      <tag>邮件服务器</tag>
-      
-      <tag>MySQL</tag>
-      
       <tag>Postfix</tag>
       
       <tag>邮件转发</tag>
+      
+      <tag>MySQL</tag>
+      
+      <tag>邮件服务器</tag>
       
       <tag>Dovecot</tag>
       
@@ -4669,15 +4669,15 @@
     
     <tags>
       
+      <tag>Node.js</tag>
+      
       <tag>AWS</tag>
       
       <tag>Lambda</tag>
       
-      <tag>Python</tag>
-      
-      <tag>Node.js</tag>
-      
       <tag>AWS CDK</tag>
+      
+      <tag>Python</tag>
       
       <tag>Visual Studio Code</tag>
       
@@ -4802,11 +4802,11 @@
     
     <tags>
       
+      <tag>MVP</tag>
+      
       <tag>产品经理</tag>
       
       <tag>软件开发</tag>
-      
-      <tag>MVP</tag>
       
       <tag>核心功能</tag>
       
@@ -4847,10 +4847,6 @@
     
     <tags>
       
-      <tag>邮件服务器</tag>
-      
-      <tag>MySQL</tag>
-      
       <tag>Postfix</tag>
       
       <tag>邮件转发</tag>
@@ -4858,6 +4854,10 @@
       <tag>虚拟别名映射</tag>
       
       <tag>数据库配置</tag>
+      
+      <tag>MySQL</tag>
+      
+      <tag>邮件服务器</tag>
       
       <tag>主配置文件</tag>
       
@@ -4890,8 +4890,6 @@
     
     <tags>
       
-      <tag>元宇宙</tag>
-      
       <tag>Vue</tag>
       
       <tag>Threejs</tag>
@@ -4909,6 +4907,8 @@
       <tag>动画循环</tag>
       
       <tag>脚手架开发</tag>
+      
+      <tag>元宇宙</tag>
       
       <tag>MetaVerse</tag>
       
@@ -4941,11 +4941,7 @@
     
     <tags>
       
-      <tag>配置管理</tag>
-      
       <tag>Nacos</tag>
-      
-      <tag>SpringBoot</tag>
       
       <tag>服务注册</tag>
       
@@ -4955,7 +4951,11 @@
       
       <tag>服务健康检查</tag>
       
+      <tag>配置管理</tag>
+      
       <tag>Java应用</tag>
+      
+      <tag>SpringBoot</tag>
       
       <tag>Gateway网关</tag>
       
@@ -4988,15 +4988,15 @@
       
       <tag>GitLab</tag>
       
-      <tag>远程仓库</tag>
-      
       <tag>GitHub</tag>
-      
-      <tag>局域网</tag>
       
       <tag>同步代码</tag>
       
       <tag>备份项目</tag>
+      
+      <tag>远程仓库</tag>
+      
+      <tag>局域网</tag>
       
     </tags>
     
@@ -5179,9 +5179,9 @@
     
     <tags>
       
-      <tag>Node.js</tag>
-      
       <tag>Vite</tag>
+      
+      <tag>Node.js</tag>
       
       <tag>express</tag>
       
@@ -5224,11 +5224,9 @@
     
     <tags>
       
-      <tag>JavaScript</tag>
+      <tag>Vue</tag>
       
       <tag>环境变量</tag>
-      
-      <tag>Vue</tag>
       
       <tag>Vite</tag>
       
@@ -5243,6 +5241,8 @@
       <tag>构建工具</tag>
       
       <tag>npm</tag>
+      
+      <tag>JavaScript</tag>
       
     </tags>
     
@@ -5271,21 +5271,21 @@
       
       <tag>Nacos</tag>
       
-      <tag>Docker</tag>
-      
-      <tag>端口</tag>
-      
-      <tag>Windows</tag>
-      
       <tag>单机模式</tag>
       
       <tag>控制台</tag>
+      
+      <tag>端口</tag>
+      
+      <tag>Docker</tag>
       
       <tag>服务注册</tag>
       
       <tag>配置中心</tag>
       
       <tag>稳定版本</tag>
+      
+      <tag>Windows</tag>
       
       <tag>安装</tag>
       

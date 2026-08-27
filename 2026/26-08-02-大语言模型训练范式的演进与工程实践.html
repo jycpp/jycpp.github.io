@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="从预训练到 RLHF：大语言模型训练范式的演进与工程实践摘要大语言模型（LLM）的训练并非单一过程，而是由预训练（Pre-training）、监督微调（Supervised Fine-Tuning, SFT） 和强化学习（Reinforcement Learning, RL） 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用的本质区别，并探讨检索">
+    <meta name="description" content="从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践摘要大语言模型（LLM）的训练并非单一过程，而是由预训练（Pre-training）、监督微调（Supervised Fine-Tuning, SFT） 和强化学习（Reinforcement Learning, RL） 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用的本">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从预训练到 RLHF：大语言模型训练范式的演进与工程实践">
+<meta property="og:title" content="从预训练到RLHF：大语言模型训练范式的演进与工程实践">
 <meta property="og:url" content="https://jycpp.github.io/2026/26-08-02-%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E8%8C%83%E5%BC%8F%E7%9A%84%E6%BC%94%E8%BF%9B%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="从预训练到 RLHF：大语言模型训练范式的演进与工程实践摘要大语言模型（LLM）的训练并非单一过程，而是由预训练（Pre-training）、监督微调（Supervised Fine-Tuning, SFT） 和强化学习（Reinforcement Learning, RL） 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用的本质区别，并探讨检索">
+<meta property="og:description" content="从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践摘要大语言模型（LLM）的训练并非单一过程，而是由预训练（Pre-training）、监督微调（Supervised Fine-Tuning, SFT） 和强化学习（Reinforcement Learning, RL） 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用的本">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-08-02T10:30:00.000Z">
-<meta property="article:modified_time" content="2026-08-21T01:37:56.137Z">
+<meta property="article:modified_time" content="2026-08-27T07:40:46.045Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="大语言模型">
 <meta property="article:tag" content="预训练">
@@ -45,7 +45,7 @@
   
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
   
-  <title>从预训练到 RLHF：大语言模型训练范式的演进与工程实践 - Jet C++ Blog</title>
+  <title>从预训练到RLHF：大语言模型训练范式的演进与工程实践 - Jet C++ Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -235,7 +235,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="从预训练到 RLHF：大语言模型训练范式的演进与工程实践"></span>
+            <span id="subtitle" data-typed-text="从预训练到RLHF：大语言模型训练范式的演进与工程实践"></span>
           
         </div>
 
@@ -269,7 +269,7 @@
         
         
         
-          20 分钟
+          21 分钟
         
       </span>
     
@@ -904,10 +904,10 @@
     
       
       
-        <a href="/2026/26-08-02-%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E8%8C%83%E5%BC%8F%E7%9A%84%E6%BC%94%E8%BF%9B%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.html" title="从预训练到 RLHF：大语言模型训练范式的演进与工程实践"
+        <a href="/2026/26-08-02-%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E8%8C%83%E5%BC%8F%E7%9A%84%E6%BC%94%E8%BF%9B%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.html" title="从预训练到RLHF：大语言模型训练范式的演进与工程实践"
            class="list-group-item list-group-item-action
            active">
-          <span class="category-post">从预训练到 RLHF：大语言模型训练范式的演进与工程实践</span>
+          <span class="category-post">从预训练到RLHF：大语言模型训练范式的演进与工程实践</span>
         </a>
       
     
@@ -979,13 +979,14 @@ true
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">从预训练到 RLHF：大语言模型训练范式的演进与工程实践</h1>
+            <h1 id="seo-header">从预训练到RLHF：大语言模型训练范式的演进与工程实践</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="从预训练到-RLHF：大语言模型训练范式的演进与工程实践"><a href="#从预训练到-RLHF：大语言模型训练范式的演进与工程实践" class="headerlink" title="从预训练到 RLHF：大语言模型训练范式的演进与工程实践"></a>从预训练到 RLHF：大语言模型训练范式的演进与工程实践</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>大语言模型（LLM）的训练并非单一过程，而是由<strong>预训练（Pre-training）</strong>、<strong>监督微调（Supervised Fine-Tuning, SFT）</strong> 和<strong>强化学习（Reinforcement Learning, RL）</strong> 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用的本质区别，并探讨检索增强生成（RAG）作为模型能力补充机制的设计定位。</p>
-<p>为了更通俗易懂的解释以下内容，我做了一个HTML网页来说明：<br><a href="/html/llm_training_article.html">从”读书”到”做人”：大语言模型训练全揭秘</a></p>
+                <h1 id="从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践"><a href="#从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践" class="headerlink" title="从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践"></a>从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>大语言模型（LLM）的训练并非单一过程，而是由<strong>预训练（Pre-training）</strong>、<strong>监督微调（Supervised Fine-Tuning, SFT）</strong> 和<strong>强化学习（Reinforcement Learning, RL）</strong> 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用的本质区别，并探讨检索增强生成（RAG）作为模型能力补充机制的设计定位。</p>
+<p>关于标题中的RLHF，是指强化学习（Reinforcement Learning, RL）的Human Feedback（HF）版本，用于对齐模型与人类偏好。</p>
+<p>为了更通俗易懂的解释以下内容，我做了一个HTML网页来说明：<br><a href="/html/llm_training_article.html">从”读书”到”做人”：大语言模型训练全流程</a></p>
 <hr>
 <h2 id="一、三段式训练总览"><a href="#一、三段式训练总览" class="headerlink" title="一、三段式训练总览"></a>一、三段式训练总览</h2><p>现代大语言模型的完整训练流水线可抽象为以下三个阶段：</p>
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">原始语料库（TB级无标注文本）<br>        │<br>        ▼<br>┌─────────────────────────────┐<br>│    第一阶段：预训练          │<br>│    目标：学习语言规律与知识   │<br>│    方法：自监督（下一词预测） │<br>│    产出：<span class="hljs-keyword">Base </span>模型           │<br>└──────────┬──────────────────┘<br>           │<br>           ▼<br>┌─────────────────────────────┐<br>│    第二阶段：监督微调 SFT    │<br>│    目标：学习指令跟随能力     │<br>│    方法：有监督（指令-回复对）│<br>│    产出：<span class="hljs-keyword">Instruct </span>模型       │<br>└──────────┬──────────────────┘<br>           │<br>           ▼<br>┌─────────────────────────────┐<br>│    第三阶段：强化学习 RLHF   │<br>│    目标：对齐人类偏好         │<br>│    方法：PPO + 奖励模型      │<br>│    产出：Aligned 模型        │<br>└─────────────────────────────┘<br></code></pre></td></tr></table></figure>
@@ -1313,7 +1314,7 @@ true
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>从预训练到 RLHF：大语言模型训练范式的演进与工程实践</div>
+      <div>从预训练到RLHF：大语言模型训练范式的演进与工程实践</div>
       <div>https://jycpp.github.io/2026/26-08-02-大语言模型训练范式的演进与工程实践.html</div>
     </div>
     <div class="license-meta">
