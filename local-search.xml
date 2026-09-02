@@ -4,6 +4,51 @@
   
   
   <entry>
+    <title>网络数据传输中的大端与小端：一个BLE和Socket开发者的踩坑笔记</title>
+    <link href="/2026/26-08-29-%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E4%B8%AD%E7%9A%84%E5%A4%A7%E7%AB%AF%E4%B8%8E%E5%B0%8F%E7%AB%AF.html"/>
+    <url>/2026/26-08-29-%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E4%B8%AD%E7%9A%84%E5%A4%A7%E7%AB%AF%E4%B8%8E%E5%B0%8F%E7%AB%AF.html</url>
+    
+    <content type="html"><![CDATA[<p>做BLE蓝牙和Socket通信的同学，大概率都遇到过这种情况：设备端和应用端对着协议文档联调，两边代码都觉得没问题，但数据一跑起来就是不对。最后抓包一看，发现是字节序反了——你按大端发的，我按小端收的，或者反过来。这种问题不复杂，但第一次遇到的时候确实挺坑。</p><p>这篇文章把我踩过的坑和查过的资料整理一下，主要讲清楚大端和小端在BLE和Socket开发里到底怎么回事，以及设备端（C++）和App端（Kotlin&#x2F;Swift&#x2F;uniApp）各自怎么处理。</p><hr><h2 id="一、什么时候会碰到字节序问题"><a href="#一、什么时候会碰到字节序问题" class="headerlink" title="一、什么时候会碰到字节序问题"></a>一、什么时候会碰到字节序问题</h2><p>BLE蓝牙开发里，特征值（Characteristic）的数据交互本质上是字节流传输。Socket通信也是一样，TCP&#x2F;UDP传的就是一串byte。只要你传的数据不止一个字节——比如int16、int32、float这些多字节类型——字节的排列顺序就成了一个必须明确的事情。</p><p>大多数设备端（尤其是嵌入式MCU）采用的是大端模式（Big Endian），网络协议（TCP&#x2F;IP）也规定使用大端，也就是常说的”网络字节序”。但也不是所有设备都这样。比如苹果的设备，从硬件层面就是小端模式（Little Endian）。所以如果你在做iOS和某个嵌入式设备之间的BLE通信，两端字节序不一致是大概率事件。</p><hr><h2 id="二、大端和小端到底是什么意思"><a href="#二、大端和小端到底是什么意思" class="headerlink" title="二、大端和小端到底是什么意思"></a>二、大端和小端到底是什么意思</h2><p>说白了就是：一个多字节的数据，在内存里哪个字节放前面。</p><p>拿一个具体的例子。假设我们要传一个16位整数 <code>0x1234</code>：</p><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs dns">大端模式（Big Endian）：<br>  字节流：<span class="hljs-number">12</span> <span class="hljs-number">34</span><br>  低地址 → 高地址：高位字节在前，低位字节在后<br>  人读的顺序：<span class="hljs-number">0x12 0x34</span><br><br>小端模式（Little Endian）：<br>  字节流：<span class="hljs-number">34</span> <span class="hljs-number">12</span><br>  低地址 → 高地址：低位字节在前，高位字节在后<br>  人读的顺序：<span class="hljs-number">0x34 0x12</span><br></code></pre></td></tr></table></figure><p>再来看一个32位的例子，<code>0x12345678</code>：</p><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dns">大端：<span class="hljs-number">12 34 56 78</span><br>小端：<span class="hljs-number">78 56 34 12</span><br></code></pre></td></tr></table></figure><p>就是这么简单。大端符合人的阅读习惯，从左往右看就是高位到低位。小端反过来，低位在前。</p><hr><h2 id="三、为什么会有两种模式，苹果为什么用小端"><a href="#三、为什么会有两种模式，苹果为什么用小端" class="headerlink" title="三、为什么会有两种模式，苹果为什么用小端"></a>三、为什么会有两种模式，苹果为什么用小端</h2><p>大端的优势很明显：符合直觉，调试的时候抓包看数据，一眼就能看出数值是多少。网络传输用大端也是这个原因——路由器、交换机处理包头的时候，按字节顺序读就行，不用转换。</p><p>小端的优势在硬件层面。CPU做算术运算的时候，从低位开始算，进位自然往高位走。小端模式下低地址就是低位字节，CPU取数直接按顺序读，不需要做地址偏移。对于频繁做数值运算的场景，小端在硬件实现上更高效。</p><p>苹果的设备（iPhone、Mac）用的都是小端，这不是苹果自己选的，而是沿用了Intel x86和ARM架构的默认选择。x86是小端，ARM默认也是小端（虽然可以切换）。所以本质上不是”苹果采用小端”，而是苹果用的芯片架构决定了它是小端。</p><hr><h2 id="四、数据传输时的处理过程"><a href="#四、数据传输时的处理过程" class="headerlink" title="四、数据传输时的处理过程"></a>四、数据传输时的处理过程</h2><p>实际开发中，处理流程是这样的：</p><p><strong>发送端：</strong></p><ol><li>确定协议规定的字节序（一般协议文档会写，没写的话默认按大端）</li><li>如果本机字节序和协议规定的不一致，发送前做转换</li><li>把转换后的字节流发出去</li></ol><p><strong>接收端：</strong></p><ol><li>收到字节流</li><li>如果本机字节序和协议规定的不一致，接收后做转换</li><li>按转换后的数据解析</li></ol><p>关键原则就一条：<strong>协议定字节序，代码做适配。</strong> 协议说大端，所有人都按大端组包和解包，不管你本机是什么端。</p><hr><h2 id="五、代码实例"><a href="#五、代码实例" class="headerlink" title="五、代码实例"></a>五、代码实例</h2><p>下面给几个实际可用的代码片段。每个函数都标注了输入输出示例，方便对照理解。</p><h3 id="5-1-设备端（C-）"><a href="#5-1-设备端（C-）" class="headerlink" title="5.1 设备端（C++）"></a>5.1 设备端（C++）</h3><p>C++里可以用移位操作来处理，也可以用系统提供的 <code>htons</code>&#x2F;<code>htonl</code> 和 <code>ntohs</code>&#x2F;<code>ntohl</code>。</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 把uint16_t按大端写入字节流</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：value = 0x1234, buf指向一个至少2字节的缓冲区</span><br><span class="hljs-comment"> * 输出：buf[0]=0x12, buf[1]=0x34（即大端排列：高位在前，低位在后）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">write_uint16_be</span><span class="hljs-params">(<span class="hljs-type">uint8_t</span>* buf, <span class="hljs-type">uint16_t</span> value)</span> </span>&#123;<br>    buf[<span class="hljs-number">0</span>] = (value &gt;&gt; <span class="hljs-number">8</span>) &amp; <span class="hljs-number">0xFF</span>;  <span class="hljs-comment">// value &gt;&gt; 8：把value右移8位，原来高8位的0x12移到低8位</span><br>                                    <span class="hljs-comment">// &amp; 0xFF：位与运算，特点是用0xFF（二进制11111111）做掩码，</span><br>                                    <span class="hljs-comment">// 把高24位全部清零，只保留最低8位，确保结果在0~255范围内</span><br>    buf[<span class="hljs-number">1</span>] = value &amp; <span class="hljs-number">0xFF</span>;          <span class="hljs-comment">// value &amp; 0xFF：直接取value的低8位0x34，高8位被掩码清零</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从字节流按大端读取uint16_t</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：buf[0]=0x12, buf[1]=0x34</span><br><span class="hljs-comment"> * 输出：返回 0x1234</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">uint16_t</span> <span class="hljs-title">read_uint16_be</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">uint8_t</span>* buf)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> (buf[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-number">8</span>) | buf[<span class="hljs-number">1</span>];  <span class="hljs-comment">// buf[0] &lt;&lt; 8：把第一个字节左移8位，0x12变成0x1200</span><br>                                    <span class="hljs-comment">// | buf[1]：位或运算，特点是按位取或，0x1200 | 0x34 = 0x1234</span><br>                                    <span class="hljs-comment">// 相当于把两个单字节拼回一个双字节整数</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 把uint32_t按大端写入字节流</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：value = 0x12345678, buf指向一个至少4字节的缓冲区</span><br><span class="hljs-comment"> * 输出：buf[0]=0x12, buf[1]=0x34, buf[2]=0x56, buf[3]=0x78</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">write_uint32_be</span><span class="hljs-params">(<span class="hljs-type">uint8_t</span>* buf, <span class="hljs-type">uint32_t</span> value)</span> </span>&#123;<br>    buf[<span class="hljs-number">0</span>] = (value &gt;&gt; <span class="hljs-number">24</span>) &amp; <span class="hljs-number">0xFF</span>;  <span class="hljs-comment">// 右移24位，0x12移到低8位，&amp;0xFF取最低字节</span><br>    buf[<span class="hljs-number">1</span>] = (value &gt;&gt; <span class="hljs-number">16</span>) &amp; <span class="hljs-number">0xFF</span>;  <span class="hljs-comment">// 右移16位，0x34移到低8位，&amp;0xFF取最低字节</span><br>    buf[<span class="hljs-number">2</span>] = (value &gt;&gt; <span class="hljs-number">8</span>) &amp; <span class="hljs-number">0xFF</span>;   <span class="hljs-comment">// 右移8位，0x56移到低8位，&amp;0xFF取最低字节</span><br>    buf[<span class="hljs-number">3</span>] = value &amp; <span class="hljs-number">0xFF</span>;          <span class="hljs-comment">// 直接取最低字节0x78</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从字节流按大端读取uint32_t</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：buf[0]=0x12, buf[1]=0x34, buf[2]=0x56, buf[3]=0x78</span><br><span class="hljs-comment"> * 输出：返回 0x12345678</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">uint32_t</span> <span class="hljs-title">read_uint32_be</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">uint8_t</span>* buf)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> (buf[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-number">24</span>) |          <span class="hljs-comment">// 第1字节移到最高8位：0x12 &lt;&lt; 24 = 0x12000000</span><br>           (buf[<span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-number">16</span>) |          <span class="hljs-comment">// 第2字节移到次高8位：0x34 &lt;&lt; 16 = 0x00340000</span><br>           (buf[<span class="hljs-number">2</span>] &lt;&lt; <span class="hljs-number">8</span>) |           <span class="hljs-comment">// 第3字节移到次低8位：0x56 &lt;&lt; 8  = 0x00005600</span><br>           buf[<span class="hljs-number">3</span>];                   <span class="hljs-comment">// 第4字节保持原位：              0x00000078</span><br>                                     <span class="hljs-comment">// 四个值位或拼合：0x12345678</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 方法二：用系统函数（Linux/嵌入式Linux可用）</span><br><span class="hljs-comment"> * 系统函数内部已经处理好了端序转换，不需要自己写移位</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;arpa/inet.h&gt;</span></span><br><br><span class="hljs-comment">// 主机序转大端（发送前调用）</span><br><span class="hljs-type">uint16_t</span> host_to_be = <span class="hljs-built_in">htons</span>(<span class="hljs-number">0x1234</span>);  <span class="hljs-comment">// 小端机器上：host_to_be = 0x3412 → 转成 0x1234</span><br><br><span class="hljs-comment">// 大端转主机序（接收后调用）</span><br><span class="hljs-type">uint16_t</span> be_to_host = <span class="hljs-built_in">ntohs</span>(received_value);  <span class="hljs-comment">// 大端数据received_value=0x1234 → 小端机器上 be_to_host = 0x1234</span><br></code></pre></td></tr></table></figure><p>BLE特征值发送时的典型写法：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * BLE发送一个int32，按大端</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：value = 0xAABBCCDD</span><br><span class="hljs-comment"> * 输出：payload = &#123;0xAA, 0xBB, 0xCC, 0xDD&#125;，通过BLE发出</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ble_send_int32</span><span class="hljs-params">(<span class="hljs-type">uint32_t</span> value)</span> </span>&#123;<br>    <span class="hljs-type">uint8_t</span> payload[<span class="hljs-number">4</span>];<br>    payload[<span class="hljs-number">0</span>] = (value &gt;&gt; <span class="hljs-number">24</span>) &amp; <span class="hljs-number">0xFF</span>;  <span class="hljs-comment">// 取最高字节0xAA</span><br>    payload[<span class="hljs-number">1</span>] = (value &gt;&gt; <span class="hljs-number">16</span>) &amp; <span class="hljs-number">0xFF</span>;  <span class="hljs-comment">// 取次高字节0xBB</span><br>    payload[<span class="hljs-number">2</span>] = (value &gt;&gt; <span class="hljs-number">8</span>) &amp; <span class="hljs-number">0xFF</span>;   <span class="hljs-comment">// 取次低字节0xCC</span><br>    payload[<span class="hljs-number">3</span>] = value &amp; <span class="hljs-number">0xFF</span>;          <span class="hljs-comment">// 取最低字节0xDD</span><br>    <span class="hljs-comment">// 把payload通过BLE characteristic发出去</span><br>    <span class="hljs-built_in">ble_characteristic_notify</span>(payload, <span class="hljs-number">4</span>);<br>&#125;<br></code></pre></td></tr></table></figure><h3 id="5-2-App端-Kotlin（Android）"><a href="#5-2-App端-Kotlin（Android）" class="headerlink" title="5.2 App端 - Kotlin（Android）"></a>5.2 App端 - Kotlin（Android）</h3><p>Android设备也是小端架构，如果协议规定大端，需要做转换：</p><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从字节流按大端读取Short</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：bytes = [0x12, 0x34], offset = 0</span><br><span class="hljs-comment"> * 输出：返回 0x1234 （即十进制 4660）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">readShortBE</span><span class="hljs-params">(bytes: <span class="hljs-type">ByteArray</span>, offset: <span class="hljs-type">Int</span>)</span></span>: <span class="hljs-built_in">Short</span> &#123;<br>    <span class="hljs-keyword">return</span> ((bytes[offset].toInt() and <span class="hljs-number">0xFF</span>) shl <span class="hljs-number">8</span> or   <span class="hljs-comment">// bytes[0].toInt() = 0x12，and 0xFF保持值不变</span><br>                                                            <span class="hljs-comment">// shl 8：左移8位变成 0x1200</span><br>            (bytes[offset + <span class="hljs-number">1</span>].toInt() and <span class="hljs-number">0xFF</span>)).toShort() <span class="hljs-comment">// bytes[1].toInt() = 0x34，and 0xFF保持值不变</span><br>                                                            <span class="hljs-comment">// or：位或拼合 0x1200 | 0x34 = 0x1234</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从字节流按大端读取Int</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：bytes = [0x12, 0x34, 0x56, 0x78], offset = 0</span><br><span class="hljs-comment"> * 输出：返回 0x12345678 （即十进制 305419896）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">readIntBE</span><span class="hljs-params">(bytes: <span class="hljs-type">ByteArray</span>, offset: <span class="hljs-type">Int</span>)</span></span>: <span class="hljs-built_in">Int</span> &#123;<br>    <span class="hljs-keyword">return</span> (bytes[offset].toInt() and <span class="hljs-number">0xFF</span>) shl <span class="hljs-number">24</span> or   <span class="hljs-comment">// 第1字节移到最高8位：0x12 &lt;&lt; 24</span><br>           (bytes[offset + <span class="hljs-number">1</span>].toInt() and <span class="hljs-number">0xFF</span>) shl <span class="hljs-number">16</span> or <span class="hljs-comment">// 第2字节移到次高8位：0x34 &lt;&lt; 16</span><br>           (bytes[offset + <span class="hljs-number">2</span>].toInt() and <span class="hljs-number">0xFF</span>) shl <span class="hljs-number">8</span> or  <span class="hljs-comment">// 第3字节移到次低8位：0x56 &lt;&lt; 8</span><br>           (bytes[offset + <span class="hljs-number">3</span>].toInt() and <span class="hljs-number">0xFF</span>)           <span class="hljs-comment">// 第4字节保持原位：0x78</span><br>    <span class="hljs-comment">// 四个值位或拼合：0x12345678</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * ByteBuffer方式（更简洁，推荐）</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：bytes = [0x12, 0x34, 0x56, 0x78]</span><br><span class="hljs-comment"> * 输出：返回 0x12345678</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">readIntBEWithBuffer</span><span class="hljs-params">(bytes: <span class="hljs-type">ByteArray</span>)</span></span>: <span class="hljs-built_in">Int</span> &#123;<br>    <span class="hljs-keyword">val</span> buffer = ByteBuffer.wrap(bytes)<br>    buffer.order(ByteOrder.BIG_ENDIAN)  <span class="hljs-comment">// 指定按大端解析</span><br>    <span class="hljs-keyword">return</span> buffer.int                    <span class="hljs-comment">// ByteBuffer自动按指定端序拼合4字节返回int</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 写入时指定大端</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：value = 0x12345678</span><br><span class="hljs-comment"> * 输出：返回 ByteArray [0x12, 0x34, 0x56, 0x78]</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">writeIntBE</span><span class="hljs-params">(value: <span class="hljs-type">Int</span>)</span></span>: ByteArray &#123;<br>    <span class="hljs-keyword">val</span> buffer = ByteBuffer.allocate(<span class="hljs-number">4</span>)<br>    buffer.order(ByteOrder.BIG_ENDIAN)  <span class="hljs-comment">// 指定大端排列</span><br>    buffer.putInt(value)                 <span class="hljs-comment">// ByteBuffer自动把int拆成4字节按大端写入</span><br>    <span class="hljs-keyword">return</span> buffer.array()<br>&#125;<br></code></pre></td></tr></table></figure><p>BLE接收数据的典型处理：</p><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCharacteristicChanged</span><span class="hljs-params">(gatt: <span class="hljs-type">BluetoothGatt</span>, characteristic: <span class="hljs-type">BluetoothGattCharacteristic</span>)</span></span> &#123;<br>    <span class="hljs-keyword">val</span> <span class="hljs-keyword">data</span> = characteristic.value  <span class="hljs-comment">// ByteArray，原始字节流</span><br>    <span class="hljs-comment">// 假设协议：前2字节是命令ID（大端），后4字节是数据（大端）</span><br>    <span class="hljs-keyword">val</span> cmdId = readShortBE(<span class="hljs-keyword">data</span>, <span class="hljs-number">0</span>)     <span class="hljs-comment">// 从data[0]开始读2字节，大端拼成short</span><br>    <span class="hljs-keyword">val</span> payload = readIntBE(<span class="hljs-keyword">data</span>, <span class="hljs-number">2</span>)     <span class="hljs-comment">// 从data[2]开始读4字节，大端拼成int</span><br>    <span class="hljs-comment">// 处理数据...</span><br>&#125;<br></code></pre></td></tr></table></figure><h3 id="5-3-App端-Swift（iOS）"><a href="#5-3-App端-Swift（iOS）" class="headerlink" title="5.3 App端 - Swift（iOS）"></a>5.3 App端 - Swift（iOS）</h3><p>iOS是小端，处理方式和Android类似：</p><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从Data按大端读取UInt16</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：data = Data([0x12, 0x34]), offset = 0</span><br><span class="hljs-comment"> * 输出：返回 0x1234</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">func</span> <span class="hljs-title function_">readUInt16BE</span>(<span class="hljs-keyword">_</span> <span class="hljs-params">data</span>: <span class="hljs-type">Data</span>, <span class="hljs-params">offset</span>: <span class="hljs-type">Int</span>) -&gt; <span class="hljs-type">UInt16</span> &#123;<br>    <span class="hljs-keyword">let</span> value <span class="hljs-operator">=</span> data.subdata(in: offset<span class="hljs-operator">..&lt;</span>offset<span class="hljs-operator">+</span><span class="hljs-number">2</span>).withUnsafeBytes &#123;<br>        <span class="hljs-variable">$0</span>.load(as: <span class="hljs-type">UInt16</span>.<span class="hljs-keyword">self</span>)  <span class="hljs-comment">// 从Data中按内存布局加载一个UInt16</span><br>                                  <span class="hljs-comment">// 在小端机器上，如果原始字节是12 34，load出来是0x3412</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-type">UInt16</span>(bigEndian: value)  <span class="hljs-comment">// bigEndian：把value从大端表示转为主机序</span><br>                                     <span class="hljs-comment">// 0x3412 → 0x1234（小端机器上做了字节翻转）</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从Data按大端读取UInt32</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：data = Data([0x12, 0x34, 0x56, 0x78]), offset = 0</span><br><span class="hljs-comment"> * 输出：返回 0x12345678</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">func</span> <span class="hljs-title function_">readUInt32BE</span>(<span class="hljs-keyword">_</span> <span class="hljs-params">data</span>: <span class="hljs-type">Data</span>, <span class="hljs-params">offset</span>: <span class="hljs-type">Int</span>) -&gt; <span class="hljs-type">UInt32</span> &#123;<br>    <span class="hljs-keyword">let</span> value <span class="hljs-operator">=</span> data.subdata(in: offset<span class="hljs-operator">..&lt;</span>offset<span class="hljs-operator">+</span><span class="hljs-number">4</span>).withUnsafeBytes &#123;<br>        <span class="hljs-variable">$0</span>.load(as: <span class="hljs-type">UInt32</span>.<span class="hljs-keyword">self</span>)  <span class="hljs-comment">// 加载4字节，小端机器上原始12 34 56 78 → load出 0x78563412</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-type">UInt32</span>(bigEndian: value)  <span class="hljs-comment">// 0x78563412 → 0x12345678</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 用Data的API处理</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：data = Data([0x12, 0x34, 0x56, 0x78])</span><br><span class="hljs-comment"> * 输出：value = 0x12345678</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">let</span> data: <span class="hljs-type">Data</span> <span class="hljs-operator">=</span> <span class="hljs-operator">...</span> <span class="hljs-comment">// 从BLE收到的数据</span><br><span class="hljs-keyword">var</span> value: <span class="hljs-type">UInt32</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span><br><span class="hljs-keyword">_</span> <span class="hljs-operator">=</span> withUnsafeMutableBytes(of: <span class="hljs-operator">&amp;</span>value) &#123; data.copyBytes(to: <span class="hljs-variable">$0</span>, from: <span class="hljs-number">0</span><span class="hljs-operator">..&lt;</span><span class="hljs-number">4</span>) &#125;<br><span class="hljs-comment">// copyBytes把data的前4字节拷贝到value的内存中</span><br><span class="hljs-comment">// 小端机器上value内存是 78 56 34 12，所以value = 0x78563412</span><br>value <span class="hljs-operator">=</span> <span class="hljs-type">UInt32</span>(bigEndian: value)<br><span class="hljs-comment">// bigEndian把字节翻转：0x78563412 → 0x12345678，得到正确的大端解析值</span><br></code></pre></td></tr></table></figure><h3 id="5-4-App端-uniApp"><a href="#5-4-App端-uniApp" class="headerlink" title="5.4 App端 - uniApp"></a>5.4 App端 - uniApp</h3><p>uniApp做BLE开发时，数据通常以ArrayBuffer或Uint8Array形式处理：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从ArrayBuffer按大端读取16位整数</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：buffer包含字节 [0x12, 0x34], offset = 0</span><br><span class="hljs-comment"> * 输出：返回 0x1234 （即十进制 4660）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">readInt16BE</span>(<span class="hljs-params">buffer, offset</span>) &#123;<br>    <span class="hljs-keyword">const</span> view = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DataView</span>(buffer);<br>    <span class="hljs-keyword">return</span> view.<span class="hljs-title function_">getInt16</span>(offset, <span class="hljs-literal">false</span>);  <span class="hljs-comment">// false表示大端模式</span><br>                                          <span class="hljs-comment">// DataView自动把第offset和offset+1两个字节按大端拼成int16</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从ArrayBuffer按大端读取32位整数</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：buffer包含字节 [0x12, 0x34, 0x56, 0x78], offset = 0</span><br><span class="hljs-comment"> * 输出：返回 0x12345678 （即十进制 305419896）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">readInt32BE</span>(<span class="hljs-params">buffer, offset</span>) &#123;<br>    <span class="hljs-keyword">const</span> view = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DataView</span>(buffer);<br>    <span class="hljs-keyword">return</span> view.<span class="hljs-title function_">getInt32</span>(offset, <span class="hljs-literal">false</span>);  <span class="hljs-comment">// false表示大端模式</span><br>                                          <span class="hljs-comment">// DataView自动把4字节按大端拼成int32</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 写入32位整数，按大端</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：value = 0x12345678</span><br><span class="hljs-comment"> * 输出：buffer包含字节 [0x12, 0x34, 0x56, 0x78]</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">writeInt32BE</span>(<span class="hljs-params">value</span>) &#123;<br>    <span class="hljs-keyword">const</span> buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayBuffer</span>(<span class="hljs-number">4</span>);<br>    <span class="hljs-keyword">const</span> view = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DataView</span>(buffer);<br>    view.<span class="hljs-title function_">setInt32</span>(<span class="hljs-number">0</span>, value, <span class="hljs-literal">false</span>);  <span class="hljs-comment">// false表示大端排列</span><br>                                     <span class="hljs-comment">// DataView自动把value拆成4字节，按大端顺序写入buffer</span><br>    <span class="hljs-keyword">return</span> buffer;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * uniApp BLE接收示例</span><br><span class="hljs-comment"> */</span><br>uni.<span class="hljs-title function_">onBLECharacteristicValueChange</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> &#123;<br>    <span class="hljs-keyword">const</span> buffer = res.<span class="hljs-property">value</span>;  <span class="hljs-comment">// ArrayBuffer，BLE收到的原始字节流</span><br>    <span class="hljs-keyword">const</span> view = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DataView</span>(buffer);<br>    <span class="hljs-keyword">const</span> cmdId = view.<span class="hljs-title function_">getUint16</span>(<span class="hljs-number">0</span>, <span class="hljs-literal">false</span>);   <span class="hljs-comment">// 大端读命令ID，如buffer前2字节是[0x00, 0x01] → 返回1</span><br>    <span class="hljs-keyword">const</span> dataValue = view.<span class="hljs-title function_">getInt32</span>(<span class="hljs-number">2</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// 大端读数据，如buffer接着4字节是[0x00,0x00,0x00,0x64] → 返回100</span><br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;cmdId:&#x27;</span>, cmdId, <span class="hljs-string">&#x27;value:&#x27;</span>, dataValue);<br>&#125;);<br></code></pre></td></tr></table></figure><hr><h2 id="六、几个实际建议"><a href="#六、几个实际建议" class="headerlink" title="六、几个实际建议"></a>六、几个实际建议</h2><ol><li><p><strong>协议文档一定要写清楚字节序。</strong> 不写就是埋坑，后面联调的时候双方各猜各的。</p></li><li><p><strong>调试时抓原始字节流。</strong> 不要只看解析后的值，先看hex dump。看到 <code>34 12</code> 你才知道对方发的是小端，看到 <code>12 34</code> 才知道是大端。</p></li><li><p><strong>封装统一的读写函数。</strong> 别在业务代码里到处写移位操作，封装一个 <code>ByteUtils</code> 之类的工具类，所有地方统一调用。</p></li><li><p><strong>用DataView&#x2F;ByteBuffer这类标准API。</strong> 比手写移位安全，不容易出off-by-one的错误。</p></li><li><p><strong>端序问题不只影响整数。</strong> float和double也有端序问题，处理方式和整数一样，按协议规定的端序做转换就行。</p></li></ol><hr><p>字节序这个问题本身不复杂，但第一次碰到的时候确实容易懵。记住一个原则就够了：协议定端序，代码做转换，两端统一。剩下的就是写代码的时候别偷懒，老老实实按协议来。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>软件开发</category>
+      
+      <category>小程序和APP</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kotlin</tag>
+      
+      <tag>Swift</tag>
+      
+      <tag>C++</tag>
+      
+      <tag>大端</tag>
+      
+      <tag>小端</tag>
+      
+      <tag>字节序</tag>
+      
+      <tag>BLE蓝牙</tag>
+      
+      <tag>Socket通信</tag>
+      
+      <tag>网络传输</tag>
+      
+      <tag>uniApp</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>CodeBuddy 与 WorkBuddy 产品对比及 Skill / MCP 迁移指南</title>
     <link href="/2026/26-08-16-CodeBuddy%E4%B8%8EWorkBuddy%E5%AF%B9%E6%AF%94%E5%8F%8ASkill%E5%92%8CMCP%E8%BF%81%E7%A7%BB.html"/>
     <url>/2026/26-08-16-CodeBuddy%E4%B8%8EWorkBuddy%E5%AF%B9%E6%AF%94%E5%8F%8ASkill%E5%92%8CMCP%E8%BF%81%E7%A7%BB.html</url>
@@ -890,9 +935,9 @@
     
     <tags>
       
-      <tag>人工智能</tag>
-      
       <tag>软件开发</tag>
+      
+      <tag>人工智能</tag>
       
       <tag>科技向善</tag>
       
@@ -1353,6 +1398,51 @@
       <tag>数值表示</tag>
       
       <tag>类型系统</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>为什么现在几千块钱的小程序项目我们不接了？是真的接不住啊</title>
+    <link href="/2025/25-12-20-%E5%87%A0%E5%8D%83%E5%9D%97%E9%92%B1%E7%9A%84%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%A1%B9%E7%9B%AE%E6%98%AF%E7%9C%9F%E7%9A%84%E6%8E%A5%E4%B8%8D%E4%BD%8F.html"/>
+    <url>/2025/25-12-20-%E5%87%A0%E5%8D%83%E5%9D%97%E9%92%B1%E7%9A%84%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%A1%B9%E7%9B%AE%E6%98%AF%E7%9C%9F%E7%9A%84%E6%8E%A5%E4%B8%8D%E4%BD%8F.html</url>
+    
+    <content type="html"><![CDATA[<p>很多老客户最近找过来，想让我们帮忙做个小程序，预算大概在几千块钱。</p><p>放在几年前，这种项目我们二话不说就接了。几百块的也有，甚至有些功能简单的，我们做完了还能当案例展示。</p><p>但现在，真不好意思，几千块钱的小程序项目，我们不接了。</p><p>不是架子大了，是——<strong>真的接不住。</strong></p><hr><h2 id="为什么以前几百块的项目我们都敢接？"><a href="#为什么以前几百块的项目我们都敢接？" class="headerlink" title="为什么以前几百块的项目我们都敢接？"></a>为什么以前几百块的项目我们都敢接？</h2><p>说起来也不复杂，核心就两个字：<strong>复用。</strong></p><p>那时候，我们手上已经积累了不少成熟的功能模块。用户管理、商品展示、订单系统、支付对接、预约功能……这些模块就像搭积木一样，客户要什么，我们就从库里拿出来拼一拼，改改界面，调调配置，一个项目就出来了。</p><p>一个客户哪怕只收几百块，对我们来说也是纯边际收入——模块是现成的，开发成本几乎为零，维护成本也极低。</p><p>再加上当时做软件开发的公司多，竞争激烈，大家都在抢客户，价格被压得很低。几百块做一个小程序，不是亏本赚吆喝，而是真的有利润空间。</p><p>所以那时候，几千块的项目，我们接得心安理得。</p><hr><h2 id="现在为什么接不住了？"><a href="#现在为什么接不住了？" class="headerlink" title="现在为什么接不住了？"></a>现在为什么接不住了？</h2><p>原因很残酷，也很现实。</p><h3 id="第一，市场变了，定制需求断崖式下跌"><a href="#第一，市场变了，定制需求断崖式下跌" class="headerlink" title="第一，市场变了，定制需求断崖式下跌"></a>第一，市场变了，定制需求断崖式下跌</h3><p>现在还有多少创业公司需要定制小程序和公众号？</p><p>答案是：非常少。</p><p>新开用户基本都是冲着”有个东西能用就行”，根本不需要什么定制开发。而那些真正有定制需求的客户，他们的要求又高到离谱——几千块的预算，想要的是几万块的效果。</p><p>这就导致了一个尴尬的局面：我们手里那些成熟的功能模块，几乎找不到可以复用的场景了。每个新客户的需求都跟以前不一样，你没法再用老模块去拼凑，只能从头开始定制开发。</p><p>而定制开发的成本，你懂的。一个程序员一天的工资都不止几千块了。</p><h3 id="第二，老模块不是”开箱即用”的"><a href="#第二，老模块不是”开箱即用”的" class="headerlink" title="第二，老模块不是”开箱即用”的"></a>第二，老模块不是”开箱即用”的</h3><p>有人可能会说：你们之前不是开发了很多成熟的功能模块吗？拿出来用不就行了？</p><p>这话听着有道理，但实际上完全不是那么回事。</p><p>那些模块不是插上电就能跑的。它们需要服务器持续运行，需要数据库维护，需要定期打安全补丁，需要适配微信、支付宝等平台的接口变更。</p><p><strong>软件不是一次性交付的实物，它是一个需要持续”喂养”的生命体。</strong></p><p>你今天交付了一个小程序，明天微信改了接口规则，你得改；后天发现了安全漏洞，你得补；大后天客户说要加个新功能，你还得迭代。</p><p>这些隐形成本，在几千块的报价里根本覆盖不了。</p><h3 id="第三，时代变了，旧模块已经”过时”了"><a href="#第三，时代变了，旧模块已经”过时”了" class="headerlink" title="第三，时代变了，旧模块已经”过时”了"></a>第三，时代变了，旧模块已经”过时”了</h3><p>这是最致命的一点。</p><p>以前我们做小程序、公众号的时候，那些功能模块是基于当时的市场需求和技术环境设计的。用户管理、内容发布、在线支付、消息推送……这些功能在2017、2018年的时候是”标配”，客户看了觉得”哇，好厉害”。</p><p>但现在是什么年代？2026年了。</p><p>AI功能已经渗透到每一个角落。客户要的不是”能发文章的小程序”，他们要的是”能自动生成内容的小程序”；不是”能展示商品的商城”，而是”能根据用户行为智能推荐商品的商城”。</p><p>你拿着七八年前设计的那套功能模块，就算免费送给客户，人家都未必愿意用。不是功能不好，是<strong>时代已经翻篇了</strong>。</p><p>软件服务本身就是要不断迭代升级的。不迭代，就是等死。而迭代需要人力、需要时间、需要投入——这些，都不是几千块钱能覆盖的。</p><hr><h2 id="所以，不是我们不想接"><a href="#所以，不是我们不想接" class="headerlink" title="所以，不是我们不想接"></a>所以，不是我们不想接</h2><p>说实话，我们也怀念那个几百块就能做一个项目的年代。那时候客户好说话，需求简单直接，交付完大家都开心。</p><p>但市场不会因为你怀念就停下来等你。</p><p>现在的现实是：几千块钱的预算，连一个合格的产品经理写需求文档的时间都不够，更别说设计、开发、测试、上线、维护了。</p><p>我们不是架子大了，是<strong>成本结构变了，市场逻辑变了，游戏规则变了</strong>。</p><p>如果你真的需要一个几千块的小程序，市面上有很多SaaS模板平台，开箱即用，年费可能也就几百到一两千。那是现在这个价位最合理的选择。</p><p>而如果我们来接，那就意味着定制开发、意味着持续服务、意味着要对最终效果负责——这些，值的不止几千块。</p><hr><p><strong>所以下次你再问我们”几千块能不能做个小程序”，我们的回答可能还是”不好意思，接不了”。</strong></p><p>但希望你能理解，这不是嫌钱少，是真的——<strong>接不住。</strong></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>项目管理</category>
+      
+      <category>项目报价与成本控制</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>市场需求</tag>
+      
+      <tag>项目管理</tag>
+      
+      <tag>小程序</tag>
+      
+      <tag>定制开发</tag>
+      
+      <tag>SaaS模板</tag>
+      
+      <tag>成本结构</tag>
+      
+      <tag>软件服务</tag>
+      
+      <tag>项目报价</tag>
+      
+      <tag>复用模块</tag>
+      
+      <tag>持续维护</tag>
       
     </tags>
     
@@ -2110,9 +2200,9 @@
       
       <tag>Docker</tag>
       
-      <tag>阿里云</tag>
-      
       <tag>MySQL</tag>
+      
+      <tag>阿里云</tag>
       
       <tag>SSH</tag>
       
@@ -2202,15 +2292,15 @@
       
       <tag>Dockerfile</tag>
       
+      <tag>SkyWalking</tag>
+      
       <tag>微服务</tag>
+      
+      <tag>容器部署</tag>
       
       <tag>Docker Compose</tag>
       
       <tag>镜像构建</tag>
-      
-      <tag>容器部署</tag>
-      
-      <tag>SkyWalking</tag>
       
       <tag>JVM参数</tag>
       
@@ -2356,9 +2446,9 @@
     
     <tags>
       
-      <tag>数据库</tag>
-      
       <tag>MySQL</tag>
+      
+      <tag>数据库</tag>
       
       <tag>绿色版</tag>
       
@@ -2454,11 +2544,11 @@
       
       <tag>Kubernetes</tag>
       
+      <tag>微服务</tag>
+      
       <tag>若依微服务框架</tag>
       
       <tag>Ruoyi Cloud</tag>
-      
-      <tag>微服务</tag>
       
       <tag>Java</tag>
       
@@ -2868,7 +2958,7 @@
     <link href="/2024/24-12-22-how-is-an-email-relayed.html"/>
     <url>/2024/24-12-22-how-is-an-email-relayed.html</url>
     
-    <content type="html"><![CDATA[<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113711540866975&bvid=BV1CtCAYYEdj&cid=27519618287&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="min-height:400px; min-width:700px; margin:0 auto;"></iframe><p>In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check and locate the receiver’s email server. This is crucial as it serves as the destination for our message.</p><p><img src="https://s2.loli.net/2025/02/09/KgNuAh2tLGxF7MB.jpg" alt="1_(238)(3)-1024px"></p><p>To check the email server corresponding to a specific email address, a useful command that comes in handy is ‘nslookup’. Here’s how it works: First, you open the command prompt or terminal on your computer. Then, after typing in the ‘nslookup’ command, you need to set the query type as’mx’. This query type specifically helps us to find the mail exchange records for the domain. For example, if the email address is “<a href="mailto:&#101;&#120;&#x61;&#109;&#x70;&#108;&#101;&#x40;&#x65;&#120;&#97;&#x6d;&#x70;&#x6c;&#x65;&#46;&#99;&#111;&#109;">&#101;&#120;&#x61;&#109;&#x70;&#108;&#101;&#x40;&#x65;&#120;&#97;&#x6d;&#x70;&#x6c;&#x65;&#46;&#99;&#111;&#109;</a>“, you would type in the domain part which is “example.com” after setting the’mx’ query type. The system will then return the information about the email server responsible for handling emails for that domain.</p><p><img src="https://s2.loli.net/2025/02/09/Kzp9rqIWTOLtehn.png" alt="20250209212804"></p><p>Once we’ve identified the email server, the next step is to establish a connection with it. We can achieve this by using socket communication. Through this method, the TCP network packets of the SMTP (Simple Mail Transfer Protocol) will be transferred over the connection. The SMTP protocol is the standard for sending emails across the Internet. For example, in a Python program, you might use the’socket’ library to create a socket object and then connect to the server’s IP address and port (usually port 25 for SMTP). Here’s a simple code snippet to illustrate this concept:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> socket<br><br><span class="hljs-comment"># Create a socket object</span><br>s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br><br><span class="hljs-comment"># Connect to the server</span><br>server_address = (<span class="hljs-string">&#x27;mail.example.com&#x27;</span>, <span class="hljs-number">25</span>)  <span class="hljs-comment"># Replace with actual server address and port</span><br>s.connect(server_address)<br><br><span class="hljs-comment"># You can then start interacting with the server using SMTP commands</span><br><span class="hljs-comment"># This is just a basic connection example and further commands would be needed for a full email sending process</span><br></code></pre></td></tr></table></figure><p>After the network connection is successfully established and the session is initialized, we need to focus on organizing the email content. This should be done meticulously in accordance with the format of email files. It includes specifying the sender’s email addresses clearly and ensuring the correct encoding of the characters. For example, if you are using UTF-8 encoding, you need to set the appropriate headers in the email content to indicate this. The email content should also follow the proper structure with fields like “From:”, “To:”, “Subject:”, and the body of the message.</p><p>In a particular scenario like email marketing, where we usually need to reach out to multiple recipients, things get a bit more complicated. We need to set multiple receivers’ email addresses. And this information should be properly included in the email file content. If we choose to set these receivers’ email addresses one by one or separately, then we will have to organize multiple similar email contents, which can be time-consuming but might be necessary depending on the specific requirements. For instance, if we have a list of email addresses in a text file, we might read them one by one in a loop and create separate email messages for each recipient in our programming code.</p><p>Finally, once everything is set up and the email content is ready, we can send this email or multiple emails as per our requirements. After the sending process is completed successfully, we should disconnect the connection to free up resources and end the communication session with the email server. This ensures a smooth and proper email sending process from start to finish.</p><p>Please note that the above code is just a simple example for demonstrating the connection part, and in a real-world application, more comprehensive handling of SMTP commands and error handling would be required to ensure the emails are sent correctly. </p>]]></content>
+    <content type="html"><![CDATA[<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113711540866975&bvid=BV1CtCAYYEdj&cid=27519618287&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="min-height:400px; min-width:700px; margin:0 auto;"></iframe><p>In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check and locate the receiver’s email server. This is crucial as it serves as the destination for our message.</p><p><img src="https://s2.loli.net/2025/02/09/KgNuAh2tLGxF7MB.jpg" alt="1_(238)(3)-1024px"></p><p>To check the email server corresponding to a specific email address, a useful command that comes in handy is ‘nslookup’. Here’s how it works: First, you open the command prompt or terminal on your computer. Then, after typing in the ‘nslookup’ command, you need to set the query type as’mx’. This query type specifically helps us to find the mail exchange records for the domain. For example, if the email address is “<a href="mailto:&#x65;&#x78;&#x61;&#109;&#x70;&#x6c;&#101;&#x40;&#101;&#x78;&#x61;&#109;&#112;&#108;&#x65;&#46;&#99;&#111;&#109;">&#x65;&#x78;&#x61;&#109;&#x70;&#x6c;&#101;&#x40;&#101;&#x78;&#x61;&#109;&#112;&#108;&#x65;&#46;&#99;&#111;&#109;</a>“, you would type in the domain part which is “example.com” after setting the’mx’ query type. The system will then return the information about the email server responsible for handling emails for that domain.</p><p><img src="https://s2.loli.net/2025/02/09/Kzp9rqIWTOLtehn.png" alt="20250209212804"></p><p>Once we’ve identified the email server, the next step is to establish a connection with it. We can achieve this by using socket communication. Through this method, the TCP network packets of the SMTP (Simple Mail Transfer Protocol) will be transferred over the connection. The SMTP protocol is the standard for sending emails across the Internet. For example, in a Python program, you might use the’socket’ library to create a socket object and then connect to the server’s IP address and port (usually port 25 for SMTP). Here’s a simple code snippet to illustrate this concept:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> socket<br><br><span class="hljs-comment"># Create a socket object</span><br>s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br><br><span class="hljs-comment"># Connect to the server</span><br>server_address = (<span class="hljs-string">&#x27;mail.example.com&#x27;</span>, <span class="hljs-number">25</span>)  <span class="hljs-comment"># Replace with actual server address and port</span><br>s.connect(server_address)<br><br><span class="hljs-comment"># You can then start interacting with the server using SMTP commands</span><br><span class="hljs-comment"># This is just a basic connection example and further commands would be needed for a full email sending process</span><br></code></pre></td></tr></table></figure><p>After the network connection is successfully established and the session is initialized, we need to focus on organizing the email content. This should be done meticulously in accordance with the format of email files. It includes specifying the sender’s email addresses clearly and ensuring the correct encoding of the characters. For example, if you are using UTF-8 encoding, you need to set the appropriate headers in the email content to indicate this. The email content should also follow the proper structure with fields like “From:”, “To:”, “Subject:”, and the body of the message.</p><p>In a particular scenario like email marketing, where we usually need to reach out to multiple recipients, things get a bit more complicated. We need to set multiple receivers’ email addresses. And this information should be properly included in the email file content. If we choose to set these receivers’ email addresses one by one or separately, then we will have to organize multiple similar email contents, which can be time-consuming but might be necessary depending on the specific requirements. For instance, if we have a list of email addresses in a text file, we might read them one by one in a loop and create separate email messages for each recipient in our programming code.</p><p>Finally, once everything is set up and the email content is ready, we can send this email or multiple emails as per our requirements. After the sending process is completed successfully, we should disconnect the connection to free up resources and end the communication session with the email server. This ensures a smooth and proper email sending process from start to finish.</p><p>Please note that the above code is just a simple example for demonstrating the connection part, and in a real-world application, more comprehensive handling of SMTP commands and error handling would be required to ensure the emails are sent correctly. </p>]]></content>
     
     
     <categories>
@@ -2882,13 +2972,13 @@
     
     <tags>
       
+      <tag>邮件服务器</tag>
+      
       <tag>电子邮件</tag>
       
       <tag>邮件协议</tag>
       
       <tag>SMTP</tag>
-      
-      <tag>邮件服务器</tag>
       
     </tags>
     
@@ -3005,6 +3095,8 @@
     
     <tags>
       
+      <tag>软件开发</tag>
+      
       <tag>敏捷开发</tag>
       
       <tag>Scrum框架</tag>
@@ -3012,8 +3104,6 @@
       <tag>瀑布流模型</tag>
       
       <tag>螺旋模型</tag>
-      
-      <tag>软件开发</tag>
       
     </tags>
     
@@ -3085,6 +3175,8 @@
     
     <tags>
       
+      <tag>Python</tag>
+      
       <tag>大语言模型</tag>
       
       <tag>ChatGPT</tag>
@@ -3094,8 +3186,6 @@
       <tag>人工智能</tag>
       
       <tag>案例分析</tag>
-      
-      <tag>Python</tag>
       
       <tag>自动化处理</tag>
       
@@ -3431,6 +3521,51 @@
       <tag>运维监控</tag>
       
       <tag>监控系统</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>微服务可观测性：两套主流监控方案对比与Docker落地实操</title>
+    <link href="/2024/24-06-10-%E4%B8%A4%E5%A5%97%E4%B8%BB%E6%B5%81%E7%9B%91%E6%8E%A7%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E5%92%8C%E9%83%A8%E7%BD%B2%E5%AE%9E%E6%93%8D.html"/>
+    <url>/2024/24-06-10-%E4%B8%A4%E5%A5%97%E4%B8%BB%E6%B5%81%E7%9B%91%E6%8E%A7%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E5%92%8C%E9%83%A8%E7%BD%B2%E5%AE%9E%E6%93%8D.html</url>
+    
+    <content type="html"><![CDATA[<h1 id="微服务可观测性：两套主流监控方案对比与Docker落地实操"><a href="#微服务可观测性：两套主流监控方案对比与Docker落地实操" class="headerlink" title="微服务可观测性：两套主流监控方案对比与Docker落地实操"></a>微服务可观测性：两套主流监控方案对比与Docker落地实操</h1><blockquote><p>摘要：可观测性分为指标监控、链路追踪两大方向。本文对比两套生产常用方案，给出可直接复制的Docker Compose部署步骤，适合开发运维人员参考。<br>为了更形象的说明问题，我做了一个网页版本，点击这里查看 <a href="/html/%E4%B8%BB%E6%B5%81%E7%9B%91%E6%8E%A7%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%AE%9E%E6%93%8D.html">两套主流监控方案对比和部署实操</a></p></blockquote><h2 id="1-核心组件概念解释"><a href="#1-核心组件概念解释" class="headerlink" title="1 核心组件概念解释"></a>1 核心组件概念解释</h2><p>为方便后续理解，直白介绍4个核心组件，全部结合实际工作场景。</p><h3 id="1-1-Prometheus"><a href="#1-1-Prometheus" class="headerlink" title="1.1 Prometheus"></a>1.1 Prometheus</h3><p>Prometheus 是开源<strong>时序指标监控工具</strong>，用来采集、存储、查询各类数值型指标：服务器CPU、内存、接口QPS、错误率、数据库连接数等。<br>采用Pull拉取模型，定时主动抓取目标暴露的<code>/metrics</code>接口；自带PromQL查询语言，支持告警规则，是云原生环境指标监控的事实标准。</p><h3 id="1-2-Grafana"><a href="#1-2-Grafana" class="headerlink" title="1.2 Grafana"></a>1.2 Grafana</h3><p>Grafana 是开源可视化面板工具。<strong>本身不采集、不存储数据</strong>，只对接各类数据源（Prometheus、MySQL、Elasticsearch等），把数据渲染成折线图、大盘、报表。<br>社区有大量现成Dashboard模板，自定义能力强，我们日常看到的监控大盘基本都是Grafana实现。</p><h3 id="1-3-SkyWalking"><a href="#1-3-SkyWalking" class="headerlink" title="1.3 SkyWalking"></a>1.3 SkyWalking</h3><p>SkyWalking 是国产开源分布式链路追踪APM工具，面向微服务。一次用户请求穿越多个服务时，它可以完整还原调用链路，定位慢接口、报错节点，输出服务拓扑、吞吐量、延迟统计。<br>使用Agent探针采集数据，业务代码几乎不用改造，适合微服务故障排查与性能调优。</p><h3 id="1-4-Elasticsearch（ES）"><a href="#1-4-Elasticsearch（ES）" class="headerlink" title="1.4 Elasticsearch（ES）"></a>1.4 Elasticsearch（ES）</h3><p>Elasticsearch 是分布式检索分析引擎。擅长存储海量半结构化数据，提供快速检索、聚合统计。<br>在这套监控场景下，主要用来存放SkyWalking产生的链路、追踪明细数据，方便故障复盘回溯。</p><h2 id="2-两套监控方案对比"><a href="#2-两套监控方案对比" class="headerlink" title="2 两套监控方案对比"></a>2 两套监控方案对比</h2><p>Prometheus+Grafana偏向宏观指标监控；SkyWalking+Elasticsearch偏向链路追踪与故障溯源。下表从核心功能、数据收集、可视化、应用场景做横向对比。</p><table><thead><tr><th>对比维度</th><th>Prometheus + Grafana</th><th>SkyWalking + Elasticsearch</th></tr></thead><tbody><tr><td><strong>核心功能</strong></td><td>时序指标监控；资源、业务指标、告警、趋势统计；看系统整体水位。没有链路追踪能力，看不到单次请求完整调用流程。</td><td>分布式链路追踪、APM性能剖析；还原完整请求链路，定位慢调用、报错节点；存储海量链路明细。通用指标能力偏弱。</td></tr><tr><td><strong>数据收集方式</strong></td><td>Pull拉取模式；被监控端暴露<code>/metrics</code>接口；通过各类Exporter对接MySQL、中间件、K8s；无代码侵入，集中式采集。</td><td>Push推送模式；应用挂载Agent探针采集链路数据，上报OAP服务，最终存入ES；几乎零代码侵入，应用侧埋点采集。</td></tr><tr><td><strong>可视化能力</strong></td><td>Grafana驱动，能力极强；自定义面板、模板变量、海量社区模板，大屏友好。</td><td>SkyWalking自带UI，提供拓扑、链路视图；可对接Kibana查看ES原始数据；自定义报表灵活性弱于Grafana。</td></tr><tr><td><strong>适用场景</strong></td><td>服务器&#x2F;容器资源监控、业务指标大盘、日常巡检、资源告警、K8s全局监控；适合常态化运维。</td><td>微服务故障排查、慢请求定位、调用关系梳理、线上偶发问题溯源；适合排障、性能优化。</td></tr></tbody></table><h2 id="3-Prometheus-Grafana工作流程与Docker部署实操"><a href="#3-Prometheus-Grafana工作流程与Docker部署实操" class="headerlink" title="3 Prometheus+Grafana工作流程与Docker部署实操"></a>3 Prometheus+Grafana工作流程与Docker部署实操</h2><h3 id="3-1-工作流程图"><a href="#3-1-工作流程图" class="headerlink" title="3.1 工作流程图"></a>3.1 工作流程图</h3><div class="mermaid">graph LR    A[被监控服务/服务器] -- 暴露metrics接口 --> B[Prometheus]    C[MySQL数据库] -- MySQL Exporter输出指标 --> B    B[Prometheus] -- 写入时序数据 --> D[本地时序存储]    B -- 查询接口输出指标 --> E[Grafana]    E -- 渲染图表 --> F[用户浏览器]    B -- 匹配告警规则 --> G[告警通知]</div><h3 id="3-2-环境说明"><a href="#3-2-环境说明" class="headerlink" title="3.2 环境说明"></a>3.2 环境说明</h3><ul><li>操作系统：Ubuntu Server 20.04 &#x2F; 22.04</li><li>运行环境：Docker + Docker Compose</li><li>组件：Prometheus、Grafana、mysql‑exporter（监控MySQL）</li></ul><h3 id="3-3-创建目录"><a href="#3-3-创建目录" class="headerlink" title="3.3 创建目录"></a>3.3 创建目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> -p /data/prometheus-grafana/&#123;prometheus,exporter-mysql,grafana&#125;<br><span class="hljs-built_in">cd</span> /data/prometheus-grafana<br></code></pre></td></tr></table></figure><h3 id="3-4-配置文件"><a href="#3-4-配置文件" class="headerlink" title="3.4 配置文件"></a>3.4 配置文件</h3><h4 id="3-4-1-prometheus-prometheus-yml"><a href="#3-4-1-prometheus-prometheus-yml" class="headerlink" title="3.4.1 prometheus&#x2F;prometheus.yml"></a>3.4.1 prometheus&#x2F;prometheus.yml</h4><p>路径：<code>/data/prometheus-grafana/prometheus/prometheus.yml</code></p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">global:</span><br>  <span class="hljs-attr">scrape_interval:</span> <span class="hljs-string">15s</span><br>  <span class="hljs-attr">evaluation_interval:</span> <span class="hljs-string">15s</span><br><br><span class="hljs-attr">rule_files:</span><br><span class="hljs-comment"># - &quot;alert.rules.yml&quot; # 需要告警时打开</span><br><br><span class="hljs-attr">scrape_configs:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">&#x27;prometheus&#x27;</span><br>    <span class="hljs-attr">static_configs:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> [<span class="hljs-string">&#x27;localhost:9090&#x27;</span>]<br><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">&#x27;mysql&#x27;</span><br>    <span class="hljs-attr">static_configs:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> [<span class="hljs-string">&#x27;mysql-exporter:9104&#x27;</span>]<br></code></pre></td></tr></table></figure><h4 id="3-4-2-docker‑compose-yml"><a href="#3-4-2-docker‑compose-yml" class="headerlink" title="3.4.2 docker‑compose.yml"></a>3.4.2 docker‑compose.yml</h4><p>路径：<code>/data/prometheus-grafana/docker-compose.yml</code></p><blockquote><p>修复：把废弃<code>version: &#39;3.8&#39;</code>去掉，新版compose不需要；增加持久化权限说明；密码请按需修改。</p></blockquote><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">prometheus:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">prom/prometheus:v2.53.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">prometheus</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./prometheus/data:/prometheus</span><br>    <span class="hljs-attr">command:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;--config.file=/etc/prometheus/prometheus.yml&#x27;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;--storage.tsdb.path=/prometheus&#x27;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;--storage.tsdb.retention=7d&#x27;</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9090:9090&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">monitor-net</span><br><br>  <span class="hljs-attr">mysql-exporter:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">prom/mysqld-exporter:v0.15.1</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mysql-exporter</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">DATA_SOURCE_NAME:</span> <span class="hljs-string">&quot;root:123456@tcp(192.168.1.100:3306)/&quot;</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9104:9104&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">monitor-net</span><br><br>  <span class="hljs-attr">grafana:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">grafana/grafana:11.2.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">grafana</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./grafana/data:/var/lib/grafana</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;3000:3000&quot;</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">GF_SECURITY_ADMIN_PASSWORD:</span> <span class="hljs-string">admin123456</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">monitor-net</span><br><br><span class="hljs-attr">networks:</span><br>  <span class="hljs-attr">monitor-net:</span><br>    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span><br></code></pre></td></tr></table></figure><h3 id="3-5-启动与初始化"><a href="#3-5-启动与初始化" class="headerlink" title="3.5 启动与初始化"></a>3.5 启动与初始化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># grafana目录权限处理</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chown</span> -R 472:472 ./grafana/data<br><br>docker compose up -d<br>docker compose ps<br></code></pre></td></tr></table></figure><p>访问地址：</p><ul><li>Prometheus：<code>http://服务器IP:9090</code></li><li>Grafana：<code>http://服务器IP:3000</code> 账号<code>admin</code>，密码<code>admin123456</code></li></ul><p>Grafana操作：添加数据源选择Prometheus，地址填<code>http://prometheus:9090</code>，测试连通成功后导入社区Dashboard模板即可出大盘。</p><h2 id="4-SkyWalking-Elasticsearch工作流程与Docker部署实操"><a href="#4-SkyWalking-Elasticsearch工作流程与Docker部署实操" class="headerlink" title="4 SkyWalking+Elasticsearch工作流程与Docker部署实操"></a>4 SkyWalking+Elasticsearch工作流程与Docker部署实操</h2><h3 id="4-1-工作流程图"><a href="#4-1-工作流程图" class="headerlink" title="4.1 工作流程图"></a>4.1 工作流程图</h3><div class="mermaid">graph LR    A[微服务应用] -- Agent探针上报链路数据 --> B[SkyWalking OAP服务]    B[OAP服务] -- 清洗聚合 --> C[Elasticsearch存储]    B -- 对外提供API --> D[SkyWalking UI]    D -- 拓扑/链路/报表 --> E[用户浏览器]    C[ES] -- 原始链路检索 --> D</div><h3 id="4-2-环境说明"><a href="#4-2-环境说明" class="headerlink" title="4.2 环境说明"></a>4.2 环境说明</h3><ul><li>操作系统：Ubuntu Server 20.04 &#x2F; 22.04</li><li>运行环境：Docker + Docker Compose</li><li>组件：Elasticsearch7.17.0、SkyWalking OAP‑Server 9.5.0、SkyWalking‑UI 9.5.0</li></ul><h3 id="4-3-创建目录"><a href="#4-3-创建目录" class="headerlink" title="4.3 创建目录"></a>4.3 创建目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> -p /data/skywalking-es/&#123;es-data,oap-config,ui-config&#125;<br><span class="hljs-built_in">cd</span> /data/skywalking-es<br></code></pre></td></tr></table></figure><h3 id="4-4-docker‑compose-yml"><a href="#4-4-docker‑compose-yml" class="headerlink" title="4.4 docker‑compose.yml"></a>4.4 docker‑compose.yml</h3><p>路径：<code>/data/skywalking-es/docker-compose.yml</code></p><blockquote><p>ES单节点模式，内存调小适合测试环境；生产环境需要集群。</p></blockquote><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">elasticsearch:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">docker.elastic.co/elasticsearch/elasticsearch:7.17.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">elasticsearch</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">discovery.type=single-node</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">ES_JAVA_OPTS=-Xms512m</span> <span class="hljs-string">-Xmx512m</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">xpack.security.enabled=false</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./es-data:/usr/share/elasticsearch/data</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9200:9200&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9300:9300&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">sky-net</span><br><br>  <span class="hljs-attr">skywalking-oap:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">apache/skywalking-oap-server:9.5.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">skywalking-oap</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">depends_on:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">elasticsearch</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">SW_STORAGE:</span> <span class="hljs-string">elasticsearch</span><br>      <span class="hljs-attr">SW_STORAGE_ES_CLUSTER_NODES:</span> <span class="hljs-string">elasticsearch:9200</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;11800:11800&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;12800:12800&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">sky-net</span><br><br>  <span class="hljs-attr">skywalking-ui:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">apache/skywalking-ui:9.5.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">skywalking-ui</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">depends_on:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">skywalking-oap</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">SW_OAP_ADDRESS:</span> <span class="hljs-string">http://skywalking-oap:12800</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;8081:8080&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">sky-net</span><br><br><span class="hljs-attr">networks:</span><br>  <span class="hljs-attr">sky-net:</span><br>    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span><br></code></pre></td></tr></table></figure><h3 id="4-5-权限与启动"><a href="#4-5-权限与启动" class="headerlink" title="4.5 权限与启动"></a>4.5 权限与启动</h3><blockquote><p>ES容器内部用户uid&#x3D;1000，宿主机目录必须授权，否则启动失败。</p></blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> 777 -R ./es-data<br><br>docker compose up -d<br>docker compose ps<br></code></pre></td></tr></table></figure><p>访问地址：</p><ul><li>Elasticsearch：<code>http://服务器IP:9200</code></li><li>SkyWalking UI：<code>http://服务器IP:8081</code></li></ul><blockquote><p>使用：业务程序配置SkyWalking Agent探针，启动应用上报数据，UI即可看到服务拓扑、调用链路、异常信息，链路数据持久化到ES。</p></blockquote><h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5 总结"></a>5 总结</h2><p>两套方案不是互斥替代，而是互补。<br>Prometheus+Grafana作为指标监控底座，负责日常资源、业务指标巡检与告警；SkyWalking+ES做链路追踪，负责微服务故障定位、性能调优。真实生产环境一般两套一起部署，同时拿到指标大盘与链路排障能力。</p><hr><h1 id="常见踩坑清单"><a href="#常见踩坑清单" class="headerlink" title="常见踩坑清单"></a>常见踩坑清单</h1><h2 id="1-Elasticsearch-启动失败"><a href="#1-Elasticsearch-启动失败" class="headerlink" title="1 Elasticsearch 启动失败"></a>1 Elasticsearch 启动失败</h2><h3 id="1-1-容器反复重启，日志提示权限-denied"><a href="#1-1-容器反复重启，日志提示权限-denied" class="headerlink" title="1.1 容器反复重启，日志提示权限 denied"></a>1.1 容器反复重启，日志提示权限 denied</h3><ul><li><strong>现象</strong>：<code>docker compose ps</code>看到elasticsearch状态为Restarting；日志输出<code>Permission denied</code></li><li><strong>根因</strong>：ES容器内部运行用户UID&#x3D;1000，宿主机挂载目录<code>es-data</code>权限不足，无法写入数据文件。</li><li><strong>解决</strong><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 进入compose所在目录执行</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> 777 -R ./es-data<br></code></pre></td></tr></table></figure><blockquote><p>生产环境不建议777；测试环境快速调试可用；生产应当修改目录属主 <code>sudo chown -R 1000:1000 ./es-data</code></p></blockquote></li></ul><h3 id="1-2-ES启动报内存溢出、OOM被杀"><a href="#1-2-ES启动报内存溢出、OOM被杀" class="headerlink" title="1.2 ES启动报内存溢出、OOM被杀"></a>1.2 ES启动报内存溢出、OOM被杀</h3><ul><li><strong>现象</strong>：容器刚启动直接退出；dmesg能看到OOM killer杀掉进程</li><li><strong>根因</strong>：机器内存太小，ES堆内存配置过大；机器低于2G内存极易复现。</li><li><strong>解决</strong> 修改compose中ES环境变量，降低堆大小<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">environment:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">ES_JAVA_OPTS=-Xms256m</span> <span class="hljs-string">-Xmx256m</span><br></code></pre></td></tr></table></figure><blockquote><p>ES要求 Xms 与 Xmx保持一致；测试环境最小256M，生产建议至少1G以上。</p></blockquote></li></ul><h3 id="1-3-ES单节点报错-discovery-type-未配置"><a href="#1-3-ES单节点报错-discovery-type-未配置" class="headerlink" title="1.3 ES单节点报错 discovery.type 未配置"></a>1.3 ES单节点报错 <code>discovery.type</code> 未配置</h3><ul><li><strong>现象</strong>：日志报 master not discovered；集群无法形成，一直重启</li><li><strong>根因</strong>：单机部署忘记配置<code>discovery.type=single-node</code>，ES默认试图找集群其他节点。</li><li><strong>解决</strong> compose elasticsearch service环境必须带上：<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-bullet">-</span> <span class="hljs-string">discovery.type=single-node</span><br></code></pre></td></tr></table></figure></li></ul><h3 id="1-4-vm-max-map-count-系统参数不足（Linux经典坑）"><a href="#1-4-vm-max-map-count-系统参数不足（Linux经典坑）" class="headerlink" title="1.4 vm.max_map_count 系统参数不足（Linux经典坑）"></a>1.4 vm.max_map_count 系统参数不足（Linux经典坑）</h3><ul><li><strong>现象</strong>：ES启动日志 <code>max virtual memory areas vm.max_map_count [65530] is too low</code></li><li><strong>根因</strong>：Linux系统默认虚拟内存映射数不够，ES需要更大。</li><li><strong>临时生效（重启机器失效）</strong><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> sysctl -w vm.max_map_count=262144<br></code></pre></td></tr></table></figure></li><li><strong>永久生效</strong><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;vm.max_map_count=262144&quot;</span> | <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> -a /etc/sysctl.conf<br><span class="hljs-built_in">sudo</span> sysctl -p<br></code></pre></td></tr></table></figure></li></ul><h2 id="2-SkyWalking-Agent-连不上-OAP服务"><a href="#2-SkyWalking-Agent-连不上-OAP服务" class="headerlink" title="2 SkyWalking Agent 连不上 OAP服务"></a>2 SkyWalking Agent 连不上 OAP服务</h2><blockquote><p>Agent运行在业务应用侧，OAP运行在docker容器内，这个坑出现频率很高。</p></blockquote><h3 id="2-1-Agent报错：connect-to-oap-11800-timeout-connection-refused"><a href="#2-1-Agent报错：connect-to-oap-11800-timeout-connection-refused" class="headerlink" title="2.1 Agent报错：connect to oap 11800 timeout &#x2F; connection refused"></a>2.1 Agent报错：connect to oap 11800 timeout &#x2F; connection refused</h3><ul><li><strong>现象</strong>：应用日志大量warn，Agent无法上报数据；SkyWalking UI看不到任何服务。</li><li><strong>根因分类</strong></li></ul><ol><li>Agent配置的OAP地址写错；</li><li>防火墙&#x2F;安全组没有放行**11800端口(gRPC上报端口)**；12800是UI调用HTTP端口，Agent不走12800；</li><li>业务应用不在docker网络内，填容器内部主机名<code>skywalking‑oap</code>无法解析，必须填写宿主机IP。</li></ol><ul><li><strong>解决步骤</strong></li></ul><ol><li>Agent配置<code>agent.config</code>中 <code>collector.backend_service</code> 填写<strong>宿主机IP:11800</strong>，不要填容器名；<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">collector.backend_service</span>=<span class="hljs-string">192.168.1.100:11800</span><br></code></pre></td></tr></table></figure></li><li>服务器防火墙放行11800端口；云服务器安全组放行11800；</li><li>在业务机器上验证连通：<code>telnet 192.168.1.100 11800</code> 或者 <code>nc -zv 192.168.1.100 11800</code>，必须通。</li></ol><h3 id="2-2-OAP还没就绪，Agent就开始上报"><a href="#2-2-OAP还没就绪，Agent就开始上报" class="headerlink" title="2.2 OAP还没就绪，Agent就开始上报"></a>2.2 OAP还没就绪，Agent就开始上报</h3><ul><li><strong>现象</strong>：OAP刚启动几十秒内，Agent报连接失败；等待一段时间自动恢复。</li><li><strong>根因</strong>：OAP启动需要初始化ES索引，启动慢；docker compose的<code>depends_on</code>只保证容器启动顺序，不保证服务就绪。</li><li><strong>解决</strong>：业务应用晚几分钟启动；开发环境可以忽略；生产增加健康检查。</li></ul><h3 id="2-3-Agent版本和OAP版本不一致"><a href="#2-3-Agent版本和OAP版本不一致" class="headerlink" title="2.3 Agent版本和OAP版本不一致"></a>2.3 Agent版本和OAP版本不一致</h3><ul><li><strong>现象</strong>：连接可以通，但是无数据，报序列化异常。</li><li><strong>根因</strong>：SkyWalking Agent版本号必须和后端OAP版本严格对齐；例如OAP 9.5.0，Agent也必须9.5.0。跨版本会出现协议不兼容。</li><li><strong>解决</strong>：保持Agent、OAP‑Server、UI三者版本完全一致。</li></ul><h3 id="2-4-ES异常导致OAP工作异常，间接Agent上报失败"><a href="#2-4-ES异常导致OAP工作异常，间接Agent上报失败" class="headerlink" title="2.4 ES异常导致OAP工作异常，间接Agent上报失败"></a>2.4 ES异常导致OAP工作异常，间接Agent上报失败</h3><ul><li><strong>现象</strong>：Agent显示上报成功，但UI看不到链路；OAP日志大量ES报错。</li><li><strong>根因</strong>：OAP虽然gRPC端口通，但无法写入ES，数据直接丢弃。</li><li><strong>排查</strong>：查看<code>docker compose logs skywalking-oap</code>，看ES相关报错；优先保证ES正常运行。</li></ul><h2 id="3-Grafana-数据源连通异常（对接Prometheus）"><a href="#3-Grafana-数据源连通异常（对接Prometheus）" class="headerlink" title="3 Grafana 数据源连通异常（对接Prometheus）"></a>3 Grafana 数据源连通异常（对接Prometheus）</h2><h3 id="3-1-Save-test-报错：connection-refused"><a href="#3-1-Save-test-报错：connection-refused" class="headerlink" title="3.1 Save &amp; test 报错：connection refused"></a>3.1 Save &amp; test 报错：connection refused</h3><ul><li><strong>现象</strong>：Grafana页面添加Prometheus数据源，填写地址，测试报错连接拒绝。</li><li><strong>根因区分</strong></li></ul><ol><li>填<code>127.0.0.1:9090</code>：Grafana跑在docker容器内部，127.0.0.1指向Grafana容器自己，不是宿主机prometheus。</li><li>填宿主机IP，但防火墙&#x2F;安全组拦截9090。</li><li>网络问题：没有使用compose内部网络，容器之间无法互通。</li></ol><ul><li><strong>正确写法</strong>：<blockquote><p>在同一个docker compose网络<code>monitor‑net</code>内部，直接写容器名：</p></blockquote><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">http:</span><span class="hljs-comment">//prometheus:9090</span><br></code></pre></td></tr></table></figure><blockquote><p>如果Grafana不在同一个compose，填写宿主机真实IP:9090，并且确认防火墙放行9090。</p></blockquote></li></ul><h3 id="3-2-可以连通，但面板无数据"><a href="#3-2-可以连通，但面板无数据" class="headerlink" title="3.2 可以连通，但面板无数据"></a>3.2 可以连通，但面板无数据</h3><ul><li><strong>现象</strong>：数据源测试成功，导入Dashboard后图表空白。</li><li><strong>根因</strong></li></ul><ol><li>Prometheus <code>scrape_configs</code> job采集失败；targets页面显示DOWN；</li><li>Dashboard模板选择时间范围不对；</li><li>使用的PromQL指标名称和exporter输出指标不匹配。</li></ol><ul><li><strong>排查</strong><br>打开Prometheus页面 Status → Targets，查看各个job状态；如果target显示DOWN，检查exporter配置。</li></ul><h3 id="3-3-mysql‑exporter连接MySQL失败，采集不到MySQL指标"><a href="#3-3-mysql‑exporter连接MySQL失败，采集不到MySQL指标" class="headerlink" title="3.3 mysql‑exporter连接MySQL失败，采集不到MySQL指标"></a>3.3 mysql‑exporter连接MySQL失败，采集不到MySQL指标</h3><ul><li><strong>现象</strong>：Prometheus target中mysql job UP，但无mysql相关指标。</li><li><strong>根因</strong>：<code>DATA_SOURCE_NAME</code>账号密码、MySQL地址错误；MySQL账号没有授权访问。<blockquote><p>注意：<code>DATA_SOURCE_NAME=root:123456@tcp(192.168.1.100:3306)/</code> 不要加多余空格。</p></blockquote></li><li><strong>验证exporter是否正常</strong>：浏览器访问 <code>http://宿主机IP:9104/metrics</code>，看是否输出大量mysql指标。输出为空说明exporter连不上数据库。</li></ul><h2 id="4-其他通用小坑"><a href="#4-其他通用小坑" class="headerlink" title="4 其他通用小坑"></a>4 其他通用小坑</h2><ol><li><strong>docker compose v1&#x2F;v2命令差异</strong>：新版是<code>docker compose up -d</code>（无短横线）；老版本<code>docker‑compose up -d</code>。</li><li>容器重建后数据丢失：确认volumes挂载路径正确，不要挂载容器内部临时路径。</li><li>Prometheus数据保留时间：<code>storage.tsdb.retention=7d</code>默认7天；磁盘紧张注意调小。</li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>软件开发</category>
+      
+      <category>运维管理</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Docker</tag>
+      
+      <tag>Prometheus</tag>
+      
+      <tag>Grafana</tag>
+      
+      <tag>SkyWalking</tag>
+      
+      <tag>Elasticsearch</tag>
+      
+      <tag>微服务</tag>
+      
+      <tag>可观测性</tag>
+      
+      <tag>链路追踪</tag>
+      
+      <tag>指标监控</tag>
+      
+      <tag>容器部署</tag>
       
     </tags>
     
@@ -3965,17 +4100,17 @@
     
     <tags>
       
-      <tag>项目管理</tag>
-      
       <tag>敏捷开发</tag>
+      
+      <tag>迭代开发</tag>
+      
+      <tag>项目管理</tag>
       
       <tag>商务合同</tag>
       
       <tag>项目收款</tag>
       
       <tag>范围管理</tag>
-      
-      <tag>迭代开发</tag>
       
       <tag>变更管理</tag>
       
@@ -4280,13 +4415,13 @@
     
     <tags>
       
-      <tag>Serverless</tag>
-      
-      <tag>云函数</tag>
-      
       <tag>AWS</tag>
       
       <tag>Lambda</tag>
+      
+      <tag>Serverless</tag>
+      
+      <tag>云函数</tag>
       
       <tag>阿里云</tag>
       
@@ -4366,13 +4501,13 @@
     
     <tags>
       
+      <tag>敏捷开发</tag>
+      
       <tag>项目管理</tag>
       
       <tag>项目经理</tag>
       
       <tag>Scrum Master</tag>
-      
-      <tag>敏捷开发</tag>
       
       <tag>Scrum框架</tag>
       
@@ -4491,11 +4626,11 @@
       
       <tag>敏捷开发</tag>
       
-      <tag>迭代开发</tag>
-      
       <tag>用户故事</tag>
       
       <tag>迭代规划</tag>
+      
+      <tag>迭代开发</tag>
       
       <tag>迭代评审</tag>
       
@@ -4579,13 +4714,13 @@
     
     <tags>
       
-      <tag>邮件服务器</tag>
-      
-      <tag>MySQL</tag>
-      
       <tag>Postfix</tag>
       
       <tag>邮件转发</tag>
+      
+      <tag>MySQL</tag>
+      
+      <tag>邮件服务器</tag>
       
       <tag>Dovecot</tag>
       
@@ -4675,9 +4810,9 @@
       
       <tag>Lambda</tag>
       
-      <tag>Python</tag>
-      
       <tag>AWS CDK</tag>
+      
+      <tag>Python</tag>
       
       <tag>Visual Studio Code</tag>
       
@@ -4802,11 +4937,11 @@
     
     <tags>
       
+      <tag>MVP</tag>
+      
       <tag>产品经理</tag>
       
       <tag>软件开发</tag>
-      
-      <tag>MVP</tag>
       
       <tag>核心功能</tag>
       
@@ -4847,10 +4982,6 @@
     
     <tags>
       
-      <tag>邮件服务器</tag>
-      
-      <tag>MySQL</tag>
-      
       <tag>Postfix</tag>
       
       <tag>邮件转发</tag>
@@ -4858,6 +4989,10 @@
       <tag>虚拟别名映射</tag>
       
       <tag>数据库配置</tag>
+      
+      <tag>MySQL</tag>
+      
+      <tag>邮件服务器</tag>
       
       <tag>主配置文件</tag>
       
@@ -4892,8 +5027,6 @@
       
       <tag>Vue</tag>
       
-      <tag>元宇宙</tag>
-      
       <tag>Threejs</tag>
       
       <tag>场景</tag>
@@ -4909,6 +5042,8 @@
       <tag>动画循环</tag>
       
       <tag>脚手架开发</tag>
+      
+      <tag>元宇宙</tag>
       
       <tag>MetaVerse</tag>
       
@@ -5179,6 +5314,8 @@
     
     <tags>
       
+      <tag>Vite</tag>
+      
       <tag>Node.js</tag>
       
       <tag>express</tag>
@@ -5194,8 +5331,6 @@
       <tag>npm脚本</tag>
       
       <tag>配置对比</tag>
-      
-      <tag>Vite</tag>
       
       <tag>项目开发</tag>
       
@@ -5224,11 +5359,11 @@
     
     <tags>
       
-      <tag>Vite</tag>
-      
       <tag>Vue</tag>
       
       <tag>环境变量</tag>
+      
+      <tag>Vite</tag>
       
       <tag>Vue CLI</tag>
       

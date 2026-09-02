@@ -1,0 +1,1091 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="很多老客户最近找过来，想让我们帮忙做个小程序，预算大概在几千块钱。 放在几年前，这种项目我们二话不说就接了。几百块的也有，甚至有些功能简单的，我们做完了还能当案例展示。 但现在，真不好意思，几千块钱的小程序项目，我们不接了。 不是架子大了，是——真的接不住。  为什么以前几百块的项目我们都敢接？说起来也不复杂，核心就两个字：复用。 那时候，我们手上已经积累了不少成熟的功能模块。用户管理、商品展示、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么现在几千块钱的小程序项目我们不接了？是真的接不住啊">
+<meta property="og:url" content="https://jycpp.github.io/2025/25-12-20-%E5%87%A0%E5%8D%83%E5%9D%97%E9%92%B1%E7%9A%84%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%A1%B9%E7%9B%AE%E6%98%AF%E7%9C%9F%E7%9A%84%E6%8E%A5%E4%B8%8D%E4%BD%8F.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="很多老客户最近找过来，想让我们帮忙做个小程序，预算大概在几千块钱。 放在几年前，这种项目我们二话不说就接了。几百块的也有，甚至有些功能简单的，我们做完了还能当案例展示。 但现在，真不好意思，几千块钱的小程序项目，我们不接了。 不是架子大了，是——真的接不住。  为什么以前几百块的项目我们都敢接？说起来也不复杂，核心就两个字：复用。 那时候，我们手上已经积累了不少成熟的功能模块。用户管理、商品展示、">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-20T14:15:30.000Z">
+<meta property="article:modified_time" content="2026-09-02T08:38:20.107Z">
+<meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="市场需求">
+<meta property="article:tag" content="项目管理">
+<meta property="article:tag" content="小程序">
+<meta property="article:tag" content="定制开发">
+<meta property="article:tag" content="SaaS模板">
+<meta property="article:tag" content="成本结构">
+<meta property="article:tag" content="软件服务">
+<meta property="article:tag" content="项目报价">
+<meta property="article:tag" content="复用模块">
+<meta property="article:tag" content="持续维护">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>为什么现在几千块钱的小程序项目我们不接了？是真的接不住啊 - Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="为什么现在几千块钱的小程序项目我们不接了？是真的接不住啊"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-20 14:15" pubdate>
+          2025年12月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="项目管理"
+        id="heading-436367b06614c1bec6efcd0971a16ef2" role="tab" data-toggle="collapse" href="#collapse-436367b06614c1bec6efcd0971a16ef2"
+        aria-expanded="true"
+      >
+        项目管理
+        <span class="list-group-count">(16)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-436367b06614c1bec6efcd0971a16ef2"
+           role="tabpanel" aria-labelledby="heading-436367b06614c1bec6efcd0971a16ef2">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-04-23-FRP%E5%92%8CApache%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%92%8C%E6%B3%9B%E5%9F%9F%E5%90%8D%E7%BD%91%E7%AB%99%E5%8F%91%E5%B8%83.html" title="FRP和Apache实现内网穿透和泛域名网站发布"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">FRP和Apache实现内网穿透和泛域名网站发布</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-05-21-%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E5%BF%85%E9%A1%BB%E5%AD%A6%E4%BC%9AMVP.html" title="产品经理必须学会MVP"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">产品经理必须学会MVP</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-06-18-%E4%BB%8E%E5%86%92%E7%83%9F%E6%B5%8B%E8%AF%95%E5%88%B0UAT%E6%B5%8B%E8%AF%95.html" title="从冒烟测试到UAT测试"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从冒烟测试到UAT测试</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-10-03-%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E5%B8%88%E8%80%83%E8%AF%95%E8%AE%A1%E7%AE%97%E9%A2%98%E5%B8%B8%E7%94%A8%E6%A6%82%E5%BF%B5.html" title="信息系统项目管理师考试计算题常用概念"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">信息系统项目管理师考试计算题常用概念</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-20-%E6%8B%9B%E6%8A%95%E6%A0%87%E4%BA%89%E8%AE%AE%E9%A2%91%E5%8F%91%E6%98%AF%E5%B7%A7%E5%90%88%E8%BF%98%E6%98%AF%E8%88%86%E8%AE%BA%E6%9A%97%E6%B6%8C.html" title="招投标争议频发：是偶然巧合，还是舆论暗涌"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">招投标争议频发：是偶然巧合，还是舆论暗涌</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-03-12-%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E8%80%83%E9%87%8F%E5%9B%A0%E7%B4%A0.html" title="笔记本电脑系统架构设计的考量因素"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">笔记本电脑系统架构设计的考量因素</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-12-13-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E4%B8%AD%E7%9A%84%E9%A3%8E%E9%99%A9%E6%8E%A7%E5%88%B6.html" title="软件项目管理中的风险控制：破局传统思维，回归创造本质"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软件项目管理中的风险控制：破局传统思维，回归创造本质</span>
+        </a>
+      
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="敏捷开发"
+        id="heading-889270cabdbdff177ec47c7e647e799b" role="tab" data-toggle="collapse" href="#collapse-889270cabdbdff177ec47c7e647e799b"
+        aria-expanded="false"
+      >
+        敏捷开发
+        <span class="list-group-count">(6)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-889270cabdbdff177ec47c7e647e799b"
+           role="tabpanel" aria-labelledby="heading-889270cabdbdff177ec47c7e647e799b">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-03-02-Product-Manager-Act-as-Product-Owner.html" title="产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">产品经理在敏捷开发中的Product Owner角色 Product Manager Act as Product Owner</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-08-25-%E6%95%8F%E6%8D%B7%E5%9E%8B%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E4%BB%8E%E5%95%86%E5%8A%A1%E5%90%88%E5%90%8C%E5%88%B0%E6%94%B6%E6%AC%BE%E5%BC%80%E5%8F%91.html" title="敏捷型软件项目从商务合同到收款开发"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">敏捷型软件项目从商务合同到收款开发</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-10-15-%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E4%B8%AD%E5%B9%B3%E8%A1%A1%E8%BF%9B%E5%BA%A6%E5%9F%BA%E5%87%86%E5%92%8C%E8%8C%83%E5%9B%B4%E5%9F%BA%E5%87%86.html" title="敏捷开发中平衡进度基准和范围基准"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">敏捷开发中平衡进度基准和范围基准</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-03-02-Project-Manager-Act-as-Scrum-Master.html" title="敏捷开发中项目经理与Scrum Master角色 Project Manager Act as Scrum Master"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">敏捷开发中项目经理与Scrum Master角色 Project Manager Act as Scrum Master</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-11-05-%E6%95%8F%E6%8D%B7%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E7%9A%84%E6%A6%82%E5%BF%B5.html" title="敏捷软件开发的基本概念 Agile Principles for Software Development"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">敏捷软件开发的基本概念 Agile Principles for Software Development</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-11-23-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98.html" title="软件项目敏捷开发实战"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软件项目敏捷开发实战</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="组织行为"
+        id="heading-83e183c29783f9cf25c7186c9f5cc83a" role="tab" data-toggle="collapse" href="#collapse-83e183c29783f9cf25c7186c9f5cc83a"
+        aria-expanded="false"
+      >
+        组织行为
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-83e183c29783f9cf25c7186c9f5cc83a"
+           role="tabpanel" aria-labelledby="heading-83e183c29783f9cf25c7186c9f5cc83a">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-06-14-%E8%94%A1%E6%A1%93%E5%85%AC%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E8%AE%B3%E7%96%BE%E5%BF%8C%E5%8C%BB.html" title="我们笑蔡桓公愚蠢，却活成了他身边唯唯诺诺的人"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">我们笑蔡桓公愚蠢，却活成了他身边唯唯诺诺的人</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="项目报价与成本控制"
+        id="heading-4176bdaeb7c368e45dd273245d0cda95" role="tab" data-toggle="collapse" href="#collapse-4176bdaeb7c368e45dd273245d0cda95"
+        aria-expanded="true"
+      >
+        项目报价与成本控制
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-4176bdaeb7c368e45dd273245d0cda95"
+           role="tabpanel" aria-labelledby="heading-4176bdaeb7c368e45dd273245d0cda95">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-12-20-%E5%87%A0%E5%8D%83%E5%9D%97%E9%92%B1%E7%9A%84%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%A1%B9%E7%9B%AE%E6%98%AF%E7%9C%9F%E7%9A%84%E6%8E%A5%E4%B8%8D%E4%BD%8F.html" title="为什么现在几千块钱的小程序项目我们不接了？是真的接不住啊"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">为什么现在几千块钱的小程序项目我们不接了？是真的接不住啊</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="项目管理实践"
+        id="heading-8691543cc03936caa1ad307228a66309" role="tab" data-toggle="collapse" href="#collapse-8691543cc03936caa1ad307228a66309"
+        aria-expanded="false"
+      >
+        项目管理实践
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-8691543cc03936caa1ad307228a66309"
+           role="tabpanel" aria-labelledby="heading-8691543cc03936caa1ad307228a66309">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-05-10-%E8%BF%99%E4%B8%AA%E5%B0%8F%E7%8E%8B%E5%90%A7%E4%B9%9F%E5%A4%AA%E8%83%BD%E5%B9%B2%E4%BA%86.html" title="这个小王吧也太能干了"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">这个小王吧也太能干了</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">为什么现在几千块钱的小程序项目我们不接了？是真的接不住啊</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>很多老客户最近找过来，想让我们帮忙做个小程序，预算大概在几千块钱。</p>
+<p>放在几年前，这种项目我们二话不说就接了。几百块的也有，甚至有些功能简单的，我们做完了还能当案例展示。</p>
+<p>但现在，真不好意思，几千块钱的小程序项目，我们不接了。</p>
+<p>不是架子大了，是——<strong>真的接不住。</strong></p>
+<hr>
+<h2 id="为什么以前几百块的项目我们都敢接？"><a href="#为什么以前几百块的项目我们都敢接？" class="headerlink" title="为什么以前几百块的项目我们都敢接？"></a>为什么以前几百块的项目我们都敢接？</h2><p>说起来也不复杂，核心就两个字：<strong>复用。</strong></p>
+<p>那时候，我们手上已经积累了不少成熟的功能模块。用户管理、商品展示、订单系统、支付对接、预约功能……这些模块就像搭积木一样，客户要什么，我们就从库里拿出来拼一拼，改改界面，调调配置，一个项目就出来了。</p>
+<p>一个客户哪怕只收几百块，对我们来说也是纯边际收入——模块是现成的，开发成本几乎为零，维护成本也极低。</p>
+<p>再加上当时做软件开发的公司多，竞争激烈，大家都在抢客户，价格被压得很低。几百块做一个小程序，不是亏本赚吆喝，而是真的有利润空间。</p>
+<p>所以那时候，几千块的项目，我们接得心安理得。</p>
+<hr>
+<h2 id="现在为什么接不住了？"><a href="#现在为什么接不住了？" class="headerlink" title="现在为什么接不住了？"></a>现在为什么接不住了？</h2><p>原因很残酷，也很现实。</p>
+<h3 id="第一，市场变了，定制需求断崖式下跌"><a href="#第一，市场变了，定制需求断崖式下跌" class="headerlink" title="第一，市场变了，定制需求断崖式下跌"></a>第一，市场变了，定制需求断崖式下跌</h3><p>现在还有多少创业公司需要定制小程序和公众号？</p>
+<p>答案是：非常少。</p>
+<p>新开用户基本都是冲着”有个东西能用就行”，根本不需要什么定制开发。而那些真正有定制需求的客户，他们的要求又高到离谱——几千块的预算，想要的是几万块的效果。</p>
+<p>这就导致了一个尴尬的局面：我们手里那些成熟的功能模块，几乎找不到可以复用的场景了。每个新客户的需求都跟以前不一样，你没法再用老模块去拼凑，只能从头开始定制开发。</p>
+<p>而定制开发的成本，你懂的。一个程序员一天的工资都不止几千块了。</p>
+<h3 id="第二，老模块不是”开箱即用”的"><a href="#第二，老模块不是”开箱即用”的" class="headerlink" title="第二，老模块不是”开箱即用”的"></a>第二，老模块不是”开箱即用”的</h3><p>有人可能会说：你们之前不是开发了很多成熟的功能模块吗？拿出来用不就行了？</p>
+<p>这话听着有道理，但实际上完全不是那么回事。</p>
+<p>那些模块不是插上电就能跑的。它们需要服务器持续运行，需要数据库维护，需要定期打安全补丁，需要适配微信、支付宝等平台的接口变更。</p>
+<p><strong>软件不是一次性交付的实物，它是一个需要持续”喂养”的生命体。</strong></p>
+<p>你今天交付了一个小程序，明天微信改了接口规则，你得改；后天发现了安全漏洞，你得补；大后天客户说要加个新功能，你还得迭代。</p>
+<p>这些隐形成本，在几千块的报价里根本覆盖不了。</p>
+<h3 id="第三，时代变了，旧模块已经”过时”了"><a href="#第三，时代变了，旧模块已经”过时”了" class="headerlink" title="第三，时代变了，旧模块已经”过时”了"></a>第三，时代变了，旧模块已经”过时”了</h3><p>这是最致命的一点。</p>
+<p>以前我们做小程序、公众号的时候，那些功能模块是基于当时的市场需求和技术环境设计的。用户管理、内容发布、在线支付、消息推送……这些功能在2017、2018年的时候是”标配”，客户看了觉得”哇，好厉害”。</p>
+<p>但现在是什么年代？2026年了。</p>
+<p>AI功能已经渗透到每一个角落。客户要的不是”能发文章的小程序”，他们要的是”能自动生成内容的小程序”；不是”能展示商品的商城”，而是”能根据用户行为智能推荐商品的商城”。</p>
+<p>你拿着七八年前设计的那套功能模块，就算免费送给客户，人家都未必愿意用。不是功能不好，是<strong>时代已经翻篇了</strong>。</p>
+<p>软件服务本身就是要不断迭代升级的。不迭代，就是等死。而迭代需要人力、需要时间、需要投入——这些，都不是几千块钱能覆盖的。</p>
+<hr>
+<h2 id="所以，不是我们不想接"><a href="#所以，不是我们不想接" class="headerlink" title="所以，不是我们不想接"></a>所以，不是我们不想接</h2><p>说实话，我们也怀念那个几百块就能做一个项目的年代。那时候客户好说话，需求简单直接，交付完大家都开心。</p>
+<p>但市场不会因为你怀念就停下来等你。</p>
+<p>现在的现实是：几千块钱的预算，连一个合格的产品经理写需求文档的时间都不够，更别说设计、开发、测试、上线、维护了。</p>
+<p>我们不是架子大了，是<strong>成本结构变了，市场逻辑变了，游戏规则变了</strong>。</p>
+<p>如果你真的需要一个几千块的小程序，市面上有很多SaaS模板平台，开箱即用，年费可能也就几百到一两千。那是现在这个价位最合理的选择。</p>
+<p>而如果我们来接，那就意味着定制开发、意味着持续服务、意味着要对最终效果负责——这些，值的不止几千块。</p>
+<hr>
+<p><strong>所以下次你再问我们”几千块能不能做个小程序”，我们的回答可能还是”不好意思，接不了”。</strong></p>
+<p>但希望你能理解，这不是嫌钱少，是真的——<strong>接不住。</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" class="category-chain-item">项目管理</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/%E9%A1%B9%E7%9B%AE%E6%8A%A5%E4%BB%B7%E4%B8%8E%E6%88%90%E6%9C%AC%E6%8E%A7%E5%88%B6/" class="category-chain-item">项目报价与成本控制</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%B8%82%E5%9C%BA%E9%9C%80%E6%B1%82/" class="print-no-link">#市场需求</a>
+      
+        <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" class="print-no-link">#项目管理</a>
+      
+        <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="print-no-link">#小程序</a>
+      
+        <a href="/tags/%E5%AE%9A%E5%88%B6%E5%BC%80%E5%8F%91/" class="print-no-link">#定制开发</a>
+      
+        <a href="/tags/SaaS%E6%A8%A1%E6%9D%BF/" class="print-no-link">#SaaS模板</a>
+      
+        <a href="/tags/%E6%88%90%E6%9C%AC%E7%BB%93%E6%9E%84/" class="print-no-link">#成本结构</a>
+      
+        <a href="/tags/%E8%BD%AF%E4%BB%B6%E6%9C%8D%E5%8A%A1/" class="print-no-link">#软件服务</a>
+      
+        <a href="/tags/%E9%A1%B9%E7%9B%AE%E6%8A%A5%E4%BB%B7/" class="print-no-link">#项目报价</a>
+      
+        <a href="/tags/%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9D%97/" class="print-no-link">#复用模块</a>
+      
+        <a href="/tags/%E6%8C%81%E7%BB%AD%E7%BB%B4%E6%8A%A4/" class="print-no-link">#持续维护</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>为什么现在几千块钱的小程序项目我们不接了？是真的接不住啊</div>
+      <div>https://jycpp.github.io/2025/25-12-20-几千块钱的小程序项目是真的接不住.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html" title="计算机中的补码表示法与正负数的关系">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计算机中的补码表示法与正负数的关系</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/25-12-13-%E8%BD%AF%E4%BB%B6%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E4%B8%AD%E7%9A%84%E9%A3%8E%E9%99%A9%E6%8E%A7%E5%88%B6.html" title="软件项目管理中的风险控制：破局传统思维，回归创造本质">
+                        <span class="hidden-mobile">软件项目管理中的风险控制：破局传统思维，回归创造本质</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

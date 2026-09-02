@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>一套数据监控方案</title>
+<style>
+:root{
+  --fg:#24292e;--muted:#6a737d;--border:#e1e4e8;--code-bg:#f6f8fa;
+  --accent:#0366d6;--bg:#ffffff;--soft:#f7f8fa;
+}
+*{box-sizing:border-box}
+body{
+  font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  color:var(--fg);line-height:1.78;margin:0;background:var(--soft);
+}
+.wrap{max-width:1000px;margin:0 auto;padding:44px 28px 100px;background:var(--bg);
+  box-shadow:0 0 40px rgba(0,0,0,.04);min-height:100vh}
+h1{font-size:2.05em;line-height:1.3;margin:.4em 0 .35em;letter-spacing:-.5px}
+h1 .sub{display:block;font-size:.5em;color:var(--muted);font-weight:400;margin-top:.6em;letter-spacing:0}
+h2{font-size:1.5em;margin-top:2.4em;padding-bottom:.4em;border-bottom:2px solid #eaedf0;position:relative}
+h2::before{content:"";position:absolute;left:0;bottom:-2px;width:56px;height:2px;background:var(--accent)}
+h3{font-size:1.18em;margin-top:1.8em;color:#1a2230}
+p{margin:.9em 0}
+a{color:var(--accent)}
+hr{border:0;border-top:1px solid var(--border);margin:2.4em 0}
+
+/* ===== 概念卡片 ===== */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:1.4em 0}
+.card{position:relative;border-radius:12px;padding:18px 18px 16px;border:1px solid transparent;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);transition:transform .15s ease,box-shadow .15s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.09)}
+.card .tag{display:inline-block;font-size:.72em;font-weight:700;letter-spacing:.5px;
+  padding:2px 9px;border-radius:20px;color:#fff;margin-bottom:8px}
+.card h4{margin:.15em 0 .35em;font-size:1.12em}
+.card p{font-size:.92em;margin:.4em 0 0;color:#444}
+.card .role{position:absolute;top:18px;right:16px;font-size:.72em;color:#fff;
+  background:rgba(0,0,0,.16);padding:2px 8px;border-radius:10px}
+.c1{background:linear-gradient(135deg,#eef4ff,#f6f9ff);border-color:#c9d8ff}
+.c1 .tag{background:#4a6cf7}
+.c2{background:linear-gradient(135deg,#eafaf3,#f3fdf8);border-color:#a8e6c8}
+.c2 .tag{background:#1aa96a}
+.c3{background:linear-gradient(135deg,#fff5ec,#fffaf4);border-color:#ffcf9c}
+.c3 .tag{background:#ed7d2b}
+.c4{background:linear-gradient(135deg,#f6eeff,#fbf6ff);border-color:#d6bcf5}
+.c4 .tag{background:#8b5cd6}
+
+/* ===== 对比表格 ===== */
+.cmp{width:100%;border-collapse:separate;border-spacing:0;margin:1.3em 0;font-size:.93em;
+  border-radius:10px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.cmp thead th{border:0;padding:.75em .9em;text-align:left;font-weight:700;color:#fff}
+.cmp thead th:first-child{background:#3a4a5c}
+.cmp thead th:nth-child(2){background:#4a6cf7}
+.cmp thead th:nth-child(3){background:#ed7d2b}
+.cmp td{border:0;border-bottom:1px solid #eef0f3;padding:.65em .9em;vertical-align:top}
+.cmp tbody tr:nth-child(even){background:#fafbfd}
+.cmp td:first-child{font-weight:600;color:#333;background:rgba(58,74,92,.035);width:22%}
+.cmp td:nth-child(2){background:rgba(74,108,247,.025)}
+.cmp td:nth-child(3){background:rgba(237,125,43,.025)}
+.cmp tr:last-child td{border-bottom:0}
+.cmp code{font-size:.86em}
+.tipbar{background:#eef4ff;border-left:4px solid #4a6cf7;border-radius:0 8px 8px 0;
+  padding:12px 16px;margin:1.3em 0;font-size:.94em}
+.tipbar.warn{background:#fff5ec;border-left-color:#ed7d2b}
+
+/* ===== 规整的流程图（分层结构）===== */
+.flow{margin:1.6em 0;padding:20px;border-radius:14px;background:#fbfcfd;
+  border:1px solid #e8ecf1;overflow:hidden}
+.flow .layer{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin:10px 0}
+.flow .lbl{width:88px;flex:none;font-size:.78em;font-weight:700;color:#6a737d;text-align:right;
+  text-transform:uppercase;letter-spacing:.5px}
+.flow .nodes{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.node{border-radius:10px;padding:10px 14px;font-size:.88em;line-height:1.45;text-align:center;
+  box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid transparent;min-width:96px}
+.node b{display:block;font-size:.92em}
+.node small{color:#777;font-size:.78em}
+.n-blue{background:#eaf0ff;border-color:#c2d0ff;color:#2c46a0}
+.n-green{background:#eafaf3;border-color:#a3e6c4;color:#107142}
+.n-orange{background:#fff1e3;border-color:#ffc78c;color:#b95a10}
+.n-purple{background:#f4ecff;border-color:#d4b8f5;color:#6a35b0}
+.n-yellow{background:#fff9e0;border-color:#f2dc7a;color:#8a6d00}
+.n-red{background:#ffeceb;border-color:#f7b8b4;color:#b33b34}
+.arrow-v{display:flex;justify-content:center;margin:2px 0;color:#9aa4b1;font-size:.82em}
+.arrow-v::before{content:"▼";font-size:14px}
+.arrow-h{display:flex;align-items:center;gap:8px;font-size:.82em;color:#6a737d;flex-wrap:wrap;justify-content:center;margin:8px 0}
+.arrow-h .line{flex:1;max-width:120px;height:2px;background:#c8ced8;border-radius:2px}
+.arrow-h .txt{white-space:nowrap;background:#fff;padding:1px 6px;border:1px solid #e1e4e8;border-radius:10px;font-size:.78em}
+.flowcap{text-align:center;font-size:.8em;color:var(--muted);margin-top:6px}
+
+/* ===== 代码 & 其他 ===== */
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;
+  overflow:auto;font-size:.85em;line-height:1.5}
+code{font-family:"SF Mono",Consolas,Monaco,monospace;background:rgba(27,31,35,.05);
+  padding:.15em .35em;border-radius:3px;font-size:.9em}
+pre code{background:none;padding:0}
+blockquote{color:var(--muted);border-left:4px solid #dfe2e5;margin:1em 0;padding:0 1em}
+ul,ol{padding-left:1.6em}
+li{margin:.35em 0}
+table.plain{width:100%;border-collapse:collapse;margin:1.2em 0;font-size:.93em}
+table.plain th,table.plain td{border:1px solid var(--border);padding:.55em .8em;text-align:left;vertical-align:top}
+table.plain th{background:#f1f3f5}
+.foot{margin-top:3em;padding-top:1em;border-top:1px solid var(--border);font-size:.85em;color:var(--muted)}
+@media(max-width:640px){
+  .wrap{padding:18px 14px}
+  .cards{grid-template-columns:1fr}
+  .lbl{display:none}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<h1>一套数据监控方案<span class="sub">Prometheus/Grafana 与 SkyWalking/Elasticsearch 的选型与搭建</span></h1>
+
+<!-- ============ 一、四个概念（彩色卡片）============ -->
+<h2>一、先说清楚这四个东西到底是什么</h2>
+<p>写之前先把概念摆正，不然后面配置容易串。这四个组件里其实只有两种角色：<strong>采集/存储</strong>，和<strong>展示</strong>。用四张卡片一次看明白：</p>
+
+<div class="cards">
+  <div class="card c1">
+    <span class="tag">① 采集 + 存储</span><span class="role">指标库</span>
+    <h4>Prometheus</h4>
+    <p>CNCF 毕业项目，定位是「指标（metrics）监控 + 时间序列数据库」。核心工作方式一句话：<strong>主动去抓（scrape）</strong>。配置里写好一批目标地址，它每隔 15 秒自己跑过去把 <code>/metrics</code> 接口的数据拉回来，存进自己的时序数据库（TSDB）。数据模型是「指标名 + key-value 标签」，查询用 PromQL，告警规则也是 PromQL 写的。Go 静态编译的单文件，部署几乎零依赖。</p>
+    <p style="margin-top:.6em;font-size:.86em;color:#666">⚠️ 默认本地存 15 天（可配），单机为主；集群高可用得靠 Thanos、Cortex。它<strong>不擅长</strong>存日志和链路。</p>
+  </div>
+  <div class="card c2">
+    <span class="tag">② 展示</span><span class="role">可视化</span>
+    <h4>Grafana</h4>
+    <p>纯可视化层，自己不采集、不存储任何数据。把各种数据源（Prometheus、MySQL、Elasticsearch、InfluxDB……）接进来，画成仪表盘。关键点：<strong>只要数据源支持，什么都能画</strong>——接 Prometheus 画指标，接 MySQL 写 SQL 查业务表，接 ES 做日志检索面板，全行。所以跟 Prometheus 是「黄金搭档」，但两者不绑定，本文里它同时出现在两个组合中就是这个道理。</p>
+  </div>
+  <div class="card c3">
+    <span class="tag">③ 采集 + 存储</span><span class="role">APM</span>
+    <h4>SkyWalking</h4>
+    <p>Apache 顶级项目，APM（应用性能监控）+ 分布式链路追踪。盯的东西比 Prometheus 更「应用层」：一次请求穿过 网关 → 订单 → 支付 → 数据库，整条调用链各节点耗时、哪里慢、哪里报错，它能还原出来。架构分三块：</p>
+    <ul style="margin:.4em 0 0;padding-left:1.3em;font-size:.9em">
+      <li><strong>Agent 探针</strong>：挂应用进程里，gRPC 上报，Java 用 <code>-javaagent</code>，无需改代码；</li>
+      <li><strong>OAP</strong>：接收端，分析聚合后再写存储；</li>
+      <li><strong>UI + 存储</strong>：自带 Booster UI，存储可插拔（推荐 ES7/8）。</li>
+    </ul>
+  </div>
+  <div class="card c4">
+    <span class="tag">④ 存储</span><span class="role">搜索引擎</span>
+    <h4>Elasticsearch</h4>
+    <p>本质是搜索引擎（分布式、倒排索引、近实时），在监控方案里通常当<strong>存储引擎</strong>用：写快、按时间建索引、聚合强。配 Logstash + Kibana 叫 ELK。但在「SkyWalking + ES」里 Kibana 不是必须的——SkyWalking UI 直接读 ES，链路图、拓扑图都是它自己画的，ES 只是安静存数据。</p>
+    <p style="margin-top:.6em;font-size:.86em;color:#666">⚠️ 7.11 起改用 SSPL/Elastic License 2.0，与 Apache 2.0 不兼容。有顾虑可选 7.11 前版本或换 OpenSearch。</p>
+  </div>
+</div>
+
+<hr />
+
+<!-- ============ 二、彩色对比表格 ============ -->
+<h2>二、两个组合怎么选：一张表看明白</h2>
+
+<table class="cmp">
+<thead>
+<tr>
+  <th>比较项</th>
+  <th>Prometheus + Grafana</th>
+  <th>SkyWalking + Elasticsearch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>核心定位</td>
+  <td>基础设施 + 业务指标监控</td>
+  <td>应用性能 + 分布式链路追踪</td>
+</tr>
+<tr>
+  <td>数据采集方式</td>
+  <td><strong>Pull</strong>，服务端主动去抓 <code>/metrics</code></td>
+  <td><strong>Push</strong>，Agent 探针主动上报 gRPC</td>
+</tr>
+<tr>
+  <td>采集端形态</td>
+  <td>Exporter（node / mysqld / cadvisor 等）</td>
+  <td>各语言 Agent（Java/Go/Python…）+ 插件生态</td>
+</tr>
+<tr>
+  <td>数据类型</td>
+  <td>指标（metrics）为主，时间序列数值</td>
+  <td>指标 + 链路 trace + 日志 + 拓扑关系</td>
+</tr>
+<tr>
+  <td>存储</td>
+  <td>Prometheus 自带 TSDB（本地磁盘）</td>
+  <td>SkyWalking OAP 写入 Elasticsearch</td>
+</tr>
+<tr>
+  <td>查询语言</td>
+  <td>PromQL，灵活强大，能算速率、分位、聚合</td>
+  <td>OAL/MAL（内部聚合），UI 直接出图，一般不直接写查询</td>
+</tr>
+<tr>
+  <td>可视化能力</td>
+  <td>Grafana 仪表盘生态成熟，模板海量，可叠加多数据源</td>
+  <td>SkyWalking 自带 UI，拓扑图、服务地图、trace 瀑布图开箱即用</td>
+</tr>
+<tr>
+  <td>链路追踪</td>
+  <td>需配合 OpenTelemetry/Tempo/Jaeger，本身不强项</td>
+  <td><strong>原生强项</strong>，自动还原调用链，慢 SQL、瓶颈一目了然</td>
+</tr>
+<tr>
+  <td>服务拓扑</td>
+  <td>需手动配 + 依赖 Service Mesh 元数据</td>
+  <td>自动生成服务依赖拓扑</td>
+</tr>
+<tr>
+  <td>告警</td>
+  <td>内建 Alertmanager，PromQL 规则，路由分组抑制齐全</td>
+  <td>需外接（Webhook、Prometheus 兼容格式或自身告警规则）</td>
+</tr>
+<tr>
+  <td>接入成本</td>
+  <td>低，加个 Exporter + 配 scrape 即可</td>
+  <td>中高，需挂载 Agent、调字节码增强、规划 ES 集群</td>
+</tr>
+<tr>
+  <td>资源开销</td>
+  <td>单进程几百 MB 起步，很轻</td>
+  <td>ES 是内存大户，需 <code>bootstrap.memory_lock</code>、<code>vm.max_map_count</code> 调优，OAP 也要 JDK</td>
+</tr>
+<tr>
+  <td>典型场景</td>
+  <td>CPU/内存/磁盘、MySQL 连接数、Redis、Docker、K8s 资源监控</td>
+  <td>微服务调用链排查、接口耗时分析、慢 SQL 定位、服务依赖梳理</td>
+</tr>
+<tr>
+  <td>一句话总结</td>
+  <td>「系统健不健康」的指标大盘</td>
+  <td>「请求为什么慢」的链路诊断</td>
+</tr>
+</tbody>
+</table>
+
+<div class="tipbar">
+<strong>我的实际经验：</strong>这两个组合不是二选一，而是互补。小团队先做 Prometheus + Grafana，把机器、中间件、数据库的指标大盘先跑起来，告警接企业微信/钉钉；等业务上了微服务、开始有人问「这个接口到底卡在哪个服务」，再加 SkyWalking + ES。最终形态是 <strong>Prometheus 抓指标、SkyWalking 抓链路、Grafana 统一出图</strong>（Grafana 能同时挂 Prometheus 和 ES 两个数据源）。如果硬要选一个：纯运维监控 → Prometheus 组合；纯 Java 微服务平台排查 → SkyWalking 组合。
+</div>
+
+<hr />
+
+<!-- ============ 三、Prometheus + Grafana ============ -->
+<h2>三、Prometheus + Grafana 搭建</h2>
+
+<h3>3.1 环境说明</h3>
+<ul>
+<li>操作系统：Ubuntu Server 22.04 / 24.04</li>
+<li>容器：Docker + Docker Compose V2（<code>docker compose</code>，不是旧版 <code>docker-compose</code>）</li>
+<li>版本：<code>prom/prometheus:v3.14.0</code>、<code>grafana/grafana:12.x</code>、<code>prom/mysqld-exporter:v0.15.x</code></li>
+</ul>
+<p>前置就一条：<code>sudo apt install docker.io docker-compose-plugin</code>，然后把当前用户加进 docker 组。</p>
+
+<h3>3.2 工作流程图</h3>
+
+<div class="flow">
+  <div class="layer"><span class="lbl">被监控端</span>
+    <div class="nodes">
+      <div class="node n-blue"><b>node-exporter</b><small>:9100</small></div>
+      <div class="node n-blue"><b>cadvisor</b><small>:8080</small></div>
+      <div class="node n-blue"><b>mysqld-exporter</b><small>:9104</small></div>
+      <div class="node n-orange"><b>MySQL</b><small>业务库</small></div>
+    </div>
+  </div>
+  <div class="arrow-h"><span class="line"></span><span class="txt">查 performance_schema</span><span class="line"></span></div>
+  <div class="arrow-v"></div>
+  <div class="layer"><span class="lbl">监控服务端</span>
+    <div class="nodes">
+      <div class="node n-green"><b>Prometheus</b><small>:9090 · TSDB 本地存储</small></div>
+      <div class="node n-green"><b>Grafana</b><small>:3000</small></div>
+      <div class="node n-red"><b>Alertmanager</b><small>:9093</small></div>
+    </div>
+  </div>
+  <div class="arrow-v"></div>
+  <div class="layer"><span class="lbl">用户端</span>
+    <div class="nodes">
+      <div class="node n-yellow"><b>浏览器</b><small>用户 / 开发</small></div>
+    </div>
+  </div>
+  <div class="flowcap">▼ Pull 方向：Prometheus 每 15s 主动 scrape /metrics；浏览器 → Grafana(3000) → Prometheus(9090)</div>
+</div>
+
+<p><strong>箭头方向的三个要点：</strong><br/>
+1. <strong>Pull 架构</strong>：Prometheus 是主动方，Exporter 被动暴露 HTTP 接口，这是它和 SkyWalking 最大的架构差异；<br/>
+2. <strong>mysqld-exporter → MySQL</strong>：它不是被抓的，而是去查 MySQL 的 <code>performance_schema</code>，把结果转成 metrics 再被 Prometheus 抓，所以要先建监控账号（见 3.6）；<br/>
+3. <strong>Grafana 代理模式（access: proxy）</strong>：浏览器不直接连 Prometheus，只暴露 3000 端口，运维友好。</p>
+
+<h3>3.3 目录结构</h3>
+<pre><code>~/monitoring/
+├── docker-compose.yml
+├── prometheus/
+│   ├── prometheus.yml
+│   └── rules/
+│       └── alert.yml
+└── grafana/
+    └── provisioning/
+        ├── datasources/
+        │   └── prometheus.yml
+        └── dashboards/
+            └── provider.yml</code></pre>
+
+<h3>3.4 docker-compose.yml</h3>
+<pre><code class="language-yaml">version: "3.8"
+
+services:
+  prometheus:
+    image: prom/prometheus:v3.14.0
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/rules:/etc/prometheus/rules:ro
+      - prom_data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=30d
+      - --web.enable-lifecycle
+    networks: [mon]
+
+  mysqld-exporter:
+    image: prom/mysqld-exporter:v0.15.1
+    container_name: mysqld-exporter
+    restart: unless-stopped
+    ports:
+      - "9104:9104"
+    environment:
+      DATA_SOURCE_NAME: "exporter:ExporterPass123@(192.168.1.20:3306)/"
+    command:
+      - --collect.info_schema.innodb_metrics
+      - --collect.info_schema.processlist
+      - --collect.info_schema.tables
+    depends_on: [mysql]
+    networks: [mon]
+
+  # MySQL 不在本机可删掉这一段，只把上面 IP 改成实际地址即可
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: RootPass123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks: [mon]
+
+  grafana:
+    image: grafana/grafana:12.0.0
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafana_data:/var/lib/grafana
+    depends_on: [prometheus]
+    networks: [mon]
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    restart: unless-stopped
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    networks: [mon]
+
+networks:
+  mon:
+    driver: bridge
+
+volumes:
+  prom_data:
+  grafana_data:
+  mysql_data:</code></pre>
+
+<div class="tipbar">
+<strong>几点实战提醒：</strong>
+<ul style="margin:.4em 0 0">
+<li><code>9090/9104</code> 若要在 Prometheus 里用 <code>localhost</code> 访问，必须与 Prometheus 同处一个 network；这里统一用 <code>mon</code>，写服务名即可；</li>
+<li><code>DATA_SOURCE_NAME</code> 格式是 <code>user:pass@(host:port)/</code>，<strong>注意括号</strong>，很多人写成 <code>@tcp()</code> 导致连不上；</li>
+<li><code>version: "3.8"</code> 在 Compose V2 里可写可不写，写上兼容性更好。</li>
+</ul>
+</div>
+
+<h3>3.5 prometheus.yml</h3>
+<pre><code class="language-yaml">global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['alertmanager:9093']
+
+rule_files:
+  - /etc/prometheus/rules/*.yml
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'node'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  - job_name: 'docker'
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  - job_name: 'mysql'
+    static_configs:
+      - targets: ['mysqld-exporter:9104']
+        labels:
+          instance: 'main-mysql'</code></pre>
+
+<div class="tipbar warn">
+<strong>这是全文最容易出错的文件：</strong>
+<ul style="margin:.4em 0 0">
+<li>同 network 内 targets 写 <code>mysqld-exporter:9104</code>（服务名），不用写宿主机 IP；</li>
+<li>MySQL 是宿主机原生安装时，Exporter 用 <code>host.docker.internal:3306</code>（Mac/Win）或 <code>172.17.0.1:3306</code>（Linux 默认网桥）；</li>
+<li>改完重载：<code>curl -X POST http://localhost:9090/-/reload</code>（前提是启动参数加了 <code>--web.enable-lifecycle</code>）；</li>
+<li>去 <code>http://host:9090/targets</code> 看所有 job 是否 UP，这是第一步排查入口。</li>
+</ul>
+</div>
+
+<h3>3.6 MySQL 监控账号（必做）</h3>
+<p><code>mysqld-exporter</code> 需要专门权限，用 root 会报权限错误，而且建议限流：</p>
+<pre><code class="language-sql">CREATE USER 'exporter'@'%' IDENTIFIED BY 'ExporterPass123' WITH MAX_USER_CONNECTIONS 10;
+GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'%';
+GRANT SELECT ON performance_schema.* TO 'exporter'@'%';
+FLUSH PRIVILEGES;</code></pre>
+<p><code>MAX_USER_CONNECTIONS 10</code> 这条很重要——监控抓取在高并发下可能把数据库连爆，这是生产环境踩过的坑。</p>
+
+<h3>3.7 Grafana 数据源配置（provisioning）</h3>
+<p>用 provisioning 的好处是：数据源写进文件，容器重启不丢，还能进 Git 版本管理。</p>
+<p><code>grafana/provisioning/datasources/prometheus.yml</code>：</p>
+<pre><code class="language-yaml">apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    editable: false
+    jsonData:
+      timeInterval: 15s
+      httpMethod: POST</code></pre>
+<p>如果还想把 MySQL 业务库直接挂进来做报表（文章要求里提到了 MySQL 数据源），再追加一段：</p>
+<pre><code class="language-yaml">  - name: MySQL-Business
+    type: mysql
+    access: proxy
+    url: mysql:3306
+    database: orders
+    user: grafana_ro
+    secureJsonData:
+      password: GrafanaRoPass
+    jsonData:
+      maxOpenConns: 10</code></pre>
+<p><code>grafana/provisioning/dashboards/provider.yml</code>：</p>
+<pre><code class="language-yaml">apiVersion: 1
+
+providers:
+  - name: 'default'
+    orgId: 1
+    folder: ''
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /etc/grafana/provisioning/dashboards</code></pre>
+<p><strong>注意</strong>：provisioning 的数据源在 UI 里是锁定的（<code>editable: false</code>），想改要去改文件。另外 provisioning 目录挂载时<strong>只挂载到 provisioning 这一层</strong>，不要覆盖整个 <code>/etc/grafana</code>，否则默认配置丢了 Grafana 起不来。</p>
+
+<h3>3.8 启动与验证</h3>
+<pre><code class="language-bash">cd ~/monitoring
+docker compose up -d
+
+# 看状态
+docker compose ps
+docker compose logs -f prometheus
+
+# 验证 exporter 有数据输出
+curl http://localhost:9104/metrics | grep mysql_up</code></pre>
+<p>浏览器打开 <code>http://host:3000</code>，默认账号 <code>admin/admin123</code>，左侧 <strong>Connections → Add new connection → Prometheus → Save &amp; test</strong>，看到 <code>Successfully queried the Prometheus API</code> 就通了。</p>
+<p>仪表盘建议直接导入官方模板：MySQL 用 ID <code>7362</code>，Node Exporter 用 ID <code>1860</code>，在 <strong>Dashboards → Import</strong> 里填数字即可。自己写面板时 PromQL 常用套路：</p>
+<pre><code># CPU 使用率（node-exporter）
+100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+
+# MySQL 当前连接数
+mysql_global_status_threads_connected
+
+# 慢查询率
+rate(mysql_global_status_slow_queries[5m])</code></pre>
+<p>到这里 Prometheus + Grafana 这条线就跑通了：<strong>指标采集 → 存储 → 查询 → 图表 → 告警</strong> 全链路闭环。</p>
+
+<hr />
+
+<!-- ============ 四、SkyWalking + ES ============ -->
+<h2>四、SkyWalking + Elasticsearch 搭建</h2>
+
+<h3>4.1 工作流程图</h3>
+
+<div class="flow">
+  <div class="layer"><span class="lbl">应用侧</span>
+    <div class="nodes">
+      <div class="node n-orange"><b>订单服务</b><small>-javaagent:agent.jar</small></div>
+      <div class="node n-orange"><b>支付服务</b><small>Python / Go Agent</small></div>
+    </div>
+  </div>
+  <div class="arrow-v"></div>
+  <div class="layer"><span class="lbl">服务端</span>
+    <div class="nodes">
+      <div class="node n-green"><b>SkyWalking OAP</b><small>:11800 gRPC · :12800 API</small></div>
+      <div class="node n-purple"><b>Elasticsearch</b><small>:9200 · sw_* 索引</small></div>
+      <div class="node n-green"><b>SkyWalking UI</b><small>:8080</small></div>
+    </div>
+  </div>
+  <div class="arrow-v"></div>
+  <div class="layer"><span class="lbl">使用方</span>
+    <div class="nodes">
+      <div class="node n-yellow"><b>浏览器</b><small>开发 / 运维</small></div>
+      <div class="node n-yellow"><b>Kibana</b><small>:5601 可选</small></div>
+    </div>
+  </div>
+  <div class="flowcap">▲ Push 方向：Agent → OAP(11800) → 写 ES；UI/Kibana → 读 sw_* 索引</div>
+</div>
+
+<p><strong>对比 Prometheus 的三个关键差异：</strong><br/>
+1. <strong>数据流是 Push</strong>：Agent 主动往 OAP 推，不是 OAP 来抓。网络策略上是应用 → 服务端开放 11800；<br/>
+2. <strong>Agent 挂在应用进程内</strong>：Java 是字节码增强，无需改代码，但会占用一定堆内存，JIT 预热期有轻微性能损耗；<br/>
+3. <strong>ES 是核心依赖</strong>：OAP 本身不存数据（默认 H2 仅用于试玩），所有 trace/metric/log 都写进 ES 索引，命名规则如 <code>sw_metrics-all-YYYYMMDD</code>、<code>sw_segment-YYYYMMDD</code>、<code>sw_log-YYYYMMDD</code>。</p>
+
+<h3>4.2 版本兼容（必看，踩坑重灾区）</h3>
+<table>
+<thead><tr><th>SkyWalking</th><th>Elasticsearch</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>10.x</td><td>ES 7.x / 8.x</td><td>统一用 <code>selector: elasticsearch</code>，<strong>自动识别版本</strong>，不用再区分 es7/es8 安装包</td></tr>
+<tr><td>9.x 及更早</td><td>ES 6 用 <code>selector: elasticsearch</code>；ES 7 用 <code>selector: elasticsearch7</code>，<strong>下载时也要选对应 <code>-es7</code> 包</strong></td><td></td></tr>
+</tbody></table>
+<div class="tipbar"><strong>结论：直接上 SkyWalking 10.x + ES 8.x</strong>，配置文件里 <code>selector</code> 写 <code>elasticsearch</code> 就行，不用纠结 es7 还是 es8。旧教程里大量「改 elasticsearch7」的写法，对 10.x 已经过时了。本例版本：<code>apache-skywalking-apm:10.4.0</code>、<code>docker.elastic.co/elasticsearch/elasticsearch:8.15.0</code>、<code>kibana:8.15.0</code>。</div>
+
+<h3>4.3 docker-compose.yml</h3>
+<pre><code class="language-yaml">version: "3.8"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+    container_name: es01
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=false
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks: [sw]
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.0
+    container_name: kibana
+    restart: unless-stopped
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es01:9200
+    depends_on: [elasticsearch]
+    networks: [sw]
+
+  oap:
+    image: apache/skywalking-oap-server:10.4.0
+    container_name: oap
+    restart: unless-stopped
+    environment:
+      - SW_STORAGE=elasticsearch
+      - SW_STORAGE_ES_CLUSTER_NODES=http://es01:9200
+      - SW_ES_USER=elastic
+      - SW_ES_PASSWORD=ElasticPass123
+      - SW_STORAGE_ES_SSL_VERIFICATION=false
+      - SW_NAMESPACE=skywalking
+    ports:
+      - "11800:11800"   # gRPC，Agent 上报
+      - "12800:12800"   # HTTP，UI 查询
+    depends_on: [elasticsearch]
+    networks: [sw]
+
+  ui:
+    image: apache/skywalking-ui:10.4.0
+    container_name: skywalking-ui
+    restart: unless-stopped
+    environment:
+      - SW_OAP_ADDRESS=http://oap:12800
+    ports:
+      - "8080:8080"
+    depends_on: [oap]
+    networks: [sw]
+
+networks:
+  sw:
+    driver: bridge
+
+volumes:
+  es_data:</code></pre>
+
+<div class="tipbar warn">
+<strong>ES 单机调优三个必做项（不做基本起不来或很快崩）：</strong>
+<ol style="margin:.4em 0 0">
+<li><strong><code>bootstrap.memory_lock=true</code> + <code>ulimits.memlock = -1</code></strong>：锁内存防 swap。宿主机还要 <code>echo '* soft memlock unlimited' >> /etc/security/limits.conf</code>；</li>
+<li><strong><code>vm.max_map_count</code></strong>：<code>sysctl -w vm.max_map_count=262144</code>，并写进 <code>/etc/sysctl.conf</code> 持久化，ES 官方硬性要求；</li>
+<li><strong><code>ES_JAVA_OPTS</code> 堆不超过物理内存一半、且 ≤ 32G</strong>：这里给 1g 是开发环境，生产建议 4-8g。</li>
+</ol>
+</div>
+
+<h3>4.4 OAP 存储配置（application.yml 关键段）</h3>
+<p>容器方式其实<strong>不需要手动改配置文件</strong>——上面 compose 里的环境变量会覆盖默认值。但用二进制部署或想看清结构时，核心就是这一段：</p>
+<pre><code class="language-yaml">storage:
+  selector: ${SW_STORAGE:elasticsearch}
+  elasticsearch:
+    namespace: ${SW_NAMESPACE:"skywalking"}
+    clusterNodes: ${SW_STORAGE_ES_CLUSTER_NODES:localhost:9200}
+    protocol: ${SW_STORAGE_ES_HTTP_PROTOCOL:"http"}
+    user: ${SW_ES_USER:""}
+    password: ${SW_ES_PASSWORD:""}
+    sslVerification: ${SW_STORAGE_ES_SSL_VERIFICATION:true}
+    indexShardsNumber: ${SW_STORAGE_ES_INDEX_SHARDS_NUMBER:1}
+    indexReplicasNumber: ${SW_STORAGE_ES_INDEX_REPLICAS_NUMBER:1}
+    bulkActions: ${SW_STORAGE_ES_BULK_ACTIONS:1000}
+    flushInterval: ${SW_STORAGE_ES_FLUSH_INTERVAL:10}
+    concurrentRequests: ${SW_STORAGE_ES_CONCURRENT_REQUESTS:2}</code></pre>
+<ul>
+<li><code>namespace</code>：所有索引加前缀，如 <code>skywalking_sw_metrics-all-20260115</code>，多环境隔离有用；</li>
+<li><code>indexShardsNumber</code> / <code>indexReplicasNumber</code>：<strong>单节点 ES 必须把副本设为 0</strong>，否则集群状态永远 Yellow；</li>
+<li><code>bulkActions=1000</code>：每 1000 条批量写一次 ES，吞吐与实时性的折中；</li>
+<li><code>sslVerification</code>：测试环境 <code>false</code>，生产配合法 CA。ES 8.x 默认开 SSL，开了 <code>xpack.security.http.ssl.enabled=true</code> 就要改 <code>https://es01:9200</code> 并配证书。</li>
+</ul>
+
+<h3>4.5 应用接入 Agent（Java 示例）</h3>
+<p>这是 SkyWalking 真正发挥价值的地方。以 Spring Boot 为例：</p>
+<pre><code class="language-bash"># 1. 下载 agent 包，解压得到 skywalking-agent/ 目录
+wget https://archive.apache.org/dist/skywalking/10.4.0/apache-skywalking-java-agent-9.5.0.tgz
+tar -xzf apache-skywalking-java-agent-9.5.0.tgz
+
+# 2. 启动应用时挂载 agent
+java -javaagent:/path/to/skywalking-agent/skywalking-agent.jar \
+     -Dskywalking.agent.service_name=order-service \
+     -Dskywalking.collector.backend_service=192.168.1.10:11800 \
+     -jar order-service.jar</code></pre>
+<ul>
+<li><code>-javaagent</code>：JVM 参数，<strong>必须放在 -jar 之前</strong>，放后面不生效，新手最容易犯的错；</li>
+<li><code>service_name</code>：服务名，UI 拓扑图的分组依据，建议用业务名而不是主机名；</li>
+<li><code>backend_service</code>：OAP 的 gRPC 地址（<strong>11800 不是 12800</strong>），12800 是给 UI 用的 HTTP 端口；</li>
+<li>容器化部署时把 agent 目录通过 volume 挂进 Pod，或用 Optional 插件按需启用。</li>
+</ul>
+<p>其它语言：Go 用 <code>go2sky</code>，Python 用 <code>skywalking-python</code>，原理一样，都是应用内 SDK + gRPC 上报。</p>
+
+<h3>4.6 启动与验证</h3>
+<pre><code class="language-bash">cd ~/skywalking
+docker compose up -d
+
+# 1. 确认 ES 健康（首次启动约 30 秒）
+curl -u elastic:ElasticPass123 http://localhost:9200/_cluster/health
+
+# 2. 看 OAP 是否开始建索引（出现 sw_ 开头索引就成功）
+curl -u elastic:ElasticPass123 http://localhost:9200/_cat/indices | grep sw_
+
+# 3. 查看 OAP 日志
+docker compose logs -f oap</code></pre>
+<p>浏览器打开 <code>http://host:8080</code>，左侧菜单：<strong>Dashboard</strong>（服务概览）、<strong>Topology</strong>（拓扑图，微服务依赖自动画出）、<strong>Trace</strong>（链路列表）、<strong>Log</strong>（日志，需单独配置）。</p>
+<p>验证数据通不通最简单：随便调几次业务接口，再去 <strong>Trace</strong> 页面刷新，能看到调用链就说明 Agent → OAP → ES 全链路 OK。Kibana 可选——想直接在 ES 查原始 trace 做定制分析，打开 <code>http://host:5601</code>，用索引模式 <code>sw_segment-*</code> 建 Data View 用 KQL 检索即可，日常监控用 SkyWalking UI 足够。</p>
+
+<h3>4.7 常见坑速查</h3>
+<table>
+<thead><tr><th>现象</th><th>原因</th><th>解决</th></tr></thead>
+<tbody>
+<tr><td>ES 启动后自动退出</td><td><code>max_map_count</code> 未设置</td><td><code>sysctl -w vm.max_map_count=262144</code></td></tr>
+<tr><td>ES 集群状态 Yellow</td><td>单节点但副本数=1</td><td><code>indexReplicasNumber: 0</code></td></tr>
+<tr><td>OAP 连不上 ES，报 SSL 错</td><td>8.x 默认开 SSL</td><td><code>xpack.security.http.ssl.enabled=false</code>（测试）或配证书</td></tr>
+<tr><td>Agent 无数据上报</td><td>gRPC 端口写错</td><td>确认是 <strong>11800</strong>，不是 12800</td></tr>
+<tr><td><code>-javaagent</code> 不生效</td><td>参数位置在 -jar 之后</td><td>移到 <code>-jar</code> 之前</td></tr>
+<tr><td>SkyWalking UI 空白</td><td>OAP 未就绪</td><td>等 OAP 完全启动，日志出现 <code>OAP starts up successfully</code></td></tr>
+</tbody></table>
+
+<hr />
+
+<!-- ============ 五、落地建议 ============ -->
+<h2>五、落地建议</h2>
+<p>两套都搭完后，我建议的监控分层是这样：</p>
+
+<div class="flow">
+  <div class="layer"><span class="lbl">接入层</span>
+    <div class="nodes"><div class="node n-blue"><b>Nginx / 网关</b><small>blackbox_exporter 探活</small></div></div></div>
+  <div class="arrow-v"></div>
+  <div class="layer"><span class="lbl">应用层</span>
+    <div class="nodes"><div class="node n-orange"><b>SkyWalking Agent → OAP → ES</b><small>链路 + 拓扑 + 日志</small></div></div></div>
+  <div class="arrow-v"></div>
+  <div class="layer"><span class="lbl">资源层</span>
+    <div class="nodes"><div class="node n-green"><b>node + cadvisor + mysqld → Prometheus</b><small>指标</small></div></div></div>
+  <div class="arrow-v"></div>
+  <div class="layer"><span class="lbl">展示 / 告警</span>
+    <div class="nodes">
+      <div class="node n-purple"><b>Grafana</b><small>统一出图（双数据源）</small></div>
+      <div class="node n-red"><b>Alertmanager</b><small>企业微信 / 钉钉</small></div>
+    </div></div>
+</div>
+
+<p><strong>优先级的经验之谈：</strong></p>
+<ol>
+<li><strong>第一周</strong>：先把 Prometheus + Grafana 跑起来，接 node-exporter + mysqld-exporter，CPU/内存/磁盘/连接数/慢查询这五块先有数；</li>
+<li><strong>第二周</strong>：配告警规则，把「磁盘 &gt; 85%」「MySQL 连接数打满」「服务 down」这几条最救命的规则先建上；</li>
+<li><strong>第三周</strong>：微服务上规模再加 SkyWalking，先把 Agent 接进 1-2 个核心服务试水，确认 ES 容量够再全量铺开；</li>
+<li><strong>ES 容量要提前规划</strong>：链路全量采集数据量很大，SkyWalking 默认按天建索引，配合 ES 的 ILM 做热温冷架构，或干脆设采样率。中小团队 10%-20% 采样 + 错误/慢请求全采通常够用。</li>
+</ol>
+
+<div class="tipbar warn"><strong>最后一句实在话：</strong>监控方案最容易犯的错误是<strong>「采集了很多，没人看」</strong>。别一上来就铺几十个仪表盘，先把核心 3-5 个黄金指标（延迟、流量、错误、饱和度，即 RED/USE 方法论）盯牢，告警能真正触达人，这套系统才算落地。剩下的是迭代的事。</div>
+
+<div class="foot">本文为程序员视角的技术总结，版本号请以各组件官方当前发布页为准。配置示例中的密码、IP 均为演示，生产环境请替换为实际值并使用密钥管理。</div>
+
+</main>
+</body>
+</html>

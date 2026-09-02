@@ -1,0 +1,1860 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="做BLE蓝牙和Socket通信的同学，大概率都遇到过这种情况：设备端和应用端对着协议文档联调，两边代码都觉得没问题，但数据一跑起来就是不对。最后抓包一看，发现是字节序反了——你按大端发的，我按小端收的，或者反过来。这种问题不复杂，但第一次遇到的时候确实挺坑。 这篇文章把我踩过的坑和查过的资料整理一下，主要讲清楚大端和小端在BLE和Socket开发里到底怎么回事，以及设备端（C++）和App端（Ko">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络数据传输中的大端与小端：一个BLE和Socket开发者的踩坑笔记">
+<meta property="og:url" content="https://jycpp.github.io/2026/26-08-29-%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E4%B8%AD%E7%9A%84%E5%A4%A7%E7%AB%AF%E4%B8%8E%E5%B0%8F%E7%AB%AF.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="做BLE蓝牙和Socket通信的同学，大概率都遇到过这种情况：设备端和应用端对着协议文档联调，两边代码都觉得没问题，但数据一跑起来就是不对。最后抓包一看，发现是字节序反了——你按大端发的，我按小端收的，或者反过来。这种问题不复杂，但第一次遇到的时候确实挺坑。 这篇文章把我踩过的坑和查过的资料整理一下，主要讲清楚大端和小端在BLE和Socket开发里到底怎么回事，以及设备端（C++）和App端（Ko">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-29T14:15:30.000Z">
+<meta property="article:modified_time" content="2026-09-02T08:38:20.109Z">
+<meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="Kotlin">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="大端">
+<meta property="article:tag" content="小端">
+<meta property="article:tag" content="字节序">
+<meta property="article:tag" content="BLE蓝牙">
+<meta property="article:tag" content="Socket通信">
+<meta property="article:tag" content="网络传输">
+<meta property="article:tag" content="uniApp">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>网络数据传输中的大端与小端：一个BLE和Socket开发者的踩坑笔记 - Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="网络数据传输中的大端与小端：一个BLE和Socket开发者的踩坑笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-08-29 14:15" pubdate>
+          2026年8月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="软件开发"
+        id="heading-a41622d744ac9c55f5266dcc90ac7599" role="tab" data-toggle="collapse" href="#collapse-a41622d744ac9c55f5266dcc90ac7599"
+        aria-expanded="true"
+      >
+        软件开发
+        <span class="list-group-count">(74)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-a41622d744ac9c55f5266dcc90ac7599"
+           role="tabpanel" aria-labelledby="heading-a41622d744ac9c55f5266dcc90ac7599">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-07-19-Edge%E5%92%8CChrome%E6%8F%92%E4%BB%B6%EF%BC%9A%E5%9B%BE%E7%89%87%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BD%E5%99%A8.html" title="Edge和Chrome插件：图片批量下载器"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Edge和Chrome插件：图片批量下载器</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2011/11-10-12-PHP%E4%B8%AD9%E4%B8%AA%E9%87%8D%E8%A6%81%E5%AE%9E%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0%E5%92%8C%E5%8A%9F%E8%83%BD.html" title="PHP 知识：9 个重要实用的 PHP 函数和功能"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">PHP 知识：9 个重要实用的 PHP 函数和功能</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-03-15-Threejs%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE%9E%E6%88%98.html" title="Threejs从入门到实战一文说明白"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Threejs从入门到实战一文说明白</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2011/11-03-13-Ubuntu%E4%B8%8BSwap%E5%88%86%E5%8C%BA%E7%9A%84%E8%B0%83%E6%95%B4%E5%92%8C%E4%BC%98%E5%8C%96.html" title="Ubuntu 下 Swap 分区的调整和优化"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Ubuntu 下 Swap 分区的调整和优化</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2011/11-08-11-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0VS2005%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E6%A3%80%E6%9F%A5.html" title="学习笔记：VS2005内存泄露检查"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">学习笔记：VS2005内存泄露检查</span>
+        </a>
+      
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="MacOS"
+        id="heading-0a5b7edb55b772c60bfa8af868b679cf" role="tab" data-toggle="collapse" href="#collapse-0a5b7edb55b772c60bfa8af868b679cf"
+        aria-expanded="false"
+      >
+        MacOS
+        <span class="list-group-count">(5)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-0a5b7edb55b772c60bfa8af868b679cf"
+           role="tabpanel" aria-labelledby="heading-0a5b7edb55b772c60bfa8af868b679cf">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-01-14-MacOS%E4%B8%8B%E7%9A%84Git%E6%93%8D%E4%BD%9C%E5%8F%8AXCode%E5%8D%8F%E4%BD%9C.html" title="MacOS下的Git操作及XCode协作"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">MacOS下的Git操作及XCode协作</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-02-15-macOS%20%E4%B8%AD%E8%8B%B1%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2%E8%AF%A6%E8%A7%A3.html" title="macOS 中英文输入法切换详解"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">macOS 中英文输入法切换详解</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-02-22-macOS%E5%AE%89%E8%A3%85nginx%E6%96%B9%E6%A1%88%E6%A2%B3%E7%90%86.html" title="macOS安装nginx方案梳理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">macOS安装nginx方案梳理</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-02-15-%E5%9C%A8%20macOS%20Terminal%20%E4%B8%AD%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97.html" title="在 macOS Terminal 中配置代理服务器的完整指南"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在 macOS Terminal 中配置代理服务器的完整指南</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-12-26-%E5%AD%A6%E4%B9%A0Objective-C%E8%AF%BB%E8%BF%99%E4%B8%AA%E5%B0%B1%E8%B6%B3%E5%A4%9F%E4%BA%86.html" title="学习Objective-C的一些笔记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">学习Objective-C的一些笔记</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="PHP编程"
+        id="heading-07ba74ada3ba4fd5f731c7113d524e0d" role="tab" data-toggle="collapse" href="#collapse-07ba74ada3ba4fd5f731c7113d524e0d"
+        aria-expanded="false"
+      >
+        PHP编程
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-07ba74ada3ba4fd5f731c7113d524e0d"
+           role="tabpanel" aria-labelledby="heading-07ba74ada3ba4fd5f731c7113d524e0d">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2019/19-05-21-PHP%E4%B8%AD%E7%9A%84%E9%AD%94%E6%B3%95%E5%87%BD%E6%95%B0__call%E5%9C%A8ThinkPHP%E4%B8%AD%E7%9A%84%E5%A6%99%E7%94%A8.html" title="PHP中的魔法函数 “__call” 在ThinkPHP中的妙用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">PHP中的魔法函数 “__call” 在ThinkPHP中的妙用</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="云计算"
+        id="heading-1fefd5a9127ae81cd9e10ebb95084366" role="tab" data-toggle="collapse" href="#collapse-1fefd5a9127ae81cd9e10ebb95084366"
+        aria-expanded="false"
+      >
+        云计算
+        <span class="list-group-count">(5)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-1fefd5a9127ae81cd9e10ebb95084366"
+           role="tabpanel" aria-labelledby="heading-1fefd5a9127ae81cd9e10ebb95084366">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2022/22-07-16-AWS-Lambda%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98.html" title="AWS-Lambda开发实战"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">AWS-Lambda开发实战</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-07-13-AWS%E7%9A%84S3%E5%92%8CEC2.html" title="AWS的S3和EC2"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">AWS的S3和EC2</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-05-19-%E8%87%AA%E5%BB%BADocker%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E5%99%A8.html" title="在CentOS上搭建自己的Docker镜像加速器"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在CentOS上搭建自己的Docker镜像加速器</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-04-15-Serverless-and-Cloud-Function.html" title="无服务器架构和云函数 Serverless and Cloud Function"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">无服务器架构和云函数 Serverless and Cloud Function</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-15-%E9%98%BF%E9%87%8C%E4%BA%91%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%BB%84%E7%9A%84%E7%BD%91%E6%AE%B5%E5%88%86%E6%9E%90.html" title="阿里云的网络安全组的网段分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">阿里云的网络安全组的网段分析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="区块链技术"
+        id="heading-649e6048a32c09299e1c952347ccac7e" role="tab" data-toggle="collapse" href="#collapse-649e6048a32c09299e1c952347ccac7e"
+        aria-expanded="false"
+      >
+        区块链技术
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-649e6048a32c09299e1c952347ccac7e"
+           role="tabpanel" aria-labelledby="heading-649e6048a32c09299e1c952347ccac7e">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-01-10-%E5%8C%BA%E5%9D%97%E9%93%BE%E7%9A%84%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86.html" title="区块链的技术原理与项目开发实践"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">区块链的技术原理与项目开发实践</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="大语言模型"
+        id="heading-faf3ef15d22b0a54f1d7520545b242f7" role="tab" data-toggle="collapse" href="#collapse-faf3ef15d22b0a54f1d7520545b242f7"
+        aria-expanded="false"
+      >
+        大语言模型
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-faf3ef15d22b0a54f1d7520545b242f7"
+           role="tabpanel" aria-labelledby="heading-faf3ef15d22b0a54f1d7520545b242f7">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-08-10-Open%20WebUI%E5%87%BD%E6%95%B0Function%E7%9A%84%E8%B0%83%E7%94%A8%E6%AD%A5%E9%AA%A4.html" title="Open WebUI函数Function的调用步骤"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Open WebUI函数Function的调用步骤</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-08-10-Open%20WebUI%E5%B7%A5%E5%85%B7Tool%E8%B0%83%E7%94%A8%E7%9A%84%E8%87%AA%E5%8A%A8%E5%92%8C%E6%89%8B%E5%8A%A8%E6%A8%A1%E5%BC%8F.html" title="Open WebUI工具Tool调用的自动和手动模式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Open WebUI工具Tool调用的自动和手动模式</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-08-09-Open%20WebUI%E5%BC%80%E5%8F%91%E9%AB%98%E7%BA%A7%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E5%BA%94%E7%94%A8.html" title="Open WebUI开发高级接口参数应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Open WebUI开发高级接口参数应用</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="小程序和APP"
+        id="heading-7f209bc2e0d708de6099e389e191db5a" role="tab" data-toggle="collapse" href="#collapse-7f209bc2e0d708de6099e389e191db5a"
+        aria-expanded="true"
+      >
+        小程序和APP
+        <span class="list-group-count">(11)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-7f209bc2e0d708de6099e389e191db5a"
+           role="tabpanel" aria-labelledby="heading-7f209bc2e0d708de6099e389e191db5a">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-07-12-Android%E4%B8%AD%E5%AE%9E%E7%8E%B0Activity%E4%B8%8EService%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2.html" title="Android中实现Activity与Service数据交换"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android中实现Activity与Service数据交换</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-07-21-Android%E5%BC%80%E5%8F%91%E4%B8%ADKotlin%E7%9A%84%E8%AF%AD%E6%B3%95%E7%B3%96.html" title="Android开发中Kotlin的语法糖"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android开发中Kotlin的语法糖</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-09-20-Android%E5%BC%80%E5%8F%91%E4%B8%ADadb%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86.html" title="Android开发中adb常用命令整理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android开发中adb常用命令整理</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-09-05-Android%E8%AE%BE%E5%A4%87%E4%B8%ADdp%E5%92%8Cpx%E7%9A%84%E6%8D%A2%E7%AE%97%E5%85%B3%E7%B3%BB.html" title="Android设备中dp和px的换算关系"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android设备中dp和px的换算关系</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-04-15-Uniapp%E9%A1%B9%E7%9B%AE%E9%87%8D%E5%AE%9A%E4%B9%89%E5%B7%A6%E4%B8%8A%E8%A7%92%E7%9A%84%E8%BF%94%E5%9B%9E%E7%AE%AD%E5%A4%B4%E7%9A%84%E4%BA%8B%E4%BB%B6.html" title="Uniapp项目重定义左上角的返回箭头的事件"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Uniapp项目重定义左上角的返回箭头的事件</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-10-23-kotlin%E4%B8%AD%E7%9A%84data%20class%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8.html" title="kotlin中的data class及其应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">kotlin中的data class及其应用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-07-25-%E5%A6%82%E4%BD%95%E5%B0%86%E5%AE%89%E5%8D%93App%E8%BD%AC%E7%A7%BB%E5%88%B0%E5%8F%A6%E4%B8%80%E5%8F%B0%E6%89%8B%E6%9C%BA%E4%B8%8A.html" title="如何将安卓App转移到另一台手机上"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">如何将安卓App转移到另一台手机上</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-05-19-%E5%BE%AE%E4%BF%A1%E5%92%8C%E6%8A%96%E9%9F%B3%E7%9A%84%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F.html" title="微信和抖音的小程序生态系统"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">微信和抖音的小程序生态系统</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-07-20-%E7%90%86%E8%A7%A3Android%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84Context%E5%92%8CActivity.html" title="理解Android开发中的Context和Activity"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">理解Android开发中的Context和Activity</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-29-%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E4%B8%AD%E7%9A%84%E5%A4%A7%E7%AB%AF%E4%B8%8E%E5%B0%8F%E7%AB%AF.html" title="网络数据传输中的大端与小端：一个BLE和Socket开发者的踩坑笔记"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">网络数据传输中的大端与小端：一个BLE和Socket开发者的踩坑笔记</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-12-01-%E9%B8%BF%E8%92%99%E4%BC%9A%E6%88%90%E4%B8%BA%E5%AE%89%E5%8D%93%E5%92%8C%E8%8B%B9%E6%9E%9C%E4%B9%8B%E5%90%8E%E7%9A%84%E8%80%81%E4%B8%89.html" title="鸿蒙要成为安卓和苹果之后的老三优势和挑战"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">鸿蒙要成为安卓和苹果之后的老三优势和挑战</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="微服务"
+        id="heading-79c287218d34050f6bd19986cd05b499" role="tab" data-toggle="collapse" href="#collapse-79c287218d34050f6bd19986cd05b499"
+        aria-expanded="false"
+      >
+        微服务
+        <span class="list-group-count">(5)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-79c287218d34050f6bd19986cd05b499"
+           role="tabpanel" aria-labelledby="heading-79c287218d34050f6bd19986cd05b499">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-09-11-IntelliJ%20IDEA%E4%B8%AD%E9%85%8D%E7%BD%AE%E8%BF%90%E8%A1%8C%E8%B0%83%E8%AF%95%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0.html" title="IntelliJ IDEA中配置运行调试启动命令参数"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">IntelliJ IDEA中配置运行调试启动命令参数</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-10-05-JWT%E8%AE%A4%E8%AF%81%E5%AE%8C%E6%95%B4%E5%8E%9F%E7%90%86JWKS%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%AE%9E%E6%88%98%E4%BB%A3%E7%A0%81%E6%80%BB%E7%BB%93.html" title="JWT 认证完整原理、JWKS 机制与前后端实战代码总结"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">JWT 认证完整原理、JWKS 机制与前后端实战代码总结</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-12-03-Nacos%E5%9C%A8Java-Based%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8.html" title="Nacos在Java-Based微服务架构中的作用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Nacos在Java-Based微服务架构中的作用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-05-03-Nacos%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB.html" title="Nacos的基础知识汇总"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Nacos的基础知识汇总</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-11-%E8%8B%A5%E4%BE%9D%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6(Ruoyi%20Cloud)%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93.html" title="若依微服务框架(Ruoyi Cloud)知识点总结"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">若依微服务框架(Ruoyi Cloud)知识点总结</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="游戏开发"
+        id="heading-03af44dfb57651192e1e5ff490e35760" role="tab" data-toggle="collapse" href="#collapse-03af44dfb57651192e1e5ff490e35760"
+        aria-expanded="false"
+      >
+        游戏开发
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-03af44dfb57651192e1e5ff490e35760"
+           role="tabpanel" aria-labelledby="heading-03af44dfb57651192e1e5ff490e35760">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-04-28-LayaAir%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0.html" title="LayaAir项目开发中的生命周期函数"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">LayaAir项目开发中的生命周期函数</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="系统架构"
+        id="heading-b2f511d71f9265a279f533d671dee8ab" role="tab" data-toggle="collapse" href="#collapse-b2f511d71f9265a279f533d671dee8ab"
+        aria-expanded="false"
+      >
+        系统架构
+        <span class="list-group-count">(13)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-b2f511d71f9265a279f533d671dee8ab"
+           role="tabpanel" aria-labelledby="heading-b2f511d71f9265a279f533d671dee8ab">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-04-21-ALM%EF%BC%88%E5%BA%94%E7%94%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%AE%A1%E7%90%86%EF%BC%89%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9%E8%A7%A3%E6%9E%90.html" title="ALM（应用生命周期管理）核心内容解析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">ALM（应用生命周期管理）核心内容解析</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-07-20-Android%E4%BD%8E%E5%8A%9F%E8%80%97%E8%93%9D%E7%89%99GATT%E8%AF%BB%E5%86%99%E5%9B%9E%E8%B0%83%E7%9A%84%E5%9D%91.html" title="Android低功耗蓝牙通信中的Context陷阱：被忽略的生命周期依赖"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android低功耗蓝牙通信中的Context陷阱：被忽略的生命周期依赖</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-07-13-mermaid%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B%E5%9B%BE%E8%AE%A9markdown%E7%94%BB%E8%B5%B7%E6%9D%A5.html" title="Mermaid绘制流程图让Markdown画起来"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Mermaid绘制流程图让Markdown画起来</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html" title="一文搞懂：二进制、十进制、十六进制换算与字节表示原理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">一文搞懂：二进制、十进制、十六进制换算与字节表示原理</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-04-03-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0%E6%B8%B8%E6%88%8F%E8%83%8C%E6%99%AF%E9%9F%B3%E4%B9%90%E6%8C%81%E7%BB%AD%E6%92%AD%E6%94%BE.html" title="单例模式实现游戏背景音乐持续播放"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">单例模式实现游戏背景音乐持续播放</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-29-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E7%89%88%E6%9C%AC%E5%88%86%E6%94%AF%E5%8F%8A%E5%90%88%E5%B9%B6.html" title="温故知新：Git版本分支及合并"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">温故知新：Git版本分支及合并</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-03-%E7%90%86%E8%A7%A3CPP%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%8D%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6.html" title="理解 C++ 编程中的“位与“运算符"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">理解 C++ 编程中的“位与“运算符</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-03-07-%E7%A7%91%E6%8A%80%E5%90%91%E5%96%84%E8%8E%AB%E8%AE%A9%E9%99%8D%E7%BB%B4%E6%89%93%E5%87%BB%E6%88%90%E4%B8%BA%E6%97%B6%E4%BB%A3%E7%9A%84%E6%8A%80%E6%9C%AF%E4%B9%8B%E6%AE%87.html" title="科技向善：莫让降维打击成为时代的“技术之殇”"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">科技向善：莫让降维打击成为时代的“技术之殇”</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html" title="计算机中的补码表示法与正负数的关系"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">计算机中的补码表示法与正负数的关系</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-08-10-%E8%BD%AF%E4%BB%B6%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E4%B8%9A%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84.html" title="软件平台的技术架构业务架构应用架构"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软件平台的技术架构业务架构应用架构</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-11-10-%E8%BD%AF%E8%80%83%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%B8%882025%E5%B9%B4%E8%AE%BA%E6%96%87%E6%88%91%E7%9A%84%E9%80%89%E9%A2%98.html" title="软考系统架构师2025年论文我的选题"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软考系统架构师2025年论文我的选题</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-11-12-%E8%BD%AF%E8%80%83%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%B8%882025%E5%B9%B4%E8%8B%B1%E8%AF%AD%E9%A2%98%E5%88%86%E6%9E%90.html" title="软考系统架构设计师2025年英语题分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软考系统架构设计师2025年英语题分析</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-03-%E9%80%9A%E8%BF%87CPP%E7%BC%96%E7%A8%8B%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%8D%95%E5%AD%97%E8%8A%82%E5%92%8C%E5%8F%8C%E5%AD%97%E8%8A%82.html" title="通过C++编程的变量类型理解计算机的单字节和双字节"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">通过C++编程的变量类型理解计算机的单字节和双字节</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="网站建设"
+        id="heading-e9a3d2d73dc4188ec07ebda8feea7964" role="tab" data-toggle="collapse" href="#collapse-e9a3d2d73dc4188ec07ebda8feea7964"
+        aria-expanded="false"
+      >
+        网站建设
+        <span class="list-group-count">(7)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-e9a3d2d73dc4188ec07ebda8feea7964"
+           role="tabpanel" aria-labelledby="heading-e9a3d2d73dc4188ec07ebda8feea7964">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2021/21-08-03-HTTPS%E5%AE%89%E5%85%A8%E7%BD%91%E7%AB%99%E5%8E%9F%E7%90%86%E5%92%8CSSL%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86.html" title="HTTPS安全网站原理和SSL非对称加密"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-06-13-Vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.html" title="Vue项目中的环境变量配置文件"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Vue项目中的环境变量配置文件</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2018/18-05-13-Wordpress%E7%9A%84%E4%BC%AA%E9%9D%99%E6%80%81%E9%85%8D%E7%BD%AE.html" title="Wordpress的伪静态配置：Apache和Nginx两种平台的详细说明"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Wordpress的伪静态配置：Apache和Nginx两种平台的详细说明</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-03-12-uniapp%E9%A1%B9%E7%9B%AECICD%E5%AE%9E%E7%8E%B0Web%E7%89%88%E6%9C%AC%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83.html" title="uniapp项目CICD实现Web版本自动发布"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">uniapp项目CICD实现Web版本自动发布</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-06-16-%E5%88%86%E6%9E%90nodejs%E4%B8%AD%E7%9A%84express%E5%92%8Chttp-server.html" title="分析nodejs中的express和http-server"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">分析nodejs中的express和http-server</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-28-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E5%85%8B%E9%9A%86%E9%A1%B9%E7%9B%AE%E5%88%B0%E6%9C%AC%E5%9C%B0.html" title="温故知新：Git克隆远程项目到本地开发环境"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">温故知新：Git克隆远程项目到本地开发环境</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-07-30-%E7%A8%8B%E5%BA%8F%E5%91%98%E5%BE%80%E4%BA%8B-%E8%B7%A8%E8%B6%8A%E6%97%B6%E4%BB%A3%E7%9A%84%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E5%85%B4%E8%A1%B0%E5%BD%95.html" title="程序员往事：跨越时代的开发工具兴衰录"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">程序员往事：跨越时代的开发工具兴衰录</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="职业规划"
+        id="heading-9d0f8f6f657186a8f0f18f1ea92d1c95" role="tab" data-toggle="collapse" href="#collapse-9d0f8f6f657186a8f0f18f1ea92d1c95"
+        aria-expanded="false"
+      >
+        职业规划
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-9d0f8f6f657186a8f0f18f1ea92d1c95"
+           role="tabpanel" aria-labelledby="heading-9d0f8f6f657186a8f0f18f1ea92d1c95">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-07-21-%E5%86%99%E4%BA%8620%E5%A4%9A%E5%B9%B4%E4%BB%A3%E7%A0%81%E7%A8%8B%E5%BA%8F%E5%91%98%E6%98%AF%E5%90%A6%E5%80%BC%E5%BE%97%E5%B9%B2%E4%B8%80%E8%BE%88%E5%AD%90.html" title="写了20多年代码程序员是否值得干一辈子"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">写了20多年代码程序员是否值得干一辈子</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="运维管理"
+        id="heading-033e45b14e81e1795577d54f37b66366" role="tab" data-toggle="collapse" href="#collapse-033e45b14e81e1795577d54f37b66366"
+        aria-expanded="false"
+      >
+        运维管理
+        <span class="list-group-count">(16)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-033e45b14e81e1795577d54f37b66366"
+           role="tabpanel" aria-labelledby="heading-033e45b14e81e1795577d54f37b66366">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-06-10-2025%E5%B9%B4%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%80%89%E5%93%AA%E4%B8%AA.html" title="2025年服务器操作系统选哪个，Ubuntu是否合适？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">2025年服务器操作系统选哪个，Ubuntu是否合适？</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-21-Android%20Wi-Fi%20%E8%BF%9E%E6%8E%A5%E6%8E%A7%E5%88%B6%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B%E4%B8%8E%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88.html" title="Android Wi-Fi 连接控制技术演进与实现方案"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android Wi-Fi 连接控制技术演进与实现方案</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-16-CodeBuddy%E4%B8%8EWorkBuddy%E5%AF%B9%E6%AF%94%E5%8F%8ASkill%E5%92%8CMCP%E8%BF%81%E7%A7%BB.html" title="CodeBuddy 与 WorkBuddy 产品对比及 Skill / MCP 迁移指南"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">CodeBuddy 与 WorkBuddy 产品对比及 Skill / MCP 迁移指南</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-05-01-Codex%E5%B1%80%E5%9F%9F%E7%BD%91%E8%BF%9C%E7%A8%8B%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" title="Codex 局域网远程使用指南：macOS 服务端 + SSH 端口转发方案"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Codex 局域网远程使用指南：macOS 服务端 + SSH 端口转发方案</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-05-01-Codex%E5%B9%BF%E5%9F%9F%E7%BD%91%E8%BF%9C%E7%A8%8B%E5%85%B1%E4%BA%AB%E6%8C%87%E5%8D%97.html" title="Codex 广域网远程共享指南：macOS 服务端 + Nginx + SSL（wss 方案）"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Codex 广域网远程共享指南：macOS 服务端 + Nginx + SSL（wss 方案）</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-02-Dockerfile%E8%84%9A%E6%9C%AC%E5%88%86%E6%9E%90%E4%B8%8Ecompose%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B.html" title="Dockerfile脚本分析与compose应用案例"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Dockerfile脚本分析与compose应用案例</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-03-21-Git-Stash-%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%B4%E6%97%B6%E5%82%A8%E7%89%A9%E6%9F%9C.html" title="Git Stash：代码的&#34;临时储物柜&#34;，高效管理开发中的临时修改"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Git Stash：代码的&#34;临时储物柜&#34;，高效管理开发中的临时修改</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-08-05-Gitlab%E4%B8%AD%E8%BF%99%E7%83%A6%E4%BA%BA%E7%9A%84Prometheus.html" title="Gitlab中这烦人的Prometheus"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Gitlab中这烦人的Prometheus</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-02-07-Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90CI%E4%B8%8E%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2CD%E8%BF%87%E7%A8%8B%E8%AF%B4%E6%98%8E.html" title="Jenkins持续集成CI与持续部署CD过程说明"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Jenkins持续集成CI与持续部署CD过程说明</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/20-10-05-Redis%E6%9C%8D%E5%8A%A1%E6%97%A5%E7%A8%8B%E8%BF%90%E7%BB%B4%E7%9F%A5%E8%AF%86%E7%82%B9.html" title="Redis服务日程运维知识点"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Redis服务日程运维知识点</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-10-Ubuntu%20Server%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C.html" title="Ubuntu Server初始化操作，安全性和加固"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Ubuntu Server初始化操作，安全性和加固</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-05-06-openEuler%2022.03%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95.html" title="openEuler 22.03安装记录"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">openEuler 22.03安装记录</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-06-10-Docker%E6%90%AD%E5%BB%BAPrometheus%E5%92%8CGrafana.html" title="使用Docker搭建Prometheus+Grafana运维监控可视化"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">使用Docker搭建Prometheus+Grafana运维监控可视化</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-17-%E5%88%B6%E4%BD%9C%E7%BB%BF%E8%89%B2%E7%89%88MySQL%E6%95%B0%E6%8D%AE%E5%BA%93.html" title="制作绿色版MySQL数据库适应多项目软件开发"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">制作绿色版MySQL数据库适应多项目软件开发</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-11-18-%E5%9C%A8GitLab%E5%92%8CGitHub%E4%B9%8B%E9%97%B4%E5%90%8C%E6%AD%A5%E4%BB%A3%E7%A0%81.html" title="在GitLab和GitHub之间同步Git版本仓库的代码"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在GitLab和GitHub之间同步Git版本仓库的代码</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-06-10-%E4%B8%A4%E5%A5%97%E4%B8%BB%E6%B5%81%E7%9B%91%E6%8E%A7%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E5%92%8C%E9%83%A8%E7%BD%B2%E5%AE%9E%E6%93%8D.html" title="微服务可观测性：两套主流监控方案对比与Docker落地实操"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">微服务可观测性：两套主流监控方案对比与Docker落地实操</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">网络数据传输中的大端与小端：一个BLE和Socket开发者的踩坑笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>做BLE蓝牙和Socket通信的同学，大概率都遇到过这种情况：设备端和应用端对着协议文档联调，两边代码都觉得没问题，但数据一跑起来就是不对。最后抓包一看，发现是字节序反了——你按大端发的，我按小端收的，或者反过来。这种问题不复杂，但第一次遇到的时候确实挺坑。</p>
+<p>这篇文章把我踩过的坑和查过的资料整理一下，主要讲清楚大端和小端在BLE和Socket开发里到底怎么回事，以及设备端（C++）和App端（Kotlin&#x2F;Swift&#x2F;uniApp）各自怎么处理。</p>
+<hr>
+<h2 id="一、什么时候会碰到字节序问题"><a href="#一、什么时候会碰到字节序问题" class="headerlink" title="一、什么时候会碰到字节序问题"></a>一、什么时候会碰到字节序问题</h2><p>BLE蓝牙开发里，特征值（Characteristic）的数据交互本质上是字节流传输。Socket通信也是一样，TCP&#x2F;UDP传的就是一串byte。只要你传的数据不止一个字节——比如int16、int32、float这些多字节类型——字节的排列顺序就成了一个必须明确的事情。</p>
+<p>大多数设备端（尤其是嵌入式MCU）采用的是大端模式（Big Endian），网络协议（TCP&#x2F;IP）也规定使用大端，也就是常说的”网络字节序”。但也不是所有设备都这样。比如苹果的设备，从硬件层面就是小端模式（Little Endian）。所以如果你在做iOS和某个嵌入式设备之间的BLE通信，两端字节序不一致是大概率事件。</p>
+<hr>
+<h2 id="二、大端和小端到底是什么意思"><a href="#二、大端和小端到底是什么意思" class="headerlink" title="二、大端和小端到底是什么意思"></a>二、大端和小端到底是什么意思</h2><p>说白了就是：一个多字节的数据，在内存里哪个字节放前面。</p>
+<p>拿一个具体的例子。假设我们要传一个16位整数 <code>0x1234</code>：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs dns">大端模式（Big Endian）：<br>  字节流：<span class="hljs-number">12</span> <span class="hljs-number">34</span><br>  低地址 → 高地址：高位字节在前，低位字节在后<br>  人读的顺序：<span class="hljs-number">0x12 0x34</span><br><br>小端模式（Little Endian）：<br>  字节流：<span class="hljs-number">34</span> <span class="hljs-number">12</span><br>  低地址 → 高地址：低位字节在前，高位字节在后<br>  人读的顺序：<span class="hljs-number">0x34 0x12</span><br></code></pre></td></tr></table></figure>
+
+<p>再来看一个32位的例子，<code>0x12345678</code>：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dns">大端：<span class="hljs-number">12 34 56 78</span><br>小端：<span class="hljs-number">78 56 34 12</span><br></code></pre></td></tr></table></figure>
+
+<p>就是这么简单。大端符合人的阅读习惯，从左往右看就是高位到低位。小端反过来，低位在前。</p>
+<hr>
+<h2 id="三、为什么会有两种模式，苹果为什么用小端"><a href="#三、为什么会有两种模式，苹果为什么用小端" class="headerlink" title="三、为什么会有两种模式，苹果为什么用小端"></a>三、为什么会有两种模式，苹果为什么用小端</h2><p>大端的优势很明显：符合直觉，调试的时候抓包看数据，一眼就能看出数值是多少。网络传输用大端也是这个原因——路由器、交换机处理包头的时候，按字节顺序读就行，不用转换。</p>
+<p>小端的优势在硬件层面。CPU做算术运算的时候，从低位开始算，进位自然往高位走。小端模式下低地址就是低位字节，CPU取数直接按顺序读，不需要做地址偏移。对于频繁做数值运算的场景，小端在硬件实现上更高效。</p>
+<p>苹果的设备（iPhone、Mac）用的都是小端，这不是苹果自己选的，而是沿用了Intel x86和ARM架构的默认选择。x86是小端，ARM默认也是小端（虽然可以切换）。所以本质上不是”苹果采用小端”，而是苹果用的芯片架构决定了它是小端。</p>
+<hr>
+<h2 id="四、数据传输时的处理过程"><a href="#四、数据传输时的处理过程" class="headerlink" title="四、数据传输时的处理过程"></a>四、数据传输时的处理过程</h2><p>实际开发中，处理流程是这样的：</p>
+<p><strong>发送端：</strong></p>
+<ol>
+<li>确定协议规定的字节序（一般协议文档会写，没写的话默认按大端）</li>
+<li>如果本机字节序和协议规定的不一致，发送前做转换</li>
+<li>把转换后的字节流发出去</li>
+</ol>
+<p><strong>接收端：</strong></p>
+<ol>
+<li>收到字节流</li>
+<li>如果本机字节序和协议规定的不一致，接收后做转换</li>
+<li>按转换后的数据解析</li>
+</ol>
+<p>关键原则就一条：<strong>协议定字节序，代码做适配。</strong> 协议说大端，所有人都按大端组包和解包，不管你本机是什么端。</p>
+<hr>
+<h2 id="五、代码实例"><a href="#五、代码实例" class="headerlink" title="五、代码实例"></a>五、代码实例</h2><p>下面给几个实际可用的代码片段。每个函数都标注了输入输出示例，方便对照理解。</p>
+<h3 id="5-1-设备端（C-）"><a href="#5-1-设备端（C-）" class="headerlink" title="5.1 设备端（C++）"></a>5.1 设备端（C++）</h3><p>C++里可以用移位操作来处理，也可以用系统提供的 <code>htons</code>&#x2F;<code>htonl</code> 和 <code>ntohs</code>&#x2F;<code>ntohl</code>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 把uint16_t按大端写入字节流</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：value = 0x1234, buf指向一个至少2字节的缓冲区</span><br><span class="hljs-comment"> * 输出：buf[0]=0x12, buf[1]=0x34（即大端排列：高位在前，低位在后）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">write_uint16_be</span><span class="hljs-params">(<span class="hljs-type">uint8_t</span>* buf, <span class="hljs-type">uint16_t</span> value)</span> </span>&#123;<br>    buf[<span class="hljs-number">0</span>] = (value &gt;&gt; <span class="hljs-number">8</span>) &amp; <span class="hljs-number">0xFF</span>;  <span class="hljs-comment">// value &gt;&gt; 8：把value右移8位，原来高8位的0x12移到低8位</span><br>                                    <span class="hljs-comment">// &amp; 0xFF：位与运算，特点是用0xFF（二进制11111111）做掩码，</span><br>                                    <span class="hljs-comment">// 把高24位全部清零，只保留最低8位，确保结果在0~255范围内</span><br>    buf[<span class="hljs-number">1</span>] = value &amp; <span class="hljs-number">0xFF</span>;          <span class="hljs-comment">// value &amp; 0xFF：直接取value的低8位0x34，高8位被掩码清零</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从字节流按大端读取uint16_t</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：buf[0]=0x12, buf[1]=0x34</span><br><span class="hljs-comment"> * 输出：返回 0x1234</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">uint16_t</span> <span class="hljs-title">read_uint16_be</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">uint8_t</span>* buf)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> (buf[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-number">8</span>) | buf[<span class="hljs-number">1</span>];  <span class="hljs-comment">// buf[0] &lt;&lt; 8：把第一个字节左移8位，0x12变成0x1200</span><br>                                    <span class="hljs-comment">// | buf[1]：位或运算，特点是按位取或，0x1200 | 0x34 = 0x1234</span><br>                                    <span class="hljs-comment">// 相当于把两个单字节拼回一个双字节整数</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 把uint32_t按大端写入字节流</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：value = 0x12345678, buf指向一个至少4字节的缓冲区</span><br><span class="hljs-comment"> * 输出：buf[0]=0x12, buf[1]=0x34, buf[2]=0x56, buf[3]=0x78</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">write_uint32_be</span><span class="hljs-params">(<span class="hljs-type">uint8_t</span>* buf, <span class="hljs-type">uint32_t</span> value)</span> </span>&#123;<br>    buf[<span class="hljs-number">0</span>] = (value &gt;&gt; <span class="hljs-number">24</span>) &amp; <span class="hljs-number">0xFF</span>;  <span class="hljs-comment">// 右移24位，0x12移到低8位，&amp;0xFF取最低字节</span><br>    buf[<span class="hljs-number">1</span>] = (value &gt;&gt; <span class="hljs-number">16</span>) &amp; <span class="hljs-number">0xFF</span>;  <span class="hljs-comment">// 右移16位，0x34移到低8位，&amp;0xFF取最低字节</span><br>    buf[<span class="hljs-number">2</span>] = (value &gt;&gt; <span class="hljs-number">8</span>) &amp; <span class="hljs-number">0xFF</span>;   <span class="hljs-comment">// 右移8位，0x56移到低8位，&amp;0xFF取最低字节</span><br>    buf[<span class="hljs-number">3</span>] = value &amp; <span class="hljs-number">0xFF</span>;          <span class="hljs-comment">// 直接取最低字节0x78</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从字节流按大端读取uint32_t</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：buf[0]=0x12, buf[1]=0x34, buf[2]=0x56, buf[3]=0x78</span><br><span class="hljs-comment"> * 输出：返回 0x12345678</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">uint32_t</span> <span class="hljs-title">read_uint32_be</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">uint8_t</span>* buf)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> (buf[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-number">24</span>) |          <span class="hljs-comment">// 第1字节移到最高8位：0x12 &lt;&lt; 24 = 0x12000000</span><br>           (buf[<span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-number">16</span>) |          <span class="hljs-comment">// 第2字节移到次高8位：0x34 &lt;&lt; 16 = 0x00340000</span><br>           (buf[<span class="hljs-number">2</span>] &lt;&lt; <span class="hljs-number">8</span>) |           <span class="hljs-comment">// 第3字节移到次低8位：0x56 &lt;&lt; 8  = 0x00005600</span><br>           buf[<span class="hljs-number">3</span>];                   <span class="hljs-comment">// 第4字节保持原位：              0x00000078</span><br>                                     <span class="hljs-comment">// 四个值位或拼合：0x12345678</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 方法二：用系统函数（Linux/嵌入式Linux可用）</span><br><span class="hljs-comment"> * 系统函数内部已经处理好了端序转换，不需要自己写移位</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;arpa/inet.h&gt;</span></span><br><br><span class="hljs-comment">// 主机序转大端（发送前调用）</span><br><span class="hljs-type">uint16_t</span> host_to_be = <span class="hljs-built_in">htons</span>(<span class="hljs-number">0x1234</span>);  <span class="hljs-comment">// 小端机器上：host_to_be = 0x3412 → 转成 0x1234</span><br><br><span class="hljs-comment">// 大端转主机序（接收后调用）</span><br><span class="hljs-type">uint16_t</span> be_to_host = <span class="hljs-built_in">ntohs</span>(received_value);  <span class="hljs-comment">// 大端数据received_value=0x1234 → 小端机器上 be_to_host = 0x1234</span><br></code></pre></td></tr></table></figure>
+
+<p>BLE特征值发送时的典型写法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * BLE发送一个int32，按大端</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：value = 0xAABBCCDD</span><br><span class="hljs-comment"> * 输出：payload = &#123;0xAA, 0xBB, 0xCC, 0xDD&#125;，通过BLE发出</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ble_send_int32</span><span class="hljs-params">(<span class="hljs-type">uint32_t</span> value)</span> </span>&#123;<br>    <span class="hljs-type">uint8_t</span> payload[<span class="hljs-number">4</span>];<br>    payload[<span class="hljs-number">0</span>] = (value &gt;&gt; <span class="hljs-number">24</span>) &amp; <span class="hljs-number">0xFF</span>;  <span class="hljs-comment">// 取最高字节0xAA</span><br>    payload[<span class="hljs-number">1</span>] = (value &gt;&gt; <span class="hljs-number">16</span>) &amp; <span class="hljs-number">0xFF</span>;  <span class="hljs-comment">// 取次高字节0xBB</span><br>    payload[<span class="hljs-number">2</span>] = (value &gt;&gt; <span class="hljs-number">8</span>) &amp; <span class="hljs-number">0xFF</span>;   <span class="hljs-comment">// 取次低字节0xCC</span><br>    payload[<span class="hljs-number">3</span>] = value &amp; <span class="hljs-number">0xFF</span>;          <span class="hljs-comment">// 取最低字节0xDD</span><br>    <span class="hljs-comment">// 把payload通过BLE characteristic发出去</span><br>    <span class="hljs-built_in">ble_characteristic_notify</span>(payload, <span class="hljs-number">4</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-2-App端-Kotlin（Android）"><a href="#5-2-App端-Kotlin（Android）" class="headerlink" title="5.2 App端 - Kotlin（Android）"></a>5.2 App端 - Kotlin（Android）</h3><p>Android设备也是小端架构，如果协议规定大端，需要做转换：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从字节流按大端读取Short</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：bytes = [0x12, 0x34], offset = 0</span><br><span class="hljs-comment"> * 输出：返回 0x1234 （即十进制 4660）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">readShortBE</span><span class="hljs-params">(bytes: <span class="hljs-type">ByteArray</span>, offset: <span class="hljs-type">Int</span>)</span></span>: <span class="hljs-built_in">Short</span> &#123;<br>    <span class="hljs-keyword">return</span> ((bytes[offset].toInt() and <span class="hljs-number">0xFF</span>) shl <span class="hljs-number">8</span> or   <span class="hljs-comment">// bytes[0].toInt() = 0x12，and 0xFF保持值不变</span><br>                                                            <span class="hljs-comment">// shl 8：左移8位变成 0x1200</span><br>            (bytes[offset + <span class="hljs-number">1</span>].toInt() and <span class="hljs-number">0xFF</span>)).toShort() <span class="hljs-comment">// bytes[1].toInt() = 0x34，and 0xFF保持值不变</span><br>                                                            <span class="hljs-comment">// or：位或拼合 0x1200 | 0x34 = 0x1234</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从字节流按大端读取Int</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：bytes = [0x12, 0x34, 0x56, 0x78], offset = 0</span><br><span class="hljs-comment"> * 输出：返回 0x12345678 （即十进制 305419896）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">readIntBE</span><span class="hljs-params">(bytes: <span class="hljs-type">ByteArray</span>, offset: <span class="hljs-type">Int</span>)</span></span>: <span class="hljs-built_in">Int</span> &#123;<br>    <span class="hljs-keyword">return</span> (bytes[offset].toInt() and <span class="hljs-number">0xFF</span>) shl <span class="hljs-number">24</span> or   <span class="hljs-comment">// 第1字节移到最高8位：0x12 &lt;&lt; 24</span><br>           (bytes[offset + <span class="hljs-number">1</span>].toInt() and <span class="hljs-number">0xFF</span>) shl <span class="hljs-number">16</span> or <span class="hljs-comment">// 第2字节移到次高8位：0x34 &lt;&lt; 16</span><br>           (bytes[offset + <span class="hljs-number">2</span>].toInt() and <span class="hljs-number">0xFF</span>) shl <span class="hljs-number">8</span> or  <span class="hljs-comment">// 第3字节移到次低8位：0x56 &lt;&lt; 8</span><br>           (bytes[offset + <span class="hljs-number">3</span>].toInt() and <span class="hljs-number">0xFF</span>)           <span class="hljs-comment">// 第4字节保持原位：0x78</span><br>    <span class="hljs-comment">// 四个值位或拼合：0x12345678</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * ByteBuffer方式（更简洁，推荐）</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：bytes = [0x12, 0x34, 0x56, 0x78]</span><br><span class="hljs-comment"> * 输出：返回 0x12345678</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">readIntBEWithBuffer</span><span class="hljs-params">(bytes: <span class="hljs-type">ByteArray</span>)</span></span>: <span class="hljs-built_in">Int</span> &#123;<br>    <span class="hljs-keyword">val</span> buffer = ByteBuffer.wrap(bytes)<br>    buffer.order(ByteOrder.BIG_ENDIAN)  <span class="hljs-comment">// 指定按大端解析</span><br>    <span class="hljs-keyword">return</span> buffer.int                    <span class="hljs-comment">// ByteBuffer自动按指定端序拼合4字节返回int</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 写入时指定大端</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：value = 0x12345678</span><br><span class="hljs-comment"> * 输出：返回 ByteArray [0x12, 0x34, 0x56, 0x78]</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">writeIntBE</span><span class="hljs-params">(value: <span class="hljs-type">Int</span>)</span></span>: ByteArray &#123;<br>    <span class="hljs-keyword">val</span> buffer = ByteBuffer.allocate(<span class="hljs-number">4</span>)<br>    buffer.order(ByteOrder.BIG_ENDIAN)  <span class="hljs-comment">// 指定大端排列</span><br>    buffer.putInt(value)                 <span class="hljs-comment">// ByteBuffer自动把int拆成4字节按大端写入</span><br>    <span class="hljs-keyword">return</span> buffer.array()<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>BLE接收数据的典型处理：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCharacteristicChanged</span><span class="hljs-params">(gatt: <span class="hljs-type">BluetoothGatt</span>, characteristic: <span class="hljs-type">BluetoothGattCharacteristic</span>)</span></span> &#123;<br>    <span class="hljs-keyword">val</span> <span class="hljs-keyword">data</span> = characteristic.value  <span class="hljs-comment">// ByteArray，原始字节流</span><br>    <span class="hljs-comment">// 假设协议：前2字节是命令ID（大端），后4字节是数据（大端）</span><br>    <span class="hljs-keyword">val</span> cmdId = readShortBE(<span class="hljs-keyword">data</span>, <span class="hljs-number">0</span>)     <span class="hljs-comment">// 从data[0]开始读2字节，大端拼成short</span><br>    <span class="hljs-keyword">val</span> payload = readIntBE(<span class="hljs-keyword">data</span>, <span class="hljs-number">2</span>)     <span class="hljs-comment">// 从data[2]开始读4字节，大端拼成int</span><br>    <span class="hljs-comment">// 处理数据...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-3-App端-Swift（iOS）"><a href="#5-3-App端-Swift（iOS）" class="headerlink" title="5.3 App端 - Swift（iOS）"></a>5.3 App端 - Swift（iOS）</h3><p>iOS是小端，处理方式和Android类似：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从Data按大端读取UInt16</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：data = Data([0x12, 0x34]), offset = 0</span><br><span class="hljs-comment"> * 输出：返回 0x1234</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">func</span> <span class="hljs-title function_">readUInt16BE</span>(<span class="hljs-keyword">_</span> <span class="hljs-params">data</span>: <span class="hljs-type">Data</span>, <span class="hljs-params">offset</span>: <span class="hljs-type">Int</span>) -&gt; <span class="hljs-type">UInt16</span> &#123;<br>    <span class="hljs-keyword">let</span> value <span class="hljs-operator">=</span> data.subdata(in: offset<span class="hljs-operator">..&lt;</span>offset<span class="hljs-operator">+</span><span class="hljs-number">2</span>).withUnsafeBytes &#123;<br>        <span class="hljs-variable">$0</span>.load(as: <span class="hljs-type">UInt16</span>.<span class="hljs-keyword">self</span>)  <span class="hljs-comment">// 从Data中按内存布局加载一个UInt16</span><br>                                  <span class="hljs-comment">// 在小端机器上，如果原始字节是12 34，load出来是0x3412</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-type">UInt16</span>(bigEndian: value)  <span class="hljs-comment">// bigEndian：把value从大端表示转为主机序</span><br>                                     <span class="hljs-comment">// 0x3412 → 0x1234（小端机器上做了字节翻转）</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从Data按大端读取UInt32</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：data = Data([0x12, 0x34, 0x56, 0x78]), offset = 0</span><br><span class="hljs-comment"> * 输出：返回 0x12345678</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">func</span> <span class="hljs-title function_">readUInt32BE</span>(<span class="hljs-keyword">_</span> <span class="hljs-params">data</span>: <span class="hljs-type">Data</span>, <span class="hljs-params">offset</span>: <span class="hljs-type">Int</span>) -&gt; <span class="hljs-type">UInt32</span> &#123;<br>    <span class="hljs-keyword">let</span> value <span class="hljs-operator">=</span> data.subdata(in: offset<span class="hljs-operator">..&lt;</span>offset<span class="hljs-operator">+</span><span class="hljs-number">4</span>).withUnsafeBytes &#123;<br>        <span class="hljs-variable">$0</span>.load(as: <span class="hljs-type">UInt32</span>.<span class="hljs-keyword">self</span>)  <span class="hljs-comment">// 加载4字节，小端机器上原始12 34 56 78 → load出 0x78563412</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-type">UInt32</span>(bigEndian: value)  <span class="hljs-comment">// 0x78563412 → 0x12345678</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 用Data的API处理</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：data = Data([0x12, 0x34, 0x56, 0x78])</span><br><span class="hljs-comment"> * 输出：value = 0x12345678</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">let</span> data: <span class="hljs-type">Data</span> <span class="hljs-operator">=</span> <span class="hljs-operator">...</span> <span class="hljs-comment">// 从BLE收到的数据</span><br><span class="hljs-keyword">var</span> value: <span class="hljs-type">UInt32</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span><br><span class="hljs-keyword">_</span> <span class="hljs-operator">=</span> withUnsafeMutableBytes(of: <span class="hljs-operator">&amp;</span>value) &#123; data.copyBytes(to: <span class="hljs-variable">$0</span>, from: <span class="hljs-number">0</span><span class="hljs-operator">..&lt;</span><span class="hljs-number">4</span>) &#125;<br><span class="hljs-comment">// copyBytes把data的前4字节拷贝到value的内存中</span><br><span class="hljs-comment">// 小端机器上value内存是 78 56 34 12，所以value = 0x78563412</span><br>value <span class="hljs-operator">=</span> <span class="hljs-type">UInt32</span>(bigEndian: value)<br><span class="hljs-comment">// bigEndian把字节翻转：0x78563412 → 0x12345678，得到正确的大端解析值</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="5-4-App端-uniApp"><a href="#5-4-App端-uniApp" class="headerlink" title="5.4 App端 - uniApp"></a>5.4 App端 - uniApp</h3><p>uniApp做BLE开发时，数据通常以ArrayBuffer或Uint8Array形式处理：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从ArrayBuffer按大端读取16位整数</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：buffer包含字节 [0x12, 0x34], offset = 0</span><br><span class="hljs-comment"> * 输出：返回 0x1234 （即十进制 4660）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">readInt16BE</span>(<span class="hljs-params">buffer, offset</span>) &#123;<br>    <span class="hljs-keyword">const</span> view = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DataView</span>(buffer);<br>    <span class="hljs-keyword">return</span> view.<span class="hljs-title function_">getInt16</span>(offset, <span class="hljs-literal">false</span>);  <span class="hljs-comment">// false表示大端模式</span><br>                                          <span class="hljs-comment">// DataView自动把第offset和offset+1两个字节按大端拼成int16</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 从ArrayBuffer按大端读取32位整数</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：buffer包含字节 [0x12, 0x34, 0x56, 0x78], offset = 0</span><br><span class="hljs-comment"> * 输出：返回 0x12345678 （即十进制 305419896）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">readInt32BE</span>(<span class="hljs-params">buffer, offset</span>) &#123;<br>    <span class="hljs-keyword">const</span> view = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DataView</span>(buffer);<br>    <span class="hljs-keyword">return</span> view.<span class="hljs-title function_">getInt32</span>(offset, <span class="hljs-literal">false</span>);  <span class="hljs-comment">// false表示大端模式</span><br>                                          <span class="hljs-comment">// DataView自动把4字节按大端拼成int32</span><br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 写入32位整数，按大端</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * 输入：value = 0x12345678</span><br><span class="hljs-comment"> * 输出：buffer包含字节 [0x12, 0x34, 0x56, 0x78]</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">writeInt32BE</span>(<span class="hljs-params">value</span>) &#123;<br>    <span class="hljs-keyword">const</span> buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayBuffer</span>(<span class="hljs-number">4</span>);<br>    <span class="hljs-keyword">const</span> view = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DataView</span>(buffer);<br>    view.<span class="hljs-title function_">setInt32</span>(<span class="hljs-number">0</span>, value, <span class="hljs-literal">false</span>);  <span class="hljs-comment">// false表示大端排列</span><br>                                     <span class="hljs-comment">// DataView自动把value拆成4字节，按大端顺序写入buffer</span><br>    <span class="hljs-keyword">return</span> buffer;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * uniApp BLE接收示例</span><br><span class="hljs-comment"> */</span><br>uni.<span class="hljs-title function_">onBLECharacteristicValueChange</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> &#123;<br>    <span class="hljs-keyword">const</span> buffer = res.<span class="hljs-property">value</span>;  <span class="hljs-comment">// ArrayBuffer，BLE收到的原始字节流</span><br>    <span class="hljs-keyword">const</span> view = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DataView</span>(buffer);<br>    <span class="hljs-keyword">const</span> cmdId = view.<span class="hljs-title function_">getUint16</span>(<span class="hljs-number">0</span>, <span class="hljs-literal">false</span>);   <span class="hljs-comment">// 大端读命令ID，如buffer前2字节是[0x00, 0x01] → 返回1</span><br>    <span class="hljs-keyword">const</span> dataValue = view.<span class="hljs-title function_">getInt32</span>(<span class="hljs-number">2</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// 大端读数据，如buffer接着4字节是[0x00,0x00,0x00,0x64] → 返回100</span><br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;cmdId:&#x27;</span>, cmdId, <span class="hljs-string">&#x27;value:&#x27;</span>, dataValue);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、几个实际建议"><a href="#六、几个实际建议" class="headerlink" title="六、几个实际建议"></a>六、几个实际建议</h2><ol>
+<li><p><strong>协议文档一定要写清楚字节序。</strong> 不写就是埋坑，后面联调的时候双方各猜各的。</p>
+</li>
+<li><p><strong>调试时抓原始字节流。</strong> 不要只看解析后的值，先看hex dump。看到 <code>34 12</code> 你才知道对方发的是小端，看到 <code>12 34</code> 才知道是大端。</p>
+</li>
+<li><p><strong>封装统一的读写函数。</strong> 别在业务代码里到处写移位操作，封装一个 <code>ByteUtils</code> 之类的工具类，所有地方统一调用。</p>
+</li>
+<li><p><strong>用DataView&#x2F;ByteBuffer这类标准API。</strong> 比手写移位安全，不容易出off-by-one的错误。</p>
+</li>
+<li><p><strong>端序问题不只影响整数。</strong> float和double也有端序问题，处理方式和整数一样，按协议规定的端序做转换就行。</p>
+</li>
+</ol>
+<hr>
+<p>字节序这个问题本身不复杂，但第一次碰到的时候确实容易懵。记住一个原则就够了：协议定端序，代码做转换，两端统一。剩下的就是写代码的时候别偷懒，老老实实按协议来。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%92%8CAPP/" class="category-chain-item">小程序和APP</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Kotlin/" class="print-no-link">#Kotlin</a>
+      
+        <a href="/tags/Swift/" class="print-no-link">#Swift</a>
+      
+        <a href="/tags/C/" class="print-no-link">#C++</a>
+      
+        <a href="/tags/%E5%A4%A7%E7%AB%AF/" class="print-no-link">#大端</a>
+      
+        <a href="/tags/%E5%B0%8F%E7%AB%AF/" class="print-no-link">#小端</a>
+      
+        <a href="/tags/%E5%AD%97%E8%8A%82%E5%BA%8F/" class="print-no-link">#字节序</a>
+      
+        <a href="/tags/BLE%E8%93%9D%E7%89%99/" class="print-no-link">#BLE蓝牙</a>
+      
+        <a href="/tags/Socket%E9%80%9A%E4%BF%A1/" class="print-no-link">#Socket通信</a>
+      
+        <a href="/tags/%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93/" class="print-no-link">#网络传输</a>
+      
+        <a href="/tags/uniApp/" class="print-no-link">#uniApp</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>网络数据传输中的大端与小端：一个BLE和Socket开发者的踩坑笔记</div>
+      <div>https://jycpp.github.io/2026/26-08-29-网络数据传输中的大端与小端.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年8月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/26-08-16-CodeBuddy%E4%B8%8EWorkBuddy%E5%AF%B9%E6%AF%94%E5%8F%8ASkill%E5%92%8CMCP%E8%BF%81%E7%A7%BB.html" title="CodeBuddy 与 WorkBuddy 产品对比及 Skill / MCP 迁移指南">
+                        <span class="hidden-mobile">CodeBuddy 与 WorkBuddy 产品对比及 Skill / MCP 迁移指南</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
