@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="本文提供通过 Nginx 做 TLS 终止代理，实现公网使用 wss:&#x2F;&#x2F; 安全访问 Codex App Server 的方案。适合需要从外网（广域网）远程开发共享的场景。 注意：公网暴露服务请务必使用强 token 认证，并考虑防火墙、端口限制等安全措施。 一、服务端配置（macOS）1. 安装并启动 Nginx12345# 安装 Nginxbrew install nginx# 启动 Ngin">
+    <meta name="description" content="本文提供通过 Nginx 做 TLS 终止代理，实现公网使用 wss:&#x2F;&#x2F; 安全访问 Codex App Server 的方案。适合需要从外网（广域网）远程开发共享的场景。 注意：公网暴露服务请务必使用强 token 认证，并考虑防火墙、端口限制等安全措施。 一、服务端配置（macOS） 1. 安装并启动 Nginx 12345# 安装 Nginxbrew install nginx# 启动 Ng">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Codex 广域网远程共享指南：macOS 服务端 + Nginx + SSL（wss 方案）">
 <meta property="og:url" content="https://jycpp.github.io/2026/26-05-01-Codex%E5%B9%BF%E5%9F%9F%E7%BD%91%E8%BF%9C%E7%A8%8B%E5%85%B1%E4%BA%AB%E6%8C%87%E5%8D%97.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="本文提供通过 Nginx 做 TLS 终止代理，实现公网使用 wss:&#x2F;&#x2F; 安全访问 Codex App Server 的方案。适合需要从外网（广域网）远程开发共享的场景。 注意：公网暴露服务请务必使用强 token 认证，并考虑防火墙、端口限制等安全措施。 一、服务端配置（macOS）1. 安装并启动 Nginx12345# 安装 Nginxbrew install nginx# 启动 Ngin">
+<meta property="og:description" content="本文提供通过 Nginx 做 TLS 终止代理，实现公网使用 wss:&#x2F;&#x2F; 安全访问 Codex App Server 的方案。适合需要从外网（广域网）远程开发共享的场景。 注意：公网暴露服务请务必使用强 token 认证，并考虑防火墙、端口限制等安全措施。 一、服务端配置（macOS） 1. 安装并启动 Nginx 12345# 安装 Nginxbrew install nginx# 启动 Ng">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-05-01T15:45:00.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.108Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.669Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Nginx">
 <meta property="article:tag" content="SSL">
@@ -258,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          649 字
+          647 字
         
       </span>
     
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1368,49 +1377,62 @@ true
             
               <div class="markdown-body">
                 
-                <p>本文提供通过 Nginx 做 TLS 终止代理，实现公网使用 <code>wss://</code> 安全访问 Codex App Server 的方案。适合需要从外网（广域网）远程开发共享的场景。</p>
-<p><strong>注意</strong>：公网暴露服务请务必使用强 token 认证，并考虑防火墙、端口限制等安全措施。</p>
-<h4 id="一、服务端配置（macOS）"><a href="#一、服务端配置（macOS）" class="headerlink" title="一、服务端配置（macOS）"></a>一、服务端配置（macOS）</h4><h5 id="1-安装并启动-Nginx"><a href="#1-安装并启动-Nginx" class="headerlink" title="1. 安装并启动 Nginx"></a>1. 安装并启动 Nginx</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装 Nginx</span><br>brew install nginx<br><br><span class="hljs-comment"># 启动 Nginx（开机自启动推荐）</span><br>brew services start nginx<br></code></pre></td></tr></table></figure>
-
-<p>Nginx 默认配置文件路径：<code>/usr/local/etc/nginx/nginx.conf</code>（或 <code>/opt/homebrew/etc/nginx/nginx.conf</code>，视 brew 安装路径而定）。</p>
-<h5 id="2-配置-Codex-App-Server（仅监听本地）"><a href="#2-配置-Codex-App-Server（仅监听本地）" class="headerlink" title="2. 配置 Codex App Server（仅监听本地）"></a>2. 配置 Codex App Server（仅监听本地）</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 生成 token（如果还没有）</span><br><span class="hljs-built_in">mkdir</span> -p ~/.codex<br>openssl rand -hex 32 &gt; ~/.codex/ws-token.txt<br><span class="hljs-built_in">chmod</span> 600 ~/.codex/ws-token.txt<br><br><span class="hljs-comment"># 启动 app-server（只监听本地）</span><br>codex app-server \<br>  --listen ws://127.0.0.1:8899 \<br>  --ws-auth capability-token \<br>  --ws-token-file <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/.codex/ws-token.txt&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p>建议使用 <code>tmux</code> 或 <code>brew services</code> 将其后台运行。</p>
-<h5 id="3-配置-Nginx-反向代理（wss）"><a href="#3-配置-Nginx-反向代理（wss）" class="headerlink" title="3. 配置 Nginx 反向代理（wss）"></a>3. 配置 Nginx 反向代理（wss）</h5><p>编辑 Nginx 配置（推荐新建站点配置文件）：</p>
+                <p>本文提供通过 Nginx 做 TLS 终止代理，实现公网使用 <code>wss://</code>
+安全访问 Codex App Server
+的方案。适合需要从外网（广域网）远程开发共享的场景。</p>
+<p><strong>注意</strong>：公网暴露服务请务必使用强 token
+认证，并考虑防火墙、端口限制等安全措施。</p>
+<h4 id="一服务端配置macos">一、服务端配置（macOS）</h4>
+<h5 id="安装并启动-nginx">1. 安装并启动 Nginx</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装 Nginx</span><br>brew install nginx<br><br><span class="hljs-comment"># 启动 Nginx（开机自启动推荐）</span><br>brew services start nginx<br></code></pre></td></tr></table></figure>
+<p>Nginx
+默认配置文件路径：<code>/usr/local/etc/nginx/nginx.conf</code>（或
+<code>/opt/homebrew/etc/nginx/nginx.conf</code>，视 brew
+安装路径而定）。</p>
+<h5 id="配置-codex-app-server仅监听本地">2. 配置 Codex App
+Server（仅监听本地）</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 生成 token（如果还没有）</span><br><span class="hljs-built_in">mkdir</span> -p ~/.codex<br>openssl rand -hex 32 &gt; ~/.codex/ws-token.txt<br><span class="hljs-built_in">chmod</span> 600 ~/.codex/ws-token.txt<br><br><span class="hljs-comment"># 启动 app-server（只监听本地）</span><br>codex app-server \<br>  --listen ws://127.0.0.1:8899 \<br>  --ws-auth capability-token \<br>  --ws-token-file <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/.codex/ws-token.txt&quot;</span><br></code></pre></td></tr></table></figure>
+<p>建议使用 <code>tmux</code> 或 <code>brew services</code>
+将其后台运行。</p>
+<h5 id="配置-nginx-反向代理wss">3. 配置 Nginx 反向代理（wss）</h5>
+<p>编辑 Nginx 配置（推荐新建站点配置文件）：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">mkdir</span> -p /usr/local/etc/nginx/servers<br><span class="hljs-comment"># 编辑配置文件，例如：</span><br><span class="hljs-built_in">sudo</span> nano /usr/local/etc/nginx/servers/codex.conf<br></code></pre></td></tr></table></figure>
-
 <p><strong>推荐配置内容</strong>（使用域名方式，更推荐）：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">443</span> ssl;<br>    <span class="hljs-attribute">server_name</span> codex.yourdomain.com;     <span class="hljs-comment"># ← 改成你的域名</span><br><br>    <span class="hljs-comment"># SSL 证书配置（推荐使用 Let&#x27;s Encrypt）</span><br>    <span class="hljs-attribute">ssl_certificate</span>     /path/to/fullchain.pem;<br>    <span class="hljs-attribute">ssl_certificate_key</span> /path/to/privkey.pem;<br><br>    <span class="hljs-comment"># WebSocket 代理核心配置</span><br>    <span class="hljs-section">location</span> / &#123;<br>        <span class="hljs-attribute">proxy_pass</span> http://127.0.0.1:8899;<br>        <span class="hljs-attribute">proxy_http_version</span> <span class="hljs-number">1</span>.<span class="hljs-number">1</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> Upgrade <span class="hljs-variable">$http_upgrade</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;upgrade&quot;</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$host</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> X-Real-IP <span class="hljs-variable">$remote_addr</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-Proto <span class="hljs-variable">$scheme</span>;<br><br>        <span class="hljs-attribute">proxy_read_timeout</span> <span class="hljs-number">3600</span>;<br>        <span class="hljs-attribute">proxy_send_timeout</span> <span class="hljs-number">3600</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><strong>如果暂时没有域名，想直接用 IP</strong>（不推荐长期使用）：</p>
+<p><strong>如果暂时没有域名，想直接用
+IP</strong>（不推荐长期使用）：</p>
 <p>把 <code>server_name</code> 改成你的公网 IP，并相应调整证书。</p>
-<h5 id="4-重载-Nginx-配置"><a href="#4-重载-Nginx-配置" class="headerlink" title="4. 重载 Nginx 配置"></a>4. 重载 Nginx 配置</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">nginx -t                     <span class="hljs-comment"># 测试配置是否正确</span><br>brew services restart nginx  <span class="hljs-comment"># 重启 Nginx</span><br></code></pre></td></tr></table></figure>
-
-<hr>
-<h4 id="二、客户端配置"><a href="#二、客户端配置" class="headerlink" title="二、客户端配置"></a>二、客户端配置</h4><p>客户端无论在什么网络（公网或局域网），均使用 <code>wss://</code> 连接。</p>
-<h5 id="1-macOS-Ubuntu-Linux-客户端"><a href="#1-macOS-Ubuntu-Linux-客户端" class="headerlink" title="1. macOS &#x2F; Ubuntu &#x2F; Linux 客户端"></a>1. macOS &#x2F; Ubuntu &#x2F; Linux 客户端</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 设置 token 对应的环境变量</span><br><span class="hljs-built_in">export</span> CODEX_REMOTE_TOKEN=$(<span class="hljs-built_in">cat</span> ~/.codex/ws-token.txt) <br><br><span class="hljs-comment"># 启动 Codex</span><br>codex --remote wss://codex.yourdomain.com \<br>      --remote-auth-token-env CODEX_REMOTE_TOKEN<br></code></pre></td></tr></table></figure>
-
-<h5 id="2-Windows-客户端（PowerShell）"><a href="#2-Windows-客户端（PowerShell）" class="headerlink" title="2. Windows 客户端（PowerShell）"></a>2. Windows 客户端（PowerShell）</h5><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># 设置 token 对应的环境变量</span><br><span class="hljs-variable">$env:CODEX_REMOTE_TOKEN</span> = (<span class="hljs-built_in">Get-Content</span> <span class="hljs-literal">-Raw</span> <span class="hljs-string">&quot;<span class="hljs-variable">$env:USERPROFILE</span>\.codex\ws-token.txt&quot;</span>).Trim()<br><br><span class="hljs-comment"># 启动 Codex</span><br>codex <span class="hljs-literal">--remote</span> wss://codex.yourdomain.com <span class="hljs-literal">--remote-auth-token-env</span> CODEX_REMOTE_TOKEN<br></code></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="推荐优化与注意事项"><a href="#推荐优化与注意事项" class="headerlink" title="推荐优化与注意事项"></a>推荐优化与注意事项</h3><ul>
-<li><p><strong>证书推荐</strong>：使用 <a target="_blank" rel="noopener" href="https://certbot.eff.org/">Certbot</a> + Let’s Encrypt 免费获取正规证书，比自签名证书更友好。</p>
-</li>
-<li><p><strong>域名解析</strong>：将域名 A 记录指向你的公网 IP。</p>
-</li>
-<li><p><strong>防火墙</strong>：在路由器或云服务器上放行 <strong>443 端口</strong>（HTTPS）。</p>
-</li>
-<li><p><strong>安全性</strong>：定期更换 <code>ws-token.txt</code>，避免长期使用弱 token。</p>
-</li>
+<h5 id="重载-nginx-配置">4. 重载 Nginx 配置</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">nginx -t                     <span class="hljs-comment"># 测试配置是否正确</span><br>brew services restart nginx  <span class="hljs-comment"># 重启 Nginx</span><br></code></pre></td></tr></table></figure>
+<hr />
+<h4 id="二客户端配置">二、客户端配置</h4>
+<p>客户端无论在什么网络（公网或局域网），均使用 <code>wss://</code>
+连接。</p>
+<h5 id="macos-ubuntu-linux-客户端">1. macOS / Ubuntu / Linux 客户端</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 设置 token 对应的环境变量</span><br><span class="hljs-built_in">export</span> CODEX_REMOTE_TOKEN=$(<span class="hljs-built_in">cat</span> ~/.codex/ws-token.txt) <br><br><span class="hljs-comment"># 启动 Codex</span><br>codex --remote wss://codex.yourdomain.com \<br>      --remote-auth-token-env CODEX_REMOTE_TOKEN<br></code></pre></td></tr></table></figure>
+<h5 id="windows-客户端powershell">2. Windows 客户端（PowerShell）</h5>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># 设置 token 对应的环境变量</span><br><span class="hljs-variable">$env:CODEX_REMOTE_TOKEN</span> = (<span class="hljs-built_in">Get-Content</span> <span class="hljs-literal">-Raw</span> <span class="hljs-string">&quot;<span class="hljs-variable">$env:USERPROFILE</span>\.codex\ws-token.txt&quot;</span>).Trim()<br><br><span class="hljs-comment"># 启动 Codex</span><br>codex <span class="hljs-literal">--remote</span> wss://codex.yourdomain.com <span class="hljs-literal">--remote-auth-token-env</span> CODEX_REMOTE_TOKEN<br></code></pre></td></tr></table></figure>
+<hr />
+<h3 id="推荐优化与注意事项">推荐优化与注意事项</h3>
+<ul>
+<li><p><strong>证书推荐</strong>：使用 <a
+target="_blank" rel="noopener" href="https://certbot.eff.org/">Certbot</a> + Let’s Encrypt
+免费获取正规证书，比自签名证书更友好。</p></li>
+<li><p><strong>域名解析</strong>：将域名 A 记录指向你的公网
+IP。</p></li>
+<li><p><strong>防火墙</strong>：在路由器或云服务器上放行 <strong>443
+端口</strong>（HTTPS）。</p></li>
+<li><p><strong>安全性</strong>：定期更换
+<code>ws-token.txt</code>，避免长期使用弱 token。</p></li>
 <li><p><strong>调试命令</strong>（客户端遇到问题时使用）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">RUST_LOG=debug CODEX_REMOTE_TOKEN=... codex --remote wss://...<br></code></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">RUST_LOG=debug CODEX_REMOTE_TOKEN=... codex --remote wss://...<br></code></pre></td></tr></table></figure></li>
 <li><p><strong>常见问题</strong>：</p>
 <ul>
 <li>自签名证书可能导致客户端证书验证失败（需导入信任）。</li>
-<li>WebSocket 升级失败通常是 Nginx 的 <code>proxy_set_header Upgrade</code> 和 <code>Connection</code> 配置错误。</li>
-</ul>
-</li>
+<li>WebSocket 升级失败通常是 Nginx 的
+<code>proxy_set_header Upgrade</code> 和 <code>Connection</code>
+配置错误。</li>
+</ul></li>
 </ul>
 
                 
@@ -1604,6 +1626,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1821,6 +1849,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

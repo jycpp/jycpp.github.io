@@ -19,16 +19,16 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在本文中，将详细介绍如何在本地部署DeepSeek，并借助OpenWebUI来体验大语言模型（LLM）。此过程主要会用到Ollama和Docker这两个工具。 准备工作以下步骤也包括让你的电脑安装以下软件：  Windows或Linux系统系统 Docker Ollama     Ollama的操作安装Ollama并运行DeepSeek模型Ollama是一个开源的本地运行的LLM，支持多种模型，包">
+    <meta name="description" content="在本文中，将详细介绍如何在本地部署DeepSeek，并借助OpenWebUI来体验大语言模型（LLM）。此过程主要会用到Ollama和Docker这两个工具。 准备工作 以下步骤也包括让你的电脑安装以下软件： - Windows或Linux系统系统 - Docker - Ollama   Ollama的操作 安装Ollama并运行DeepSeek模型 Ollama是一个开源的本地运行的LLM，支持">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ollama部署DeepSeek结合OpenWebUI体验大语言模型">
 <meta property="og:url" content="https://jycpp.github.io/2025/25-02-07-Ollama%E9%83%A8%E7%BD%B2DeepSeek%E7%BB%93%E5%90%88OpenWebUI%E4%BD%93%E9%AA%8C.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="在本文中，将详细介绍如何在本地部署DeepSeek，并借助OpenWebUI来体验大语言模型（LLM）。此过程主要会用到Ollama和Docker这两个工具。 准备工作以下步骤也包括让你的电脑安装以下软件：  Windows或Linux系统系统 Docker Ollama     Ollama的操作安装Ollama并运行DeepSeek模型Ollama是一个开源的本地运行的LLM，支持多种模型，包">
+<meta property="og:description" content="在本文中，将详细介绍如何在本地部署DeepSeek，并借助OpenWebUI来体验大语言模型（LLM）。此过程主要会用到Ollama和Docker这两个工具。 准备工作 以下步骤也包括让你的电脑安装以下软件： - Windows或Linux系统系统 - Docker - Ollama   Ollama的操作 安装Ollama并运行DeepSeek模型 Ollama是一个开源的本地运行的LLM，支持">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2025/02/11/M9UIwO3TvVo2P5Q.png">
 <meta property="article:published_time" content="2025-02-07T00:00:00.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.106Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.665Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Docker">
 <meta property="article:tag" content="Windows">
@@ -985,244 +985,287 @@ true
               <div class="markdown-body">
                 
                 <p>在本文中，将详细介绍如何在本地部署DeepSeek，并借助OpenWebUI来体验大语言模型（LLM）。此过程主要会用到Ollama和Docker这两个工具。</p>
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>以下步骤也包括让你的电脑安装以下软件：</p>
-<ul>
-<li>Windows或Linux系统系统</li>
-<li>Docker</li>
-<li>Ollama</li>
-</ul>
-<iframe style="width:100%; min-height:500px;" src="//player.bilibili.com/player.html?isOutside=true&aid=113961034843590&bvid=BV1rjNbepETo&cid=28257225920&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
-
-
-<h3 id="Ollama的操作"><a href="#Ollama的操作" class="headerlink" title="Ollama的操作"></a>Ollama的操作</h3><h4 id="安装Ollama并运行DeepSeek模型"><a href="#安装Ollama并运行DeepSeek模型" class="headerlink" title="安装Ollama并运行DeepSeek模型"></a>安装Ollama并运行DeepSeek模型</h4><p>Ollama是一个开源的本地运行的LLM，支持多种模型，包括DeepSeek。以下是在Windows系统上安装和运行DeepSeek的步骤：</p>
-<ol>
-<li><p><strong>下载Ollama</strong>：可以在Ollama的官网下载Windows版本，该软件大小约800M，安装速度通常较快。安装完成后，在电脑右下角会出现Ollama的图标。</p>
-</li>
-<li><p><strong>下载DeepSeek模型</strong>：前往Ollama的官网找到DeepSeek的页面，由于是演示用途，选择下载最小的模型。下载命令如下：</p>
-</li>
+<h3 id="准备工作">准备工作</h3>
+<p>以下步骤也包括让你的电脑安装以下软件： - Windows或Linux系统系统 -
+Docker - Ollama</p>
+<iframe style="width:100%; min-height:500px;" src="//player.bilibili.com/player.html?isOutside=true&amp;aid=113961034843590&amp;bvid=BV1rjNbepETo&amp;cid=28257225920&amp;p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true">
+</iframe>
+<h3 id="ollama的操作">Ollama的操作</h3>
+<h4 id="安装ollama并运行deepseek模型">安装Ollama并运行DeepSeek模型</h4>
+<p>Ollama是一个开源的本地运行的LLM，支持多种模型，包括DeepSeek。以下是在Windows系统上安装和运行DeepSeek的步骤：</p>
+<ol type="1">
+<li><p><strong>下载Ollama</strong>：可以在Ollama的官网下载Windows版本，该软件大小约800M，安装速度通常较快。安装完成后，在电脑右下角会出现Ollama的图标。</p></li>
+<li><p><strong>下载DeepSeek模型</strong>：前往Ollama的官网找到DeepSeek的页面，由于是演示用途，选择下载最小的模型。下载命令如下：</p></li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ollama run deepseek-r1:1.5b<br></code></pre></td></tr></table></figure>
-
 <p>将此命令复制后，在Windows的cmd或powershell中输入。下载大模型所需时间较长，主要取决于网络环境，尤其是连接国际互联网的速度。</p>
-<ol start="3">
+<ol start="3" type="1">
 <li><strong>启动DeepSeek模型</strong>：模型下载完成后，可通过相同命令启动DeepSeek。再次运行时，无需重新下载模型。启动命令同样为：</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ollama run deepseek-r1:1.5b<br></code></pre></td></tr></table></figure>
-
 <p>此时，可进行简单的英文和中文对话测试，DeepSeek在处理这两种语言的对话时表现良好。</p>
-<p><img src="https://s2.loli.net/2025/02/11/M9UIwO3TvVo2P5Q.png" srcset="/img/loading.gif" lazyload alt="命令行的Ollama"></p>
-<h3 id="Ollama使用问题问题："><a href="#Ollama使用问题问题：" class="headerlink" title="Ollama使用问题问题："></a>Ollama使用问题问题：</h3><h4 id="WebUI访问不了Ollama"><a href="#WebUI访问不了Ollama" class="headerlink" title="WebUI访问不了Ollama"></a>WebUI访问不了Ollama</h4><p>默认只可以本地访问：<br><a target="_blank" rel="noopener" href="http://localhost:11434/">http://localhost:11434</a>  或者 <a target="_blank" rel="noopener" href="http://127.0.0.1:11434/">http://127.0.0.1:11434</a></p>
-<p>而局域网无法访问：<br><a target="_blank" rel="noopener" href="http://192.168.0.83:11434/">http://192.168.0.83:11434</a></p>
-<p>需要设置 OLLAMA_HOST 变量，内容为： 0.0.0.0:11434<br>然后重启Ollama。</p>
-<p><img src="https://s2.loli.net/2025/06/17/ghM7Qe8NR3rWwaI.png" srcset="/img/loading.gif" lazyload alt="设置Ollama的局域网访问"></p>
+<figure>
+<img src="https://s2.loli.net/2025/02/11/M9UIwO3TvVo2P5Q.png" srcset="/img/loading.gif" lazyload
+alt="命令行的Ollama" />
+<figcaption aria-hidden="true">命令行的Ollama</figcaption>
+</figure>
+<h3 id="ollama使用问题问题">Ollama使用问题问题：</h3>
+<h4 id="webui访问不了ollama">WebUI访问不了Ollama</h4>
+<p>默认只可以本地访问： http://localhost:11434 或者
+http://127.0.0.1:11434</p>
+<p>而局域网无法访问： http://192.168.0.83:11434</p>
+<p>需要设置 OLLAMA_HOST 变量，内容为： 0.0.0.0:11434
+然后重启Ollama。</p>
+<figure>
+<img src="https://s2.loli.net/2025/06/17/ghM7Qe8NR3rWwaI.png" srcset="/img/loading.gif" lazyload
+alt="设置Ollama的局域网访问" />
+<figcaption aria-hidden="true">设置Ollama的局域网访问</figcaption>
+</figure>
 <p>以下是设置前后访问的效果：</p>
-<p><img src="https://s2.loli.net/2025/06/17/5g4Y7UnIapqZWLr.png" srcset="/img/loading.gif" lazyload alt="Ollama的11434端口"></p>
-<p><img src="https://s2.loli.net/2025/06/17/HUKRjA1l2ymvogs.png" srcset="/img/loading.gif" lazyload alt="Ollama的11434端口"></p>
-<h4 id="通过API访问Ollama"><a href="#通过API访问Ollama" class="headerlink" title="通过API访问Ollama"></a>通过API访问Ollama</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl http://192.168.0.81:11434/api/generate -d <span class="hljs-string">&#x27;&#123;</span><br><span class="hljs-string">  &quot;model&quot;: &quot;deepseek-r1:1.5b&quot;,</span><br><span class="hljs-string">  &quot;prompt&quot;: &quot;天空为什么是蓝色的？&quot;</span><br><span class="hljs-string">&#125;&#x27;</span><br></code></pre></td></tr></table></figure>
-
-
-<h3 id="Open-WebUI-的操作"><a href="#Open-WebUI-的操作" class="headerlink" title="Open WebUI 的操作"></a>Open WebUI 的操作</h3><h4 id="使用Docker安装和部署OpenWebUI"><a href="#使用Docker安装和部署OpenWebUI" class="headerlink" title="使用Docker安装和部署OpenWebUI"></a>使用Docker安装和部署OpenWebUI</h4><p>OpenWebUI是一个开源的网页版LLM，支持多种模型，包括DeepSeek。以下是在Windows系统上使用Docker安装和部署OpenWebUI的步骤：</p>
-<ol>
-<li><p><strong>了解安装方式</strong>：安装OpenWebUI的过程相对复杂，这里借助Docker来快速完成安装和部署。关于使用Docker的详细过程，本文暂不赘述，可在本教程之外另行学习。</p>
-</li>
-<li><p><strong>运行容器</strong>：下载Docker镜像后，通过以下命令运行容器。在命令中，关键是要<strong>指定Ollama的端口和地址</strong>。我们这里指定为： <a target="_blank" rel="noopener" href="http://192.168.0.81:11434/">http://192.168.0.81:11434</a></p>
-</li>
+<figure>
+<img src="https://s2.loli.net/2025/06/17/5g4Y7UnIapqZWLr.png" srcset="/img/loading.gif" lazyload
+alt="Ollama的11434端口" />
+<figcaption aria-hidden="true">Ollama的11434端口</figcaption>
+</figure>
+<figure>
+<img src="https://s2.loli.net/2025/06/17/HUKRjA1l2ymvogs.png" srcset="/img/loading.gif" lazyload
+alt="Ollama的11434端口" />
+<figcaption aria-hidden="true">Ollama的11434端口</figcaption>
+</figure>
+<h4 id="通过api访问ollama">通过API访问Ollama</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl http://192.168.0.81:11434/api/generate -d <span class="hljs-string">&#x27;&#123;</span><br><span class="hljs-string">  &quot;model&quot;: &quot;deepseek-r1:1.5b&quot;,</span><br><span class="hljs-string">  &quot;prompt&quot;: &quot;天空为什么是蓝色的？&quot;</span><br><span class="hljs-string">&#125;&#x27;</span><br></code></pre></td></tr></table></figure>
+<h3 id="open-webui-的操作">Open WebUI 的操作</h3>
+<h4
+id="使用docker安装和部署openwebui">使用Docker安装和部署OpenWebUI</h4>
+<p>OpenWebUI是一个开源的网页版LLM，支持多种模型，包括DeepSeek。以下是在Windows系统上使用Docker安装和部署OpenWebUI的步骤：</p>
+<ol type="1">
+<li><p><strong>了解安装方式</strong>：安装OpenWebUI的过程相对复杂，这里借助Docker来快速完成安装和部署。关于使用Docker的详细过程，本文暂不赘述，可在本教程之外另行学习。</p></li>
+<li><p><strong>运行容器</strong>：下载Docker镜像后，通过以下命令运行容器。在命令中，关键是要<strong>指定Ollama的端口和地址</strong>。我们这里指定为：
+http://192.168.0.81:11434</p></li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -d \<br>-p 3000:8080 \<br>-v /opt/ollama/open-webui:/app/backend/data \<br>-e HF_ENDPOINT=https://hf-mirror.com \<br>-e OLLAMA_BASE_URL=http://192.168.0.81:11434 \<br>-e DEFAULT_MODELS=deepseek-r1:1.5b \<br>--name open-webui \<br>--restart always \<br>ghcr.io/open-webui/open-webui:main<br></code></pre></td></tr></table></figure>
-
 <p>上述命令运行后，Web服务会在端口3000启动。</p>
-<h4 id="使用OpenWebUI进行网页对话"><a href="#使用OpenWebUI进行网页对话" class="headerlink" title="使用OpenWebUI进行网页对话"></a>使用OpenWebUI进行网页对话</h4><p><img src="https://s2.loli.net/2025/02/11/kfEr8hbYgqUvSAJ.png" srcset="/img/loading.gif" lazyload alt="Open WebUI 的操作界面"></p>
+<h4 id="使用openwebui进行网页对话">使用OpenWebUI进行网页对话</h4>
+<figure>
+<img src="https://s2.loli.net/2025/02/11/kfEr8hbYgqUvSAJ.png" srcset="/img/loading.gif" lazyload
+alt="Open WebUI 的操作界面" />
+<figcaption aria-hidden="true">Open WebUI 的操作界面</figcaption>
+</figure>
 <p>OpenWebUI提供了一个简单的网页界面，可用于与LLM进行对话。以下是使用OpenWebUI进行网页对话的步骤：</p>
-<ol>
-<li><p><strong>初始化账号</strong>：在浏览器中输入对应的网址，首次使用时需要进行账号初始化。这里是本地注册，无需联网操作。</p>
-</li>
-<li><p><strong>开始对话</strong>：完成注册后，在Windows系统上即可通过网页与DeepSeek进行对话。在对话过程中，可在后台查看前端对话日志，方便跟踪和排查问题。</p>
-</li>
+<ol type="1">
+<li><p><strong>初始化账号</strong>：在浏览器中输入对应的网址，首次使用时需要进行账号初始化。这里是本地注册，无需联网操作。</p></li>
+<li><p><strong>开始对话</strong>：完成注册后，在Windows系统上即可通过网页与DeepSeek进行对话。在对话过程中，可在后台查看前端对话日志，方便跟踪和排查问题。</p></li>
 </ol>
-<p>整个本地化部署过程操作简单，对于技术小白来说也不难上手。 </p>
-<h4 id="Open-WebUI的API和开发者token"><a href="#Open-WebUI的API和开发者token" class="headerlink" title="Open WebUI的API和开发者token"></a>Open WebUI的API和开发者token</h4><p>Open WebUI 提供了 API 接口，用于与模型进行交互。</p>
+<p>整个本地化部署过程操作简单，对于技术小白来说也不难上手。</p>
+<h4 id="open-webui的api和开发者token">Open WebUI的API和开发者token</h4>
+<p>Open WebUI 提供了 API 接口，用于与模型进行交互。</p>
 <p>Open WebUI API 类似Ollam，这里不赘述。</p>
 <p>以下是直接使用 Ollama API 进行对话的示例：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs bash">import requests<br><br><span class="hljs-comment"># 定义 API 接口 URL</span><br>api_url = <span class="hljs-string">&quot;http://192.168.0.81:11434/api/generate&quot;</span>  <span class="hljs-comment"># 替换为你的 Open WebUI 地址</span><br><br><span class="hljs-comment"># 定义请求参数</span><br>params = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;deepseek-r1:1.5b&quot;</span>,  <span class="hljs-comment"># 模型名称</span><br>    <span class="hljs-string">&quot;prompt&quot;</span>: <span class="hljs-string">&quot;天空为什么是蓝色的？&quot;</span>,  <span class="hljs-comment"># 对话内容</span><br>    <span class="hljs-string">&quot;max_new_tokens&quot;</span>: 50,  <span class="hljs-comment"># 生成的最大新令牌数</span><br>    <span class="hljs-string">&quot;temperature&quot;</span>: 0.7,  <span class="hljs-comment"># 温度参数，控制随机性</span><br>    <span class="hljs-string">&quot;top_p&quot;</span>: 0.9,  <span class="hljs-comment">#  nucleus sampling 参数，控制生成文本的多样性</span><br>    <span class="hljs-string">&quot;top_k&quot;</span>: 40,  <span class="hljs-comment"># top-k sampling 参数，控制生成文本的多样性</span><br>    <span class="hljs-string">&quot;stop&quot;</span>: [<span class="hljs-string">&quot;\n&quot;</span>],  <span class="hljs-comment"># 停止生成的标记列表</span><br>    <span class="hljs-string">&quot;stream&quot;</span>: True,  <span class="hljs-comment"># 启用流式传输，实时获取生成内容</span><br>    <span class="hljs-string">&quot;developer_token&quot;</span>: <span class="hljs-string">&quot;your_developer_token&quot;</span>,  <span class="hljs-comment"># 开发者 token</span><br>&#125;<br><br><span class="hljs-comment"># 发送 POST 请求</span><br>response = requests.post(api_url, json=params, stream=True)  <span class="hljs-comment"># 启用流式传输</span><br><br><span class="hljs-comment"># 处理流式响应</span><br><span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> response.iter_lines():<br>    <span class="hljs-keyword">if</span> line:<br>        data = json.loads(line.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)[6:])  <span class="hljs-comment"># 解析 JSON 数据</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;response&#x27;</span> <span class="hljs-keyword">in</span> data:<br>            <span class="hljs-built_in">print</span>(data[<span class="hljs-string">&#x27;response&#x27;</span>], end=<span class="hljs-string">&#x27;&#x27;</span>, flush=True)  <span class="hljs-comment"># 实时打印生成内容</span><br></code></pre></td></tr></table></figure>
+<h4 id="基本open-webui开发智能体">基本Open WebUI开发智能体</h4>
+<p>具体的操作可以在Workspace（工作空间）找到，这里提供对于模型、知识库、提示词和工具的管理，其中“工具”是基于Python做开发的。</p>
+<p>设置好工具后，可以在“智能体”中添加，添加后即可在Open
+WebUI中使用。</p>
+<h3 id="补充ollama的基础知识">补充：Ollama的基础知识</h3>
+<p>以下是 Ollama
+的常用命令分类整理，涵盖模型管理、服务控制、日志查看等核心操作，结合多个来源综合整理：</p>
+<hr />
+<h4 id="模型管理命令">⚙️ 1、模型管理命令</h4>
+<table>
 
-
-<h4 id="基本Open-WebUI开发智能体"><a href="#基本Open-WebUI开发智能体" class="headerlink" title="基本Open WebUI开发智能体"></a>基本Open WebUI开发智能体</h4><p>具体的操作可以在Workspace（工作空间）找到，这里提供对于模型、知识库、提示词和工具的管理，其中“工具”是基于Python做开发的。</p>
-<p>设置好工具后，可以在“智能体”中添加，添加后即可在Open WebUI中使用。</p>
-<h3 id="补充：Ollama的基础知识"><a href="#补充：Ollama的基础知识" class="headerlink" title="补充：Ollama的基础知识"></a>补充：Ollama的基础知识</h3><p>以下是 Ollama 的常用命令分类整理，涵盖模型管理、服务控制、日志查看等核心操作，结合多个来源综合整理：</p>
-<hr>
-<h4 id="⚙️-1、模型管理命令"><a href="#⚙️-1、模型管理命令" class="headerlink" title="⚙️ 1、模型管理命令"></a>⚙️ 1、模型管理命令</h4><table>
 <thead>
-<tr>
+<tr class="header">
 <th><strong>命令</strong></th>
 <th><strong>功能</strong></th>
 <th><strong>示例</strong></th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td><code>ollama pull &lt;模型名&gt;</code></td>
 <td>下载模型</td>
 <td><code>ollama pull llama3</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>ollama list</code></td>
 <td>查看已安装模型列表</td>
 <td><code>ollama list</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>ollama rm &lt;模型名&gt;</code></td>
 <td>删除模型（⚠️ 可能残留文件需手动清理）</td>
 <td><code>ollama rm deepseek-r1:14b</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>ollama run &lt;模型名&gt;</code></td>
 <td>运行模型（首次自动下载）</td>
 <td><code>ollama run llama3 --gpu</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>ollama cp &lt;源模型&gt; &lt;新模型&gt;</code></td>
 <td>复制模型</td>
 <td><code>ollama cp llama3 my-llama3</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>ollama show &lt;模型名&gt;</code></td>
 <td>查看模型详细信息</td>
 <td><code>ollama show qwen2.5</code></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <blockquote>
-<p>💡 <strong>注意</strong>：  </p>
-<ul>
-<li>彻底删除模型文件需手动清理目录（默认路径）：  <ul>
-<li><strong>Windows</strong>: <code>%USERPROFILE%\.ollama\models\</code>  </li>
-<li><strong>Linux&#x2F;macOS</strong>: <code>~/.ollama/models/</code></li>
-</ul>
-</li>
-<li>GPU 加速需添加 <code>--gpu</code> 参数（如 <code>ollama run deepseek-r1:7b --gpu</code>）。</li>
-</ul>
+<p>💡 <strong>注意</strong>：<br />
+- 彻底删除模型文件需手动清理目录（默认路径）：<br />
+- <strong>Windows</strong>:
+<code>%USERPROFILE%\.ollama\models\</code><br />
+- <strong>Linux/macOS</strong>: <code>~/.ollama/models/</code><br />
+- GPU 加速需添加 <code>--gpu</code> 参数（如
+<code>ollama run deepseek-r1:7b --gpu</code>）。</p>
 </blockquote>
-<hr>
-<h4 id="🖥️-2、服务控制命令"><a href="#🖥️-2、服务控制命令" class="headerlink" title="🖥️ 2、服务控制命令"></a>🖥️ 2、服务控制命令</h4><table>
+<hr />
+<h4 id="服务控制命令">🖥️ 2、服务控制命令</h4>
+<table>
+
 <thead>
-<tr>
+<tr class="header">
 <th><strong>命令</strong></th>
 <th><strong>功能</strong></th>
 <th><strong>示例</strong></th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td><code>ollama serve</code></td>
 <td>启动后台服务（默认端口 <code>11434</code>）</td>
 <td><code>ollama serve</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>ollama stop</code></td>
 <td>停止运行中的模型</td>
 <td><code>ollama stop</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>ollama ps</code></td>
 <td>查看正在运行的模型</td>
 <td><code>ollama ps</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>OLLAMA_HOST=127.0.0.1:11434</code></td>
 <td>限制服务仅本地访问（安全加固）</td>
 <td>前置环境变量使用</td>
 </tr>
-</tbody></table>
-<hr>
-<h4 id="📝-3、日志查看命令"><a href="#📝-3、日志查看命令" class="headerlink" title="📝 3、日志查看命令"></a>📝 3、日志查看命令</h4><table>
+</tbody>
+</table>
+<hr />
+<h4 id="日志查看命令">📝 3、日志查看命令</h4>
+<table style="width:100%;">
+
 <thead>
-<tr>
+<tr class="header">
 <th><strong>系统</strong></th>
-<th><strong>命令&#x2F;路径</strong></th>
+<th><strong>命令/路径</strong></th>
 <th><strong>说明</strong></th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td><strong>macOS</strong></td>
 <td><code>cat ~/.ollama/logs/server.log</code></td>
 <td>直接输出日志内容</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Linux</strong></td>
 <td><code>journalctl -u ollama</code></td>
 <td>Systemd 系统日志</td>
 </tr>
-<tr>
+<tr class="odd">
 <td></td>
 <td><code>cat /var/log/ollama/server.log</code></td>
 <td>直接查看日志文件</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Windows</strong></td>
 <td>资源管理器输入 <code>%LOCALAPPDATA%\Ollama</code></td>
 <td>打开日志目录查看 <code>server.log</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>通用</strong></td>
 <td><code>ollama logs</code></td>
 <td>查看实时运行日志（部分版本支持）</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <blockquote>
-<p>🔍 <strong>调试技巧</strong>：  </p>
-<ul>
-<li>启用详细日志：设置环境变量 <code>OLLAMA_DEBUG=&quot;1&quot;</code>（Windows: PowerShell）  </li>
-<li>实时跟踪日志：Linux&#x2F;macOS 用 <code>tail -f ~/.ollama/logs/server.log</code>。</li>
-</ul>
+<p>🔍 <strong>调试技巧</strong>：<br />
+- 启用详细日志：设置环境变量 <code>OLLAMA_DEBUG="1"</code>（Windows:
+PowerShell）<br />
+- 实时跟踪日志：Linux/macOS 用
+<code>tail -f ~/.ollama/logs/server.log</code>。</p>
 </blockquote>
-<hr>
-<h4 id="🛠️-4、系统与配置管理"><a href="#🛠️-4、系统与配置管理" class="headerlink" title="🛠️ 4、系统与配置管理"></a>🛠️ 4、系统与配置管理</h4><table>
+<hr />
+<h4 id="系统与配置管理">🛠️ 4、系统与配置管理</h4>
+<table>
+
 <thead>
-<tr>
+<tr class="header">
 <th><strong>命令</strong></th>
 <th><strong>功能</strong></th>
 <th><strong>示例</strong></th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td><code>ollama version</code></td>
 <td>查看版本信息</td>
 <td><code>ollama version</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>ollama help</code></td>
 <td>查看帮助文档</td>
 <td><code>ollama help</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>export OLLAMA_MODELS=/new/path</code></td>
 <td>修改模型存储路径（避免占系统盘）</td>
 <td>写入 Shell 配置文件生效</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>ollama cleanup</code></td>
 <td>清理缓存（部分版本支持）</td>
 <td><code>ollama cleanup</code></td>
 </tr>
-</tbody></table>
-<hr>
-<h4 id="💎-5、总结建议"><a href="#💎-5、总结建议" class="headerlink" title="💎 5、总结建议"></a>💎 5、总结建议</h4><ol>
-<li><strong>高频场景</strong>：  <ul>
-<li>下载运行：<code>ollama run &lt;模型&gt;</code>（自动下载+启动交互）  </li>
-<li>释放空间：先 <code>ollama rm</code>，再手动删除残留文件  </li>
+</tbody>
+</table>
+<hr />
+<h4 id="总结建议">💎 5、总结建议</h4>
+<ol type="1">
+<li><strong>高频场景</strong>：
+<ul>
+<li>下载运行：<code>ollama run &lt;模型&gt;</code>（自动下载+启动交互）<br />
+</li>
+<li>释放空间：先 <code>ollama rm</code>，再手动删除残留文件<br />
+</li>
 <li>多模型切换：<code>ollama list</code> 查看后选择运行。</li>
-</ul>
+</ul></li>
+<li><strong>安全提示</strong>：
+<ul>
+<li>避免公网暴露服务：启动前设置
+<code>OLLAMA_HOST=127.0.0.1</code><br />
 </li>
-<li><strong>安全提示</strong>：  <ul>
-<li>避免公网暴露服务：启动前设置 <code>OLLAMA_HOST=127.0.0.1</code>  </li>
 <li>定期更新版本：<code>ollama update</code>（部分系统需重装）。</li>
-</ul>
+</ul></li>
+<li><strong>扩展应用</strong>：
+<ul>
+<li>API 调用：服务启动后访问
+<code>http://localhost:11434/v1/completions</code> 类 OpenAI 接口<br />
 </li>
-<li><strong>扩展应用</strong>：  <ul>
-<li>API 调用：服务启动后访问 <code>http://localhost:11434/v1/completions</code> 类 OpenAI 接口  </li>
-<li>自定义模型：通过 <code>Modelfile</code> 创建（<code>ollama create -f ./Modelfile</code>）。</li>
-</ul>
-</li>
+<li>自定义模型：通过 <code>Modelfile</code>
+创建（<code>ollama create -f ./Modelfile</code>）。</li>
+</ul></li>
 </ol>
 <blockquote>
-<p>更多命令详见 <a target="_blank" rel="noopener" href="https://ollama.com/">Ollama 官方文档</a> 或社区教程（如模型性能测试 <code>ollama perf</code>）。</p>
+<p>更多命令详见 <a target="_blank" rel="noopener" href="https://ollama.com">Ollama 官方文档</a>
+或社区教程（如模型性能测试 <code>ollama perf</code>）。</p>
 </blockquote>
 
                 
@@ -1412,6 +1455,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1629,6 +1678,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

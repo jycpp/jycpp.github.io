@@ -27,7 +27,7 @@
 <meta property="og:description" content="HBuilderX是开发uniapp的IDE，它提供了命令行工具cli.exe，用于在Windows环境下进行项目打包、发布等操作。要实现Web应用的自动化打包、发布和部署，你可以编写一个CICD脚本，使用cli.exe进行打包，并将打包后的文件上传到服务器。 在编写CICD脚本之前，我们需要了解一些关键概念：  项目目录：你的UniApp项目所在的目录。 打包输出目录：cli.exe打包命令的输">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-12T17:27:20.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.107Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.666Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="持续集成">
 <meta property="article:tag" content="持续部署">
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="true"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1370,15 +1379,17 @@ true
                 
                 <p>HBuilderX是开发uniapp的IDE，它提供了命令行工具<code>cli.exe</code>，用于在Windows环境下进行项目打包、发布等操作。要实现Web应用的自动化打包、发布和部署，你可以编写一个CICD脚本，使用<code>cli.exe</code>进行打包，并将打包后的文件上传到服务器。</p>
 <p>在编写CICD脚本之前，我们需要了解一些关键概念：</p>
-<ol>
+<ol type="1">
 <li><strong>项目目录</strong>：你的UniApp项目所在的目录。</li>
 <li><strong>打包输出目录</strong>：<code>cli.exe</code>打包命令的输出目录，通常是<code>unpackage/dist/build/h5</code>。</li>
 <li><strong>目标目录</strong>：你希望将打包后的文件上传到的服务器目录。</li>
 </ol>
 <p>另外，再普及一下CICD的概念：</p>
 <ul>
-<li><strong>Continuous Integration（持续集成）</strong>：自动化地将代码从多个开发者的工作副本合并到一个共享的版本库。</li>
-<li><strong>Continuous Deployment（持续部署）</strong>：自动化地将代码从版本库部署到生产环境。</li>
+<li><strong>Continuous
+Integration（持续集成）</strong>：自动化地将代码从多个开发者的工作副本合并到一个共享的版本库。</li>
+<li><strong>Continuous
+Deployment（持续部署）</strong>：自动化地将代码从版本库部署到生产环境。</li>
 </ul>
 <p>CICD的核心是自动化，通过自动化的流程，你可以确保代码的质量、一致性和可重复性。</p>
 <div class="mermaid">
@@ -1403,150 +1414,154 @@ graph TD
     style N fill:#F44336,color:white
     style G fill:#FFC107,color:black
     style L fill:#FFC107,color:black</div>
-
-
-<h2 id="命令行打包的关键配置文件"><a href="#命令行打包的关键配置文件" class="headerlink" title="命令行打包的关键配置文件"></a>命令行打包的关键配置文件</h2><p>在使用 HBuilderX 进行 UniApp 项目打包时，<code>config.json</code> 是一个关键的配置文件，用于定义项目的构建、优化和部署等方面的设置。它位于项目根目录下，用于控制整个打包过程的行为。</p>
-<p>以下是一个标准的 <code>config.json</code> 配置文件示例，适用于通过 HBuilderX CLI 打包 UniApp 为 Web 版本，包含详细注释说明：</p>
+<h2 id="命令行打包的关键配置文件">命令行打包的关键配置文件</h2>
+<p>在使用 HBuilderX 进行 UniApp 项目打包时，<code>config.json</code>
+是一个关键的配置文件，用于定义项目的构建、优化和部署等方面的设置。它位于项目根目录下，用于控制整个打包过程的行为。</p>
+<p>以下是一个标准的 <code>config.json</code> 配置文件示例，适用于通过
+HBuilderX CLI 打包 UniApp 为 Web 版本，包含详细注释说明：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-comment">// ================== 基础配置 ==================</span><br>  <span class="hljs-attr">&quot;h5&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-comment">// 部署路径（需与服务器子目录对应）</span><br>    <span class="hljs-attr">&quot;publicPath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/test001/&quot;</span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 应用标题（显示在浏览器标签页）</span><br>    <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;我的UniApp&quot;</span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 路由模式（可选 hash 或 history）</span><br>    <span class="hljs-attr">&quot;routerMode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;history&quot;</span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 是否开启路由懒加载</span><br>    <span class="hljs-attr">&quot;lazyLoading&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 是否生成 SourceMap（生产环境建议关闭）</span><br>    <span class="hljs-attr">&quot;productionSourceMap&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 是否启用Gzip压缩</span><br>    <span class="hljs-attr">&quot;gzip&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br><br>  <span class="hljs-comment">// ================== 构建配置 ==================</span><br>  <span class="hljs-attr">&quot;build&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-comment">// 输出目录（相对于项目根目录）</span><br>    <span class="hljs-attr">&quot;outputDir&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;unpackage/dist/build/h5&quot;</span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 是否每次构建清除旧文件</span><br>    <span class="hljs-attr">&quot;cleanDist&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 压缩图片阈值（单位KB，小于此值不压缩）</span><br>    <span class="hljs-attr">&quot;imageCompressionThreshold&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1024</span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 浏览器兼容性配置</span><br>    <span class="hljs-attr">&quot;browserslist&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>      <span class="hljs-string">&quot;&gt; 1%&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-string">&quot;last 2 versions&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-string">&quot;not dead&quot;</span><br>    <span class="hljs-punctuation">]</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br><br>  <span class="hljs-comment">// ================== 优化配置 ==================</span><br>  <span class="hljs-attr">&quot;optimization&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-comment">// 是否启用代码分割</span><br>    <span class="hljs-attr">&quot;splitChunks&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 是否压缩 CSS</span><br>    <span class="hljs-attr">&quot;minifyCSS&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 是否压缩 JavaScript</span><br>    <span class="hljs-attr">&quot;minifyJS&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 是否启用 Tree Shaking</span><br>    <span class="hljs-attr">&quot;treeShaking&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br><br>  <span class="hljs-comment">// ================== 高级配置 ==================</span><br>  <span class="hljs-attr">&quot;advanced&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-comment">// 自定义 Webpack 配置（合并策略）</span><br>    <span class="hljs-attr">&quot;webpackConfig&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;mergeStrategy&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;module.rules&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;prepend&quot;</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;configure&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-comment">// 示例：添加SVG loader</span><br>        <span class="hljs-attr">&quot;module&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>          <span class="hljs-attr">&quot;rules&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>            <span class="hljs-punctuation">&#123;</span><br>              <span class="hljs-attr">&quot;test&quot;</span><span class="hljs-punctuation">:</span> /\.svg$/<span class="hljs-punctuation">,</span><br>              <span class="hljs-attr">&quot;use&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;@svgr/webpack&quot;</span><span class="hljs-punctuation">]</span><br>            <span class="hljs-punctuation">&#125;</span><br>          <span class="hljs-punctuation">]</span><br>        <span class="hljs-punctuation">&#125;</span><br>      <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// CDN 配置（外部化依赖）</span><br>    <span class="hljs-attr">&quot;externals&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;vue&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Vue&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;vue-router&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;VueRouter&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 预加载配置</span><br>    <span class="hljs-attr">&quot;preload&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;js&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;common.js&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;css&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;theme.css&quot;</span><span class="hljs-punctuation">]</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br><br>  <span class="hljs-comment">// ================== 调试配置 ==================</span><br>  <span class="hljs-attr">&quot;devServer&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-comment">// 开发服务器端口</span><br>    <span class="hljs-attr">&quot;port&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">8080</span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 是否自动打开浏览器</span><br>    <span class="hljs-attr">&quot;open&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <br>    <span class="hljs-comment">// 代理配置</span><br>    <span class="hljs-attr">&quot;proxy&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;/api&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;target&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://api.example.com&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;changeOrigin&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;pathRewrite&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;^/api&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&quot;</span> <span class="hljs-punctuation">&#125;</span><br>      <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<hr />
+<h3 id="核心配置项说明"><strong>核心配置项说明</strong></h3>
+<table>
 
-<hr>
-<h3 id="核心配置项说明"><a href="#核心配置项说明" class="headerlink" title="核心配置项说明"></a><strong>核心配置项说明</strong></h3><table>
 <thead>
-<tr>
+<tr class="header">
 <th>配置层级</th>
 <th>字段</th>
 <th>类型</th>
 <th>说明</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td><strong>h5</strong></td>
 <td><code>publicPath</code></td>
 <td>String</td>
-<td>部署路径，需与服务器子目录一致（例如：<code>&quot;/subdir/&quot;</code>）</td>
+<td>部署路径，需与服务器子目录一致（例如：<code>"/subdir/"</code>）</td>
 </tr>
-<tr>
+<tr class="even">
 <td></td>
 <td><code>routerMode</code></td>
 <td>String</td>
-<td>路由模式：<code>&quot;hash&quot;</code>（带#号）或 <code>&quot;history&quot;</code>（需服务器支持）</td>
+<td>路由模式：<code>"hash"</code>（带#号）或
+<code>"history"</code>（需服务器支持）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td></td>
 <td><code>gzip</code></td>
 <td>Boolean</td>
 <td>是否启用Gzip压缩（需服务器支持）</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>build</strong></td>
 <td><code>outputDir</code></td>
 <td>String</td>
 <td>构建输出目录（默认：<code>unpackage/dist/build/h5</code>）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td></td>
 <td><code>imageCompressionThreshold</code></td>
 <td>Number</td>
 <td>图片压缩阈值（单位KB，默认：<code>1024</code>）</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>optimization</strong></td>
 <td><code>minifyJS</code></td>
 <td>Boolean</td>
 <td>是否压缩JavaScript代码（生产环境自动启用）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td></td>
 <td><code>treeShaking</code></td>
 <td>Boolean</td>
 <td>是否启用Tree Shaking优化</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>advanced</strong></td>
 <td><code>webpackConfig</code></td>
 <td>Object</td>
 <td>自定义Webpack配置（支持合并策略）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td></td>
 <td><code>externals</code></td>
 <td>Object</td>
 <td>外部化依赖（减少包体积）</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>devServer</strong></td>
 <td><code>proxy</code></td>
 <td>Object</td>
 <td>开发环境代理配置（解决跨域问题）</td>
 </tr>
-</tbody></table>
-<hr>
-<h3 id="使用注意事项"><a href="#使用注意事项" class="headerlink" title="使用注意事项"></a><strong>使用注意事项</strong></h3><ol>
-<li><p><strong>路径配置</strong><br>确保 <code>publicPath</code> 与部署目录一致：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-comment">// 正确配置（结尾必须带/）</span><br><span class="hljs-attr">&quot;publicPath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/test001/&quot;</span> <br><br><span class="hljs-comment">// 错误配置（会导致资源404）</span><br><span class="hljs-attr">&quot;publicPath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/test001&quot;</span> <br></code></pre></td></tr></table></figure>
-</li>
-<li><p><strong>路由模式选择</strong>  </p>
+</tbody>
+</table>
+<hr />
+<h3 id="使用注意事项"><strong>使用注意事项</strong></h3>
+<ol type="1">
+<li><p><strong>路径配置</strong><br />
+确保 <code>publicPath</code> 与部署目录一致： <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-comment">// 正确配置（结尾必须带/）</span><br><span class="hljs-attr">&quot;publicPath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/test001/&quot;</span> <br><br><span class="hljs-comment">// 错误配置（会导致资源404）</span><br><span class="hljs-attr">&quot;publicPath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/test001&quot;</span> <br></code></pre></td></tr></table></figure></p></li>
+<li><p><strong>路由模式选择</strong></p>
 <ul>
-<li><strong>Hash 模式</strong>  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-attr">&quot;routerMode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;hash&quot;</span> <span class="hljs-comment">// 无需服务器配置</span><br></code></pre></td></tr></table></figure></li>
-<li><strong>History 模式</strong>  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-attr">&quot;routerMode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;history&quot;</span> <span class="hljs-comment">// 需服务器配置重定向规则</span><br></code></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p><strong>构建优化建议</strong><br>生产环境推荐配置：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;productionSourceMap&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;gzip&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;minifyCSS&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;minifyJS&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-</li>
-<li><p><strong>自定义扩展</strong><br>通过 <code>webpackConfig</code> 扩展功能：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-attr">&quot;webpackConfig&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;configure&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;plugins&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>      new MyCustomPlugin() <span class="hljs-comment">// 添加自定义插件</span><br>    <span class="hljs-punctuation">]</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></li>
+<li><strong>Hash 模式</strong><br />
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-attr">&quot;routerMode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;hash&quot;</span> <span class="hljs-comment">// 无需服务器配置</span><br></code></pre></td></tr></table></figure></li>
+<li><strong>History 模式</strong><br />
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-attr">&quot;routerMode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;history&quot;</span> <span class="hljs-comment">// 需服务器配置重定向规则</span><br></code></pre></td></tr></table></figure></li>
+</ul></li>
+<li><p><strong>构建优化建议</strong><br />
+生产环境推荐配置： <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;productionSourceMap&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;gzip&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;minifyCSS&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;minifyJS&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></p></li>
+<li><p><strong>自定义扩展</strong><br />
+通过 <code>webpackConfig</code> 扩展功能： <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-attr">&quot;webpackConfig&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;configure&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;plugins&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>      new MyCustomPlugin() <span class="hljs-comment">// 添加自定义插件</span><br>    <span class="hljs-punctuation">]</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></p></li>
 </ol>
-<hr>
-<h3 id="典型场景配置示例"><a href="#典型场景配置示例" class="headerlink" title="典型场景配置示例"></a><strong>典型场景配置示例</strong></h3><p><strong>场景1：部署到子目录</strong></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;h5&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;publicPath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/subdir/&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;routerMode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;history&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;build&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;outputDir&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;dist/h5&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>场景2：CDN加速</strong></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;h5&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;publicPath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://cdn.example.com/&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;externals&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;vue&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Vue&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;vuex&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Vuex&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>场景3：多环境配置</strong><br>创建多个配置文件（<code>config.prod.json</code>&#x2F;<code>config.dev.json</code>），打包时指定：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">cli.exe pack --config config.prod.json<br></code></pre></td></tr></table></figure>
-
-<hr>
-<p>以上配置的环境为 HBuilderX 3.4.7，具体参数的说明可参考<a target="_blank" rel="noopener" href="https://uniapp.dcloud.io/collocation/manifest">官方文档</a>。</p>
-<h2 id="编写CICD脚本（Windows）"><a href="#编写CICD脚本（Windows）" class="headerlink" title="编写CICD脚本（Windows）"></a>编写CICD脚本（Windows）</h2><p>HBuilderX 提供了命令行工具 <code>cli.exe</code>，用于在 Windows 环境下进行项目打包、发布等操作。下面是一个简单的示例，演示如何使用 <code>cli.exe</code> 进行打包：</p>
-<ol>
-<li><p><strong>打开命令行终端</strong><br>打开命令行终端（Windows 系统下，右键点击开始菜单，选择“命令提示符”或“PowerShell”）。</p>
-</li>
-<li><p><strong>进入项目目录</strong><br>使用 <code>cd</code> 命令进入到你的 UniApp 项目目录。</p>
-</li>
-<li><p><strong>执行打包命令</strong><br>执行以下命令进行打包：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">cli.exe pack --platform h5 --outputDir dist/h5<br></code></pre></td></tr></table></figure>
-<p>这将在 <code>dist/h5</code> 目录下生成打包后的 Web 应用。</p>
-</li>
-<li><p><strong>发布到服务器</strong><br>你可以将打包后的文件上传到服务器，或者使用其他发布工具进行发布。</p>
-</li>
+<hr />
+<h3 id="典型场景配置示例"><strong>典型场景配置示例</strong></h3>
+<p><strong>场景1：部署到子目录</strong> <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;h5&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;publicPath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/subdir/&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;routerMode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;history&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;build&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;outputDir&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;dist/h5&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></p>
+<p><strong>场景2：CDN加速</strong> <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;h5&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;publicPath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://cdn.example.com/&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;externals&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;vue&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Vue&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;vuex&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Vuex&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></p>
+<p><strong>场景3：多环境配置</strong><br />
+创建多个配置文件（<code>config.prod.json</code>/<code>config.dev.json</code>），打包时指定：
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">cli.exe pack --config config.prod.json<br></code></pre></td></tr></table></figure></p>
+<hr />
+<p>以上配置的环境为 HBuilderX 3.4.7，具体参数的说明可参考<a
+target="_blank" rel="noopener" href="https://uniapp.dcloud.io/collocation/manifest">官方文档</a>。</p>
+<h2 id="编写cicd脚本windows">编写CICD脚本（Windows）</h2>
+<p>HBuilderX 提供了命令行工具 <code>cli.exe</code>，用于在 Windows
+环境下进行项目打包、发布等操作。下面是一个简单的示例，演示如何使用
+<code>cli.exe</code> 进行打包：</p>
+<ol type="1">
+<li><p><strong>打开命令行终端</strong> 打开命令行终端（Windows
+系统下，右键点击开始菜单，选择“命令提示符”或“PowerShell”）。</p></li>
+<li><p><strong>进入项目目录</strong> 使用 <code>cd</code> 命令进入到你的
+UniApp 项目目录。</p></li>
+<li><p><strong>执行打包命令</strong> 执行以下命令进行打包：
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">cli.exe pack --platform h5 --outputDir dist/h5<br></code></pre></td></tr></table></figure> 这将在 <code>dist/h5</code> 目录下生成打包后的 Web
+应用。</p></li>
+<li><p><strong>发布到服务器</strong>
+你可以将打包后的文件上传到服务器，或者使用其他发布工具进行发布。</p></li>
 </ol>
 <p>以上是基本的打包流程，对应mermaid表示上述过程：</p>
 <div class="mermaid">graph TD;
     A[打开命令行终端] --> B[进入项目目录];
     B --> C[执行打包命令];
     C --> D[发布到服务器];</div>
-
 <p>我们现在来编写一个完整的CICD脚本，用于自动化打包、发布和部署。</p>
 <p>基于Windows批处理脚本（<code>.bat</code>文件）我们写了以下自动化流程，包含错误处理和路径验证：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs batch">@echo off<br>setlocal enabledelayedexpansion<br><br>:: 配置参数<br>set HBUILDERX_CLI=&quot;C:\Program Files\HBuilderX\cli.exe&quot;  :: HBuilderX安装路径<br>set PROJECT_DIR=&quot;D:\projects\my-uniapp-project&quot;         :: 项目目录<br>set CONFIG_FILE=&quot;config.json&quot;                          :: 配置文件<br>set OUTPUT_DIR=&quot;D:\wwwroot\test001&quot;                    :: 输出目录<br><br>:: 打包命令<br>echo [Step 1] 正在打包UniApp项目...<br>%HBUILDERX_CLI% pack --platform h5 --project %PROJECT_DIR% --config %CONFIG_FILE%<br><br>if errorlevel 1 (<br>    echo 错误：打包失败，请检查配置！<br>    pause<br>    exit /b 1<br>)<br><br>:: 验证打包输出<br>set BUILD_DIR=%PROJECT_DIR%\unpackage\dist\build\h5<br>if not exist &quot;%BUILD_DIR%&quot; (<br>    echo 错误：打包输出目录不存在 %BUILD_DIR%<br>    pause<br>    exit /b 1<br>)<br><br>:: 清空目标目录<br>echo [Step 2] 正在清理目标目录...<br>if exist &quot;%OUTPUT_DIR%&quot; (<br>    rmdir /s /q &quot;%OUTPUT_DIR%&quot;<br>) else (<br>    mkdir &quot;%OUTPUT_DIR%&quot;<br>)<br><br>:: 复制文件<br>echo [Step 3] 正在复制生成文件...<br>xcopy /s /e /y /i &quot;%BUILD_DIR%\*&quot; &quot;%OUTPUT_DIR%&quot;<br><br>if errorlevel 1 (<br>    echo 错误：文件复制失败！<br>    pause<br>    exit /b 1<br>)<br><br>:: 完成提示<br>echo 操作完成！文件已部署到：%OUTPUT_DIR%<br>echo 总共复制文件数量： <br>dir /s /b &quot;%OUTPUT_DIR%&quot; | find /v /c &quot;&quot;<br>pause<br></code></pre></td></tr></table></figure>
-
-<h3 id="脚本说明："><a href="#脚本说明：" class="headerlink" title="脚本说明："></a>脚本说明：</h3><ol>
-<li><strong>路径配置部分</strong>：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs batch">set HBUILDERX_CLI=&quot;C:\Program Files\HBuilderX\cli.exe&quot;<br>set PROJECT_DIR=&quot;D:\projects\my-uniapp-project&quot;<br>set CONFIG_FILE=&quot;config.json&quot;<br>set OUTPUT_DIR=&quot;D:\wwwroot\test001&quot;<br></code></pre></td></tr></table></figure></li>
+<h3 id="脚本说明">脚本说明：</h3>
+<ol type="1">
+<li><strong>路径配置部分</strong>： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs batch">set HBUILDERX_CLI=&quot;C:\Program Files\HBuilderX\cli.exe&quot;<br>set PROJECT_DIR=&quot;D:\projects\my-uniapp-project&quot;<br>set CONFIG_FILE=&quot;config.json&quot;<br>set OUTPUT_DIR=&quot;D:\wwwroot\test001&quot;<br></code></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>需要根据实际路径修改这些变量</li>
 <li>注意保持路径中的空格用双引号包裹</li>
 </ul>
-<ol start="2">
-<li><strong>打包命令</strong>：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs batch">%HBUILDERX_CLI% pack --platform h5 --project %PROJECT_DIR% --config %CONFIG_FILE%<br></code></pre></td></tr></table></figure></li>
+<ol start="2" type="1">
+<li><strong>打包命令</strong>： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs batch">%HBUILDERX_CLI% pack --platform h5 --project %PROJECT_DIR% --config %CONFIG_FILE%<br></code></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li><code>--platform h5</code> 指定打包为Web版本</li>
 <li><code>--config</code> 参数加载配置文件</li>
 </ul>
-<ol start="3">
+<ol start="3" type="1">
 <li><strong>增强功能</strong>：</li>
 </ol>
 <ul>
@@ -1555,32 +1570,31 @@ graph TD
 <li><strong>文件统计</strong>：最终显示复制的文件总数</li>
 <li><strong>日志输出</strong>：每个步骤都有进度提示</li>
 </ul>
-<h3 id="使用说明："><a href="#使用说明：" class="headerlink" title="使用说明："></a>使用说明：</h3><ol>
+<h3 id="使用说明">使用说明：</h3>
+<ol type="1">
 <li>保存为 <code>deploy-web.bat</code></li>
 <li>右键选择”以管理员身份运行”</li>
-<li>按需修改以下参数：<ul>
+<li>按需修改以下参数：
+<ul>
 <li><code>HBUILDERX_CLI</code>：HBuilderX安装路径</li>
 <li><code>PROJECT_DIR</code>：UniApp项目路径</li>
 <li><code>CONFIG_FILE</code>：配置文件路径</li>
 <li><code>OUTPUT_DIR</code>：部署目标路径</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h3 id="高级用法建议："><a href="#高级用法建议：" class="headerlink" title="高级用法建议："></a>高级用法建议：</h3><ol>
-<li><p><strong>添加版本控制</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs batch">:: 添加时间戳备份<br>set BACKUP_DIR=%OUTPUT_DIR%-backup-%date:~0,4%%date:~5,2%%date:~8,2%<br>if exist &quot;%OUTPUT_DIR%&quot; (<br>    xcopy /s /e /y /i &quot;%OUTPUT_DIR%\*&quot; &quot;%BACKUP_DIR%&quot;<br>)<br></code></pre></td></tr></table></figure>
-</li>
-<li><p><strong>添加7zip压缩</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs batch">:: 打包后自动压缩<br>set ZIP_FILE=%OUTPUT_DIR%-%time:~0,2%%time:~3,2%.7z<br>&quot;C:\Program Files\7-Zip\7z.exe&quot; a -t7z &quot;%ZIP_FILE%&quot; &quot;%OUTPUT_DIR%\*&quot;<br></code></pre></td></tr></table></figure>
-</li>
-<li><p><strong>添加Slack通知</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs batch">:: 需要安装curl<br>set WEBHOOK_URL=&quot;https://hooks.slack.com/services/...&quot;<br>curl -X POST -H &#x27;Content-type: application/json&#x27; --data &quot;&#123;\&quot;text\&quot;:\&quot;部署完成至 %OUTPUT_DIR%\&quot;&#125;&quot; %WEBHOOK_URL%<br></code></pre></td></tr></table></figure></li>
+<h3 id="高级用法建议">高级用法建议：</h3>
+<ol type="1">
+<li><p><strong>添加版本控制</strong>： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs batch">:: 添加时间戳备份<br>set BACKUP_DIR=%OUTPUT_DIR%-backup-%date:~0,4%%date:~5,2%%date:~8,2%<br>if exist &quot;%OUTPUT_DIR%&quot; (<br>    xcopy /s /e /y /i &quot;%OUTPUT_DIR%\*&quot; &quot;%BACKUP_DIR%&quot;<br>)<br></code></pre></td></tr></table></figure></p></li>
+<li><p><strong>添加7zip压缩</strong>： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs batch">:: 打包后自动压缩<br>set ZIP_FILE=%OUTPUT_DIR%-%time:~0,2%%time:~3,2%.7z<br>&quot;C:\Program Files\7-Zip\7z.exe&quot; a -t7z &quot;%ZIP_FILE%&quot; &quot;%OUTPUT_DIR%\*&quot;<br></code></pre></td></tr></table></figure></p></li>
+<li><p><strong>添加Slack通知</strong>： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs batch">:: 需要安装curl<br>set WEBHOOK_URL=&quot;https://hooks.slack.com/services/...&quot;<br>curl -X POST -H &#x27;Content-type: application/json&#x27; --data &quot;&#123;\&quot;text\&quot;:\&quot;部署完成至 %OUTPUT_DIR%\&quot;&#125;&quot; %WEBHOOK_URL%<br></code></pre></td></tr></table></figure></p></li>
 </ol>
-<h3 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h3><ol>
+<h3 id="注意事项">注意事项：</h3>
+<ol type="1">
 <li>首次运行时建议去掉 <code>@echo off</code> 以便查看详细输出</li>
 <li>如果遇到权限问题，需要以管理员身份运行</li>
 <li>文件路径不要包含中文或特殊字符</li>
-<li>建议在<code>config.json</code>中配置详细的打包参数：<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;h5&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;publicPath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/test001/&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;我的Web应用&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;routerMode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;history&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></li>
+<li>建议在<code>config.json</code>中配置详细的打包参数：
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;h5&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;publicPath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/test001/&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;我的Web应用&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;routerMode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;history&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></li>
 </ol>
 
                 
@@ -1774,6 +1788,12 @@ graph TD
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1991,6 +2011,49 @@ graph TD
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

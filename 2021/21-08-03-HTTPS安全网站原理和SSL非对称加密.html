@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="这几年几乎所有主流网站都升级为https连接了，本文分析其作用，并用Markdown表格比较http和https的异同点，同时用Mermaid流程图说明https的工作过程。如果这些内容感兴趣，可以继续阅读以了解更详细的RSA加密算法的原理，以及SSL非对称加密在HTTPS中的应用。 HTTPS的核心作用分析HTTPS（Hyper Text Transfer Protocol Secure）通过加">
+    <meta name="description" content="这几年几乎所有主流网站都升级为https连接了，本文分析其作用，并用Markdown表格比较http和https的异同点，同时用Mermaid流程图说明https的工作过程。如果这些内容感兴趣，可以继续阅读以了解更详细的RSA加密算法的原理，以及SSL非对称加密在HTTPS中的应用。 HTTPS的核心作用分析 HTTPS（Hyper Text Transfer Protocol Secure）通过">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTPS安全网站原理和SSL非对称加密">
 <meta property="og:url" content="https://jycpp.github.io/2021/21-08-03-HTTPS%E5%AE%89%E5%85%A8%E7%BD%91%E7%AB%99%E5%8E%9F%E7%90%86%E5%92%8CSSL%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="这几年几乎所有主流网站都升级为https连接了，本文分析其作用，并用Markdown表格比较http和https的异同点，同时用Mermaid流程图说明https的工作过程。如果这些内容感兴趣，可以继续阅读以了解更详细的RSA加密算法的原理，以及SSL非对称加密在HTTPS中的应用。 HTTPS的核心作用分析HTTPS（Hyper Text Transfer Protocol Secure）通过加">
+<meta property="og:description" content="这几年几乎所有主流网站都升级为https连接了，本文分析其作用，并用Markdown表格比较http和https的异同点，同时用Mermaid流程图说明https的工作过程。如果这些内容感兴趣，可以继续阅读以了解更详细的RSA加密算法的原理，以及SSL非对称加密在HTTPS中的应用。 HTTPS的核心作用分析 HTTPS（Hyper Text Transfer Protocol Secure）通过">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-08-03T14:30:00.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.104Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.662Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="HTTPS">
 <meta property="article:tag" content="SSL">
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="true"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1369,65 +1378,76 @@ true
               <div class="markdown-body">
                 
                 <p>这几年几乎所有主流网站都升级为https连接了，本文分析其作用，并用Markdown表格比较http和https的异同点，同时用Mermaid流程图说明https的工作过程。如果这些内容感兴趣，可以继续阅读以了解更详细的RSA加密算法的原理，以及SSL非对称加密在HTTPS中的应用。</p>
-<h3 id="HTTPS的核心作用分析"><a href="#HTTPS的核心作用分析" class="headerlink" title="HTTPS的核心作用分析"></a>HTTPS的核心作用分析</h3><p>HTTPS（Hyper Text Transfer Protocol Secure）通过加密、认证和完整性保护，解决了HTTP的安全缺陷，其核心作用包括：  </p>
-<ol>
-<li><strong>数据加密传输</strong>：防止通信内容被窃听、篡改（如中间人攻击）。  </li>
-<li><strong>身份认证</strong>：验证服务器身份（通过数字证书），防止用户访问伪造站点。  </li>
-<li><strong>数据完整性校验</strong>：确保数据在传输过程中未被篡改（通过摘要算法和MAC）。  </li>
-<li><strong>符合监管要求</strong>：满足隐私保护法规（如GDPR、等保2.0）对数据安全的强制要求。  </li>
-<li><strong>提升用户信任</strong>：浏览器显示“安全锁”标识，增强用户对网站的信任度。  </li>
-<li><strong>SEO优化</strong>：Google等搜索引擎优先索引HTTPS站点，提升排名。</li>
-</ol>
-<h3 id="HTTP与HTTPS异同点对比"><a href="#HTTP与HTTPS异同点对比" class="headerlink" title="HTTP与HTTPS异同点对比"></a>HTTP与HTTPS异同点对比</h3><table>
+<h3 id="https的核心作用分析">HTTPS的核心作用分析</h3>
+<p>HTTPS（Hyper Text Transfer Protocol
+Secure）通过加密、认证和完整性保护，解决了HTTP的安全缺陷，其核心作用包括：<br />
+1.
+<strong>数据加密传输</strong>：防止通信内容被窃听、篡改（如中间人攻击）。<br />
+2.
+<strong>身份认证</strong>：验证服务器身份（通过数字证书），防止用户访问伪造站点。<br />
+3.
+<strong>数据完整性校验</strong>：确保数据在传输过程中未被篡改（通过摘要算法和MAC）。<br />
+4.
+<strong>符合监管要求</strong>：满足隐私保护法规（如GDPR、等保2.0）对数据安全的强制要求。<br />
+5.
+<strong>提升用户信任</strong>：浏览器显示“安全锁”标识，增强用户对网站的信任度。<br />
+6.
+<strong>SEO优化</strong>：Google等搜索引擎优先索引HTTPS站点，提升排名。</p>
+<h3 id="http与https异同点对比">HTTP与HTTPS异同点对比</h3>
+<table style="width:100%;">
+
 <thead>
-<tr>
+<tr class="header">
 <th><strong>维度</strong></th>
 <th><strong>HTTP</strong></th>
 <th><strong>HTTPS</strong></th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td><strong>协议端口</strong></td>
 <td>默认80端口</td>
 <td>默认443端口</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>加密方式</strong></td>
 <td>明文传输，无加密</td>
-<td>基于SSL&#x2F;TLS加密（非对称+对称加密结合）</td>
+<td>基于SSL/TLS加密（非对称+对称加密结合）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>安全性</strong></td>
 <td>低，易被窃听、篡改、伪造</td>
 <td>高，数据加密、身份认证、完整性保护</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>连接建立</strong></td>
 <td>一次请求响应即可建立连接</td>
 <td>需要额外的TLS握手过程（约1-RTT延迟）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>数字证书</strong></td>
 <td>无需</td>
 <td>服务器必须持有CA签名的数字证书</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>性能影响</strong></td>
 <td>无显著延迟</td>
 <td>存在加密计算和握手延迟，需优化（如TLS 1.3）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>搜索引擎友好度</strong></td>
 <td>无特殊优先级</td>
 <td>Google等优先收录，提升SEO</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>适用场景</strong></td>
 <td>公开、非敏感数据传输（如静态页面）</td>
 <td>敏感数据传输（如登录、支付、个人信息）</td>
 </tr>
-</tbody></table>
-<h3 id="HTTPS工作过程（Mermaid流程图）"><a href="#HTTPS工作过程（Mermaid流程图）" class="headerlink" title="HTTPS工作过程（Mermaid流程图）"></a>HTTPS工作过程（Mermaid流程图）</h3><div class="mermaid">flowchart LR
+</tbody>
+</table>
+<h3 id="https工作过程mermaid流程图">HTTPS工作过程（Mermaid流程图）</h3>
+<div class="mermaid">flowchart LR
     浏览器 -->|发起HTTPS请求| 服务器
     服务器 -->|返回SSL证书 含公钥| 浏览器
     浏览器 -->|验证证书有效性 通过CA根证书| SSL证书
@@ -1437,43 +1457,60 @@ true
     浏览器 & 服务器 -->|协商生成会话密钥| 浏览器 & 服务器
     会话密钥生成 --> 浏览器-用会话密钥加密数据
     会话密钥生成 --> 服务器用会话密钥加密数据</div>
-
-
-
-<h3 id="HTTPS（SSL-TLS）通信核心流程分析"><a href="#HTTPS（SSL-TLS）通信核心流程分析" class="headerlink" title="HTTPS（SSL&#x2F;TLS）通信核心流程分析"></a>HTTPS（SSL&#x2F;TLS）通信核心流程分析</h3><p>非对称加密的典型算法如RSA，加密密钥公开而解密密钥保密，以HTTPS的基于SSL算法的通信为例，我们分析具体的实现过程。</p>
+<h3
+id="httpsssltls通信核心流程分析">HTTPS（SSL/TLS）通信核心流程分析</h3>
+<p>非对称加密的典型算法如RSA，加密密钥公开而解密密钥保密，以HTTPS的基于SSL算法的通信为例，我们分析具体的实现过程。</p>
 <p>HTTPS通过<strong>非对称加密（RSA）实现密钥交换</strong>，<strong>对称加密（如AES）加密数据传输</strong>，结合<strong>数字证书验证服务器身份</strong>，确保通信的机密性、完整性和身份验证。具体步骤如下：</p>
-<h4 id="1-客户端发起连接（ClientHello）"><a href="#1-客户端发起连接（ClientHello）" class="headerlink" title="1. 客户端发起连接（ClientHello）"></a>1. <strong>客户端发起连接（ClientHello）</strong></h4><ul>
-<li>客户端向服务器发送请求，包含：  <ul>
-<li>支持的SSL&#x2F;TLS协议版本（如TLS 1.2）  </li>
-<li>支持的对称加密算法列表（如AES）  </li>
+<h4 id="客户端发起连接clienthello">1.
+<strong>客户端发起连接（ClientHello）</strong></h4>
+<ul>
+<li>客户端向服务器发送请求，包含：
+<ul>
+<li>支持的SSL/TLS协议版本（如TLS 1.2）<br />
+</li>
+<li>支持的对称加密算法列表（如AES）<br />
+</li>
 <li>随机数（Client Random，用于生成会话密钥）</li>
+</ul></li>
 </ul>
+<h4 id="服务器响应serverhello">2.
+<strong>服务器响应（ServerHello）</strong></h4>
+<ul>
+<li>服务器选择协议版本、对称加密算法，返回：
+<ul>
+<li>服务器随机数（Server Random）<br />
 </li>
-</ul>
-<h4 id="2-服务器响应（ServerHello）"><a href="#2-服务器响应（ServerHello）" class="headerlink" title="2. 服务器响应（ServerHello）"></a>2. <strong>服务器响应（ServerHello）</strong></h4><ul>
-<li>服务器选择协议版本、对称加密算法，返回：  <ul>
-<li>服务器随机数（Server Random）  </li>
-<li><strong>服务器数字证书</strong>（含RSA公钥，由CA签名）  </li>
+<li><strong>服务器数字证书</strong>（含RSA公钥，由CA签名）<br />
+</li>
 <li>服务器密钥交换消息（若需要，如Diffie-Hellman，但此处以RSA为例）</li>
+</ul></li>
 </ul>
+<h4 id="客户端验证证书并生成预主密钥">3.
+<strong>客户端验证证书并生成预主密钥</strong></h4>
+<ul>
+<li>客户端验证服务器证书的有效性：
+<ul>
+<li>检查CA签名是否可信（通过本地CA根证书）<br />
 </li>
-</ul>
-<h4 id="3-客户端验证证书并生成预主密钥"><a href="#3-客户端验证证书并生成预主密钥" class="headerlink" title="3. 客户端验证证书并生成预主密钥"></a>3. <strong>客户端验证证书并生成预主密钥</strong></h4><ul>
-<li>客户端验证服务器证书的有效性：  <ul>
-<li>检查CA签名是否可信（通过本地CA根证书）  </li>
-<li>验证证书有效期、主机名匹配</li>
-</ul>
+<li>验证证书有效期、主机名匹配<br />
 </li>
-<li>客户端生成<strong>预主密钥（Pre-Master Secret）</strong>，用服务器证书中的<strong>RSA公钥加密</strong>，发送给服务器。</li>
+</ul></li>
+<li>客户端生成<strong>预主密钥（Pre-Master
+Secret）</strong>，用服务器证书中的<strong>RSA公钥加密</strong>，发送给服务器。</li>
 </ul>
-<h4 id="4-服务器解密预主密钥"><a href="#4-服务器解密预主密钥" class="headerlink" title="4. 服务器解密预主密钥"></a>4. <strong>服务器解密预主密钥</strong></h4><ul>
-<li>服务器用自己的<strong>RSA私钥解密</strong>，获取预主密钥。  </li>
-<li>客户端和服务器通过 <strong>Client Random + Server Random + 预主密钥</strong> 生成<strong>会话密钥（对称密钥）</strong>。</li>
+<h4 id="服务器解密预主密钥">4. <strong>服务器解密预主密钥</strong></h4>
+<ul>
+<li>服务器用自己的<strong>RSA私钥解密</strong>，获取预主密钥。<br />
+</li>
+<li>客户端和服务器通过 <strong>Client Random + Server Random +
+预主密钥</strong> 生成<strong>会话密钥（对称密钥）</strong>。</li>
 </ul>
-<h4 id="5-对称加密通信"><a href="#5-对称加密通信" class="headerlink" title="5. 对称加密通信"></a>5. <strong>对称加密通信</strong></h4><ul>
+<h4 id="对称加密通信">5. <strong>对称加密通信</strong></h4>
+<ul>
 <li>双方使用会话密钥加密后续所有数据传输，提高效率。</li>
 </ul>
-<h3 id="工作时序图"><a href="#工作时序图" class="headerlink" title="工作时序图"></a>工作时序图</h3><div class="mermaid">sequenceDiagram
+<h3 id="工作时序图">工作时序图</h3>
+<div class="mermaid">sequenceDiagram
     participant 客户端 as Client
     participant 服务器 as Server
 
@@ -1502,33 +1539,32 @@ true
     %% 后续通信
     客户端 ->> 服务器: 加密数据（会话密钥）
     服务器 ->> 客户端: 加密数据（会话密钥）</div>
-
-
-<h3 id="关键技术点解析"><a href="#关键技术点解析" class="headerlink" title="关键技术点解析"></a>关键技术点解析</h3><ol>
-<li><p><strong>非对称加密（RSA）的作用</strong>：  </p>
+<h3 id="关键技术点解析">关键技术点解析</h3>
+<ol type="1">
+<li><strong>非对称加密（RSA）的作用</strong>：
 <ul>
-<li><strong>公钥加密</strong>：客户端用服务器公钥加密预主密钥，确保传输安全。  </li>
-<li><strong>私钥解密</strong>：服务器用私钥解密预主密钥，防止第三方获取。</li>
-</ul>
+<li><strong>公钥加密</strong>：客户端用服务器公钥加密预主密钥，确保传输安全。<br />
 </li>
-<li><p><strong>对称加密的作用</strong>：  </p>
+<li><strong>私钥解密</strong>：服务器用私钥解密预主密钥，防止第三方获取。</li>
+</ul></li>
+<li><strong>对称加密的作用</strong>：
 <ul>
 <li>会话密钥（如AES）用于加密实际数据，解决非对称加密效率低的问题。</li>
-</ul>
-</li>
-<li><p><strong>数字证书的作用</strong>：  </p>
+</ul></li>
+<li><strong>数字证书的作用</strong>：
 <ul>
-<li>绑定服务器身份与公钥，防止中间人攻击（MITM）。  </li>
+<li>绑定服务器身份与公钥，防止中间人攻击（MITM）。<br />
+</li>
 <li>通过CA签名确保公钥的合法性。</li>
-</ul>
-</li>
-<li><p><strong>随机数的作用</strong>：  </p>
+</ul></li>
+<li><strong>随机数的作用</strong>：
 <ul>
-<li>Client Random和Server Random确保每次会话的预主密钥和会话密钥唯一，防止重放攻击。</li>
-</ul>
-</li>
+<li>Client Random和Server
+Random确保每次会话的预主密钥和会话密钥唯一，防止重放攻击。</li>
+</ul></li>
 </ol>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>HTTPS通过RSA非对称加密实现<strong>安全的密钥交换</strong>，结合对称加密实现<strong>高效的数据传输</strong>，并通过数字证书实现<strong>服务器身份验证</strong>。这一过程确保了互联网通信的安全性，是现代Web安全的基石。</p>
+<h3 id="总结">总结</h3>
+<p>HTTPS通过RSA非对称加密实现<strong>安全的密钥交换</strong>，结合对称加密实现<strong>高效的数据传输</strong>，并通过数字证书实现<strong>服务器身份验证</strong>。这一过程确保了互联网通信的安全性，是现代Web安全的基石。</p>
 
                 
               </div>
@@ -1721,6 +1757,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1938,6 +1980,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

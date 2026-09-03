@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="伪静态是一种通过重写URL，使动态网页在形式上表现为静态网页的技术，有助于提升网站的SEO效果和用户体验。在WordPress中实现伪静态，在Apache和Nginx两种平台上有不同的配置方式。下面将基于文档内容，并以WordPress为例，详细说明在这两种平台上实现伪静态的具体配置。 Apache平台 检测Apache是否支持mod_rewrite： 通过PHP的phpinfo()函数查看环境配">
+    <meta name="description" content="伪静态是一种通过重写URL，使动态网页在形式上表现为静态网页的技术，有助于提升网站的SEO效果和用户体验。在WordPress中实现伪静态，在Apache和Nginx两种平台上有不同的配置方式。下面将基于文档内容，并以WordPress为例，详细说明在这两种平台上实现伪静态的具体配置。 Apache平台  检测Apache是否支持mod_rewrite：  通过PHP的phpinfo()函数查看环">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Wordpress的伪静态配置：Apache和Nginx两种平台的详细说明">
 <meta property="og:url" content="https://jycpp.github.io/2018/18-05-13-Wordpress%E7%9A%84%E4%BC%AA%E9%9D%99%E6%80%81%E9%85%8D%E7%BD%AE.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="伪静态是一种通过重写URL，使动态网页在形式上表现为静态网页的技术，有助于提升网站的SEO效果和用户体验。在WordPress中实现伪静态，在Apache和Nginx两种平台上有不同的配置方式。下面将基于文档内容，并以WordPress为例，详细说明在这两种平台上实现伪静态的具体配置。 Apache平台 检测Apache是否支持mod_rewrite： 通过PHP的phpinfo()函数查看环境配">
+<meta property="og:description" content="伪静态是一种通过重写URL，使动态网页在形式上表现为静态网页的技术，有助于提升网站的SEO效果和用户体验。在WordPress中实现伪静态，在Apache和Nginx两种平台上有不同的配置方式。下面将基于文档内容，并以WordPress为例，详细说明在这两种平台上实现伪静态的具体配置。 Apache平台  检测Apache是否支持mod_rewrite：  通过PHP的phpinfo()函数查看环">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-05-13T17:27:20.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.103Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.661Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="WordPress">
 <meta property="article:tag" content="伪静态">
@@ -258,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          940 字
+          936 字
         
       </span>
     
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="true"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1369,48 +1378,60 @@ true
               <div class="markdown-body">
                 
                 <p>伪静态是一种通过重写URL，使动态网页在形式上表现为静态网页的技术，有助于提升网站的SEO效果和用户体验。在WordPress中实现伪静态，在Apache和Nginx两种平台上有不同的配置方式。下面将基于文档内容，并以WordPress为例，详细说明在这两种平台上实现伪静态的具体配置。</p>
-<h3 id="Apache平台"><a href="#Apache平台" class="headerlink" title="Apache平台"></a>Apache平台</h3><ol>
-<li><strong>检测Apache是否支持mod_rewrite</strong>：<ul>
-<li>通过PHP的<code>phpinfo()</code>函数查看环境配置。在浏览器中访问包含<code>phpinfo()</code>函数的PHP文件（如在WordPress的主题文件或插件文件中添加<code>phpinfo()</code>函数并访问对应页面，不过在实际部署完成后建议删除该测试代码以保障安全），使用<code>Ctrl+F</code>查找到“Loaded Modules”，查看其中是否列出了“mod_rewrite”。若已包含，则说明Apache已经支持<code>mod_rewrite</code>，无需继续设置。</li>
-<li>若未开启“mod_rewrite”，打开Apache安装目录下的“&#x2F;apache&#x2F;conf&#x2F;httpd.conf”文件。通过<code>Ctrl+F</code>查找到“LoadModule rewrite_module”，将前面的“#”号删除。如果没有查找到，则到“LoadModule”区域，在最后一行加入“LoadModule rewrite_module modules&#x2F;mod_rewrite.so”（必须独占一行），完成后重启Apache服务器。</li>
-</ul>
-</li>
-<li><strong>让Apache服务器支持.htaccess</strong>：<ul>
+<h3 id="apache平台">Apache平台</h3>
+<ol type="1">
+<li><strong>检测Apache是否支持mod_rewrite</strong>：
+<ul>
+<li>通过PHP的<code>phpinfo()</code>函数查看环境配置。在浏览器中访问包含<code>phpinfo()</code>函数的PHP文件（如在WordPress的主题文件或插件文件中添加<code>phpinfo()</code>函数并访问对应页面，不过在实际部署完成后建议删除该测试代码以保障安全），使用<code>Ctrl+F</code>查找到“Loaded
+Modules”，查看其中是否列出了“mod_rewrite”。若已包含，则说明Apache已经支持<code>mod_rewrite</code>，无需继续设置。</li>
+<li>若未开启“mod_rewrite”，打开Apache安装目录下的“/apache/conf/httpd.conf”文件。通过<code>Ctrl+F</code>查找到“LoadModule
+rewrite_module”，将前面的“#”号删除。如果没有查找到，则到“LoadModule”区域，在最后一行加入“LoadModule
+rewrite_module
+modules/mod_rewrite.so”（必须独占一行），完成后重启Apache服务器。</li>
+</ul></li>
+<li><strong>让Apache服务器支持.htaccess</strong>：
+<ul>
 <li>打开Apache目录的“CONF”目录中的“httpd.conf”文件。</li>
-<li>查找以下内容：<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Options</span> FollowSymLinks<br><span class="hljs-attribute">AllowOverride</span> None<br></code></pre></td></tr></table></figure></li>
-<li>将其修改为：<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Options</span> FollowSymLinks<br><span class="hljs-attribute">AllowOverride</span> <span class="hljs-literal">All</span><br></code></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><strong>配置WordPress的.htaccess文件</strong>：<ul>
-<li>在WordPress网站的根目录下找到<code>.htaccess</code>文件（如果没有则创建一个，创建方法如文档中所述，用记事本打开，点击文件 - 另存为，在文件名窗口输入<code>.htaccess</code>，注意不要包含英文引号，然后点击保存）。</li>
-<li>对于WordPress，常见的伪静态规则如下：<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">RewriteEngine</span> <span class="hljs-literal">On</span><br><span class="hljs-attribute">RewriteBase</span> /<br><span class="hljs-attribute">RewriteRule</span> ^index\.php$ -<span class="hljs-meta"> [L]</span><br><span class="hljs-attribute">RewriteCond</span> <span class="hljs-variable">%&#123;REQUEST_FILENAME&#125;</span>!-f<br><span class="hljs-attribute">RewriteCond</span> <span class="hljs-variable">%&#123;REQUEST_FILENAME&#125;</span>!-d<br><span class="hljs-attribute">RewriteRule</span>. /index.php<span class="hljs-meta"> [L]</span><br></code></pre></td></tr></table></figure></li>
-<li>上述规则解释：<ul>
+<li>查找以下内容： <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Options</span> FollowSymLinks<br><span class="hljs-attribute">AllowOverride</span> None<br></code></pre></td></tr></table></figure></li>
+<li>将其修改为： <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Options</span> FollowSymLinks<br><span class="hljs-attribute">AllowOverride</span> <span class="hljs-literal">All</span><br></code></pre></td></tr></table></figure></li>
+</ul></li>
+<li><strong>配置WordPress的.htaccess文件</strong>：
+<ul>
+<li>在WordPress网站的根目录下找到<code>.htaccess</code>文件（如果没有则创建一个，创建方法如文档中所述，用记事本打开，点击文件
+-
+另存为，在文件名窗口输入<code>.htaccess</code>，注意不要包含英文引号，然后点击保存）。</li>
+<li>对于WordPress，常见的伪静态规则如下： <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">RewriteEngine</span> <span class="hljs-literal">On</span><br><span class="hljs-attribute">RewriteBase</span> /<br><span class="hljs-attribute">RewriteRule</span> ^index\.php$ -<span class="hljs-meta"> [L]</span><br><span class="hljs-attribute">RewriteCond</span> <span class="hljs-variable">%&#123;REQUEST_FILENAME&#125;</span>!-f<br><span class="hljs-attribute">RewriteCond</span> <span class="hljs-variable">%&#123;REQUEST_FILENAME&#125;</span>!-d<br><span class="hljs-attribute">RewriteRule</span>. /index.php<span class="hljs-meta"> [L]</span><br></code></pre></td></tr></table></figure></li>
+<li>上述规则解释：
+<ul>
 <li><code>RewriteEngine On</code>：开启重写引擎。</li>
 <li><code>RewriteBase /</code>：设置重写的基础目录为网站根目录。</li>
 <li><code>RewriteRule ^index\.php$ - [L]</code>：如果请求的是<code>index.php</code>，则不进行重写，直接处理。</li>
 <li><code>RewriteCond %&#123;REQUEST_FILENAME&#125;!-f</code>和<code>RewriteCond %&#123;REQUEST_FILENAME&#125;!-d</code>：这两个条件表示如果请求的文件或目录不存在。</li>
 <li><code>RewriteRule. /index.php [L]</code>：如果满足前面的条件，则将请求重定向到<code>index.php</code>进行处理。</li>
-</ul>
-</li>
-</ul>
-</li>
+</ul></li>
+</ul></li>
 </ol>
-<h3 id="Nginx平台"><a href="#Nginx平台" class="headerlink" title="Nginx平台"></a>Nginx平台</h3><ol>
-<li><strong>配置Nginx服务器</strong>：<ul>
+<h3 id="nginx平台">Nginx平台</h3>
+<ol type="1">
+<li><strong>配置Nginx服务器</strong>：
+<ul>
 <li>找到Nginx的配置文件，通常位于<code>/etc/nginx/sites-available/</code>目录下（不同系统和安装方式可能有所不同），以WordPress所在的虚拟主机配置文件为例（假设为<code>your_domain.conf</code>）。</li>
-<li>在该配置文件的<code>location /</code>块中添加如下伪静态规则：<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">location</span> / &#123;<br>    <span class="hljs-attribute">try_files</span> <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ /index.php?<span class="hljs-variable">$args</span>;<br>&#125;<br></code></pre></td></tr></table></figure></li>
-<li>上述规则解释：<ul>
+<li>在该配置文件的<code>location /</code>块中添加如下伪静态规则：
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">location</span> / &#123;<br>    <span class="hljs-attribute">try_files</span> <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ /index.php?<span class="hljs-variable">$args</span>;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>上述规则解释：
+<ul>
 <li><code>try_files</code>指令会按照顺序检查文件或目录是否存在。首先检查请求的<code>$uri</code>（即请求的文件路径）是否存在，如果存在则直接返回该文件；如果不存在，则检查<code>$uri/</code>（即请求的目录路径）是否存在，如果存在则返回该目录下的默认文件（通常是<code>index.html</code>或<code>index.php</code>等）；如果前两者都不存在，则将请求重定向到<code>/index.php?$args</code>，其中<code>$args</code>表示传递原请求中的参数。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong>重启Nginx服务</strong>：<ul>
-<li>完成配置修改后，重启Nginx服务使配置生效。在大多数Linux系统中，可以使用以下命令重启Nginx：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> systemctl restart nginx<br></code></pre></td></tr></table></figure></li>
-</ul>
-</li>
+</ul></li>
+</ul></li>
+<li><strong>重启Nginx服务</strong>：
+<ul>
+<li>完成配置修改后，重启Nginx服务使配置生效。在大多数Linux系统中，可以使用以下命令重启Nginx：
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> systemctl restart nginx<br></code></pre></td></tr></table></figure></li>
+</ul></li>
 </ol>
-<p>无论是在Apache还是Nginx平台上配置WordPress的伪静态，完成配置后都需要确保WordPress的“固定链接”设置正确。在WordPress后台，依次点击“设置” - “固定链接”，选择合适的固定链接结构（如“文章名”等），保存设置后，伪静态功能就会生效。这样，访问WordPress网站的文章或页面时，就会以伪静态的URL形式呈现，提升网站的访问体验和SEO效果。 </p>
+<p>无论是在Apache还是Nginx平台上配置WordPress的伪静态，完成配置后都需要确保WordPress的“固定链接”设置正确。在WordPress后台，依次点击“设置”
+-
+“固定链接”，选择合适的固定链接结构（如“文章名”等），保存设置后，伪静态功能就会生效。这样，访问WordPress网站的文章或页面时，就会以伪静态的URL形式呈现，提升网站的访问体验和SEO效果。</p>
 
                 
               </div>
@@ -1603,6 +1624,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1820,6 +1847,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

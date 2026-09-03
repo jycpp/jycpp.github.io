@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="基于上文《Open WebUI开发高级接口参数应用》的知识，本文对Function的定义和调用做更详细的笔记。 Open WebUI的Function调用流程可以分为以下几个步骤：  模型判断是否需要调用函数 模型生成函数调用指令 后端执行函数 函数返回结果 模型整合结果，生成最终回答  在实际开发中，需要注意以下几点：  模型判断是否需要调用函数的依据是函数注册信息和用户输入。 模型生成的函数调">
+    <meta name="description" content="基于上文《Open WebUI开发高级接口参数应用》的知识，本文对Function的定义和调用做更详细的笔记。 Open WebUI的Function调用流程可以分为以下几个步骤：  模型判断是否需要调用函数 模型生成函数调用指令 后端执行函数 函数返回结果 模型整合结果，生成最终回答  在实际开发中，需要注意以下几点： - 模型判断是否需要调用函数的依据是函数注册信息和用户输入。 - 模型生成的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Open WebUI函数Function的调用步骤">
 <meta property="og:url" content="https://jycpp.github.io/2025/25-08-10-Open%20WebUI%E5%87%BD%E6%95%B0Function%E7%9A%84%E8%B0%83%E7%94%A8%E6%AD%A5%E9%AA%A4.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="基于上文《Open WebUI开发高级接口参数应用》的知识，本文对Function的定义和调用做更详细的笔记。 Open WebUI的Function调用流程可以分为以下几个步骤：  模型判断是否需要调用函数 模型生成函数调用指令 后端执行函数 函数返回结果 模型整合结果，生成最终回答  在实际开发中，需要注意以下几点：  模型判断是否需要调用函数的依据是函数注册信息和用户输入。 模型生成的函数调">
+<meta property="og:description" content="基于上文《Open WebUI开发高级接口参数应用》的知识，本文对Function的定义和调用做更详细的笔记。 Open WebUI的Function调用流程可以分为以下几个步骤：  模型判断是否需要调用函数 模型生成函数调用指令 后端执行函数 函数返回结果 模型整合结果，生成最终回答  在实际开发中，需要注意以下几点： - 模型判断是否需要调用函数的依据是函数注册信息和用户输入。 - 模型生成的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-10T14:35:22.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.107Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.667Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Open WebUI">
 <meta property="article:tag" content="大模型">
@@ -316,7 +316,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1045,7 +1045,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1063,6 +1063,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1365,61 +1374,73 @@ true
             
               <div class="markdown-body">
                 
-                <p>基于上文《Open WebUI开发高级接口参数应用》的知识，本文对Function的定义和调用做更详细的笔记。</p>
+                <p>基于上文《Open
+WebUI开发高级接口参数应用》的知识，本文对Function的定义和调用做更详细的笔记。</p>
 <p>Open WebUI的Function调用流程可以分为以下几个步骤：</p>
-<ol>
+<ol type="1">
 <li>模型判断是否需要调用函数</li>
 <li>模型生成函数调用指令</li>
 <li>后端执行函数</li>
 <li>函数返回结果</li>
 <li>模型整合结果，生成最终回答</li>
 </ol>
-<p>在实际开发中，需要注意以下几点：</p>
-<ul>
-<li>模型判断是否需要调用函数的依据是函数注册信息和用户输入。</li>
-<li>模型生成的函数调用指令需要符合Open WebUI的格式要求，包括函数名、参数名和参数值。</li>
-<li>后端根据模型生成的函数调用指令，调用注册的函数，并将函数返回的结果整合到最终回答中。</li>
-</ul>
-<p>对于上文中涉及到的function call，我们对其调用步骤做拆解，这部分代码确实涉及多个环节（模型生成调用指令、后端执行函数、结果反馈），容易让人混淆。核心问题在于：**<code>function_call</code>不是预先定义的“函数”，而是模型根据用户输入和已注册的工具函数，动态生成的“调用指令”**。下面重新拆解流程，用更清晰的步骤和注释说明：</p>
-<h3 id="1-先明确核心前提"><a href="#1-先明确核心前提" class="headerlink" title="1 先明确核心前提"></a>1 先明确核心前提</h3><p>在模型调用工具函数前，必须先在Open WebUI中完成<strong>函数注册</strong>（这是模型能“知道”有这个函数的前提），步骤如下：  </p>
-<ol>
-<li>准备函数定义文件（如前面的<code>weather_api.json</code>，描述<code>get_weather</code>函数的参数、功能、后端地址）；  </li>
-<li>登录Open WebUI管理员账号 → 进入<code>Admin Panel → Tools → Functions</code> → 上传<code>weather_api.json</code>，完成注册。</li>
-</ol>
+<p>在实际开发中，需要注意以下几点： -
+模型判断是否需要调用函数的依据是函数注册信息和用户输入。 -
+模型生成的函数调用指令需要符合Open
+WebUI的格式要求，包括函数名、参数名和参数值。 -
+后端根据模型生成的函数调用指令，调用注册的函数，并将函数返回的结果整合到最终回答中。</p>
+<p>对于上文中涉及到的function
+call，我们对其调用步骤做拆解，这部分代码确实涉及多个环节（模型生成调用指令、后端执行函数、结果反馈），容易让人混淆。核心问题在于：<strong><code>function_call</code>不是预先定义的“函数”，而是模型根据用户输入和已注册的工具函数，动态生成的“调用指令”</strong>。下面重新拆解流程，用更清晰的步骤和注释说明：</p>
+<h3 id="先明确核心前提">1 先明确核心前提</h3>
+<p>在模型调用工具函数前，必须先在Open
+WebUI中完成<strong>函数注册</strong>（这是模型能“知道”有这个函数的前提），步骤如下：<br />
+1.
+准备函数定义文件（如前面的<code>weather_api.json</code>，描述<code>get_weather</code>函数的参数、功能、后端地址）；<br />
+2. 登录Open WebUI管理员账号 →
+进入<code>Admin Panel → Tools → Functions</code> →
+上传<code>weather_api.json</code>，完成注册。</p>
 <p>此时，模型已“认识”<code>get_weather</code>函数，知道它能查天气、需要<code>city</code>参数、调用地址是<code>http://localhost:5000/get_weather</code>。</p>
-<h3 id="2-重新拆解“模型调用函数”的完整流程（带清晰代码注释）"><a href="#2-重新拆解“模型调用函数”的完整流程（带清晰代码注释）" class="headerlink" title="2 重新拆解“模型调用函数”的完整流程（带清晰代码注释）"></a>2 重新拆解“模型调用函数”的完整流程（带清晰代码注释）</h3><p>以“用户问‘上海天气’→ 模型调用<code>get_weather</code>→ 返回结果”为例，分4步拆解：</p>
-<h4 id="2-1-步骤1：用户提问，触发模型判断是否需要调用函数"><a href="#2-1-步骤1：用户提问，触发模型判断是否需要调用函数" class="headerlink" title="2.1 步骤1：用户提问，触发模型判断是否需要调用函数"></a>2.1 步骤1：用户提问，触发模型判断是否需要调用函数</h4><p>用户输入“上海的天气如何？”，代码向Open WebUI发送请求，模型会分析：“这个问题需要实时天气数据，我已注册了<code>get_weather</code>函数，应该调用它”。</p>
+<h3 id="重新拆解模型调用函数的完整流程带清晰代码注释">2
+重新拆解“模型调用函数”的完整流程（带清晰代码注释）</h3>
+<p>以“用户问‘上海天气’→ 模型调用<code>get_weather</code>→
+返回结果”为例，分4步拆解：</p>
+<h4 id="步骤1用户提问触发模型判断是否需要调用函数">2.1
+步骤1：用户提问，触发模型判断是否需要调用函数</h4>
+<p>用户输入“上海的天气如何？”，代码向Open
+WebUI发送请求，模型会分析：“这个问题需要实时天气数据，我已注册了<code>get_weather</code>函数，应该调用它”。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> uuid<br><br><span class="hljs-comment"># 基础配置</span><br>API_URL = <span class="hljs-string">&quot;http://localhost:3000/api/chat/completions&quot;</span><br>API_KEY = <span class="hljs-string">&quot;你的API密钥&quot;</span>  <span class="hljs-comment"># 从Open WebUI的「设置→账户」获取</span><br>headers = &#123;<span class="hljs-string">&quot;Authorization&quot;</span>: <span class="hljs-string">f&quot;Bearer <span class="hljs-subst">&#123;API_KEY&#125;</span>&quot;</span>, <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span>&#125;<br><br><span class="hljs-comment"># 1. 用户发送问题</span><br>user_input = <span class="hljs-string">&quot;上海的天气如何？&quot;</span><br>user_msg_id = uuid.uuid4().<span class="hljs-built_in">hex</span>  <span class="hljs-comment"># 生成唯一消息ID</span><br><br><span class="hljs-comment"># 发送请求给Open WebUI，模型将判断是否需要调用函数</span><br>payload = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,  <span class="hljs-comment"># 必须是支持函数调用的模型（如llama-3.2、gpt-4）</span><br>    <span class="hljs-string">&quot;messages&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;id&quot;</span>: user_msg_id,<br>            <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,  <span class="hljs-comment"># 消息角色：用户</span><br>            <span class="hljs-string">&quot;content&quot;</span>: user_input,<br>            <span class="hljs-string">&quot;parentId&quot;</span>: <span class="hljs-literal">None</span>,  <span class="hljs-comment"># 首次提问，无父消息</span><br>            <span class="hljs-string">&quot;childrenIds&quot;</span>: []<br>        &#125;<br>    ],<br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span>  <span class="hljs-comment"># 关闭流式，一次性获取结果</span><br>&#125;<br><br><span class="hljs-comment"># 发送请求，获取模型的响应（此时模型可能返回函数调用指令）</span><br>response = requests.post(API_URL, json=payload, headers=headers)<br>model_resp = response.json()  <span class="hljs-comment"># 模型的原始响应</span><br></code></pre></td></tr></table></figure>
-
-
-<h4 id="2-2-步骤2：模型生成function-call指令（核心！）"><a href="#2-2-步骤2：模型生成function-call指令（核心！）" class="headerlink" title="2.2 步骤2：模型生成function_call指令（核心！）"></a>2.2 步骤2：模型生成<code>function_call</code>指令（核心！）</h4><p>模型分析用户问题后，会生成一个“调用指令”（即<code>function_call</code>），告诉后端：“我需要调用<code>get_weather</code>函数，参数是<code>city=上海</code>”。  </p>
-<p>此时<code>model_resp</code>的结构类似这样（模型动态生成的）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 模型返回的响应示例（model_resp）</span><br>&#123;<br>    <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;模型生成的响应ID&quot;</span>,<br>    <span class="hljs-string">&quot;messages&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;msg_abc123&quot;</span>,<br>            <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;assistant&quot;</span>,  <span class="hljs-comment"># 模型角色：助手</span><br>            <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,  <span class="hljs-comment"># 此时无直接回答，因为需要先调用工具</span><br>            <span class="hljs-string">&quot;function_call&quot;</span>: &#123;  <span class="hljs-comment"># 核心：模型生成的函数调用指令</span><br>                <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;get_weather&quot;</span>,  <span class="hljs-comment"># 要调用的函数名（必须与注册的一致）</span><br>                <span class="hljs-string">&quot;parameters&quot;</span>: &#123;<span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;上海&quot;</span>&#125;  <span class="hljs-comment"># 函数参数</span><br>            &#125;,<br>            <span class="hljs-string">&quot;parentId&quot;</span>: user_msg_id,  <span class="hljs-comment"># 关联用户的问题</span><br>            <span class="hljs-string">&quot;childrenIds&quot;</span>: []<br>        &#125;<br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>代码中提取<code>function_call</code>的逻辑：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 2. 提取模型生成的函数调用指令</span><br>function_call = model_resp[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>].get(<span class="hljs-string">&quot;function_call&quot;</span>)<br><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> function_call:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型未生成函数调用，直接回答：&quot;</span>, model_resp[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;content&quot;</span>])<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;模型决定调用函数：<span class="hljs-subst">&#123;function_call[<span class="hljs-string">&#x27;name&#x27;</span>]&#125;</span>，参数：<span class="hljs-subst">&#123;function_call[<span class="hljs-string">&#x27;parameters&#x27;</span>]&#125;</span>&quot;</span>)<br>    <span class="hljs-comment"># 输出：模型决定调用函数：get_weather，参数：&#123;&#x27;city&#x27;: &#x27;上海&#x27;&#125;</span><br></code></pre></td></tr></table></figure>
-
-
-<h4 id="2-3-步骤3：后端执行函数（调用实际的天气服务）"><a href="#2-3-步骤3：后端执行函数（调用实际的天气服务）" class="headerlink" title="2.3 步骤3：后端执行函数（调用实际的天气服务）"></a>2.3 步骤3：后端执行函数（调用实际的天气服务）</h4><p>拿到<code>function_call</code>指令后，后端需要：  </p>
-<ul>
-<li>确认调用的函数是<code>get_weather</code>；  </li>
-<li>提取参数<code>city=上海</code>；  </li>
-<li>发送请求到<code>weather_api.json</code>中定义的后端地址（<code>http://localhost:5000/get_weather</code>）。</li>
-</ul>
-<p>假设我们已用Flask搭建了天气服务后端（代码见前文），此时调用它：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 3. 执行函数：调用天气服务后端</span><br><span class="hljs-keyword">if</span> function_call[<span class="hljs-string">&quot;name&quot;</span>] == <span class="hljs-string">&quot;get_weather&quot;</span>:<br>    <span class="hljs-comment"># 提取参数</span><br>    city = function_call[<span class="hljs-string">&quot;parameters&quot;</span>][<span class="hljs-string">&quot;city&quot;</span>]<br>    <span class="hljs-comment"># 调用天气服务（地址来自注册的weather_api.json）</span><br>    weather_backend_url = <span class="hljs-string">&quot;http://localhost:5000/get_weather&quot;</span><br>    weather_response = requests.post(<br>        weather_backend_url,<br>        json=&#123;<span class="hljs-string">&quot;city&quot;</span>: city&#125;  <span class="hljs-comment"># 传递参数</span><br>    )<br>    <span class="hljs-comment"># 获取天气数据（假设返回：&#123;&quot;temperature&quot;: 25, &quot;condition&quot;: &quot;晴&quot;&#125;）</span><br>    weather_data = weather_response.json()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;天气服务返回结果：<span class="hljs-subst">&#123;weather_data&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
-
-
-<h4 id="2-4-步骤4：将函数结果返回给模型，生成最终回答"><a href="#2-4-步骤4：将函数结果返回给模型，生成最终回答" class="headerlink" title="2.4 步骤4：将函数结果返回给模型，生成最终回答"></a>2.4 步骤4：将函数结果返回给模型，生成最终回答</h4><p>模型本身不会直接处理天气数据，需要将<code>weather_data</code>返回给模型，让它整理成自然语言回答：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 4. 将函数结果返回给模型，生成最终回答</span><br>function_result_msg = &#123;<br>    <span class="hljs-string">&quot;id&quot;</span>: uuid.uuid4().<span class="hljs-built_in">hex</span>,  <span class="hljs-comment"># 函数结果消息的ID</span><br>    <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;function&quot;</span>,  <span class="hljs-comment"># 角色：工具返回结果</span><br>    <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-built_in">str</span>(weather_data),  <span class="hljs-comment"># 传递天气数据（转为字符串）</span><br>    <span class="hljs-string">&quot;parentId&quot;</span>: model_resp[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;id&quot;</span>],  <span class="hljs-comment"># 关联模型的调用指令</span><br>    <span class="hljs-string">&quot;childrenIds&quot;</span>: []<br>&#125;<br><br><span class="hljs-comment"># 构造新的请求，包含历史消息+函数结果</span><br>final_payload = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,<br>    <span class="hljs-string">&quot;messages&quot;</span>: [<br>        <span class="hljs-comment"># 历史：用户的问题</span><br>        &#123;<br>            <span class="hljs-string">&quot;id&quot;</span>: user_msg_id,<br>            <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,<br>            <span class="hljs-string">&quot;content&quot;</span>: user_input,<br>            <span class="hljs-string">&quot;parentId&quot;</span>: <span class="hljs-literal">None</span>,<br>            <span class="hljs-string">&quot;childrenIds&quot;</span>: [model_resp[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;id&quot;</span>]]<br>        &#125;,<br>        <span class="hljs-comment"># 历史：模型的调用指令</span><br>        model_resp[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>],<br>        <span class="hljs-comment"># 新增：函数返回的结果</span><br>        function_result_msg<br>    ],<br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span><br>&#125;<br><br><span class="hljs-comment"># 发送请求，获取模型整理后的回答</span><br>final_response = requests.post(API_URL, json=final_payload, headers=headers)<br>final_answer = final_response.json()[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;content&quot;</span>]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;模型最终回答：<span class="hljs-subst">&#123;final_answer&#125;</span>&quot;</span>)<br><span class="hljs-comment"># 输出：上海当前天气为晴，气温25℃。</span><br></code></pre></td></tr></table></figure>
-
-
-<h3 id="3-为什么之前的代码看起来“混乱”？"><a href="#3-为什么之前的代码看起来“混乱”？" class="headerlink" title="3 为什么之前的代码看起来“混乱”？"></a>3 为什么之前的代码看起来“混乱”？</h3><p>因为它把4个步骤的代码合并了，没有明确拆分。核心逻辑其实是：<br><code>用户提问 → 模型生成调用指令（function_call）→ 后端执行函数 → 结果返回模型 → 模型生成回答</code>  </p>
-<p>其中，**<code>function_call</code>是模型动态生成的指令**，不是预先定义的函数，它的作用是“告诉后端该调用哪个工具、传什么参数”。</p>
-<h3 id="4-一句话总结"><a href="#4-一句话总结" class="headerlink" title="4 一句话总结"></a>4 一句话总结</h3><ol>
-<li>先在Open WebUI注册函数（模型才能“认识”它）；  </li>
-<li>用户提问时，模型判断需要调用函数，生成<code>function_call</code>指令；  </li>
-<li>后端按指令调用实际服务，拿到结果；  </li>
+<h4 id="步骤2模型生成function_call指令核心">2.2
+步骤2：模型生成<code>function_call</code>指令（核心！）</h4>
+<p>模型分析用户问题后，会生成一个“调用指令”（即<code>function_call</code>），告诉后端：“我需要调用<code>get_weather</code>函数，参数是<code>city=上海</code>”。</p>
+<p>此时<code>model_resp</code>的结构类似这样（模型动态生成的）：
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 模型返回的响应示例（model_resp）</span><br>&#123;<br>    <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;模型生成的响应ID&quot;</span>,<br>    <span class="hljs-string">&quot;messages&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;msg_abc123&quot;</span>,<br>            <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;assistant&quot;</span>,  <span class="hljs-comment"># 模型角色：助手</span><br>            <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,  <span class="hljs-comment"># 此时无直接回答，因为需要先调用工具</span><br>            <span class="hljs-string">&quot;function_call&quot;</span>: &#123;  <span class="hljs-comment"># 核心：模型生成的函数调用指令</span><br>                <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;get_weather&quot;</span>,  <span class="hljs-comment"># 要调用的函数名（必须与注册的一致）</span><br>                <span class="hljs-string">&quot;parameters&quot;</span>: &#123;<span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;上海&quot;</span>&#125;  <span class="hljs-comment"># 函数参数</span><br>            &#125;,<br>            <span class="hljs-string">&quot;parentId&quot;</span>: user_msg_id,  <span class="hljs-comment"># 关联用户的问题</span><br>            <span class="hljs-string">&quot;childrenIds&quot;</span>: []<br>        &#125;<br>    ]<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>代码中提取<code>function_call</code>的逻辑： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 2. 提取模型生成的函数调用指令</span><br>function_call = model_resp[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>].get(<span class="hljs-string">&quot;function_call&quot;</span>)<br><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> function_call:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型未生成函数调用，直接回答：&quot;</span>, model_resp[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;content&quot;</span>])<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;模型决定调用函数：<span class="hljs-subst">&#123;function_call[<span class="hljs-string">&#x27;name&#x27;</span>]&#125;</span>，参数：<span class="hljs-subst">&#123;function_call[<span class="hljs-string">&#x27;parameters&#x27;</span>]&#125;</span>&quot;</span>)<br>    <span class="hljs-comment"># 输出：模型决定调用函数：get_weather，参数：&#123;&#x27;city&#x27;: &#x27;上海&#x27;&#125;</span><br></code></pre></td></tr></table></figure></p>
+<h4 id="步骤3后端执行函数调用实际的天气服务">2.3
+步骤3：后端执行函数（调用实际的天气服务）</h4>
+<p>拿到<code>function_call</code>指令后，后端需要：<br />
+- 确认调用的函数是<code>get_weather</code>；<br />
+- 提取参数<code>city=上海</code>；<br />
+-
+发送请求到<code>weather_api.json</code>中定义的后端地址（<code>http://localhost:5000/get_weather</code>）。</p>
+<p>假设我们已用Flask搭建了天气服务后端（代码见前文），此时调用它：
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 3. 执行函数：调用天气服务后端</span><br><span class="hljs-keyword">if</span> function_call[<span class="hljs-string">&quot;name&quot;</span>] == <span class="hljs-string">&quot;get_weather&quot;</span>:<br>    <span class="hljs-comment"># 提取参数</span><br>    city = function_call[<span class="hljs-string">&quot;parameters&quot;</span>][<span class="hljs-string">&quot;city&quot;</span>]<br>    <span class="hljs-comment"># 调用天气服务（地址来自注册的weather_api.json）</span><br>    weather_backend_url = <span class="hljs-string">&quot;http://localhost:5000/get_weather&quot;</span><br>    weather_response = requests.post(<br>        weather_backend_url,<br>        json=&#123;<span class="hljs-string">&quot;city&quot;</span>: city&#125;  <span class="hljs-comment"># 传递参数</span><br>    )<br>    <span class="hljs-comment"># 获取天气数据（假设返回：&#123;&quot;temperature&quot;: 25, &quot;condition&quot;: &quot;晴&quot;&#125;）</span><br>    weather_data = weather_response.json()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;天气服务返回结果：<span class="hljs-subst">&#123;weather_data&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure></p>
+<h4 id="步骤4将函数结果返回给模型生成最终回答">2.4
+步骤4：将函数结果返回给模型，生成最终回答</h4>
+<p>模型本身不会直接处理天气数据，需要将<code>weather_data</code>返回给模型，让它整理成自然语言回答：
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 4. 将函数结果返回给模型，生成最终回答</span><br>function_result_msg = &#123;<br>    <span class="hljs-string">&quot;id&quot;</span>: uuid.uuid4().<span class="hljs-built_in">hex</span>,  <span class="hljs-comment"># 函数结果消息的ID</span><br>    <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;function&quot;</span>,  <span class="hljs-comment"># 角色：工具返回结果</span><br>    <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-built_in">str</span>(weather_data),  <span class="hljs-comment"># 传递天气数据（转为字符串）</span><br>    <span class="hljs-string">&quot;parentId&quot;</span>: model_resp[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;id&quot;</span>],  <span class="hljs-comment"># 关联模型的调用指令</span><br>    <span class="hljs-string">&quot;childrenIds&quot;</span>: []<br>&#125;<br><br><span class="hljs-comment"># 构造新的请求，包含历史消息+函数结果</span><br>final_payload = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,<br>    <span class="hljs-string">&quot;messages&quot;</span>: [<br>        <span class="hljs-comment"># 历史：用户的问题</span><br>        &#123;<br>            <span class="hljs-string">&quot;id&quot;</span>: user_msg_id,<br>            <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,<br>            <span class="hljs-string">&quot;content&quot;</span>: user_input,<br>            <span class="hljs-string">&quot;parentId&quot;</span>: <span class="hljs-literal">None</span>,<br>            <span class="hljs-string">&quot;childrenIds&quot;</span>: [model_resp[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;id&quot;</span>]]<br>        &#125;,<br>        <span class="hljs-comment"># 历史：模型的调用指令</span><br>        model_resp[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>],<br>        <span class="hljs-comment"># 新增：函数返回的结果</span><br>        function_result_msg<br>    ],<br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span><br>&#125;<br><br><span class="hljs-comment"># 发送请求，获取模型整理后的回答</span><br>final_response = requests.post(API_URL, json=final_payload, headers=headers)<br>final_answer = final_response.json()[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;content&quot;</span>]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;模型最终回答：<span class="hljs-subst">&#123;final_answer&#125;</span>&quot;</span>)<br><span class="hljs-comment"># 输出：上海当前天气为晴，气温25℃。</span><br></code></pre></td></tr></table></figure></p>
+<h3 id="为什么之前的代码看起来混乱">3
+为什么之前的代码看起来“混乱”？</h3>
+<p>因为它把4个步骤的代码合并了，没有明确拆分。核心逻辑其实是：<br />
+<code>用户提问 → 模型生成调用指令（function_call）→ 后端执行函数 → 结果返回模型 → 模型生成回答</code></p>
+<p>其中，<strong><code>function_call</code>是模型动态生成的指令</strong>，不是预先定义的函数，它的作用是“告诉后端该调用哪个工具、传什么参数”。</p>
+<h3 id="一句话总结">4 一句话总结</h3>
+<ol type="1">
+<li>先在Open WebUI注册函数（模型才能“认识”它）；<br />
+</li>
+<li>用户提问时，模型判断需要调用函数，生成<code>function_call</code>指令；<br />
+</li>
+<li>后端按指令调用实际服务，拿到结果；<br />
+</li>
 <li>结果返回模型，模型整理成自然语言回答。</li>
 </ol>
 <p>这样拆解后，每个步骤的目的就清晰了，代码逻辑也更容易理解。</p>
@@ -1609,6 +1630,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1826,6 +1853,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

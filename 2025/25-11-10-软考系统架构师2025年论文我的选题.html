@@ -27,7 +27,7 @@
 <meta property="og:description" content="我在今年（2025年）的软考系统架构设计师的考试中的论文选题是《秒杀场景及其技术解决方案》，以下是题目要求：  秒杀场景是电子商务领域典型的高并发、短时效业务场景，其核心特征是瞬时流量峰值极高、业务逻辑集中(下单、支付、库存扣减)、数据一致性要求严格，传统架构易出现系统响应超时、库存超卖、服务雪崩等问题。扩容、动静分离、缓存、服务降级、限流作为秒杀场景的核心技术解决方案，通过“分流-提速-减压-兜">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-11-10T21:10:00.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.107Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.667Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="缓存">
 <meta property="article:tag" content="限流">
@@ -258,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          935 字
+          937 字
         
       </span>
     
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1378,92 +1387,36 @@ true
 </blockquote>
 <p>根据以上题目要求，我大概整理了写作大纲如下：</p>
 <p>《论秒杀场景及其技术解决方案》</p>
-<p><strong>摘要（300字左右）</strong></p>
-<ul>
-<li>简述项目背景（电商平台&#x2F;秒杀系统）</li>
-<li>核心挑战（高并发、数据一致性）</li>
-<li>采用的技术方案概览</li>
-<li>取得的成效</li>
-</ul>
-<p><strong>1. 项目背景与个人职责</strong><br>1.1 项目概况</p>
-<ul>
-<li>系统类型（B2C电商平台&#x2F;票务系统等）</li>
-<li>业务规模（日活、峰值QPS等关键指标）</li>
-<li>秒杀活动特征（商品类型、频次、持续时间）</li>
-</ul>
-<p>1.2 个人职责</p>
-<ul>
-<li>架构设计角色（主架构师&#x2F;核心设计成员）</li>
-<li>关键技术决策点</li>
-<li>协调的团队（开发、测试、运维）</li>
-</ul>
-<p><strong>2. 核心技术挑战与解决方案</strong><br>2.1 核心挑战分析</p>
-<ul>
-<li>瞬时高并发（流量突增100倍+）</li>
-<li>库存准确性（超卖问题）</li>
-<li>系统雪崩风险</li>
-<li>支付通道堵塞</li>
-</ul>
-<p>2.2 技术方案实现<br>2.2.1 分层扩容</p>
-<ul>
-<li>自动弹性伸缩策略</li>
-<li>容器化部署方案</li>
-<li>云服务资源调配</li>
-</ul>
-<p>2.2.2 动静分离</p>
-<ul>
-<li>CDN静态资源分发</li>
-<li>商品详情页静态化</li>
-<li>动态API降级方案</li>
-</ul>
-<p>2.2.3 多级缓存</p>
-<ul>
-<li>Redis集群架构</li>
-<li>本地缓存+分布式缓存</li>
-<li>缓存预热策略</li>
-</ul>
-<p>2.2.4 服务降级</p>
-<ul>
-<li>熔断机制实现</li>
-<li>非核心服务降级</li>
-<li>柔性事务补偿</li>
-</ul>
-<p>2.2.5 限流策略</p>
-<ul>
-<li>网关层限流（令牌桶&#x2F;漏桶）</li>
-<li>分布式限流方案</li>
-<li>排队系统设计</li>
-</ul>
-<p>2.3 技术协同效应</p>
-<ul>
-<li>流量漏斗模型图示</li>
-<li>各技术环节QPS压制效果</li>
-<li>最终系统承压能力</li>
-</ul>
-<p><strong>3. 实施过程与效果</strong><br>3.1 技术选型思路</p>
-<ul>
-<li>方案对比（如Redis vs Memcached）</li>
-<li>成本效益分析</li>
-<li>团队技术储备考量</li>
-</ul>
-<p>3.2 关键难点与解决</p>
-<ul>
-<li>热点数据问题（分片策略）</li>
-<li>分布式事务一致性</li>
-<li>压测调优过程</li>
-</ul>
-<p>3.3 实施效果</p>
-<ul>
-<li>性能指标对比（TPS&#x2F;RT）</li>
-<li>业务指标提升（成交率）</li>
-<li>异常情况处理（故障恢复时间）</li>
-</ul>
-<p><strong>结论</strong></p>
-<ul>
-<li>架构设计心得</li>
-<li>可复用的方法论</li>
-<li>后续优化方向</li>
-</ul>
+<p><strong>摘要（300字左右）</strong> -
+简述项目背景（电商平台/秒杀系统） - 核心挑战（高并发、数据一致性） -
+采用的技术方案概览 - 取得的成效</p>
+<p><strong>1. 项目背景与个人职责</strong> 1.1 项目概况 -
+系统类型（B2C电商平台/票务系统等） - 业务规模（日活、峰值QPS等关键指标）
+- 秒杀活动特征（商品类型、频次、持续时间）</p>
+<p>1.2 个人职责 - 架构设计角色（主架构师/核心设计成员） - 关键技术决策点
+- 协调的团队（开发、测试、运维）</p>
+<p><strong>2. 核心技术挑战与解决方案</strong> 2.1 核心挑战分析 -
+瞬时高并发（流量突增100倍+） - 库存准确性（超卖问题） - 系统雪崩风险 -
+支付通道堵塞</p>
+<p>2.2 技术方案实现 2.2.1 分层扩容 - 自动弹性伸缩策略 - 容器化部署方案 -
+云服务资源调配</p>
+<p>2.2.2 动静分离 - CDN静态资源分发 - 商品详情页静态化 -
+动态API降级方案</p>
+<p>2.2.3 多级缓存 - Redis集群架构 - 本地缓存+分布式缓存 -
+缓存预热策略</p>
+<p>2.2.4 服务降级 - 熔断机制实现 - 非核心服务降级 - 柔性事务补偿</p>
+<p>2.2.5 限流策略 - 网关层限流（令牌桶/漏桶） - 分布式限流方案 -
+排队系统设计</p>
+<p>2.3 技术协同效应 - 流量漏斗模型图示 - 各技术环节QPS压制效果 -
+最终系统承压能力</p>
+<p><strong>3. 实施过程与效果</strong> 3.1 技术选型思路 -
+方案对比（如Redis vs Memcached） - 成本效益分析 - 团队技术储备考量</p>
+<p>3.2 关键难点与解决 - 热点数据问题（分片策略） - 分布式事务一致性 -
+压测调优过程</p>
+<p>3.3 实施效果 - 性能指标对比（TPS/RT） - 业务指标提升（成交率） -
+异常情况处理（故障恢复时间）</p>
+<p><strong>结论</strong> - 架构设计心得 - 可复用的方法论 -
+后续优化方向</p>
 
                 
               </div>
@@ -1656,6 +1609,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1873,6 +1832,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

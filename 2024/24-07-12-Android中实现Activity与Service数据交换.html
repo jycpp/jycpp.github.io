@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="核心要点：   LiveData是kotlin中特有的机制，可以被observe，通过ViewModel可以实现线程安全，更稳定。 Application的子类，通过在AndroidManifest.xml中的application标签中配置android:name属性，指定为自定义的Application类，可以实现全局传递变量。 在Service中可以通过Application的实例获取Vi">
+    <meta name="description" content="核心要点： 1. LiveData是kotlin中特有的机制，可以被observe，通过ViewModel可以实现线程安全，更稳定。 2. Application的子类，通过在AndroidManifest.xml中的application标签中配置android:name属性，指定为自定义的Application类，可以实现全局传递变量。 3. 在Service中可以通过Application">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android中实现Activity与Service数据交换">
 <meta property="og:url" content="https://jycpp.github.io/2024/24-07-12-Android%E4%B8%AD%E5%AE%9E%E7%8E%B0Activity%E4%B8%8EService%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="核心要点：   LiveData是kotlin中特有的机制，可以被observe，通过ViewModel可以实现线程安全，更稳定。 Application的子类，通过在AndroidManifest.xml中的application标签中配置android:name属性，指定为自定义的Application类，可以实现全局传递变量。 在Service中可以通过Application的实例获取Vi">
+<meta property="og:description" content="核心要点： 1. LiveData是kotlin中特有的机制，可以被observe，通过ViewModel可以实现线程安全，更稳定。 2. Application的子类，通过在AndroidManifest.xml中的application标签中配置android:name属性，指定为自定义的Application类，可以实现全局传递变量。 3. 在Service中可以通过Application">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-07-12T20:32:56.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.105Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.665Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Activity">
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1369,116 +1378,125 @@ true
               <div class="markdown-body">
                 
                 <blockquote>
-<p>核心要点： </p>
-<ol>
-<li>LiveData是kotlin中特有的机制，可以被observe，通过ViewModel可以实现线程安全，更稳定。</li>
-<li>Application的子类，通过在AndroidManifest.xml中的application标签中配置android:name属性，指定为自定义的Application类，可以实现全局传递变量。</li>
-<li>在Service中可以通过Application的实例获取ViewModel，从而更新数据；在activity中可以通过ViewModel的实例获取LiveData，从而实时更新UI。</li>
-</ol>
+<p>核心要点： 1.
+LiveData是kotlin中特有的机制，可以被observe，通过ViewModel可以实现线程安全，更稳定。
+2.
+Application的子类，通过在AndroidManifest.xml中的application标签中配置android:name属性，指定为自定义的Application类，可以实现全局传递变量。
+3.
+在Service中可以通过Application的实例获取ViewModel，从而更新数据；在activity中可以通过ViewModel的实例获取LiveData，从而实时更新UI。</p>
 </blockquote>
-<p>在 Android 中实现后台服务与 Activity 之间的实时数据更新，有几种高效可靠的方法。以下是针对您场景的最佳实现方案：</p>
-<h3 id="推荐方案：使用-LiveData-ViewModel（Android-架构组件）"><a href="#推荐方案：使用-LiveData-ViewModel（Android-架构组件）" class="headerlink" title="推荐方案：使用 LiveData + ViewModel（Android 架构组件）"></a>推荐方案：使用 LiveData + ViewModel（Android 架构组件）</h3><h4 id="1-创建-DeviceInfoViewModel"><a href="#1-创建-DeviceInfoViewModel" class="headerlink" title="1. 创建 DeviceInfoViewModel"></a>1. 创建 DeviceInfoViewModel</h4><p>位置：<code>app/src/main/java/cn/xiaoa/app/smartdevice/viewmodel/DeviceInfoViewModel.kt</code></p>
+<p>在 Android 中实现后台服务与 Activity
+之间的实时数据更新，有几种高效可靠的方法。以下是针对您场景的最佳实现方案：</p>
+<h3 id="推荐方案使用-livedata-viewmodelandroid-架构组件">推荐方案：使用
+LiveData + ViewModel（Android 架构组件）</h3>
+<h4 id="创建-deviceinfoviewmodel">1. 创建 DeviceInfoViewModel</h4>
+<p>位置：<code>app/src/main/java/cn/xiaoa/app/smartdevice/viewmodel/DeviceInfoViewModel.kt</code></p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">package</span> cn.xiaoa.app.smartdevice.viewmodel<br><br><span class="hljs-keyword">import</span> androidx.lifecycle.LiveData<br><span class="hljs-keyword">import</span> androidx.lifecycle.MutableLiveData<br><span class="hljs-keyword">import</span> androidx.lifecycle.ViewModel<br><span class="hljs-keyword">import</span> cn.xiaoa.app.smartdevice.model.DeviceInfo<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">DeviceInfoViewModel</span> : <span class="hljs-type">ViewModel</span>() &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> _deviceInfo = MutableLiveData&lt;DeviceInfo&gt;()<br>    <span class="hljs-keyword">val</span> deviceInfo: LiveData&lt;DeviceInfo&gt; <span class="hljs-keyword">get</span>() = _deviceInfo<br><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">updateDeviceInfo</span><span class="hljs-params">(newInfo: <span class="hljs-type">DeviceInfo</span>)</span></span> &#123;<br>        _deviceInfo.postValue(newInfo) <span class="hljs-comment">// 使用 postValue 确保线程安全</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="2-在-SystemService-中更新-ViewModel"><a href="#2-在-SystemService-中更新-ViewModel" class="headerlink" title="2. 在 SystemService 中更新 ViewModel"></a>2. 在 SystemService 中更新 ViewModel</h4><p>位置：<code>app/src/main/java/cn/xiaoa/app/smartdevice/SystemService.kt</code></p>
+<h4 id="在-systemservice-中更新-viewmodel">2. 在 SystemService 中更新
+ViewModel</h4>
+<p>位置：<code>app/src/main/java/cn/xiaoa/app/smartdevice/SystemService.kt</code></p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SystemService</span> : <span class="hljs-type">Service</span>() &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">lateinit</span> <span class="hljs-keyword">var</span> viewModel: DeviceInfoViewModel<br>    <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate()<br>        <br>        <span class="hljs-comment">// 获取 ViewModel</span><br>        <span class="hljs-keyword">val</span> app = application <span class="hljs-keyword">as</span> SmartGlassesApp<br>        viewModel = app.deviceInfoViewModel<br>        <br>        <span class="hljs-comment">// 初始化设备信息</span><br>        deviceInfo = DeviceInfo()<br>        viewModel.updateDeviceInfo(deviceInfo)<br>        <br>        <span class="hljs-comment">// 当信息变更时更新 ViewModel</span><br>        deviceInfo.addOnChangeListener &#123; newInfo -&gt;<br>            viewModel.updateDeviceInfo(newInfo)<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// ... 其他代码</span><br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="3-在-Application-类中管理-ViewModel"><a href="#3-在-Application-类中管理-ViewModel" class="headerlink" title="3. 在 Application 类中管理 ViewModel"></a>3. 在 Application 类中管理 ViewModel</h4><p>位置：<code>app/src/main/java/cn/xiaoa/app/smartdevice/SmartGlassesApp.kt</code></p>
+<h4 id="在-application-类中管理-viewmodel">3. 在 Application 类中管理
+ViewModel</h4>
+<p>位置：<code>app/src/main/java/cn/xiaoa/app/smartdevice/SmartGlassesApp.kt</code></p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SmartGlassesApp</span> : <span class="hljs-type">Application</span>() &#123;<br>    <span class="hljs-keyword">lateinit</span> <span class="hljs-keyword">var</span> deviceInfoViewModel: DeviceInfoViewModel<br>    <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate()<br>        deviceInfoViewModel = ViewModelProvider.AndroidViewModelFactory<br>            .getInstance(<span class="hljs-keyword">this</span>)<br>            .create(DeviceInfoViewModel::<span class="hljs-keyword">class</span>.java)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="4-在-MainActivity-中观察数据变化"><a href="#4-在-MainActivity-中观察数据变化" class="headerlink" title="4. 在 MainActivity 中观察数据变化"></a>4. 在 MainActivity 中观察数据变化</h4><p>位置：<code>app/src/main/java/cn/xiaoa/app/smartdevice/MainActivity.kt</code></p>
+<h4 id="在-mainactivity-中观察数据变化">4. 在 MainActivity
+中观察数据变化</h4>
+<p>位置：<code>app/src/main/java/cn/xiaoa/app/smartdevice/MainActivity.kt</code></p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">lateinit</span> <span class="hljs-keyword">var</span> viewModel: DeviceInfoViewModel<br>    <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_main)<br>        <br>        <span class="hljs-comment">// 获取 ViewModel</span><br>        viewModel = (application <span class="hljs-keyword">as</span> SmartGlassesApp).deviceInfoViewModel<br>        <br>        <span class="hljs-comment">// 观察设备信息变化</span><br>        viewModel.deviceInfo.observe(<span class="hljs-keyword">this</span>) &#123; deviceInfo -&gt;<br>            updateDeviceStatus(deviceInfo)<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">updateDeviceStatus</span><span class="hljs-params">(deviceInfo: <span class="hljs-type">DeviceInfo</span>)</span></span> &#123;<br>        <span class="hljs-comment">// 更新UI组件</span><br>        findViewById&lt;TextView&gt;(R.id.tvDeviceStatus).text = buildString &#123;<br>            append(<span class="hljs-string">&quot;BLE: <span class="hljs-subst">$&#123;deviceInfo.bleStatus&#125;</span>\n&quot;</span>)<br>            append(<span class="hljs-string">&quot;网络: <span class="hljs-subst">$&#123;deviceInfo.networkStatus&#125;</span>\n&quot;</span>)<br>            append(<span class="hljs-string">&quot;LED亮度: <span class="hljs-subst">$&#123;deviceInfo.ledBrightness&#125;</span>%&quot;</span>)<br>        &#125;<br>        <br>        <span class="hljs-comment">// 更新其他UI元素...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="备选方案：使用-EventBus（适用于简单场景）"><a href="#备选方案：使用-EventBus（适用于简单场景）" class="headerlink" title="备选方案：使用 EventBus（适用于简单场景）"></a>备选方案：使用 EventBus（适用于简单场景）</h3><h4 id="1-添加-EventBus-依赖"><a href="#1-添加-EventBus-依赖" class="headerlink" title="1. 添加 EventBus 依赖"></a>1. 添加 EventBus 依赖</h4><p><code>build.gradle (Module: app)</code></p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">implementation <span class="hljs-string">&#x27;org.greenrobot:eventbus:3.3.1&#x27;</span><br></code></pre></td></tr></table></figure>
-
-<h4 id="2-创建事件类"><a href="#2-创建事件类" class="headerlink" title="2. 创建事件类"></a>2. 创建事件类</h4><p>位置：<code>app/src/main/java/cn/xiaoa/app/smartdevice/events/DeviceInfoUpdateEvent.kt</code></p>
+<h3 id="备选方案使用-eventbus适用于简单场景">备选方案：使用
+EventBus（适用于简单场景）</h3>
+<h4 id="添加-eventbus-依赖">1. 添加 EventBus 依赖</h4>
+<p><code>build.gradle (Module: app)</code> <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">implementation <span class="hljs-string">&#x27;org.greenrobot:eventbus:3.3.1&#x27;</span><br></code></pre></td></tr></table></figure></p>
+<h4 id="创建事件类">2. 创建事件类</h4>
+<p>位置：<code>app/src/main/java/cn/xiaoa/app/smartdevice/events/DeviceInfoUpdateEvent.kt</code></p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">package</span> cn.xiaoa.app.smartdevice.events<br><br><span class="hljs-keyword">import</span> cn.xiaoa.app.smartdevice.model.DeviceInfo<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">DeviceInfoUpdateEvent</span>(<span class="hljs-keyword">val</span> deviceInfo: DeviceInfo)<br></code></pre></td></tr></table></figure>
+<h4 id="在-systemservice-中发送事件">3. 在 SystemService 中发送事件</h4>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SystemService</span> : <span class="hljs-type">Service</span>() &#123;<br>    <span class="hljs-comment">// ...</span><br>    <br>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onDeviceInfoChanged</span><span class="hljs-params">()</span></span> &#123;<br>        EventBus.getDefault().post(DeviceInfoUpdateEvent(deviceInfo))<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="在-mainactivity-中接收事件">4. 在 MainActivity 中接收事件</h4>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onStart</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onStart()<br>        EventBus.getDefault().register(<span class="hljs-keyword">this</span>)<br>    &#125;<br>    <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onStop</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onStop()<br>        EventBus.getDefault().unregister(<span class="hljs-keyword">this</span>)<br>    &#125;<br>    <br>    <span class="hljs-meta">@Subscribe(threadMode = ThreadMode.MAIN)</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onDeviceInfoUpdate</span><span class="hljs-params">(event: <span class="hljs-type">DeviceInfoUpdateEvent</span>)</span></span> &#123;<br>        updateDeviceStatus(event.deviceInfo)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="方案对比">方案对比</h3>
+<table>
 
-<h4 id="3-在-SystemService-中发送事件"><a href="#3-在-SystemService-中发送事件" class="headerlink" title="3. 在 SystemService 中发送事件"></a>3. 在 SystemService 中发送事件</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SystemService</span> : <span class="hljs-type">Service</span>() &#123;<br>    <span class="hljs-comment">// ...</span><br>    <br>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onDeviceInfoChanged</span><span class="hljs-params">()</span></span> &#123;<br>        EventBus.getDefault().post(DeviceInfoUpdateEvent(deviceInfo))<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="4-在-MainActivity-中接收事件"><a href="#4-在-MainActivity-中接收事件" class="headerlink" title="4. 在 MainActivity 中接收事件"></a>4. 在 MainActivity 中接收事件</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onStart</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onStart()<br>        EventBus.getDefault().register(<span class="hljs-keyword">this</span>)<br>    &#125;<br>    <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onStop</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onStop()<br>        EventBus.getDefault().unregister(<span class="hljs-keyword">this</span>)<br>    &#125;<br>    <br>    <span class="hljs-meta">@Subscribe(threadMode = ThreadMode.MAIN)</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onDeviceInfoUpdate</span><span class="hljs-params">(event: <span class="hljs-type">DeviceInfoUpdateEvent</span>)</span></span> &#123;<br>        updateDeviceStatus(event.deviceInfo)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="方案对比"><a href="#方案对比" class="headerlink" title="方案对比"></a>方案对比</h3><table>
 <thead>
-<tr>
+<tr class="header">
 <th>特性</th>
 <th>LiveData + ViewModel</th>
 <th>EventBus</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td><strong>生命周期感知</strong></td>
 <td>✅ 自动管理</td>
-<td>❌ 需手动注册&#x2F;注销</td>
+<td>❌ 需手动注册/注销</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>线程安全</strong></td>
 <td>✅ 自动处理线程切换</td>
 <td>⚠️ 需指定线程模式</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>与 Android 架构集成</strong></td>
 <td>✅ 官方推荐架构组件</td>
 <td>❌ 第三方库</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>数据持久化</strong></td>
 <td>✅ 配置变更时保留数据</td>
 <td>❌ 数据不持久</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>代码复杂度</strong></td>
 <td>⚠️ 中等（需理解架构组件）</td>
 <td>✅ 简单易用</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>实时性</strong></td>
 <td>✅ 即时更新</td>
 <td>✅ 即时更新</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>适用范围</strong></td>
 <td>复杂应用、长期数据共享</td>
 <td>简单应用、临时事件通知</td>
 </tr>
-</tbody></table>
-<h3 id="最佳实践建议"><a href="#最佳实践建议" class="headerlink" title="最佳实践建议"></a>最佳实践建议</h3><ol>
+</tbody>
+</table>
+<h3 id="最佳实践建议">最佳实践建议</h3>
+<ol type="1">
 <li><p><strong>优先使用 LiveData + ViewModel</strong>：</p>
 <ul>
 <li>这是 Android 官方推荐的架构模式</li>
 <li>自动处理生命周期和线程切换</li>
 <li>适合需要持久化数据的场景</li>
-</ul>
-</li>
-<li><p><strong>在 DeviceInfo 中添加变更监听器</strong>：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">DeviceInfo</span> &#123;<br>    <span class="hljs-comment">// ... 现有属性</span><br>    <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> listeners = mutableListOf&lt;(DeviceInfo) -&gt; <span class="hljs-built_in">Unit</span>&gt;()<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">addOnChangeListener</span><span class="hljs-params">(listener: (<span class="hljs-type">DeviceInfo</span>) -&gt; <span class="hljs-type">Unit</span>)</span></span> &#123;<br>        listeners.add(listener)<br>    &#125;<br>    <br>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">notifyChanges</span><span class="hljs-params">()</span></span> &#123;<br>        listeners.forEach &#123; it(<span class="hljs-keyword">this</span>) &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 在属性变更时调用 notifyChanges()</span><br>    <span class="hljs-keyword">var</span> ledBrightness: <span class="hljs-built_in">Int</span> = <span class="hljs-number">80</span><br>        <span class="hljs-keyword">set</span>(value) &#123;<br>            field = value<br>            notifyChanges()<br>        &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-</li>
-<li><p><strong>使用 DiffUtil 优化 UI 更新</strong>：<br>如果 UI 更新频繁，可以在 RecyclerView 适配器中使用 DiffUtil 进行高效更新</p>
-</li>
-<li><p><strong>处理后台更新时的 UI 状态</strong>：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">viewModel.deviceInfo.observe(<span class="hljs-keyword">this</span>) &#123; deviceInfo -&gt;<br>    <span class="hljs-keyword">if</span> (isVisible) &#123; <span class="hljs-comment">// 检查 Activity 是否在前台</span><br>        updateDeviceStatus(deviceInfo)<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// 保存状态，在 onResume 时更新</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul></li>
+<li><p><strong>在 DeviceInfo 中添加变更监听器</strong>：
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">DeviceInfo</span> &#123;<br>    <span class="hljs-comment">// ... 现有属性</span><br>    <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> listeners = mutableListOf&lt;(DeviceInfo) -&gt; <span class="hljs-built_in">Unit</span>&gt;()<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">addOnChangeListener</span><span class="hljs-params">(listener: (<span class="hljs-type">DeviceInfo</span>) -&gt; <span class="hljs-type">Unit</span>)</span></span> &#123;<br>        listeners.add(listener)<br>    &#125;<br>    <br>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">notifyChanges</span><span class="hljs-params">()</span></span> &#123;<br>        listeners.forEach &#123; it(<span class="hljs-keyword">this</span>) &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 在属性变更时调用 notifyChanges()</span><br>    <span class="hljs-keyword">var</span> ledBrightness: <span class="hljs-built_in">Int</span> = <span class="hljs-number">80</span><br>        <span class="hljs-keyword">set</span>(value) &#123;<br>            field = value<br>            notifyChanges()<br>        &#125;<br>&#125;<br></code></pre></td></tr></table></figure></p></li>
+<li><p><strong>使用 DiffUtil 优化 UI 更新</strong>： 如果 UI
+更新频繁，可以在 RecyclerView 适配器中使用 DiffUtil
+进行高效更新</p></li>
+<li><p><strong>处理后台更新时的 UI 状态</strong>：
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">viewModel.deviceInfo.observe(<span class="hljs-keyword">this</span>) &#123; deviceInfo -&gt;<br>    <span class="hljs-keyword">if</span> (isVisible) &#123; <span class="hljs-comment">// 检查 Activity 是否在前台</span><br>        updateDeviceStatus(deviceInfo)<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// 保存状态，在 onResume 时更新</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></p></li>
 </ol>
-<h3 id="完整流程说明"><a href="#完整流程说明" class="headerlink" title="完整流程说明"></a>完整流程说明</h3><ol>
-<li><p><strong>数据变更流程</strong>：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">SystemService</span> 修改 DeviceInfo → 触发监听器 → 更新 ViewModel → LiveData 通知观察者 → Activity 更新 UI<br></code></pre></td></tr></table></figure>
-</li>
+<h3 id="完整流程说明">完整流程说明</h3>
+<ol type="1">
+<li><p><strong>数据变更流程</strong>： <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">SystemService</span> 修改 DeviceInfo → 触发监听器 → 更新 ViewModel → LiveData 通知观察者 → Activity 更新 UI<br></code></pre></td></tr></table></figure></p></li>
 <li><p><strong>组件关系</strong>：</p>
 <div class="mermaid">   graph TD
 A[SystemService] -->|更新| B[DeviceInfo]
 B -->|通知| C[ViewModel]
 C -->|LiveData| D[MainActivity]
-D -->|显示| E[UI]</div>
-</li>
+D -->|显示| E[UI]</div></li>
 <li><p><strong>线程处理</strong>：</p>
 <ul>
 <li>后台服务使用 <code>postValue()</code> 确保线程安全</li>
 <li>LiveData 自动将更新切换到主线程</li>
 <li>避免直接在后台线程更新 UI</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<p>这种架构确保了后台服务与 Activity 之间的高效、安全通信，同时符合现代 Android 开发的最佳实践。</p>
+<p>这种架构确保了后台服务与 Activity 之间的高效、安全通信，同时符合现代
+Android 开发的最佳实践。</p>
 
                 
               </div>
@@ -1671,6 +1689,12 @@ D -->|显示| E[UI]</div>
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1888,6 +1912,49 @@ D -->|显示| E[UI]</div>
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="我们以位掩码 &amp; 0xFF 为例说明计算机中位与运算的完整原理。 1. 语法解析&amp; 运算符 名称：按位与（bitwise AND）运算符 作用：对两个操作数的每个对应位执行逻辑与操作 语法：操作数1 &amp; 操作数2  0xFF 的含义 **0x**：十六进制前缀 **FF**：十六进制的 255 二进制：11111111（8个1）  2. 按位与的真值表   位A 位B A">
+    <meta name="description" content="我们以位掩码 &amp; 0xFF 为例说明计算机中位与运算的完整原理。 1. 语法解析 &amp; 运算符  名称：按位与（bitwise AND）运算符 作用：对两个操作数的每个对应位执行逻辑与操作 语法：操作数1 &amp; 操作数2  0xFF 的含义  0x：十六进制前缀 FF：十六进制的 255 二进制：11111111（8个1）  2. 按位与的真值表    位A 位B A &amp;amp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="理解 C++ 编程中的“位与“运算符">
 <meta property="og:url" content="https://jycpp.github.io/2026/26-01-03-%E7%90%86%E8%A7%A3CPP%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%8D%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="我们以位掩码 &amp; 0xFF 为例说明计算机中位与运算的完整原理。 1. 语法解析&amp; 运算符 名称：按位与（bitwise AND）运算符 作用：对两个操作数的每个对应位执行逻辑与操作 语法：操作数1 &amp; 操作数2  0xFF 的含义 **0x**：十六进制前缀 **FF**：十六进制的 255 二进制：11111111（8个1）  2. 按位与的真值表   位A 位B A">
+<meta property="og:description" content="我们以位掩码 &amp; 0xFF 为例说明计算机中位与运算的完整原理。 1. 语法解析 &amp; 运算符  名称：按位与（bitwise AND）运算符 作用：对两个操作数的每个对应位执行逻辑与操作 语法：操作数1 &amp; 操作数2  0xFF 的含义  0x：十六进制前缀 FF：十六进制的 255 二进制：11111111（8个1）  2. 按位与的真值表    位A 位B A &amp;amp">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-03T14:35:42.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.108Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.669Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="性能优化">
 <meta property="article:tag" content="二进制">
@@ -318,7 +318,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1047,7 +1047,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1065,6 +1065,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1367,103 +1376,107 @@ true
             
               <div class="markdown-body">
                 
-                <p>我们以位掩码 <code>&amp; 0xFF</code> 为例说明计算机中位与运算的完整原理。</p>
-<h2 id="1-语法解析"><a href="#1-语法解析" class="headerlink" title="1. 语法解析"></a>1. 语法解析</h2><h3 id="运算符"><a href="#运算符" class="headerlink" title="&amp; 运算符"></a><code>&amp;</code> 运算符</h3><ul>
+                <p>我们以位掩码 <code>&amp; 0xFF</code>
+为例说明计算机中位与运算的完整原理。</p>
+<h2 id="语法解析">1. 语法解析</h2>
+<h3 id="运算符"><code>&amp;</code> 运算符</h3>
+<ul>
 <li><strong>名称</strong>：按位与（bitwise AND）运算符</li>
 <li><strong>作用</strong>：对两个操作数的每个对应位执行逻辑与操作</li>
 <li><strong>语法</strong>：<code>操作数1 &amp; 操作数2</code></li>
 </ul>
-<h3 id="0xFF-的含义"><a href="#0xFF-的含义" class="headerlink" title="0xFF 的含义"></a><code>0xFF</code> 的含义</h3><ul>
-<li>**<code>0x</code>**：十六进制前缀</li>
-<li>**<code>FF</code>**：十六进制的 255</li>
+<h3 id="xff-的含义"><code>0xFF</code> 的含义</h3>
+<ul>
+<li><strong><code>0x</code></strong>：十六进制前缀</li>
+<li><strong><code>FF</code></strong>：十六进制的 255</li>
 <li><strong>二进制</strong>：<code>11111111</code>（8个1）</li>
 </ul>
-<h2 id="2-按位与的真值表"><a href="#2-按位与的真值表" class="headerlink" title="2. 按位与的真值表"></a>2. 按位与的真值表</h2><table>
+<h2 id="按位与的真值表">2. 按位与的真值表</h2>
+<table>
 <thead>
-<tr>
+<tr class="header">
 <th>位A</th>
 <th>位B</th>
 <th>A &amp; B</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>0</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr>
+<tr class="even">
 <td>0</td>
 <td>1</td>
 <td>0</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>1</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr>
+<tr class="even">
 <td>1</td>
 <td>1</td>
 <td>1</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p><strong>关键规律</strong>：只有当两个对应位都为1时，结果位才为1</p>
-<h2 id="3-计算过程详解"><a href="#3-计算过程详解" class="headerlink" title="3. 计算过程详解"></a>3. 计算过程详解</h2><h3 id="示例：保留-16位数的低8位"><a href="#示例：保留-16位数的低8位" class="headerlink" title="示例：保留 16位数的低8位"></a>示例：保留 16位数的低8位</h3><p>假设我们有一个16位的和：<code>sum = 0x0123</code>（十进制291）</p>
+<h2 id="计算过程详解">3. 计算过程详解</h2>
+<h3 id="示例保留-16位数的低8位">示例：保留 16位数的低8位</h3>
+<p>假设我们有一个16位的和：<code>sum = 0x0123</code>（十进制291）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">uint16_t</span> sum = <span class="hljs-number">0x0123</span>;  <span class="hljs-comment">// 二进制: 00000001 00100011</span><br><span class="hljs-type">uint8_t</span> low_byte = sum &amp; <span class="hljs-number">0xFF</span>;<br></code></pre></td></tr></table></figure>
-
 <p><strong>逐步计算</strong>：</p>
 <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs dns">sum      = <span class="hljs-number">00000001</span> <span class="hljs-number">00100011</span>  (<span class="hljs-number">0</span>x0123 = <span class="hljs-number">291</span>)<br><span class="hljs-number">0</span>xFF     = <span class="hljs-number">00000000</span> <span class="hljs-number">11111111</span>  (只保留低<span class="hljs-number">8</span>位为<span class="hljs-number">1</span>)<br>-------------------------------- &amp; (按位与)<br>结果     = <span class="hljs-number">00000000</span> <span class="hljs-number">00100011</span>  (<span class="hljs-number">0</span>x0023 = <span class="hljs-number">35</span>)<br></code></pre></td></tr></table></figure>
-
 <p>转换为 <code>uint8_t</code> 后：<code>0x23</code>（丢弃高8位）</p>
-<h3 id="更复杂的例子"><a href="#更复杂的例子" class="headerlink" title="更复杂的例子"></a>更复杂的例子</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">uint16_t</span> large_sum = <span class="hljs-number">0xABCD</span>;  <span class="hljs-comment">// 43981</span><br><span class="hljs-type">uint8_t</span> result = large_sum &amp; <span class="hljs-number">0xFF</span>;<br></code></pre></td></tr></table></figure>
-
-<p><strong>计算过程</strong>：</p>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dns">large_sum = <span class="hljs-number">10101011</span> <span class="hljs-number">11001101</span>  (<span class="hljs-number">0</span>xABCD)<br><span class="hljs-number">0</span>xFF      = <span class="hljs-number">00000000</span> <span class="hljs-number">11111111</span><br>-------------------------------- &amp; <br>result    = <span class="hljs-number">00000000</span> <span class="hljs-number">11001101</span>  (<span class="hljs-number">0</span>x00CD)<br>转换为uint8_t: <span class="hljs-number">0</span>xCD<br></code></pre></td></tr></table></figure>
-
-<h2 id="4-代码演示"><a href="#4-代码演示" class="headerlink" title="4. 代码演示"></a>4. 代码演示</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iomanip&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bitset&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdint&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">demonstrate_bitmask</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// 示例1：16位数保留低8位</span><br>    <span class="hljs-type">uint16_t</span> number = <span class="hljs-number">0xABCD</span>;<br>    <span class="hljs-type">uint8_t</span> masked = number &amp; <span class="hljs-number">0xFF</span>;<br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;原始数: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; number &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;二进制: &quot;</span> &lt;&lt; std::<span class="hljs-built_in">bitset</span>&lt;<span class="hljs-number">16</span>&gt;(number) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;0xFF:   &quot;</span> &lt;&lt; std::<span class="hljs-built_in">bitset</span>&lt;<span class="hljs-number">16</span>&gt;(<span class="hljs-number">0x00FF</span>) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;结果:    &quot;</span> &lt;&lt; std::<span class="hljs-built_in">bitset</span>&lt;<span class="hljs-number">16</span>&gt;(number &amp; <span class="hljs-number">0x00FF</span>) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;提取的低字节: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(masked) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; std::endl;<br>    <br>    <span class="hljs-comment">// 示例2：三字节求和场景</span><br>    <span class="hljs-type">uint8_t</span> bytes[] = &#123;<span class="hljs-number">200</span>, <span class="hljs-number">100</span>, <span class="hljs-number">50</span>&#125;;  <span class="hljs-comment">// 总和 = 350 = 0x015E</span><br>    <span class="hljs-type">uint16_t</span> sum = bytes[<span class="hljs-number">0</span>] + bytes[<span class="hljs-number">1</span>] + bytes[<span class="hljs-number">2</span>];<br>    <span class="hljs-type">uint8_t</span> checksum = sum &amp; <span class="hljs-number">0xFF</span>;<br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;三个字节: &quot;</span> &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(bytes[<span class="hljs-number">0</span>]) &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> <br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(bytes[<span class="hljs-number">1</span>]) &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(bytes[<span class="hljs-number">2</span>]) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;求和: &quot;</span> &lt;&lt; std::dec &lt;&lt; sum &lt;&lt; <span class="hljs-string">&quot; = 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; sum &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;二进制: &quot;</span> &lt;&lt; std::<span class="hljs-built_in">bitset</span>&lt;<span class="hljs-number">16</span>&gt;(sum) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;保留低字节: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(checksum) &lt;&lt; std::endl;<br>&#125;<br><br><span class="hljs-comment">// 通用位掩码函数</span><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function">T <span class="hljs-title">get_low_bytes</span><span class="hljs-params">(T value, <span class="hljs-type">int</span> byte_count)</span> </span>&#123;<br>    T mask = (<span class="hljs-number">1</span> &lt;&lt; (byte_count * <span class="hljs-number">8</span>)) - <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">return</span> value &amp; mask;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-built_in">demonstrate_bitmask</span>();<br>    <br>    <span class="hljs-comment">// 演示通用掩码</span><br>    <span class="hljs-type">uint32_t</span> value = <span class="hljs-number">0x12345678</span>;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;\n通用掩码示例:&quot;</span> &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;原始: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; value &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;低1字节: 0x&quot;</span> &lt;&lt; <span class="hljs-built_in">get_low_bytes</span>(value, <span class="hljs-number">1</span>) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;低2字节: 0x&quot;</span> &lt;&lt; <span class="hljs-built_in">get_low_bytes</span>(value, <span class="hljs-number">2</span>) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;低3字节: 0x&quot;</span> &lt;&lt; <span class="hljs-built_in">get_low_bytes</span>(value, <span class="hljs-number">3</span>) &lt;&lt; std::endl;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h2 id="5-为什么-0xFF-能保留低8位？"><a href="#5-为什么-0xFF-能保留低8位？" class="headerlink" title="5. 为什么 &amp; 0xFF 能保留低8位？"></a>5. 为什么 <code>&amp; 0xFF</code> 能保留低8位？</h2><p><strong>数学原理</strong>：</p>
-<ul>
-<li><code>0xFF</code> 的二进制是 <code>11111111</code></li>
-<li>任何数与 <code>11111111</code> 进行按位与，结果等于该数本身（只限于低8位）</li>
-<li>高位的0与任何数相与都是0，所以高位被清零</li>
-</ul>
-<p><strong>可视化理解</strong>：</p>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dns">任意<span class="hljs-number">16</span>位数: ABCDEFGH IJKLMNOP  (<span class="hljs-keyword">A</span>-P代表<span class="hljs-number">8</span>个位)<br>掩码 <span class="hljs-number">0</span>xFF:   <span class="hljs-number">00000000</span> <span class="hljs-number">11111111</span><br>结果:       <span class="hljs-number">00000000</span> IJKLMNOP  ← 只保留低<span class="hljs-number">8</span>位<br></code></pre></td></tr></table></figure>
-
-<h2 id="6-其他常用的位掩码"><a href="#6-其他常用的位掩码" class="headerlink" title="6. 其他常用的位掩码"></a>6. 其他常用的位掩码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 常用掩码模式</span><br><span class="hljs-type">uint8_t</span> keep_low_4_bits   = value &amp; <span class="hljs-number">0x0F</span>;  <span class="hljs-comment">// 00001111</span><br><span class="hljs-type">uint8_t</span> keep_high_4_bits  = value &amp; <span class="hljs-number">0xF0</span>;  <span class="hljs-comment">// 11110000  </span><br><span class="hljs-type">uint16_t</span> keep_low_12_bits = value &amp; <span class="hljs-number">0x0FFF</span>; <span class="hljs-comment">// 00001111 11111111</span><br><span class="hljs-type">uint32_t</span> keep_low_24_bits = value &amp; <span class="hljs-number">0xFFFFFF</span>; <span class="hljs-comment">// 低24位全1</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="7-性能优势和小结"><a href="#7-性能优势和小结" class="headerlink" title="7. 性能优势和小结"></a>7. 性能优势和小结</h2><p>位掩码 <code>&amp; 0xFF</code> 比模运算 <code>% 256</code> 更高效：</p>
-<ul>
-<li><strong>位运算</strong>：CPU直接支持，通常1个时钟周期</li>
-<li><strong>模运算</strong>：需要除法器，多个时钟周期</li>
-</ul>
+<h3 id="更复杂的例子">更复杂的例子</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">uint16_t</span> large_sum = <span class="hljs-number">0xABCD</span>;  <span class="hljs-comment">// 43981</span><br><span class="hljs-type">uint8_t</span> result = large_sum &amp; <span class="hljs-number">0xFF</span>;<br></code></pre></td></tr></table></figure>
+<p><strong>计算过程</strong>： <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dns">large_sum = <span class="hljs-number">10101011</span> <span class="hljs-number">11001101</span>  (<span class="hljs-number">0</span>xABCD)<br><span class="hljs-number">0</span>xFF      = <span class="hljs-number">00000000</span> <span class="hljs-number">11111111</span><br>-------------------------------- &amp; <br>result    = <span class="hljs-number">00000000</span> <span class="hljs-number">11001101</span>  (<span class="hljs-number">0</span>x00CD)<br>转换为uint8_t: <span class="hljs-number">0</span>xCD<br></code></pre></td></tr></table></figure></p>
+<h2 id="代码演示">4. 代码演示</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iomanip&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bitset&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdint&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">demonstrate_bitmask</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// 示例1：16位数保留低8位</span><br>    <span class="hljs-type">uint16_t</span> number = <span class="hljs-number">0xABCD</span>;<br>    <span class="hljs-type">uint8_t</span> masked = number &amp; <span class="hljs-number">0xFF</span>;<br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;原始数: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; number &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;二进制: &quot;</span> &lt;&lt; std::<span class="hljs-built_in">bitset</span>&lt;<span class="hljs-number">16</span>&gt;(number) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;0xFF:   &quot;</span> &lt;&lt; std::<span class="hljs-built_in">bitset</span>&lt;<span class="hljs-number">16</span>&gt;(<span class="hljs-number">0x00FF</span>) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;结果:    &quot;</span> &lt;&lt; std::<span class="hljs-built_in">bitset</span>&lt;<span class="hljs-number">16</span>&gt;(number &amp; <span class="hljs-number">0x00FF</span>) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;提取的低字节: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(masked) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; std::endl;<br>    <br>    <span class="hljs-comment">// 示例2：三字节求和场景</span><br>    <span class="hljs-type">uint8_t</span> bytes[] = &#123;<span class="hljs-number">200</span>, <span class="hljs-number">100</span>, <span class="hljs-number">50</span>&#125;;  <span class="hljs-comment">// 总和 = 350 = 0x015E</span><br>    <span class="hljs-type">uint16_t</span> sum = bytes[<span class="hljs-number">0</span>] + bytes[<span class="hljs-number">1</span>] + bytes[<span class="hljs-number">2</span>];<br>    <span class="hljs-type">uint8_t</span> checksum = sum &amp; <span class="hljs-number">0xFF</span>;<br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;三个字节: &quot;</span> &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(bytes[<span class="hljs-number">0</span>]) &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> <br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(bytes[<span class="hljs-number">1</span>]) &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(bytes[<span class="hljs-number">2</span>]) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;求和: &quot;</span> &lt;&lt; std::dec &lt;&lt; sum &lt;&lt; <span class="hljs-string">&quot; = 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; sum &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;二进制: &quot;</span> &lt;&lt; std::<span class="hljs-built_in">bitset</span>&lt;<span class="hljs-number">16</span>&gt;(sum) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;保留低字节: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(checksum) &lt;&lt; std::endl;<br>&#125;<br><br><span class="hljs-comment">// 通用位掩码函数</span><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function">T <span class="hljs-title">get_low_bytes</span><span class="hljs-params">(T value, <span class="hljs-type">int</span> byte_count)</span> </span>&#123;<br>    T mask = (<span class="hljs-number">1</span> &lt;&lt; (byte_count * <span class="hljs-number">8</span>)) - <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">return</span> value &amp; mask;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-built_in">demonstrate_bitmask</span>();<br>    <br>    <span class="hljs-comment">// 演示通用掩码</span><br>    <span class="hljs-type">uint32_t</span> value = <span class="hljs-number">0x12345678</span>;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;\n通用掩码示例:&quot;</span> &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;原始: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; value &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;低1字节: 0x&quot;</span> &lt;&lt; <span class="hljs-built_in">get_low_bytes</span>(value, <span class="hljs-number">1</span>) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;低2字节: 0x&quot;</span> &lt;&lt; <span class="hljs-built_in">get_low_bytes</span>(value, <span class="hljs-number">2</span>) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;低3字节: 0x&quot;</span> &lt;&lt; <span class="hljs-built_in">get_low_bytes</span>(value, <span class="hljs-number">3</span>) &lt;&lt; std::endl;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="为什么-0xff-能保留低8位">5. 为什么 <code>&amp; 0xFF</code>
+能保留低8位？</h2>
+<p><strong>数学原理</strong>： - <code>0xFF</code> 的二进制是
+<code>11111111</code> - 任何数与 <code>11111111</code>
+进行按位与，结果等于该数本身（只限于低8位） -
+高位的0与任何数相与都是0，所以高位被清零</p>
+<p><strong>可视化理解</strong>： <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dns">任意<span class="hljs-number">16</span>位数: ABCDEFGH IJKLMNOP  (<span class="hljs-keyword">A</span>-P代表<span class="hljs-number">8</span>个位)<br>掩码 <span class="hljs-number">0</span>xFF:   <span class="hljs-number">00000000</span> <span class="hljs-number">11111111</span><br>结果:       <span class="hljs-number">00000000</span> IJKLMNOP  ← 只保留低<span class="hljs-number">8</span>位<br></code></pre></td></tr></table></figure></p>
+<h2 id="其他常用的位掩码">6. 其他常用的位掩码</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 常用掩码模式</span><br><span class="hljs-type">uint8_t</span> keep_low_4_bits   = value &amp; <span class="hljs-number">0x0F</span>;  <span class="hljs-comment">// 00001111</span><br><span class="hljs-type">uint8_t</span> keep_high_4_bits  = value &amp; <span class="hljs-number">0xF0</span>;  <span class="hljs-comment">// 11110000  </span><br><span class="hljs-type">uint16_t</span> keep_low_12_bits = value &amp; <span class="hljs-number">0x0FFF</span>; <span class="hljs-comment">// 00001111 11111111</span><br><span class="hljs-type">uint32_t</span> keep_low_24_bits = value &amp; <span class="hljs-number">0xFFFFFF</span>; <span class="hljs-comment">// 低24位全1</span><br></code></pre></td></tr></table></figure>
+<h2 id="性能优势和小结">7. 性能优势和小结</h2>
+<p>位掩码 <code>&amp; 0xFF</code> 比模运算 <code>% 256</code> 更高效： -
+<strong>位运算</strong>：CPU直接支持，通常1个时钟周期 -
+<strong>模运算</strong>：需要除法器，多个时钟周期</p>
 <p><strong>小结</strong></p>
-<p><code>&amp; 0xFF</code> 是一个经典的位操作技巧：</p>
-<ul>
-<li><strong>语法</strong>：按位与运算符 + 十六进制常量</li>
-<li><strong>原理</strong>：利用 <code>11111111</code> 掩码清零高位移位，保留低位</li>
-<li><strong>应用</strong>：截取数据的特定字节、哈希函数、校验和计算等</li>
-<li><strong>优势</strong>：高效、简洁、明确表达意图</li>
-</ul>
-<h2 id="8-应用：保留低字节位"><a href="#8-应用：保留低字节位" class="headerlink" title="8. 应用：保留低字节位"></a>8. 应用：保留低字节位</h2><p>假设我们将三个字节的值做求和运算，得到的结果大于255，需要占用两个字节，我们如何只保留低位的那一个字节？</p>
-<p>你可以使用方法3来运算，这个在数学上很容易理解，但是如果你理解了上面的位与运算，那么通过位掩码 <code>&amp; 0xFF</code> 来实现，即方法1，计算的执行效率最高。</p>
-<h3 id="方法1：位掩码（推荐）"><a href="#方法1：位掩码（推荐）" class="headerlink" title="方法1：位掩码（推荐）"></a>方法1：位掩码（推荐）</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdint&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iomanip&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">uint8_t</span> byte1 = <span class="hljs-number">200</span>;<br>    <span class="hljs-type">uint8_t</span> byte2 = <span class="hljs-number">100</span>; <br>    <span class="hljs-type">uint8_t</span> byte3 = <span class="hljs-number">50</span>;<br>    <br>    <span class="hljs-comment">// 方法1：位掩码 (最常用)</span><br>    <span class="hljs-type">uint16_t</span> sum = byte1 + byte2 + byte3;  <span class="hljs-comment">// 可能超过255</span><br>    <span class="hljs-type">uint8_t</span> low_byte = sum &amp; <span class="hljs-number">0xFF</span>;         <span class="hljs-comment">// 保留低8位</span><br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;三个字节: &quot;</span> &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte1) &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> <br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte2) &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte3) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;求和结果: &quot;</span> &lt;&lt; sum &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;低字节: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; std::<span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; std::<span class="hljs-built_in">setfill</span>(<span class="hljs-string">&#x27;0&#x27;</span>)<br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(low_byte) &lt;&lt; <span class="hljs-string">&quot; (&quot;</span> &lt;&lt; std::dec &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(low_byte) &lt;&lt; <span class="hljs-string">&quot;)&quot;</span> &lt;&lt; std::endl;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="方法2：直接使用-uint8-t-溢出"><a href="#方法2：直接使用-uint8-t-溢出" class="headerlink" title="方法2：直接使用 uint8_t 溢出"></a>方法2：直接使用 uint8_t 溢出</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 方法2：利用 uint8_t 的自然溢出（简洁但可读性差）</span><br><span class="hljs-type">uint8_t</span> result = byte1 + byte2 + byte3;  <span class="hljs-comment">// 自动截断到8位</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="方法3：模运算"><a href="#方法3：模运算" class="headerlink" title="方法3：模运算"></a>方法3：模运算</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 方法3：模256运算（数学上等价于位掩码）</span><br><span class="hljs-type">uint8_t</span> result = (byte1 + byte2 + byte3) % <span class="hljs-number">256</span>;<br></code></pre></td></tr></table></figure>
-
-<h3 id="完整示例和验证"><a href="#完整示例和验证" class="headerlink" title="完整示例和验证"></a>完整示例和验证</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdint&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iomanip&gt;</span></span><br><br><span class="hljs-comment">// 三种方法的比较</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">demonstrate_methods</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">uint8_t</span> bytes[] = &#123;<span class="hljs-number">200</span>, <span class="hljs-number">100</span>, <span class="hljs-number">50</span>&#125;;  <span class="hljs-comment">// 总和 = 350 &gt; 255</span><br>    <br>    <span class="hljs-comment">// 方法1：位掩码</span><br>    <span class="hljs-type">uint16_t</span> sum1 = bytes[<span class="hljs-number">0</span>] + bytes[<span class="hljs-number">1</span>] + bytes[<span class="hljs-number">2</span>];<br>    <span class="hljs-type">uint8_t</span> result1 = sum1 &amp; <span class="hljs-number">0xFF</span>;<br>    <br>    <span class="hljs-comment">// 方法2：自然溢出</span><br>    <span class="hljs-type">uint8_t</span> result2 = bytes[<span class="hljs-number">0</span>] + bytes[<span class="hljs-number">1</span>] + bytes[<span class="hljs-number">2</span>];<br>    <br>    <span class="hljs-comment">// 方法3：模运算</span><br>    <span class="hljs-type">uint8_t</span> result3 = (bytes[<span class="hljs-number">0</span>] + bytes[<span class="hljs-number">1</span>] + bytes[<span class="hljs-number">2</span>]) % <span class="hljs-number">256</span>;<br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;三个字节: &quot;</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; ++i) &#123;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; std::<span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; std::<span class="hljs-built_in">setfill</span>(<span class="hljs-string">&#x27;0&#x27;</span>)<br>                  &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(bytes[i]) &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;<br>    &#125;<br>    std::cout &lt;&lt; std::endl;<br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;总和: &quot;</span> &lt;&lt; std::dec &lt;&lt; (bytes[<span class="hljs-number">0</span>] + bytes[<span class="hljs-number">1</span>] + bytes[<span class="hljs-number">2</span>]) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;方法1 (位掩码): 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; std::<span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; std::<span class="hljs-built_in">setfill</span>(<span class="hljs-string">&#x27;0&#x27;</span>)<br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(result1) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;方法2 (自然溢出): 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; std::<span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; std::<span class="hljs-built_in">setfill</span>(<span class="hljs-string">&#x27;0&#x27;</span>)<br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(result2) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;方法3 (模运算): 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; std::<span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; std::<span class="hljs-built_in">setfill</span>(<span class="hljs-string">&#x27;0&#x27;</span>)<br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(result3) &lt;&lt; std::endl;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-built_in">demonstrate_methods</span>();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><strong>输出结果</strong>：</p>
-<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">三个字节</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0xC8 0x64 0x32 </span><br><span class="hljs-attribute">总和</span><span class="hljs-punctuation">:</span> <span class="hljs-string">350</span><br><span class="hljs-attribute">方法1 (位掩码)</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x5E</span><br><span class="hljs-attribute">方法2 (自然溢出)</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x5E  </span><br><span class="hljs-attribute">方法3 (模运算)</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x5E</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="关键点总结"><a href="#关键点总结" class="headerlink" title="关键点总结"></a>关键点总结</h2><ol>
-<li>**<code>std::</code>**：访问标准库组件的命名空间限定符</li>
-<li>**<code>static_cast&lt;int&gt;()</code>**：安全的显式类型转换，避免意外的类型解释</li>
-<li><strong>保留低字节</strong>：推荐使用 <code>&amp; 0xFF</code> 位掩码，清晰且高效</li>
-<li><strong>溢出处理</strong>：C++ 中无符号整数的溢出是明确定义的（模运算）</li>
+<p><code>&amp; 0xFF</code> 是一个经典的位操作技巧： -
+<strong>语法</strong>：按位与运算符 + 十六进制常量 -
+<strong>原理</strong>：利用 <code>11111111</code>
+掩码清零高位移位，保留低位 -
+<strong>应用</strong>：截取数据的特定字节、哈希函数、校验和计算等 -
+<strong>优势</strong>：高效、简洁、明确表达意图</p>
+<h2 id="应用保留低字节位">8. 应用：保留低字节位</h2>
+<p>假设我们将三个字节的值做求和运算，得到的结果大于255，需要占用两个字节，我们如何只保留低位的那一个字节？</p>
+<p>你可以使用方法3来运算，这个在数学上很容易理解，但是如果你理解了上面的位与运算，那么通过位掩码
+<code>&amp; 0xFF</code> 来实现，即方法1，计算的执行效率最高。</p>
+<h3 id="方法1位掩码推荐">方法1：位掩码（推荐）</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdint&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iomanip&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">uint8_t</span> byte1 = <span class="hljs-number">200</span>;<br>    <span class="hljs-type">uint8_t</span> byte2 = <span class="hljs-number">100</span>; <br>    <span class="hljs-type">uint8_t</span> byte3 = <span class="hljs-number">50</span>;<br>    <br>    <span class="hljs-comment">// 方法1：位掩码 (最常用)</span><br>    <span class="hljs-type">uint16_t</span> sum = byte1 + byte2 + byte3;  <span class="hljs-comment">// 可能超过255</span><br>    <span class="hljs-type">uint8_t</span> low_byte = sum &amp; <span class="hljs-number">0xFF</span>;         <span class="hljs-comment">// 保留低8位</span><br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;三个字节: &quot;</span> &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte1) &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> <br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte2) &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte3) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;求和结果: &quot;</span> &lt;&lt; sum &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;低字节: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; std::<span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; std::<span class="hljs-built_in">setfill</span>(<span class="hljs-string">&#x27;0&#x27;</span>)<br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(low_byte) &lt;&lt; <span class="hljs-string">&quot; (&quot;</span> &lt;&lt; std::dec &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(low_byte) &lt;&lt; <span class="hljs-string">&quot;)&quot;</span> &lt;&lt; std::endl;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="方法2直接使用-uint8_t-溢出">方法2：直接使用 uint8_t 溢出</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 方法2：利用 uint8_t 的自然溢出（简洁但可读性差）</span><br><span class="hljs-type">uint8_t</span> result = byte1 + byte2 + byte3;  <span class="hljs-comment">// 自动截断到8位</span><br></code></pre></td></tr></table></figure>
+<h3 id="方法3模运算">方法3：模运算</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 方法3：模256运算（数学上等价于位掩码）</span><br><span class="hljs-type">uint8_t</span> result = (byte1 + byte2 + byte3) % <span class="hljs-number">256</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="完整示例和验证">完整示例和验证</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdint&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iomanip&gt;</span></span><br><br><span class="hljs-comment">// 三种方法的比较</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">demonstrate_methods</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">uint8_t</span> bytes[] = &#123;<span class="hljs-number">200</span>, <span class="hljs-number">100</span>, <span class="hljs-number">50</span>&#125;;  <span class="hljs-comment">// 总和 = 350 &gt; 255</span><br>    <br>    <span class="hljs-comment">// 方法1：位掩码</span><br>    <span class="hljs-type">uint16_t</span> sum1 = bytes[<span class="hljs-number">0</span>] + bytes[<span class="hljs-number">1</span>] + bytes[<span class="hljs-number">2</span>];<br>    <span class="hljs-type">uint8_t</span> result1 = sum1 &amp; <span class="hljs-number">0xFF</span>;<br>    <br>    <span class="hljs-comment">// 方法2：自然溢出</span><br>    <span class="hljs-type">uint8_t</span> result2 = bytes[<span class="hljs-number">0</span>] + bytes[<span class="hljs-number">1</span>] + bytes[<span class="hljs-number">2</span>];<br>    <br>    <span class="hljs-comment">// 方法3：模运算</span><br>    <span class="hljs-type">uint8_t</span> result3 = (bytes[<span class="hljs-number">0</span>] + bytes[<span class="hljs-number">1</span>] + bytes[<span class="hljs-number">2</span>]) % <span class="hljs-number">256</span>;<br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;三个字节: &quot;</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; ++i) &#123;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; std::<span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; std::<span class="hljs-built_in">setfill</span>(<span class="hljs-string">&#x27;0&#x27;</span>)<br>                  &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(bytes[i]) &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;<br>    &#125;<br>    std::cout &lt;&lt; std::endl;<br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;总和: &quot;</span> &lt;&lt; std::dec &lt;&lt; (bytes[<span class="hljs-number">0</span>] + bytes[<span class="hljs-number">1</span>] + bytes[<span class="hljs-number">2</span>]) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;方法1 (位掩码): 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; std::<span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; std::<span class="hljs-built_in">setfill</span>(<span class="hljs-string">&#x27;0&#x27;</span>)<br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(result1) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;方法2 (自然溢出): 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; std::<span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; std::<span class="hljs-built_in">setfill</span>(<span class="hljs-string">&#x27;0&#x27;</span>)<br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(result2) &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;方法3 (模运算): 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; std::<span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; std::<span class="hljs-built_in">setfill</span>(<span class="hljs-string">&#x27;0&#x27;</span>)<br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(result3) &lt;&lt; std::endl;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-built_in">demonstrate_methods</span>();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>输出结果</strong>： <figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">三个字节</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0xC8 0x64 0x32 </span><br><span class="hljs-attribute">总和</span><span class="hljs-punctuation">:</span> <span class="hljs-string">350</span><br><span class="hljs-attribute">方法1 (位掩码)</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x5E</span><br><span class="hljs-attribute">方法2 (自然溢出)</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x5E  </span><br><span class="hljs-attribute">方法3 (模运算)</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x5E</span><br></code></pre></td></tr></table></figure></p>
+<h2 id="关键点总结">关键点总结</h2>
+<ol type="1">
+<li><strong><code>std::</code></strong>：访问标准库组件的命名空间限定符</li>
+<li><strong><code>static_cast&lt;int&gt;()</code></strong>：安全的显式类型转换，避免意外的类型解释</li>
+<li><strong>保留低字节</strong>：推荐使用 <code>&amp; 0xFF</code>
+位掩码，清晰且高效</li>
+<li><strong>溢出处理</strong>：C++
+中无符号整数的溢出是明确定义的（模运算）</li>
 </ol>
 
                 
@@ -1655,6 +1668,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1872,6 +1891,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

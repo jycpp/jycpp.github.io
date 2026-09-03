@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2025/05/11/pTRNwe5tsqgBfKA.jpg">
 <meta property="article:published_time" content="2025-05-11T15:08:38.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.107Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.666Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Nginx">
 <meta property="article:tag" content="Docker">
@@ -321,7 +321,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1050,7 +1050,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1068,6 +1068,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1374,66 +1383,31 @@ true
 <p>所以，如果你是一个小公司，没有那么多的资源来维护和扩展这个系统，那么Java可能并不是一个好的选择。</p>
 <p>如果你是一个大公司，有很多的资源来维护和扩展这个系统，那么Java可能是一个好的选择。</p>
 <p>从另外一个方面来说，Java项目的这种复杂度也带来了很多好处，其中最明显的特征就是丝滑集成了Docker容器化部署和Kubernetes微服务架构自动化编排。以SpringBoot为例，它的开发效率非常高，而且可以通过Docker容器化部署，快速地将应用部署到生产环境中；同时，SpringBoot也支持Kubernetes微服务架构自动化编排，这使得应用的部署和管理更加简单和高效。</p>
-<p><img src="https://s2.loli.net/2025/05/11/pTRNwe5tsqgBfKA.jpg" srcset="/img/loading.gif" lazyload alt="Docker和Kubernetes项目运维"></p>
-<h2 id="1-预备知识"><a href="#1-预备知识" class="headerlink" title="1 预备知识"></a>1 预备知识</h2><p>如果没有以下预备知识，不建议立即尝试：</p>
-<p>（1）后端：</p>
-<ul>
-<li>Java 基础</li>
-<li>Spring Framework 框架</li>
-<li>Spring Boot 框架</li>
-<li>Maven 构建工具</li>
-<li>Spring Cloud 微服务架构</li>
-<li>MyBatis 持久层框架</li>
-<li>MinIO 对象存储</li>
-<li>JWT 认证</li>
-</ul>
-<p>（2）前端：</p>
-<ul>
-<li>Vue 3 框架</li>
-<li>Element Plus 组件库</li>
-<li>Axios 网络请求</li>
-</ul>
-<p>（3）数据库与配置：</p>
-<ul>
-<li>MySQL 数据库</li>
-<li>Redis 缓存</li>
-<li>Nacos 服务注册与发现</li>
-</ul>
-<p>（4）中间件与容器化：</p>
-<ul>
-<li>Gateway 网关</li>
-<li>Nginx 反向代理</li>
-<li>Docker 容器化</li>
-</ul>
-<p>（5）安全与测试：</p>
-<ul>
-<li>SSL&#x2F;TLS 证书</li>
-<li>HTTPS 协议</li>
-</ul>
-<p>（6）IDE和其他：</p>
-<ul>
-<li>Git 版本控制，建议SourceTree</li>
-<li>IntelliJ IDEA 集成开发环境</li>
-<li>Postman 接口测试工具</li>
-<li>VS Code 集成开发环境</li>
-<li>Vite 打包工具</li>
-<li>ESLint 代码规范</li>
-<li>Prettier 代码格式化</li>
-</ul>
-<p>（7）可以扩展知识：</p>
-<ul>
-<li>Kubernetes 容器编排</li>
-<li>Swagger API文档</li>
-<li>JUnit 单元测试</li>
-<li>Mockito 模拟测试</li>
-<li>Jenkins 持续集成</li>
-<li>GitLab CI&#x2F;CD</li>
-<li>SonarQube 代码质量管理</li>
-<li>Prometheus 监控系统</li>
-</ul>
-<h2 id="2-环境准备"><a href="#2-环境准备" class="headerlink" title="2 环境准备"></a>2 环境准备</h2><p>要运行若依微服务框架，相关的支撑软件的版本如下：</p>
+<figure>
+<img src="https://s2.loli.net/2025/05/11/pTRNwe5tsqgBfKA.jpg" srcset="/img/loading.gif" lazyload
+alt="Docker和Kubernetes项目运维" />
+<figcaption aria-hidden="true">Docker和Kubernetes项目运维</figcaption>
+</figure>
+<h2 id="预备知识">1 预备知识</h2>
+<p>如果没有以下预备知识，不建议立即尝试：</p>
+<p>（1）后端： - Java 基础 - Spring Framework 框架 - Spring Boot 框架 -
+Maven 构建工具 - Spring Cloud 微服务架构 - MyBatis 持久层框架 - MinIO
+对象存储 - JWT 认证</p>
+<p>（2）前端： - Vue 3 框架 - Element Plus 组件库 - Axios 网络请求</p>
+<p>（3）数据库与配置： - MySQL 数据库 - Redis 缓存 - Nacos
+服务注册与发现</p>
+<p>（4）中间件与容器化： - Gateway 网关 - Nginx 反向代理 - Docker
+容器化</p>
+<p>（5）安全与测试： - SSL/TLS 证书 - HTTPS 协议</p>
+<p>（6）IDE和其他： - Git 版本控制，建议SourceTree - IntelliJ IDEA
+集成开发环境 - Postman 接口测试工具 - VS Code 集成开发环境 - Vite
+打包工具 - ESLint 代码规范 - Prettier 代码格式化</p>
+<p>（7）可以扩展知识： - Kubernetes 容器编排 - Swagger API文档 - JUnit
+单元测试 - Mockito 模拟测试 - Jenkins 持续集成 - GitLab CI/CD -
+SonarQube 代码质量管理 - Prometheus 监控系统</p>
+<h2 id="环境准备">2 环境准备</h2>
+<p>要运行若依微服务框架，相关的支撑软件的版本如下：</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">JDK</span> &gt;= <span class="hljs-number">1</span>.<span class="hljs-number">8</span> (推荐<span class="hljs-number">1</span>.<span class="hljs-number">8</span>版本)<br><span class="hljs-attribute">Mysql</span> &gt;= <span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">0</span> (推荐<span class="hljs-number">5</span>.<span class="hljs-number">7</span>版本)<br><span class="hljs-attribute">Redis</span> &gt;= <span class="hljs-number">3</span>.<span class="hljs-number">0</span><br><span class="hljs-attribute">Maven</span> &gt;= <span class="hljs-number">3</span>.<span class="hljs-number">0</span><br><span class="hljs-attribute">Node</span> &gt;= <span class="hljs-number">12</span><br><span class="hljs-attribute">nacos</span> &gt;= <span class="hljs-number">2</span>.<span class="hljs-number">0</span>.<span class="hljs-number">4</span> (ruoyi-cloud &lt; <span class="hljs-number">3</span>.<span class="hljs-number">0</span> 需要下载nacos &gt;= <span class="hljs-number">1</span>.<span class="hljs-number">4</span>.x版本)<br><span class="hljs-attribute">sentinel</span> &gt;= <span class="hljs-number">1</span>.<span class="hljs-number">6</span>.<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
-
 <p>作为程序员的工作电脑，建议安装这些开发环境：</p>
 <ul>
 <li>IDEA 或 VS Code</li>
@@ -1451,7 +1425,7 @@ true
 <li>数据库服务器（如MySQL、PostgreSQL）</li>
 <li>Redis 服务器</li>
 <li>Nginx 反向代理的负载均衡</li>
-<li>SSL&#x2F;TLS 证书</li>
+<li>SSL/TLS 证书</li>
 <li>容器化工具（如Docker）</li>
 <li>监控系统（如Prometheus、Grafana）</li>
 <li>日志收集工具（如ELK）</li>
@@ -1463,10 +1437,11 @@ true
 <ul>
 <li>自动扩容工具（如Kubernetes）</li>
 <li>自动伸缩工具（如Kubernetes）</li>
-<li>自动部署工具（如Jenkins、GitLab CI&#x2F;CD）</li>
+<li>自动部署工具（如Jenkins、GitLab CI/CD）</li>
 </ul>
 <p>由此不难看出，若依微服务框架的开发环境与生产环境的准备是非常复杂的，需要非常专业的人员来完成。如果没有这些预备知识，不建议立即尝试。因为这个跟PHP的一个Apache环境几乎可以走遍全流程不一样，跟NodeJS的一个Express环境也可以走全流程也不一样，即使是像Python的Flask框架，也是可以让程序员从骨架开始运行。但是Java的一个SpringBoot环境，是一个非常复杂的系统，需要很多人来维护和扩展。</p>
-<h2 id="3-Ruoyi-Cloud的主要功能模块"><a href="#3-Ruoyi-Cloud的主要功能模块" class="headerlink" title="3 Ruoyi Cloud的主要功能模块"></a>3 Ruoyi Cloud的主要功能模块</h2><p>按照官方文档的说明，若依微服务框架的微服务部分，运行时候需要的基础模块如下，启动没有先后顺序。</p>
+<h2 id="ruoyi-cloud的主要功能模块">3 Ruoyi Cloud的主要功能模块</h2>
+<p>按照官方文档的说明，若依微服务框架的微服务部分，运行时候需要的基础模块如下，启动没有先后顺序。</p>
 <div class="mermaid">kanban
     后端
         网关模块 RuoYiGatewayApplication
@@ -1503,9 +1478,9 @@ true
 ```bash
 # 强烈建议不要用直接使用 cnpm 安装，会有各种诡异的 bug，可以通过重新指定 registry 来解决 npm 安装速度慢的问题。
 npm install --registry=https://registry.npmmirror.com</div>
-
 <p>具体的部署过程建议详细阅读官方文档：</p>
-<p><a target="_blank" rel="noopener" href="https://doc.ruoyi.vip/ruoyi-cloud/">https://doc.ruoyi.vip/ruoyi-cloud/</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://doc.ruoyi.vip/ruoyi-cloud/">https://doc.ruoyi.vip/ruoyi-cloud/</a></p>
 <p>主要配置工作的说明：</p>
 <ul>
 <li>配置数据库连接，包括MySQL、Redis、Nacos等。</li>
@@ -1531,7 +1506,7 @@ npm install --registry=https://registry.npmmirror.com</div>
 <ul>
 <li>后端项目打包，上传到服务器。</li>
 <li>前端项目打包，上传到服务器。</li>
-<li>配置Nginx反向代理，实现HTTP&#x2F;HTTPS重定向、静态资源代理、反向代理等。</li>
+<li>配置Nginx反向代理，实现HTTP/HTTPS重定向、静态资源代理、反向代理等。</li>
 <li>配置Nginx负载均衡，实现请求分发。</li>
 <li>配置Nginx缓存，实现静态资源缓存。</li>
 <li>配置Nginx安全，实现IP访问控制、访问频率限制等。</li>
@@ -1545,7 +1520,8 @@ npm install --registry=https://registry.npmmirror.com</div>
 <li>配置Nginx反向代理，实现反向代理规则。</li>
 <li>配置Nginx负载均衡，实现负载均衡规则。</li>
 </ul>
-<h2 id="4-项目启动"><a href="#4-项目启动" class="headerlink" title="4 项目启动"></a>4 项目启动</h2><p>以下是启动顺序的mermaid流程图：</p>
+<h2 id="项目启动">4 项目启动</h2>
+以下是启动顺序的mermaid流程图：
 <div class="mermaid">graph TD;
     A[后端项目启动] --> C[启动MySQL数据库];
     C --> B[启动Nacos注册中心];
@@ -1754,6 +1730,12 @@ npm install --registry=https://registry.npmmirror.com</div>
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1971,6 +1953,49 @@ npm install --registry=https://registry.npmmirror.com</div>
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

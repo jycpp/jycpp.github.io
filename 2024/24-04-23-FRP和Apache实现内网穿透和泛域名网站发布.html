@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2025/02/20/RqsChF3KYaVobZI.png">
 <meta property="article:published_time" content="2024-04-23T12:04:15.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.105Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.665Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Apache">
 <meta property="article:tag" content="FRP">
@@ -260,7 +260,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          993 字
+          998 字
         
       </span>
     
@@ -624,48 +624,70 @@ true
             
               <div class="markdown-body">
                 
-                <p>本文结合 Apache、FRP 实现内网穿透，并在 Apache 端设置代理代码，同时携带 HTTP 消息报头中的域名信息，通过 FRP 转发到穿透后的网站服务器的具体步骤。对于无论是否有固定IP的客户来说，这样的解决方案都非常有用，因为对于动态IP来说，好多情况下，使用的是SDN（Software Define Network），很难做到在路由器端做端口穿透；而即使你有固定IP，到运营商那里做网站备案，也是很麻烦的事情，因为你需要开发80和443端口，这跟在云服务器提供商那里比起来，例如阿里云、腾讯云、百度云、华为云、AWS等，电信运营商的网站备案流程还不成熟。</p>
-<p><img src="https://s2.loli.net/2025/02/20/RqsChF3KYaVobZI.png" srcset="/img/loading.gif" lazyload alt="frp内网穿透技术"></p>
-<h3 id="整体思路"><a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h3><ul>
+                <p>本文结合 Apache、FRP 实现内网穿透，并在 Apache
+端设置代理代码，同时携带 HTTP 消息报头中的域名信息，通过 FRP
+转发到穿透后的网站服务器的具体步骤。对于无论是否有固定IP的客户来说，这样的解决方案都非常有用，因为对于动态IP来说，好多情况下，使用的是SDN（Software
+Define
+Network），很难做到在路由器端做端口穿透；而即使你有固定IP，到运营商那里做网站备案，也是很麻烦的事情，因为你需要开发80和443端口，这跟在云服务器提供商那里比起来，例如阿里云、腾讯云、百度云、华为云、AWS等，电信运营商的网站备案流程还不成熟。</p>
+<figure>
+<img src="https://s2.loli.net/2025/02/20/RqsChF3KYaVobZI.png" srcset="/img/loading.gif" lazyload
+alt="frp内网穿透技术" />
+<figcaption aria-hidden="true">frp内网穿透技术</figcaption>
+</figure>
+<h3 id="整体思路">整体思路</h3>
+<ul>
 <li>公网服务器部署 FRP 服务端，监听特定端口。</li>
 <li>内网服务器部署 FRP 客户端，将内网服务端口映射到公网服务器。</li>
-<li>Apache 服务器（可以是公网服务器或其他具备公网访问条件的服务器）配置代理，将请求转发到 FRP 服务端端口，并携带原始域名信息。</li>
+<li>Apache
+服务器（可以是公网服务器或其他具备公网访问条件的服务器）配置代理，将请求转发到
+FRP 服务端端口，并携带原始域名信息。</li>
 </ul>
-<h3 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h3><h4 id="1-公网服务器部署-FRP-服务端"><a href="#1-公网服务器部署-FRP-服务端" class="headerlink" title="1. 公网服务器部署 FRP 服务端"></a>1. 公网服务器部署 FRP 服务端</h4><ul>
-<li><strong>下载并解压 FRP</strong><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget https://github.com/fatedier/frp/releases/download/v0.48.0/frp_0.48.0_linux_amd64.tar.gz<br>tar -zxvf frp_0.48.0_linux_amd64.tar.gz<br><span class="hljs-built_in">cd</span> frp_0.48.0_linux_amd64<br></code></pre></td></tr></table></figure></li>
-<li><strong>配置 <code>frps.ini</code></strong><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[common]</span><br><span class="hljs-attr">bind_port</span> = <span class="hljs-number">7000</span>  <span class="hljs-comment"># FRP 服务端监听的端口，客户端会连接此端口</span><br><span class="hljs-attr">dashboard_port</span> = <span class="hljs-number">7500</span>  <span class="hljs-comment"># 仪表盘端口，可通过浏览器查看 FRP 状态</span><br><span class="hljs-attr">dashboard_user</span> = admin  <span class="hljs-comment"># 仪表盘用户名</span><br><span class="hljs-attr">dashboard_pwd</span> = admin  <span class="hljs-comment"># 仪表盘密码</span><br><span class="hljs-attr">token</span> = your_token  <span class="hljs-comment"># 用于客户端和服务端通信的认证令牌，自定义</span><br></code></pre></td></tr></table></figure></li>
-<li><strong>启动 FRP 服务端</strong><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./frps -c frps.ini<br></code></pre></td></tr></table></figure>
-可使用 <code>nohup</code> 让其在后台持续运行：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">nohup</span> ./frps -c frps.ini &amp;<br></code></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="2-内网服务器部署-FRP-客户端"><a href="#2-内网服务器部署-FRP-客户端" class="headerlink" title="2. 内网服务器部署 FRP 客户端"></a>2. 内网服务器部署 FRP 客户端</h4><ul>
-<li><strong>下载并解压 FRP</strong><br>操作同公网服务器。</li>
-<li><strong>配置 <code>frpc.ini</code></strong><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[common]</span><br><span class="hljs-attr">server_addr</span> = your_public_ip  <span class="hljs-comment"># 公网服务器的 IP 地址</span><br><span class="hljs-attr">server_port</span> = <span class="hljs-number">7000</span>  <span class="hljs-comment"># 对应公网服务器的 bind_port</span><br><span class="hljs-attr">token</span> = your_token  <span class="hljs-comment"># 与服务端的 token 保持一致</span><br><br><span class="hljs-section">[web]</span><br><span class="hljs-attr">type</span> = http<br><span class="hljs-attr">local_ip</span> = <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>  <span class="hljs-comment"># 内网网站服务器的 IP</span><br><span class="hljs-attr">local_port</span> = <span class="hljs-number">80</span>  <span class="hljs-comment"># 内网网站服务器监听的端口</span><br><span class="hljs-attr">custom_domains</span> = your_domain.com  <span class="hljs-comment"># 自定义域名，需要解析到公网服务器 IP</span><br></code></pre></td></tr></table></figure></li>
-<li><strong>启动 FRP 客户端</strong><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./frpc -c frpc.ini<br></code></pre></td></tr></table></figure>
-使用 <code>nohup</code> 让其在后台持续运行：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">nohup</span> ./frpc -c frpc.ini &amp;<br></code></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="3-配置-Apache-代理"><a href="#3-配置-Apache-代理" class="headerlink" title="3. 配置 Apache 代理"></a>3. 配置 Apache 代理</h4><ul>
-<li><p><strong>启用 Apache 代理模块</strong><br>在 Apache 服务器上，执行以下命令启用必要的代理模块：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> a2enmod proxy proxy_http<br></code></pre></td></tr></table></figure></li>
-<li><p><strong>创建 Apache 虚拟主机配置文件</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> nano /etc/apache2/sites-available/your_domain.conf<br></code></pre></td></tr></table></figure>
-<p>在文件中添加以下内容：</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-section">&lt;VirtualHost *<span class="hljs-number">:80</span>&gt;</span><br>    <span class="hljs-attribute">ServerName</span> your_domain.com  # 你的域名<br><br>    <span class="hljs-comment"># 开启代理请求的日志记录</span><br>    <span class="hljs-attribute">LogLevel</span> debug proxy:debug<br><br>    <span class="hljs-comment"># 代理配置</span><br>    <span class="hljs-attribute">ProxyPreserveHost</span> <span class="hljs-literal">On</span>  # 保留原始请求的 Host 头信息<br>    <span class="hljs-attribute">ProxyPass</span> / http://your_public_ip:<span class="hljs-number">7000</span>/  # 将请求转发到 FRP 服务端端口<br>    <span class="hljs-attribute">ProxyPassReverse</span> / http://your_public_ip:<span class="hljs-number">7000</span>/  # 处理反向代理响应<br><br>    <span class="hljs-comment"># 日志配置</span><br>    <span class="hljs-attribute">ErrorLog</span> <span class="hljs-variable">$&#123;APACHE_LOG_DIR&#125;</span>/your_domain_error.log<br>    <span class="hljs-attribute">CustomLog</span> <span class="hljs-variable">$&#123;APACHE_LOG_DIR&#125;</span>/your_domain_access.log combined<br><span class="hljs-section">&lt;/VirtualHost&gt;</span><br></code></pre></td></tr></table></figure>
-<p><strong>说明</strong>：</p>
+<h3 id="具体步骤">具体步骤</h3>
+<h4 id="公网服务器部署-frp-服务端">1. 公网服务器部署 FRP 服务端</h4>
 <ul>
-<li><code>ProxyPreserveHost On</code>：此配置会保留客户端请求中的 <code>Host</code> 头信息，确保该信息能被正确转发到内网服务器。</li>
-<li><code>ProxyPass</code> 和 <code>ProxyPassReverse</code>：将所有请求转发到 FRP 服务端监听的端口。</li>
+<li><strong>下载并解压 FRP</strong> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget https://github.com/fatedier/frp/releases/download/v0.48.0/frp_0.48.0_linux_amd64.tar.gz<br>tar -zxvf frp_0.48.0_linux_amd64.tar.gz<br><span class="hljs-built_in">cd</span> frp_0.48.0_linux_amd64<br></code></pre></td></tr></table></figure></li>
+<li><strong>配置 <code>frps.ini</code></strong> <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[common]</span><br><span class="hljs-attr">bind_port</span> = <span class="hljs-number">7000</span>  <span class="hljs-comment"># FRP 服务端监听的端口，客户端会连接此端口</span><br><span class="hljs-attr">dashboard_port</span> = <span class="hljs-number">7500</span>  <span class="hljs-comment"># 仪表盘端口，可通过浏览器查看 FRP 状态</span><br><span class="hljs-attr">dashboard_user</span> = admin  <span class="hljs-comment"># 仪表盘用户名</span><br><span class="hljs-attr">dashboard_pwd</span> = admin  <span class="hljs-comment"># 仪表盘密码</span><br><span class="hljs-attr">token</span> = your_token  <span class="hljs-comment"># 用于客户端和服务端通信的认证令牌，自定义</span><br></code></pre></td></tr></table></figure></li>
+<li><strong>启动 FRP 服务端</strong> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./frps -c frps.ini<br></code></pre></td></tr></table></figure> 可使用
+<code>nohup</code> 让其在后台持续运行： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">nohup</span> ./frps -c frps.ini &amp;<br></code></pre></td></tr></table></figure></li>
 </ul>
-</li>
-<li><p><strong>启用虚拟主机配置</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> a2ensite your_domain.conf<br></code></pre></td></tr></table></figure></li>
-<li><p><strong>重新加载 Apache 配置</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> systemctl reload apache2<br></code></pre></td></tr></table></figure></li>
+<h4 id="内网服务器部署-frp-客户端">2. 内网服务器部署 FRP 客户端</h4>
+<ul>
+<li><strong>下载并解压 FRP</strong> 操作同公网服务器。</li>
+<li><strong>配置 <code>frpc.ini</code></strong> <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[common]</span><br><span class="hljs-attr">server_addr</span> = your_public_ip  <span class="hljs-comment"># 公网服务器的 IP 地址</span><br><span class="hljs-attr">server_port</span> = <span class="hljs-number">7000</span>  <span class="hljs-comment"># 对应公网服务器的 bind_port</span><br><span class="hljs-attr">token</span> = your_token  <span class="hljs-comment"># 与服务端的 token 保持一致</span><br><br><span class="hljs-section">[web]</span><br><span class="hljs-attr">type</span> = http<br><span class="hljs-attr">local_ip</span> = <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>  <span class="hljs-comment"># 内网网站服务器的 IP</span><br><span class="hljs-attr">local_port</span> = <span class="hljs-number">80</span>  <span class="hljs-comment"># 内网网站服务器监听的端口</span><br><span class="hljs-attr">custom_domains</span> = your_domain.com  <span class="hljs-comment"># 自定义域名，需要解析到公网服务器 IP</span><br></code></pre></td></tr></table></figure></li>
+<li><strong>启动 FRP 客户端</strong> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./frpc -c frpc.ini<br></code></pre></td></tr></table></figure> 使用
+<code>nohup</code> 让其在后台持续运行： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">nohup</span> ./frpc -c frpc.ini &amp;<br></code></pre></td></tr></table></figure></li>
 </ul>
-<h4 id="4-域名解析"><a href="#4-域名解析" class="headerlink" title="4. 域名解析"></a>4. 域名解析</h4><p>将域名 <code>your_domain.com</code> 解析到 Apache 服务器的公网 IP 地址。可在域名解析服务提供商的管理界面添加一条 A 记录，将域名指向 Apache 服务器的 IP。</p>
-<h3 id="测试访问"><a href="#测试访问" class="headerlink" title="测试访问"></a>测试访问</h3><p>在浏览器中输入配置的域名 <code>your_domain.com</code>，如果所有配置无误，请求会经过 Apache 代理，携带原始域名信息通过 FRP 转发到内网的网站服务器，你应该能够看到内网网站的内容。</p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
-<li><strong>端口冲突</strong>：确保公网服务器和 Apache 服务器上的端口未被其他服务占用。</li>
-<li><strong>安全设置</strong>：可考虑为 Apache 配置 SSL&#x2F;TLS 加密，保障数据传输安全。同时，合理设置防火墙规则，仅开放必要的端口。</li>
+<h4 id="配置-apache-代理">3. 配置 Apache 代理</h4>
+<ul>
+<li><strong>启用 Apache 代理模块</strong> 在 Apache
+服务器上，执行以下命令启用必要的代理模块： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> a2enmod proxy proxy_http<br></code></pre></td></tr></table></figure></li>
+<li><strong>创建 Apache 虚拟主机配置文件</strong> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> nano /etc/apache2/sites-available/your_domain.conf<br></code></pre></td></tr></table></figure>
+在文件中添加以下内容： <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-section">&lt;VirtualHost *<span class="hljs-number">:80</span>&gt;</span><br>    <span class="hljs-attribute">ServerName</span> your_domain.com  # 你的域名<br><br>    <span class="hljs-comment"># 开启代理请求的日志记录</span><br>    <span class="hljs-attribute">LogLevel</span> debug proxy:debug<br><br>    <span class="hljs-comment"># 代理配置</span><br>    <span class="hljs-attribute">ProxyPreserveHost</span> <span class="hljs-literal">On</span>  # 保留原始请求的 Host 头信息<br>    <span class="hljs-attribute">ProxyPass</span> / http://your_public_ip:<span class="hljs-number">7000</span>/  # 将请求转发到 FRP 服务端端口<br>    <span class="hljs-attribute">ProxyPassReverse</span> / http://your_public_ip:<span class="hljs-number">7000</span>/  # 处理反向代理响应<br><br>    <span class="hljs-comment"># 日志配置</span><br>    <span class="hljs-attribute">ErrorLog</span> <span class="hljs-variable">$&#123;APACHE_LOG_DIR&#125;</span>/your_domain_error.log<br>    <span class="hljs-attribute">CustomLog</span> <span class="hljs-variable">$&#123;APACHE_LOG_DIR&#125;</span>/your_domain_access.log combined<br><span class="hljs-section">&lt;/VirtualHost&gt;</span><br></code></pre></td></tr></table></figure> <strong>说明</strong>：
+<ul>
+<li><code>ProxyPreserveHost On</code>：此配置会保留客户端请求中的
+<code>Host</code> 头信息，确保该信息能被正确转发到内网服务器。</li>
+<li><code>ProxyPass</code> 和
+<code>ProxyPassReverse</code>：将所有请求转发到 FRP
+服务端监听的端口。</li>
+</ul></li>
+<li><strong>启用虚拟主机配置</strong> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> a2ensite your_domain.conf<br></code></pre></td></tr></table></figure></li>
+<li><strong>重新加载 Apache 配置</strong> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> systemctl reload apache2<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="域名解析">4. 域名解析</h4>
+<p>将域名 <code>your_domain.com</code> 解析到 Apache 服务器的公网 IP
+地址。可在域名解析服务提供商的管理界面添加一条 A 记录，将域名指向 Apache
+服务器的 IP。</p>
+<h3 id="测试访问">测试访问</h3>
+<p>在浏览器中输入配置的域名
+<code>your_domain.com</code>，如果所有配置无误，请求会经过 Apache
+代理，携带原始域名信息通过 FRP
+转发到内网的网站服务器，你应该能够看到内网网站的内容。</p>
+<h3 id="注意事项">注意事项</h3>
+<ul>
+<li><strong>端口冲突</strong>：确保公网服务器和 Apache
+服务器上的端口未被其他服务占用。</li>
+<li><strong>安全设置</strong>：可考虑为 Apache 配置 SSL/TLS
+加密，保障数据传输安全。同时，合理设置防火墙规则，仅开放必要的端口。</li>
 </ul>
 
                 
@@ -852,6 +874,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1069,6 +1097,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

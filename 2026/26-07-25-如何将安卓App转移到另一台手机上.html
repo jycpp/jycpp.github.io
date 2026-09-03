@@ -27,7 +27,7 @@
 <meta property="og:description" content="在日常手机使用场景中，很多用户都会遇到需要跨设备转移安卓应用的需求。部分小众工具、区域专属应用、已下架的优质App，无法在新手机应用商店搜索下载，还有部分海外专属应用、Google Play独占应用，新设备因网络、区域限制无法直接下载安装，此时通过手动提取、转移App的方式，就能实现应用跨设备复用。相比于传统换机工具的局限，通过ADB工具手动转移App，适配性更强，能够解决绝大多数下架、独占类应用">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-25T14:30:00.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.108Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.669Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="安卓App迁移">
 <meta property="article:tag" content="ADB工具">
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1368,9 +1377,13 @@ true
             
               <div class="markdown-body">
                 
-                <p>在日常手机使用场景中，很多用户都会遇到需要跨设备转移安卓应用的需求。部分小众工具、区域专属应用、已下架的优质App，无法在新手机应用商店搜索下载，还有部分海外专属应用、Google Play独占应用，新设备因网络、区域限制无法直接下载安装，此时通过手动提取、转移App的方式，就能实现应用跨设备复用。相比于传统换机工具的局限，通过ADB工具手动转移App，适配性更强，能够解决绝大多数下架、独占类应用的迁移难。</p>
-<h2 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h2><p>想要完成安卓App跨手机转移，需要满足基础前置条件：参与转移的两部手机均可开启开发者模式，打开USB调试或无线调试功能，能够正常连接电脑ADB工具。整个转移流程分为<strong>普通单包App迁移</strong>和<strong>Google Play拆分包App迁移</strong>两种场景，适配目前所有安卓应用安装格式，适配包括鸿蒙、Flyme、原生安卓在内的所有安卓衍生系统。</p>
-<p>完整的跨设备迁移链路适用于「Google Play专属应用」迁移场景，整体流程清晰标准化，从源设备安装应用，到提取安装包，再到目标设备批量部署，全流程如下：</p>
+                <p>在日常手机使用场景中，很多用户都会遇到需要跨设备转移安卓应用的需求。部分小众工具、区域专属应用、已下架的优质App，无法在新手机应用商店搜索下载，还有部分海外专属应用、Google
+Play独占应用，新设备因网络、区域限制无法直接下载安装，此时通过手动提取、转移App的方式，就能实现应用跨设备复用。相比于传统换机工具的局限，通过ADB工具手动转移App，适配性更强，能够解决绝大多数下架、独占类应用的迁移难。</p>
+<h2 id="前置条件">前置条件</h2>
+<p>想要完成安卓App跨手机转移，需要满足基础前置条件：参与转移的两部手机均可开启开发者模式，打开USB调试或无线调试功能，能够正常连接电脑ADB工具。整个转移流程分为<strong>普通单包App迁移</strong>和<strong>Google
+Play拆分包App迁移</strong>两种场景，适配目前所有安卓应用安装格式，适配包括鸿蒙、Flyme、原生安卓在内的所有安卓衍生系统。</p>
+<p>完整的跨设备迁移链路适用于「Google
+Play专属应用」迁移场景，整体流程清晰标准化，从源设备安装应用，到提取安装包，再到目标设备批量部署，全流程如下：</p>
 <div class="mermaid">graph LR
 B[Google Play安装目标App]
 B --> C[电脑连接源手机ADB调试]
@@ -1379,27 +1392,30 @@ E --> G{目标设备是否支持ADB}
 G -- 是 --> H[adb install-multiple批量安装]
 G -- 否 --> I[SAI工具批量勾选安装]
 H & I --> J[安装完成,正常启动无闪退]</div>
-
-<h2 id="单包App的转移"><a href="#单包App的转移" class="headerlink" title="单包App的转移"></a>单包App的转移</h2><p>市面上大部分常规安卓App均为单包格式，仅包含base.apk主安装包，迁移流程简单高效。首先将安装有目标App的旧手机连接电脑ADB，通过指令查询设备内所有应用包名，精准定位目标应用：</p>
+<h2 id="单包app的转移">单包App的转移</h2>
+<p>市面上大部分常规安卓App均为单包格式，仅包含base.apk主安装包，迁移流程简单高效。首先将安装有目标App的旧手机连接电脑ADB，通过指令查询设备内所有应用包名，精准定位目标应用：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">adb shell pm list packages<br></code></pre></td></tr></table></figure>
-
 <p>找到对应应用包名后，继续通过路径查询指令，获取该App在设备中的真实存储路径：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">adb shell pm path 应用包名<br></code></pre></td></tr></table></figure>
-
-<p>最后使用文件导出指令，将完整的 base.apk 主安装包导出至电脑，自定义保存文件名方便管理：</p>
+<p>最后使用文件导出指令，将完整的 base.apk
+主安装包导出至电脑，自定义保存文件名方便管理：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">adb pull /data/app/xxx/base.apk 自定义文件名.apk<br></code></pre></td></tr></table></figure>
-
 <p>将导出的完整安装包传输至新手机，开启未知应用安装权限后，即可直接安装使用，全程无闪退、无功能缺失。</p>
-<h2 id="多包App的转移"><a href="#多包App的转移" class="headerlink" title="多包App的转移"></a>多包App的转移</h2><p>目前大量通过Google Play安装的海外应用、新版主流App，均采用AAB拆分包分发机制，不再是单一安装包，会分为主程序包、CPU架构适配包、屏幕资源包等多个分包。这类应用如果仅导出安装base主包，会因缺失底层运行库、资源文件，出现安装成功但启动闪退、界面错乱、功能失效的问题，也是多数人跨设备迁移App失败的核心原因。</p>
+<h2 id="多包app的转移">多包App的转移</h2>
+<p>目前大量通过Google
+Play安装的海外应用、新版主流App，均采用AAB拆分包分发机制，不再是单一安装包，会分为主程序包、CPU架构适配包、屏幕资源包等多个分包。这类应用如果仅导出安装base主包，会因缺失底层运行库、资源文件，出现安装成功但启动闪退、界面错乱、功能失效的问题，也是多数人跨设备迁移App失败的核心原因。</p>
 <p>针对这类拆分包App，需要完整提取全部分包再统一批量安装。以海外专属应用MVV-App（包名com.mdv.companion）为例，通过ADB路径查询指令可查询到多个分包路径，每条路径前均带有「package:」前缀，去除前缀后即为文件真实地址。为了提升效率，可使用一键批量导出指令，自动抓取该应用全部分包文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">adb shell pm path com.mdv.companion | <span class="hljs-built_in">cut</span> -d<span class="hljs-string">&#x27;:&#x27;</span> -f2 | xargs -L1 adb pull<br></code></pre></td></tr></table></figure>
-
-<p>指令执行完成后，电脑文件夹会生成 base.apk、架构适配分包、屏幕资源分包等全套文件，所有分包缺一不可，任意文件缺失都会导致应用运行异常。</p>
+<p>指令执行完成后，电脑文件夹会生成
+base.apk、架构适配分包、屏幕资源分包等全套文件，所有分包缺一不可，任意文件缺失都会导致应用运行异常。</p>
 <p>完整导出所有分包文件后，需要通过批量安装的方式部署到新手机，绝对不能单独逐个安装分包，否则会出现安装报错、应用闪退等问题。如果新手机可连接电脑ADB，可直接使用批量安装指令，一次性载入所有分包完成安装，安装顺序不影响最终使用：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">adb install-multiple base.apk split_config.arm64_v8a.apk split_config.hdpi.apk<br></code></pre></td></tr></table></figure>
-
-<p>指令执行显示成功后，应用即可正常启动运行。若新手机无法连接电脑ADB，可在手机端安装SAI（Split APK Installer）工具，授予工具未知应用安装权限，关闭系统纯净模式和安装拦截，通过工具同时选中所有分包文件，一键批量安装，完美适配华为、魅族等所有安卓及鸿蒙设备。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>综上，安卓App跨设备转移的核心关键，在于区分应用的安装包格式。普通单包App仅需导出主包即可正常迁移使用，而Google Play分发的拆分包App，必须完整提取所有配套分包，并通过批量安装的方式部署，才能彻底解决闪退、安装失败等问题。借助ADB工具搭配SAI辅助安装的方式，能够无差别实现各类安卓应用的跨设备迁移，完美解决应用下架、区域限制、商店无资源等场景下的应用复用需求，是目前最稳定、通用性最强的手动迁移方案。</p>
+<p>指令执行显示成功后，应用即可正常启动运行。若新手机无法连接电脑ADB，可在手机端安装SAI（Split
+APK
+Installer）工具，授予工具未知应用安装权限，关闭系统纯净模式和安装拦截，通过工具同时选中所有分包文件，一键批量安装，完美适配华为、魅族等所有安卓及鸿蒙设备。</p>
+<h2 id="小结">小结</h2>
+<p>综上，安卓App跨设备转移的核心关键，在于区分应用的安装包格式。普通单包App仅需导出主包即可正常迁移使用，而Google
+Play分发的拆分包App，必须完整提取所有配套分包，并通过批量安装的方式部署，才能彻底解决闪退、安装失败等问题。借助ADB工具搭配SAI辅助安装的方式，能够无差别实现各类安卓应用的跨设备迁移，完美解决应用下架、区域限制、商店无资源等场景下的应用复用需求，是目前最稳定、通用性最强的手动迁移方案。</p>
 
                 
               </div>
@@ -1592,6 +1608,12 @@ H & I --> J[安装完成,正常启动无闪退]</div>
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1809,6 +1831,49 @@ H & I --> J[安装完成,正常启动无闪退]</div>
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

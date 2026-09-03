@@ -19,12 +19,12 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1 系统安装及初始化网络配置使用： nmcli 查看IP： ip addr 安装ifconfig没有成功： yum install ifconfig，提示安装包没有。 yum源的网址： &#x2F;etc&#x2F;yum.repos.d&#x2F;openEuler.repo 安装Xfce由于安装的时候采用了最小安装，所以这里需要补充安装一个IDE。 使用SecureCRT连接服务器，按照官方文">
+    <meta name="description" content="1 系统安装及初始化 网络配置使用： nmcli 查看IP： ip addr 安装ifconfig没有成功： yum install ifconfig，提示安装包没有。 yum源的网址： &#x2F;etc&#x2F;yum.repos.d&#x2F;openEuler.repo 安装Xfce 由于安装的时候采用了最小安装，所以这里需要补充安装一个IDE。 使用SecureCRT连接服务器，按照官方文档步骤安装IDE： Xfc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="openEuler 22.03安装记录">
 <meta property="og:url" content="https://jycpp.github.io/2024/24-05-06-openEuler%2022.03%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="1 系统安装及初始化网络配置使用： nmcli 查看IP： ip addr 安装ifconfig没有成功： yum install ifconfig，提示安装包没有。 yum源的网址： &#x2F;etc&#x2F;yum.repos.d&#x2F;openEuler.repo 安装Xfce由于安装的时候采用了最小安装，所以这里需要补充安装一个IDE。 使用SecureCRT连接服务器，按照官方文">
+<meta property="og:description" content="1 系统安装及初始化 网络配置使用： nmcli 查看IP： ip addr 安装ifconfig没有成功： yum install ifconfig，提示安装包没有。 yum源的网址： &#x2F;etc&#x2F;yum.repos.d&#x2F;openEuler.repo 安装Xfce 由于安装的时候采用了最小安装，所以这里需要补充安装一个IDE。 使用SecureCRT连接服务器，按照官方文档步骤安装IDE： Xfc">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2025/02/11/s6yRzC5bjlIeEMP.png">
 <meta property="og:image" content="https://s2.loli.net/2025/02/11/vEit3pldwkK1agG.png">
@@ -44,7 +44,7 @@
 <meta property="og:image" content="https://s2.loli.net/2025/02/11/TerQH91JtFDKgBl.png">
 <meta property="og:image" content="https://s2.loli.net/2025/02/11/PNip9dODL7safU5.png">
 <meta property="article:published_time" content="2024-05-06T17:27:20.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.105Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.665Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="项目管理">
 <meta property="article:tag" content="MacOS">
@@ -274,7 +274,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.9k 字
+          4.7k 字
         
       </span>
     
@@ -285,7 +285,7 @@
         
         
         
-          41 分钟
+          40 分钟
         
       </span>
     
@@ -335,7 +335,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1064,7 +1064,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1082,6 +1082,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1384,395 +1393,337 @@ true
             
               <div class="markdown-body">
                 
-                <h2 id="1-系统安装及初始化"><a href="#1-系统安装及初始化" class="headerlink" title="1 系统安装及初始化"></a>1 系统安装及初始化</h2><p>网络配置使用： nmcli</p>
+                <h2 id="系统安装及初始化">1 系统安装及初始化</h2>
+<p>网络配置使用： nmcli</p>
 <p>查看IP： ip addr</p>
 <p>安装ifconfig没有成功： yum install ifconfig，提示安装包没有。</p>
-<p>yum源的网址： &#x2F;etc&#x2F;yum.repos.d&#x2F;openEuler.repo</p>
-<h3 id="安装Xfce"><a href="#安装Xfce" class="headerlink" title="安装Xfce"></a><strong>安装Xfce</strong></h3><p>由于安装的时候采用了最小安装，所以这里需要补充安装一个IDE。</p>
+<p>yum源的网址： /etc/yum.repos.d/openEuler.repo</p>
+<h3 id="安装xfce"><strong>安装Xfce</strong></h3>
+<p>由于安装的时候采用了最小安装，所以这里需要补充安装一个IDE。</p>
 <p>使用SecureCRT连接服务器，按照官方文档步骤安装IDE： Xfce。</p>
-<p>Xfce的配置指南： <a target="_blank" rel="noopener" href="https://docs.openeuler.org/zh/docs/22.03/_LTS/_SP2/docs/desktop/Xfce/_userguide.html">https://docs.openeuler.org/zh/docs/22.03\_LTS\_SP2/docs/desktop/Xfce\_userguide.html</a></p>
+<p>Xfce的配置指南：
+https://docs.openeuler.org/zh/docs/22.03_LTS_SP2/docs/desktop/Xfce_userguide.html</p>
 <p>其中设置网络：（右键点击）</p>
-<p><img src="https://s2.loli.net/2025/02/11/s6yRzC5bjlIeEMP.png" srcset="/img/loading.gif" lazyload></p>
-<h4 id="a-设置固定IP"><a href="#a-设置固定IP" class="headerlink" title="a.设置固定IP"></a>a.设置固定IP</h4><p>设置了临时固定IP： 192.168.71.71</p>
-<h4 id="b-去掉自动锁屏"><a href="#b-去掉自动锁屏" class="headerlink" title="b.去掉自动锁屏"></a>b.去掉自动锁屏</h4><p>去掉自动锁屏的功能：</p>
+<p><img src="https://s2.loli.net/2025/02/11/s6yRzC5bjlIeEMP.png" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="a.设置固定ip">a.设置固定IP</h4>
+<p>设置了临时固定IP： 192.168.71.71</p>
+<h4 id="b.去掉自动锁屏">b.去掉自动锁屏</h4>
+<p>去掉自动锁屏的功能：</p>
 <p>运行命令： xfce4-screensaver-preferences</p>
-<p><img src="https://s2.loli.net/2025/02/11/vEit3pldwkK1agG.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="安装Firefox："><a href="#安装Firefox：" class="headerlink" title="安装Firefox："></a><strong>安装Firefox：</strong></h3><p>（安装工具dnf，相当于yum）安装完成后在Xfce中指定网络浏览器为Firefox。</p>
+<p><img src="https://s2.loli.net/2025/02/11/vEit3pldwkK1agG.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="安装firefox"><strong>安装Firefox：</strong></h3>
+<p>（安装工具dnf，相当于yum）安装完成后在Xfce中指定网络浏览器为Firefox。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain&#x20;text">sudo dnf install firefox<br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="dnf管理软件包"><a href="#dnf管理软件包" class="headerlink" title="dnf管理软件包"></a>dnf管理软件包</h3><p>【<a target="_blank" rel="noopener" href="https://docs.openeuler.org/zh/docs/21.03/docs/Administration/%E4%BD%BF%E7%94%A8DNF%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85.html#%E6%90%9C%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%8C%85%E3%80%91">https://docs.openeuler.org/zh/docs/21.03/docs/Administration/%E4%BD%BF%E7%94%A8DNF%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85.html#%E6%90%9C%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%8C%85】</a></p>
+<h3 id="dnf管理软件包">dnf管理软件包</h3>
+<p>【https://docs.openeuler.org/zh/docs/21.03/docs/Administration/%E4%BD%BF%E7%94%A8DNF%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85.html#%E6%90%9C%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%8C%85】</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">dnf list php  <span class="hljs-comment">#检查到PHP的版本为8.0</span><br>dnf search httpd<br><br>dnf list all <span class="hljs-comment">#显示所有可用的软件包，大约将近3万个</span><br>dnf check-update 检查安装了的rpm的最新版本<br><br>dnf info httpd<br>dnf info ruby<br><br><span class="hljs-comment">#升级软件包</span><br>dnf update ruby<br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="ifconfig：ip-addr"><a href="#ifconfig：ip-addr" class="headerlink" title="ifconfig：ip addr"></a>ifconfig：ip addr</h3><p>没有ifconfig，使用命令  ip addr 替代</p>
+<h3 id="ifconfigip-addr">ifconfig：ip addr</h3>
+<p>没有ifconfig，使用命令 ip addr 替代</p>
 <p><strong>netstat命令：如果没有，则安装</strong></p>
 <p>dnf install net-tools</p>
-<h3 id="firewall-cmd命令："><a href="#firewall-cmd命令：" class="headerlink" title="firewall-cmd命令："></a>firewall-cmd命令：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 允许http和https两项服务通过防火墙，分别对应80和443端口</span><br>firewall-cmd --add-service=http --permanent<br>firewall-cmd --add-service=https --permanent<br>【success】<br><span class="hljs-comment"># 重新加载刚才的防火墙配置</span><br>firewall-cmd --reload<br>【success】<br><br><span class="hljs-comment">#以下直接增加端口的方法，没有试过</span><br><span class="hljs-comment">#firewall-cmd --add-port=443/tcp</span><br><span class="hljs-comment"># 加入一个端口到区域：</span><br>firewall-cmd --add-port=19069/tcp<br><br>firewall-cmd --zone=public --add-port=7081/tcp --permanent<br>firewall-cmd --zone=public --add-port=7051/tcp --permanent<br>firewall-cmd –reload<br><br>查看public zone区域的所有端口：<br>firewall-cmd --zone=public --list-ports<br><br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="DDNS-GO"><a href="#DDNS-GO" class="headerlink" title="DDNS-GO"></a>DDNS-GO</h3><p>【25.2.7. 动态更新域名的IP地址】 DDNS-GO</p>
-<p><a target="_blank" rel="noopener" href="https://registry.hub.docker.com/r/jeessy/ddns-go/">https://registry.hub.docker.com/r/jeessy/ddns-go/</a></p>
-<p><img src="https://s2.loli.net/2025/02/11/buz2fGndwhZ1spa.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="2-搭建Web服务器"><a href="#2-搭建Web服务器" class="headerlink" title="2 搭建Web服务器"></a>2 搭建Web服务器</h2><p>主要的参考文档：</p>
-<p>（1）openEuler搭建Web服务器：<a target="_blank" rel="noopener" href="https://docs.openeuler.org/zh/docs/22.03/_LTS/_SP2/docs/Administration/%E6%90%AD%E5%BB%BAweb%E6%9C%8D%E5%8A%A1%E5%99%A8.html">https://docs.openeuler.org/zh/docs/22.03\_LTS\_SP2/docs/Administration/%E6%90%AD%E5%BB%BAweb%E6%9C%8D%E5%8A%A1%E5%99%A8.html</a></p>
+<h3 id="firewall-cmd命令">firewall-cmd命令：</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 允许http和https两项服务通过防火墙，分别对应80和443端口</span><br>firewall-cmd --add-service=http --permanent<br>firewall-cmd --add-service=https --permanent<br>【success】<br><span class="hljs-comment"># 重新加载刚才的防火墙配置</span><br>firewall-cmd --reload<br>【success】<br><br><span class="hljs-comment">#以下直接增加端口的方法，没有试过</span><br><span class="hljs-comment">#firewall-cmd --add-port=443/tcp</span><br><span class="hljs-comment"># 加入一个端口到区域：</span><br>firewall-cmd --add-port=19069/tcp<br><br>firewall-cmd --zone=public --add-port=7081/tcp --permanent<br>firewall-cmd --zone=public --add-port=7051/tcp --permanent<br>firewall-cmd –reload<br><br>查看public zone区域的所有端口：<br>firewall-cmd --zone=public --list-ports<br><br></code></pre></td></tr></table></figure>
+<h3 id="ddns-go">DDNS-GO</h3>
+<p>【25.2.7. 动态更新域名的IP地址】 DDNS-GO</p>
+<p>https://registry.hub.docker.com/r/jeessy/ddns-go/</p>
+<p><img src="https://s2.loli.net/2025/02/11/buz2fGndwhZ1spa.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="搭建web服务器">2 搭建Web服务器</h2>
+<p>主要的参考文档：</p>
+<p>（1）openEuler搭建Web服务器：https://docs.openeuler.org/zh/docs/22.03_LTS_SP2/docs/Administration/%E6%90%AD%E5%BB%BAweb%E6%9C%8D%E5%8A%A1%E5%99%A8.html</p>
 <p>（2）搭建FTP和数据库服务器</p>
-<p><a target="_blank" rel="noopener" href="https://docs.openeuler.org/zh/docs/22.03/_LTS/_SP2/docs/Administration/%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8.html">https://docs.openeuler.org/zh/docs/22.03\_LTS\_SP2/docs/Administration/%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://docs.openeuler.org/zh/docs/22.03/_LTS/_SP2/docs/Administration/%E6%90%AD%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8.html">https://docs.openeuler.org/zh/docs/22.03\_LTS\_SP2/docs/Administration/%E6%90%AD%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8.html</a></p>
-<h3 id="2-0-创建目录"><a href="#2-0-创建目录" class="headerlink" title="2.0 创建目录"></a>2.0 <strong>创建目录</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br><span class="hljs-built_in">mkdir</span> /data<br><br><span class="hljs-built_in">mkdir</span> /data/website<br><span class="hljs-built_in">mkdir</span> /data/website/default<br><span class="hljs-built_in">mkdir</span> /data/mysql<br><span class="hljs-built_in">mkdir</span> /data/httpd_logs<br><br><span class="hljs-comment"># chown: 无效的用户: “apache:apache”</span><br><span class="hljs-built_in">chown</span> -R apache:apache /data/website/<br><span class="hljs-built_in">chown</span> -R apache:apache /data/httpd_logs/<br><span class="hljs-built_in">chown</span> -R mysql:mysql /data/mysql/<br></code></pre></td></tr></table></figure>
-
-
-<h3 id="2-1-安装Apache和HTTP"><a href="#2-1-安装Apache和HTTP" class="headerlink" title="2.1 安装Apache和HTTP"></a>2.1 安装Apache和HTTP</h3><p><img src="https://s2.loli.net/2025/02/11/mNvgdycFbYrAR5U.png" srcset="/img/loading.gif" lazyload></p>
+<p>https://docs.openeuler.org/zh/docs/22.03_LTS_SP2/docs/Administration/%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8.html</p>
+<p>https://docs.openeuler.org/zh/docs/22.03_LTS_SP2/docs/Administration/%E6%90%AD%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8.html</p>
+<h3 id="创建目录">2.0 <strong>创建目录</strong></h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br><span class="hljs-built_in">mkdir</span> /data<br><br><span class="hljs-built_in">mkdir</span> /data/website<br><span class="hljs-built_in">mkdir</span> /data/website/default<br><span class="hljs-built_in">mkdir</span> /data/mysql<br><span class="hljs-built_in">mkdir</span> /data/httpd_logs<br><br><span class="hljs-comment"># chown: 无效的用户: “apache:apache”</span><br><span class="hljs-built_in">chown</span> -R apache:apache /data/website/<br><span class="hljs-built_in">chown</span> -R apache:apache /data/httpd_logs/<br><span class="hljs-built_in">chown</span> -R mysql:mysql /data/mysql/<br></code></pre></td></tr></table></figure>
+<h3 id="安装apache和http">2.1 安装Apache和HTTP</h3>
+<p><img src="https://s2.loli.net/2025/02/11/mNvgdycFbYrAR5U.png" srcset="/img/loading.gif" lazyload /></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 组合安装</span><br>dnf -y install httpd php<br><span class="hljs-comment"># Apache的依赖</span><br>dnf -y install mod_ssl mod_perl<br><span class="hljs-comment"># PHP的依赖</span><br>dnf -y install php-gd php-xml php-mbstring php-ldap php-pear php-mysqli<br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="日常管理命令"><a href="#日常管理命令" class="headerlink" title="日常管理命令"></a>日常管理命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 验证httpd服务是否正在运行</span><br>systemctl is-active httpd<br><br><span class="hljs-comment"># 启动并运行httpd服务，命令如下：</span><br>systemctl start httpd<br>systemctl stop httpd<br><br><span class="hljs-comment"># 如果希望防止服务在系统开机阶段自动开启，命令和回显如下：</span><br>systemctl <span class="hljs-built_in">disable</span> httpd<br>Removed /etc/systemd/system/multi-user.target.wants/httpd.service.<br><br><span class="hljs-comment"># 重启服务有三种方式：</span><br>systemctl restart httpd  <span class="hljs-comment">#硬重启</span><br>systemctl reload httpd  <span class="hljs-comment">#软重启（只更新配置，不重启进程，但是中断任务）</span><br>apachectl graceful   <span class="hljs-comment">#软更新（只更新配置，不重启进程，不中断任务）</span><br><br><span class="hljs-comment"># 检查配置文件可能出现的语法错误</span><br>apachectl configtest<br><br><span class="hljs-comment"># 因为Apache通过php-fpm执行PHP文件，因此必要时候需要重启fpm</span><br><span class="hljs-comment"># 例如遇到 fastcgi错误</span><br>systemctl restart php-fpm<br><br><br><br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="防火墙相关的命令"><a href="#防火墙相关的命令" class="headerlink" title="防火墙相关的命令"></a>防火墙相关的命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 允许http和https两项服务通过防火墙，分别对应80和443端口</span><br>firewall-cmd --add-service=http --permanent<br>firewall-cmd --add-service=https --permanent<br>【success】<br><span class="hljs-comment"># 重新加载刚才的防火墙配置</span><br>firewall-cmd --reload<br>【success】<br><br><span class="hljs-comment">#以下直接增加端口的方法，没有试过</span><br><span class="hljs-comment">#firewall-cmd --add-port=443/tcp</span><br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="配置Apache"><a href="#配置Apache" class="headerlink" title="配置Apache"></a>配置Apache</h4><p>apache配置文件存放的位置：vi &#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf</p>
-<p>（1）在Include conf.d&#x2F;*.conf下面增加 Include vhost.conf</p>
-<p>（2）将 ServerName 注释放开，可以改为 <a target="_blank" rel="noopener" href="http://www.longmix.com/">www.longmix.com:80</a></p>
-<p>（3）放开 NameVirtualHost *:80 的注释  【CentOS 7 下已经没有这个选项了。】【2019-03-24 CentOS 7 中没有NameVirtualHost】</p>
-<p>（4）增加：LogFormat “%V:%p %h %l %u %t \“%r\“ %&gt;s %O \“%{Referer}i\“ \“%{User-Agent}i\“” vhost_combined</p>
+<h4 id="日常管理命令">日常管理命令</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 验证httpd服务是否正在运行</span><br>systemctl is-active httpd<br><br><span class="hljs-comment"># 启动并运行httpd服务，命令如下：</span><br>systemctl start httpd<br>systemctl stop httpd<br><br><span class="hljs-comment"># 如果希望防止服务在系统开机阶段自动开启，命令和回显如下：</span><br>systemctl <span class="hljs-built_in">disable</span> httpd<br>Removed /etc/systemd/system/multi-user.target.wants/httpd.service.<br><br><span class="hljs-comment"># 重启服务有三种方式：</span><br>systemctl restart httpd  <span class="hljs-comment">#硬重启</span><br>systemctl reload httpd  <span class="hljs-comment">#软重启（只更新配置，不重启进程，但是中断任务）</span><br>apachectl graceful   <span class="hljs-comment">#软更新（只更新配置，不重启进程，不中断任务）</span><br><br><span class="hljs-comment"># 检查配置文件可能出现的语法错误</span><br>apachectl configtest<br><br><span class="hljs-comment"># 因为Apache通过php-fpm执行PHP文件，因此必要时候需要重启fpm</span><br><span class="hljs-comment"># 例如遇到 fastcgi错误</span><br>systemctl restart php-fpm<br><br><br><br></code></pre></td></tr></table></figure>
+<h4 id="防火墙相关的命令">防火墙相关的命令</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 允许http和https两项服务通过防火墙，分别对应80和443端口</span><br>firewall-cmd --add-service=http --permanent<br>firewall-cmd --add-service=https --permanent<br>【success】<br><span class="hljs-comment"># 重新加载刚才的防火墙配置</span><br>firewall-cmd --reload<br>【success】<br><br><span class="hljs-comment">#以下直接增加端口的方法，没有试过</span><br><span class="hljs-comment">#firewall-cmd --add-port=443/tcp</span><br></code></pre></td></tr></table></figure>
+<h4 id="配置apache">配置Apache</h4>
+<p>apache配置文件存放的位置：vi /etc/httpd/conf/httpd.conf</p>
+<p>（1）在Include conf.d/*.conf下面增加 Include vhost.conf</p>
+<p>（2）将 ServerName 注释放开，可以改为 www.longmix.com:80</p>
+<p>（3）放开 NameVirtualHost *:80 的注释 【CentOS 7
+下已经没有这个选项了。】【2019-03-24 CentOS 7
+中没有NameVirtualHost】</p>
+<p>（4）增加：LogFormat “%V:%p %h %l %u %t \”%r\” %&gt;s %O
+\“%{Referer}i\” \“%{User-Agent}i\”” vhost_combined</p>
 <p>（5）这里有两条语句，添加到httpd.conf文件中，以避免操作系统和Apache版本暴露：</p>
 <p>ServerSignature Off</p>
 <p>ServerTokens Prod</p>
-<p>（6）关联PHP的设置在&#x2F;conf.d&#x2F;php.conf中，以及  &#x2F;conf.modules.d&#x2F;10-php.conf</p>
-<p>php配置文件存放的位置：&#x2F;etc&#x2F;php.ini 和&#x2F;etc&#x2F;php.d里面的文件夹中</p>
+<p>（6）关联PHP的设置在/conf.d/php.conf中，以及
+/conf.modules.d/10-php.conf</p>
+<p>php配置文件存放的位置：/etc/php.ini 和/etc/php.d里面的文件夹中</p>
 <p>（7）组织vhost.conf文件的内容</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># vi /etc/httpd/vhost.conf</span><br><br>&lt;Directory <span class="hljs-string">&quot;/data/website/default/&quot;</span>&gt;<br>    Options FollowSymLinks Includes<br>    AllowOverride All<br>    Require all granted<br>&lt;/Directory&gt;<br><br>&lt;VirtualHost *:80&gt;<br>    ServerAdmin <span class="hljs-built_in">help</span>@abot.cn<br>    DocumentRoot <span class="hljs-string">&quot;/data/website/default&quot;</span><br>    ServerName default.abot.cn<br>    <span class="hljs-comment"># php_admin_value open_basedir &quot;.:/tmp:/data/website/default&quot;</span><br>    ErrorLog <span class="hljs-string">&quot;|/usr/sbin/rotatelogs /data/httpd_logs/dummy-default-error-%Y_%m_%d.log 86400 480&quot;</span><br>    CustomLog <span class="hljs-string">&quot;|/usr/sbin/rotatelogs /data/httpd_logs/dummy-default-access-%Y_%m_%d.log 86400 480&quot;</span> vhost_combined<br>&lt;/VirtualHost&gt;<br><br><br></code></pre></td></tr></table></figure>
-
-
-
-<p><img src="https://s2.loli.net/2025/02/11/tiobhZXUgNduLJ6.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://s2.loli.net/2025/02/11/DUVYKEv5yZ4Osd3.png" srcset="/img/loading.gif" lazyload></p>
-<h4 id="配置Apache遇到的问题"><a href="#配置Apache遇到的问题" class="headerlink" title="配置Apache遇到的问题"></a>配置Apache遇到的问题</h4><p>发现打开网页错报，查看日志发现以下问题。</p>
+<p><img src="https://s2.loli.net/2025/02/11/tiobhZXUgNduLJ6.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img src="https://s2.loli.net/2025/02/11/DUVYKEv5yZ4Osd3.png" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="配置apache遇到的问题">配置Apache遇到的问题</h4>
+<p>发现打开网页错报，查看日志发现以下问题。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost default]# find / -name error_log<br>/var/log/httpd/error_log<br>/sys/kernel/tracing/error_log<br>/sys/kernel/debug/tracing/error_log<br><br>[root@localhost default]# <span class="hljs-built_in">tail</span> -f /var/log/httpd/error_log <br></code></pre></td></tr></table></figure>
-
-
-
 <p>（1）找不到retatelogs这个程序</p>
-<p>Could not open log file ‘&#x2F;data&#x2F;httpd_logs&#x2F;dummy-default-access-2024_05_26.log’ (Permission denied)</p>
-<p>AH00106: piped log program ‘&#x2F;usr&#x2F;sbin&#x2F;rotatelogs &#x2F;data&#x2F;httpd_logs&#x2F;dummy-default-access-%Y_%m_%d.log 86400 480’ failed unexpectedly</p>
+<p>Could not open log file
+‘/data/httpd_logs/dummy-default-access-2024_05_26.log’ (Permission
+denied)</p>
+<p>AH00106: piped log program ‘/usr/sbin/rotatelogs
+/data/httpd_logs/dummy-default-access-%Y_%m_%d.log 86400 480’ failed
+unexpectedly</p>
 <p>去掉vhost中写滚动日志记录的设置：</p>
-<p>“CustomLog “|&#x2F;usr&#x2F;sbin&#x2F;rotatelogs &#x2F;data&#x2F;httpd_logs&#x2F;dummy-default-access-%Y_%m_%d.log 86400 480” vhost_combined”</p>
+<p>“CustomLog”|/usr/sbin/rotatelogs
+/data/httpd_logs/dummy-default-access-%Y_%m_%d.log 86400 480”
+vhost_combined”</p>
 <p>（2）权限不够</p>
-<p>[Sun May 26 15:46:49.898615 2024] [core:notice] [pid 4006:tid 4006] AH00094: Command line: ‘&#x2F;usr&#x2F;sbin&#x2F;httpd -D FOREGROUND’</p>
-<p>[Sun May 26 15:46:58.563494 2024] [core:error] [pid 4011:tid 4167] (13)Permission denied: [client 192.168.71.10:13625] AH00035: access to &#x2F;zzz.html denied (filesystem path ‘&#x2F;data&#x2F;website&#x2F;default&#x2F;zzz.html’) because search permissions are missing on a component of the path</p>
+<p>[Sun May 26 15:46:49.898615 2024] [core:notice] [pid 4006:tid 4006]
+AH00094: Command line: ‘/usr/sbin/httpd -D FOREGROUND’</p>
+<p>[Sun May 26 15:46:58.563494 2024] [core:error] [pid 4011:tid 4167]
+(13)Permission denied: [client 192.168.71.10:13625] AH00035: access to
+/zzz.html denied (filesystem path ‘/data/website/default/zzz.html’)
+because search permissions are missing on a component of the path</p>
 <p>需要关闭SELinux，否则会报这个错误。</p>
-<p>“vi &#x2F;etc&#x2F;selinux&#x2F;config”，修改配置。</p>
+<p>“vi /etc/selinux/config”，修改配置。</p>
 <p>或者命令行执行“setenforce 0”。</p>
 <p>修改了以上两个问题后，两个测试的网页都可以正常访问：</p>
-<p><a target="_blank" rel="noopener" href="http://192.168.71.71/zzz.html">http://192.168.71.71/zzz.html</a></p>
-<p><a target="_blank" rel="noopener" href="http://192.168.71.71/zzz.php">http://192.168.71.71/zzz.php</a></p>
-<h4 id="配置PHP"><a href="#配置PHP" class="headerlink" title="配置PHP"></a>配置PHP</h4><blockquote>
+<p>http://192.168.71.71/zzz.html</p>
+<p>http://192.168.71.71/zzz.php</p>
+<h4 id="配置php">配置PHP</h4>
+<blockquote>
 <p>常用的配置文件：</p>
-<p>vi &#x2F;etc&#x2F;httpd&#x2F;conf.d&#x2F;php.conf&#x20;</p>
-<p>vi &#x2F;etc&#x2F;php.in</p>
-<p>vi &#x2F;etc&#x2F;php-fpm.conf</p>
-<p>vi &#x2F;etc&#x2F;php-fpm.d&#x2F;<a target="_blank" rel="noopener" href="http://www.conf/">www.conf</a></p>
+<p>vi /etc/httpd/conf.d/php.conf </p>
+<p>vi /etc/php.in</p>
+<p>vi /etc/php-fpm.conf</p>
+<p>vi /etc/php-fpm.d/www.conf</p>
 </blockquote>
-<p>PHP配置文件：vi &#x2F;etc&#x2F;php.ini</p>
+<p>PHP配置文件：vi /etc/php.ini</p>
 <p><strong>设置open_basedir参数：</strong></p>
-<p>open_basedir &#x3D; .</p>
+<p>open_basedir = .</p>
 <p>表示PHP只能打开VirtualHost设置的目录，不能再打开上一级目录。</p>
 <p>《防止php木马跨站设置》</p>
-<p>【2020-06-15 CentOS 8之后，php7采用fpm方式与apache集成，父级目录已经没有实际意义，所以不需要再设置。】</p>
+<p>【2020-06-15 CentOS
+8之后，php7采用fpm方式与apache集成，父级目录已经没有实际意义，所以不需要再设置。】</p>
 <p><strong>限制文件的大小</strong></p>
-<p>post_max_size &#x3D; 300M  设置POST的最大值</p>
-<p>upload_max_filesize &#x3D; 200M</p>
+<p>post_max_size = 300M 设置POST的最大值</p>
+<p>upload_max_filesize = 200M</p>
 <p>2016-3-15</p>
 <p><strong>关闭php X-Powered-By 信息</strong></p>
 <p>thinkphp 清除 X-Powered-By: ThinkPHP</p>
 <p>找到文件，</p>
-<p>ThinkPHP&#x2F;Lib&#x2F;Think&#x2F;Core&#x2F;View.class.php。</p>
+<p>ThinkPHP/Lib/Think/Core/View.class.php。</p>
 <p>搜索到一下代码屏蔽即可。</p>
 <p>header(‘X-Powered-By:ThinkPHP’);</p>
 <p><strong>去掉PHP版本号</strong></p>
-<p>PHP清除X-Powered-By: PHP&#x2F;5.2.4</p>
+<p>PHP清除X-Powered-By: PHP/5.2.4</p>
 <p>设置php.ini ，因此PHP版本号</p>
-<p>expose_php &#x3D; Off</p>
+<p>expose_php = Off</p>
 <p><strong>禁止eval等敏感函数被黑客执行</strong></p>
-<p>disable_functions &#x3D; eval,exec</p>
+<p>disable_functions = eval,exec</p>
 <p>【24.5.26.】 访问PHP文件可能会报错“No input file specified.”</p>
 <p><strong>安装bcsub等函数的扩展</strong></p>
 <p>dnf -y install php-bcmath</p>
 <p><strong>CentOS下安装mcrypt的系统扩展</strong></p>
 <p><del>dnf -y install libmcrypt libmcrypt-devel mcrypt mhash</del></p>
 <p>dnf -y install libmcrypt libmcrypt-devel mhash</p>
-<p>安装mcrypt的PHP扩展包  支持函数 mcrypt_module_open&#x20;</p>
+<p>安装mcrypt的PHP扩展包 支持函数 mcrypt_module_open </p>
 <p><del>dnf -y install php-mcrypt</del></p>
 <p>【<strong>CentOS 8.0 安装 json_encode</strong>】</p>
 <p><del>dnf install php-json -y</del></p>
 <p>dnf list installed | grep php</p>
 <p>php -v</p>
-<p>[root@VM-0-16-centos &#x2F;]# php -v</p>
+<p>[root@VM-0-16-centos /]# php -v</p>
 <p>PHP 7.2.24 (cli) (built: Oct 22 2019 08:28:36) ( NTS )</p>
 <p>Copyright (c) 1997-2018 The PHP Group</p>
 <p>Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies</p>
 <p><strong>PHP7.4安装zip包</strong></p>
 <p>问题来源：在 CMS控制台，导出所有粉丝遇到错误</p>
-<p>Error: Class ‘ZipArchive’ not found in &#x2F;data&#x2F;website&#x2F;weiduke_cms&#x2F;Weiduke&#x2F;Lib&#x2F;ORG&#x2F;PHPExcel&#x2F;PHPExcel&#x2F;Writer&#x2F;Excel2007.php:227</p>
+<p>Error: Class ‘ZipArchive’ not found in
+/data/website/weiduke_cms/Weiduke/Lib/ORG/PHPExcel/PHPExcel/Writer/Excel2007.php:227</p>
 <p>对应网址为：</p>
-<p><a target="_blank" rel="noopener" href="http://cms.weiduke.com/User/Wechat/_group/index/setting/_type/export/_excel/all/1.shtml">http://cms.weiduke.com/User/Wechat\_group/index/setting\_type/export\_excel/all/1.shtml</a></p>
-<p><a target="_blank" rel="noopener" href="http://yanyubao.tseo.cn/Supplier/Login/show/_yanyubao/_module/_list/_to/_excel.html">http://yanyubao.tseo.cn/Supplier/Login/show\_yanyubao\_module\_list\_to\_excel.html</a></p>
+<p>http://cms.weiduke.com/User/Wechat_group/index/setting_type/export_excel/all/1.shtml</p>
+<p>http://yanyubao.tseo.cn/Supplier/Login/show_yanyubao_module_list_to_excel.html</p>
 <p>查看PHP的版本：</p>
 <p>[root@VM-0-2-centos tseo_app]# php -v</p>
 <p>查看可用的安装软件：</p>
 <p>[root@VM-0-2-centos tseo_app]# dnf search php| grep zip</p>
 <p>执行安装命令：</p>
-<p>[root@VM-0-2-centos tseo_app]#~~ yum install -y php74-php-pecl-zip.x86_64~~</p>
+<p>[root@VM-0-2-centos tseo_app]#~~ yum install -y
+php74-php-pecl-zip.x86_64~~</p>
 <p><strong>dnf install -y php-pecl-zip.x86_64</strong></p>
 <p>查看安装后的包：</p>
 <p>[root@VM-0-2-centos tseo_app]# <strong>php -m</strong></p>
 <p>没有找到zip，安装之后，phpinfo()没有看到。</p>
 <p>继续搜索资料后，发现是以上的安装方法不对，使用以下方法：</p>
 <p><del>dnf install -y php-zip</del></p>
-<p>安装后会自动创建30-zip.ini文件，如果没有创建，则可以增加40-zip.ini到目录&#x2F;etc&#x2F;php.d&#x2F;，内容如下：</p>
+<p>安装后会自动创建30-zip.ini文件，如果没有创建，则可以增加40-zip.ini到目录/etc/php.d/，内容如下：</p>
 <p>; Enable ZIP extension module</p>
-<p>extension&#x3D;zip.so</p>
+<p>extension=zip.so</p>
 <p>重启Apache，写以下代码测试：</p>
 <p>var_dump(class_exists(‘ZipArchive’));</p>
 <p>应该返回true。</p>
-<p><img src="https://s2.loli.net/2025/02/11/4DkeKarRqLTHPOB.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="2-2-安装MySQL"><a href="#2-2-安装MySQL" class="headerlink" title="2.2 安装MySQL"></a>2.2 安装MySQL</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 可以直接安装</span><br>dnf install mysql-server<br></code></pre></td></tr></table></figure>
-
-
-
-<p><img src="https://s2.loli.net/2025/02/11/gInzK8xamqslXtu.png" srcset="/img/loading.gif" lazyload></p>
-<h4 id="配置mysql"><a href="#配置mysql" class="headerlink" title="配置mysql"></a>配置mysql</h4><p>mv &#x2F;etc&#x2F;my.cnf &#x2F;etc&#x2F;my.cnf.old</p>
-<p>vi &#x2F;etc&#x2F;my.cnf　 ← 编辑MySQL的配置文件</p>
+<p><img src="https://s2.loli.net/2025/02/11/4DkeKarRqLTHPOB.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="安装mysql">2.2 安装MySQL</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 可以直接安装</span><br>dnf install mysql-server<br></code></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2025/02/11/gInzK8xamqslXtu.png" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="配置mysql">配置mysql</h4>
+<p>mv /etc/my.cnf /etc/my.cnf.old</p>
+<p>vi /etc/my.cnf　 ← 编辑MySQL的配置文件</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash">[mysqld]<br>datadir=/data/mysql<br>log-error=/data/mysql/mysqld.log<br>socket=/var/lib/mysql/mysql.sock<br>user=mysql<br><span class="hljs-comment">#Disabling symbolic-links is recommended to prevent assorted security risks</span><br>symbolic-links=0<br><br><span class="hljs-comment">#reset root password</span><br><span class="hljs-comment">#skip-grant-tables</span><br><br><br>[mysqld_safe]<br>log-error=/data/mysql/mysqld.log<br>pid-file=/var/run/mysqld/mysqld.pid<br><br>[mysql]<br></code></pre></td></tr></table></figure>
-
-
-
 <p><strong>给目录授权：</strong></p>
-<p>chown -R mysql:mysql &#x2F;data&#x2F;mysql&#x2F;</p>
-<h4 id="启动MySQL服务："><a href="#启动MySQL服务：" class="headerlink" title="启动MySQL服务："></a>启动MySQL服务：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#启动服务</span><br>systemctl start mysqld<br><br><span class="hljs-comment">#查看服务状态</span><br>systemctl status mysqld<br><br><span class="hljs-comment">#将MySQL和Apache都设置为开机启动</span><br>systemctl <span class="hljs-built_in">enable</span> mysqld<br>systemctl <span class="hljs-built_in">enable</span> httpd<br><br><span class="hljs-comment">#防火墙放行</span><br><br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="防火墙相关的命令-1"><a href="#防火墙相关的命令-1" class="headerlink" title="防火墙相关的命令"></a>防火墙相关的命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 允许httpd通过防火墙</span><br>firewall-cmd --add-service=mysql --permanent<br>【success】<br><span class="hljs-comment"># 重新加载刚才的防火墙配置</span><br>firewall-cmd --reload<br>【success】<br><br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="设置root远程访问"><a href="#设置root远程访问" class="headerlink" title="设置root远程访问"></a>设置root远程访问</h4><p>本地访问时候root没有密码。</p>
+<p>chown -R mysql:mysql /data/mysql/</p>
+<h4 id="启动mysql服务">启动MySQL服务：</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#启动服务</span><br>systemctl start mysqld<br><br><span class="hljs-comment">#查看服务状态</span><br>systemctl status mysqld<br><br><span class="hljs-comment">#将MySQL和Apache都设置为开机启动</span><br>systemctl <span class="hljs-built_in">enable</span> mysqld<br>systemctl <span class="hljs-built_in">enable</span> httpd<br><br><span class="hljs-comment">#防火墙放行</span><br><br></code></pre></td></tr></table></figure>
+<h4 id="防火墙相关的命令-1">防火墙相关的命令</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 允许httpd通过防火墙</span><br>firewall-cmd --add-service=mysql --permanent<br>【success】<br><span class="hljs-comment"># 重新加载刚才的防火墙配置</span><br>firewall-cmd --reload<br>【success】<br><br></code></pre></td></tr></table></figure>
+<h4 id="设置root远程访问">设置root远程访问</h4>
+<p>本地访问时候root没有密码。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">mysql&gt; CREATE USER <span class="hljs-string">&#x27;root&#x27;</span>@<span class="hljs-string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="hljs-string">&#x27;你的密码&#x27;</span>;<br>Query OK, 0 rows affected (0.48 sec)<br>mysql&gt; grant all privileges on *.* to <span class="hljs-string">&#x27;root&#x27;</span>@<span class="hljs-string">&#x27;%&#x27;</span>;<br>Query OK, 0 rows affected (0.48 sec)<br>mysql&gt; FLUSH PRIVILEGES;<br></code></pre></td></tr></table></figure>
-
-
-
 <p>以上步骤可以成功设置，如果有问题，可以再参考以下内容：</p>
-<p>设置生成密码的规则，mysql8 之前的版本中加密规则是mysql_native_password,而在mysql8之后,加密规则是caching_sha2_password</p>
+<p>设置生成密码的规则，mysql8
+之前的版本中加密规则是mysql_native_password,而在mysql8之后,加密规则是caching_sha2_password</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">ALTER USER <span class="hljs-string">&#x27;root&#x27;</span>@<span class="hljs-string">&#x27;localhost&#x27;</span> IDENTIFIED WITH mysql_native_password BY <span class="hljs-string">&#x27;password&#x27;</span>; <span class="hljs-comment">#修改加密规则 </span><br>ALTER USER <span class="hljs-string">&#x27;root&#x27;</span>@<span class="hljs-string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="hljs-string">&#x27;password&#x27;</span> PASSWORD EXPIRE NEVER; <span class="hljs-comment">#更新一下用户的密码 </span><br>FLUSH PRIVILEGES; <span class="hljs-comment">#刷新权限 </span><br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="2-3-安装vsftpd"><a href="#2-3-安装vsftpd" class="headerlink" title="2.3 安装vsftpd"></a>2.3 安装vsftpd</h3><p>安装</p>
+<h3 id="安装vsftpd">2.3 安装vsftpd</h3>
+<p>安装</p>
 <p>dnf install vsftpd -y</p>
 <p>安装pam，用户设置用户列表</p>
-<p><del>dnf install pam -y  （已经安装了）</del></p>
-<h4 id="日常维护指令"><a href="#日常维护指令" class="headerlink" title="日常维护指令"></a>日常维护指令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 指令跟Apache和MySQL类似</span><br>systemctl start vsftpd<br><br><span class="hljs-comment">#开机启动</span><br>systemctl <span class="hljs-built_in">enable</span> vsftpd<br><br><span class="hljs-comment"># 在CentOS中，也可以使用这些命令重启服务</span><br><span class="hljs-comment">#service vsftpd restart</span><br><span class="hljs-comment">#chkconfig vsftpd on</span><br><br><span class="hljs-comment"># 防火墙 （FTP标准的21端口）</span><br>firewall-cmd --add-service=ftp --permanent<br><span class="hljs-comment"># 加入一个端口到区域：</span><br>firewall-cmd --add-port=19069/tcp<br><span class="hljs-comment">#【】success</span><br>firewall-cmd --reload<br><span class="hljs-comment">#【】success</span><br><span class="hljs-comment"># setsebool -P ftpd_full_access on</span><br><br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="设置vsftpd"><a href="#设置vsftpd" class="headerlink" title="设置vsftpd"></a>设置vsftpd</h4><p>mv &#x2F;etc&#x2F;vsftpd&#x2F;vsftpd.conf &#x2F;etc&#x2F;vsftpd&#x2F;vsftpd.conf.old</p>
+<p><del>dnf install pam -y （已经安装了）</del></p>
+<h4 id="日常维护指令">日常维护指令</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 指令跟Apache和MySQL类似</span><br>systemctl start vsftpd<br><br><span class="hljs-comment">#开机启动</span><br>systemctl <span class="hljs-built_in">enable</span> vsftpd<br><br><span class="hljs-comment"># 在CentOS中，也可以使用这些命令重启服务</span><br><span class="hljs-comment">#service vsftpd restart</span><br><span class="hljs-comment">#chkconfig vsftpd on</span><br><br><span class="hljs-comment"># 防火墙 （FTP标准的21端口）</span><br>firewall-cmd --add-service=ftp --permanent<br><span class="hljs-comment"># 加入一个端口到区域：</span><br>firewall-cmd --add-port=19069/tcp<br><span class="hljs-comment">#【】success</span><br>firewall-cmd --reload<br><span class="hljs-comment">#【】success</span><br><span class="hljs-comment"># setsebool -P ftpd_full_access on</span><br><br></code></pre></td></tr></table></figure>
+<h4 id="设置vsftpd">设置vsftpd</h4>
+<p>mv /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf.old</p>
 <p>实际设置的内容</p>
-<p><strong>vi &#x2F;etc&#x2F;vsftpd&#x2F;vsftpd.conf</strong></p>
+<p><strong>vi /etc/vsftpd/vsftpd.conf</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs bash">listen=YES<br>write_enable=YES<br>nopriv_user=apache<br>anonymous_enable=NO<br>local_enable=YES<br>chroot_local_user=YES<br>chroot_list_enable=NO<br>dirmessage_enable=YES<br>xferlog_enable=YES<br>xferlog_file=/data/httpd_logs/xferlog<br>xferlog_std_format=YES<br>idle_session_timeout=600<br>data_connection_timeout=120<br>guest_enable=YES<br>guest_username=apache<br>pam_service_name=/etc/pam.d/vsftpd<br>user_config_dir=/etc/vsftpd/vuser_conf<br>listen_port=21<br>pasv_enable=YES<br>pasv_min_port=3300<br>pasv_max_port=3310<br>pasv_promiscuous=YES<br>ftpd_banner=Welcome to http://www.abot.cn FTP service<br>allow_writeable_chroot=YES<br></code></pre></td></tr></table></figure>
-
-
-
 <p>-———-以下是默认的被动模式的端口————-</p>
-<p>pasv_min_port&#x3D;3300            #设置被动模式的端口范围</p>
-<p>pasv_max_port&#x3D;3310            #设置被动模式的端口范围</p>
+<p>pasv_min_port=3300 #设置被动模式的端口范围</p>
+<p>pasv_max_port=3310 #设置被动模式的端口范围</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">mv <span class="hljs-regexp">/etc/</span>pam.d<span class="hljs-regexp">/vsftpd /</span>etc<span class="hljs-regexp">/pam.d/</span>vsftpd.old<br></code></pre></td></tr></table></figure>
-
-
-<p>然后到&#x20;</p>
-<p><strong>vi &#x2F;etc&#x2F;pam.d&#x2F;vsftpd</strong> ，只保留以下内容</p>
+<p>然后到 </p>
+<p><strong>vi /etc/pam.d/vsftpd</strong> ，只保留以下内容</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#%PAM-1.0</span><br>auth    required     /lib64/security/pam_userdb.so    db=/etc/vsftpd/vsftpd_vuser<br>account    sufficient     /lib64/security/pam_userdb.so    db=/etc/vsftpd/vsftpd_vuser<br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="配置vsftpd虚拟用户"><a href="#配置vsftpd虚拟用户" class="headerlink" title="配置vsftpd虚拟用户"></a>配置vsftpd虚拟用户</h4><p>先创建本地用户：</p>
+<h4 id="配置vsftpd虚拟用户">配置vsftpd虚拟用户</h4>
+<p>先创建本地用户：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#创建本地用户（-d指定家目录，-s指定登陆shell）</span><br><span class="hljs-comment">#useradd -d /var/ftproot -s /sbin/nologin vmftp</span><br><br><span class="hljs-comment">#但是我们这里已经指定了虚拟用户为apache，见配置文件“/etc/vsftpd/vsftpd.conf”</span><br><span class="hljs-comment">#其中的项目  guest_username=apache</span><br></code></pre></td></tr></table></figure>
-
-
-
 <p>使用gdbmtool创建虚拟用户列表：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#创建数据库的命令</span><br>gdbmtool<br><span class="hljs-comment">#创建数据库的位置</span><br>open /etc/vsftpd/vsftpd_vuser.pag<br><span class="hljs-comment">#创建一个用户名为ftp，密码为123</span><br>store ftp 123<br><span class="hljs-comment">#创建一个用户名为adm，密码为456</span><br>store adm 456<br><span class="hljs-comment">#查看创建的用户</span><br>list<br><span class="hljs-comment">#退出</span><br>quit<br></code></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-<h2 id="3-安装docker-Gitlab-Jenkins"><a href="#3-安装docker-Gitlab-Jenkins" class="headerlink" title="3 安装docker+Gitlab+Jenkins"></a>3 安装docker+Gitlab+Jenkins</h2><h3 id="3-1-总结"><a href="#3-1-总结" class="headerlink" title="3.1 总结"></a>3.1 总结</h3><h4 id="3-1-1-私有docker镜像仓库"><a href="#3-1-1-私有docker镜像仓库" class="headerlink" title="3.1.1 私有docker镜像仓库"></a>3.1.1 私有docker镜像仓库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">启动<br>docker start registry<br><br>运行后，浏览器访问：<br>http://192.168.0.83:5000/v2/_catalog<br><br>【没有做公网映射】<br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="3-1-2-Gitlab服务"><a href="#3-1-2-Gitlab服务" class="headerlink" title="3.1.2 Gitlab服务"></a>3.1.2 Gitlab服务</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">启动<br>docker start gitlab<br><br>运行后浏览器访问：<br>http://192.168.0.83:7080/<br><br><br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="3-1-4-Jenkins服务"><a href="#3-1-4-Jenkins服务" class="headerlink" title="3.1.4 Jenkins服务"></a>3.1.4 Jenkins服务</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">http://192.168.0.83:7081<br></code></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="3-2-问题和知识点"><a href="#3-2-问题和知识点" class="headerlink" title="3.2 问题和知识点"></a>3.2 问题和知识点</h3><h4 id="遇到yum-install-y-yum-utils报错"><a href="#遇到yum-install-y-yum-utils报错" class="headerlink" title="遇到yum install -y yum-utils报错"></a>遇到yum install -y yum-utils报错</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs plain&#x20;text">openEule安装docker 遇到yum install -y yum-utils报错，No match for argument：Unable to find a match：<br><br>下载可用的.repo文件：<br>wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo<br>【#注 wget -O … （此处为大写的英文字母O）】<br><br>输入带版本的安装命令就可以按了<br>sudo yum install -y --releasever=8 yum-utils<br><br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="安装netstat"><a href="#安装netstat" class="headerlink" title="安装netstat"></a>安装netstat</h4><p>跟上面通用的方法，带版本安装</p>
-<p>yum install –releasever&#x3D;8 netstat</p>
+<h2 id="安装dockergitlabjenkins">3 安装docker+Gitlab+Jenkins</h2>
+<h3 id="总结">3.1 总结</h3>
+<h4 id="私有docker镜像仓库">3.1.1 私有docker镜像仓库</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">启动<br>docker start registry<br><br>运行后，浏览器访问：<br>http://192.168.0.83:5000/v2/_catalog<br><br>【没有做公网映射】<br></code></pre></td></tr></table></figure>
+<h4 id="gitlab服务">3.1.2 Gitlab服务</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">启动<br>docker start gitlab<br><br>运行后浏览器访问：<br>http://192.168.0.83:7080/<br><br><br></code></pre></td></tr></table></figure>
+<h4 id="jenkins服务">3.1.4 Jenkins服务</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">http://192.168.0.83:7081<br></code></pre></td></tr></table></figure>
+<h3 id="问题和知识点">3.2 问题和知识点</h3>
+<h4 id="遇到yum-install--y-yum-utils报错">遇到yum install -y
+yum-utils报错</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs plain&#x20;text">openEule安装docker 遇到yum install -y yum-utils报错，No match for argument：Unable to find a match：<br><br>下载可用的.repo文件：<br>wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo<br>【#注 wget -O … （此处为大写的英文字母O）】<br><br>输入带版本的安装命令就可以按了<br>sudo yum install -y --releasever=8 yum-utils<br><br></code></pre></td></tr></table></figure>
+<h4 id="安装netstat">安装netstat</h4>
+<p>跟上面通用的方法，带版本安装</p>
+<p>yum install –releasever=8 netstat</p>
 <p>但是没有效果，使用：</p>
 <p>yum install net-tools</p>
 <p>安装成功。</p>
 <p>查看端口号：</p>
 <p>netstat -anotp</p>
-<h4 id="安装最新版本的docker："><a href="#安装最新版本的docker：" class="headerlink" title="安装最新版本的docker："></a>安装最新版本的docker：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs plain&#x20;text">先增加docker官方仓库：<br><br>yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo<br>cd /etc/yum.repos.d/<br>vi docker-ce.repo<br><br>通过 :1,$s/\$releasever/7/g  批量替换。<br><br><br>先查询一下<br>yum list docker-ce --showduplicates|sort -r<br>看有什么可以安装的版本<br><br><br>yum -y install docker-ce-24.0.2<br><br>遇到错误：<br>try to add &#x27;--skip-broken&#x27; to skip uninstallable packages or &#x27;--nobest&#x27; to use not only best candidate packages<br>使用命令：<br>dnf install docker-ce docker-ce-cli containerd.io --nobest<br><br>最后启动docker服务<br>systemctl start docker<br><br>把服务改为开机自动启动<br>systemctl enable docker<br><br>检查一下安装的docker版本<br>docker --version<br><br>华为openEuler-22.03-LTS-SP1 对应 centos什么版本？<br>华为openEuler-22.03-LTS-SP1 对应的 CentOS 版本是 CentOS 7.91<br><br><br>出现以错误，根据提示在命令结尾加上–allowerasing或–nobest后再次执行即可<br><br>yum install -y docker-ce --nobest<br>yum install -y docker-ce --allowerasing<br>1<br>2<br>启动docker并设置开机自启<br><br>systemctl start docker &amp;&amp; systemctl enable docker<br>1<br>查看Docker是否安装成功<br><br>docker version<br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="卸载docker"><a href="#卸载docker" class="headerlink" title="卸载docker"></a>卸载docker</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs plain&#x20;text"><br>查询docker的包：<br>rpm -qa | grep docker<br><br>dnf remove docker-ce<br>dnf remove docker-ce-cli<br><br>再查询，没有了。<br></code></pre></td></tr></table></figure>
-
-
-<h4 id="docker-使用阿里云的镜像加速器："><a href="#docker-使用阿里云的镜像加速器：" class="headerlink" title="docker:使用阿里云的镜像加速器："></a>docker:使用阿里云的镜像加速器：</h4><p>如果Linux系统是在阿里云里面的，可以使用这种方式加速。</p>
-<p><img src="https://s2.loli.net/2025/02/11/6CXTjND1aGP798i.png" srcset="/img/loading.gif" lazyload></p>
-<h4 id="docker-国内镜像源加速"><a href="#docker-国内镜像源加速" class="headerlink" title="docker:国内镜像源加速"></a>docker:国内镜像源加速</h4><p>官方的镜像为：<a target="_blank" rel="noopener" href="https://hub.docker.com/r/minio/minio#test-using-minio-client-mc">https://hub.docker.com/r/minio/minio#test-using-minio-client-mc</a></p>
-<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2483548">https://cloud.tencent.com/developer/article/2483548</a></p>
-<p>vi &#x2F;etc&#x2F;docker&#x2F;daemon.json</p>
+<h4 id="安装最新版本的docker">安装最新版本的docker：</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs plain&#x20;text">先增加docker官方仓库：<br><br>yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo<br>cd /etc/yum.repos.d/<br>vi docker-ce.repo<br><br>通过 :1,$s/\$releasever/7/g  批量替换。<br><br><br>先查询一下<br>yum list docker-ce --showduplicates|sort -r<br>看有什么可以安装的版本<br><br><br>yum -y install docker-ce-24.0.2<br><br>遇到错误：<br>try to add &#x27;--skip-broken&#x27; to skip uninstallable packages or &#x27;--nobest&#x27; to use not only best candidate packages<br>使用命令：<br>dnf install docker-ce docker-ce-cli containerd.io --nobest<br><br>最后启动docker服务<br>systemctl start docker<br><br>把服务改为开机自动启动<br>systemctl enable docker<br><br>检查一下安装的docker版本<br>docker --version<br><br>华为openEuler-22.03-LTS-SP1 对应 centos什么版本？<br>华为openEuler-22.03-LTS-SP1 对应的 CentOS 版本是 CentOS 7.91<br><br><br>出现以错误，根据提示在命令结尾加上–allowerasing或–nobest后再次执行即可<br><br>yum install -y docker-ce --nobest<br>yum install -y docker-ce --allowerasing<br>1<br>2<br>启动docker并设置开机自启<br><br>systemctl start docker &amp;&amp; systemctl enable docker<br>1<br>查看Docker是否安装成功<br><br>docker version<br></code></pre></td></tr></table></figure>
+<h4 id="卸载docker">卸载docker</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs plain&#x20;text"><br>查询docker的包：<br>rpm -qa | grep docker<br><br>dnf remove docker-ce<br>dnf remove docker-ce-cli<br><br>再查询，没有了。<br></code></pre></td></tr></table></figure>
+<h4
+id="docker使用阿里云的镜像加速器">docker:使用阿里云的镜像加速器：</h4>
+<p>如果Linux系统是在阿里云里面的，可以使用这种方式加速。</p>
+<p><img src="https://s2.loli.net/2025/02/11/6CXTjND1aGP798i.png" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="docker国内镜像源加速">docker:国内镜像源加速</h4>
+<p>官方的镜像为：https://hub.docker.com/r/minio/minio#test-using-minio-client-mc</p>
+<p>https://cloud.tencent.com/developer/article/2483548</p>
+<p>vi /etc/docker/daemon.json</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;insecure-registries&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span><span class="hljs-string">&quot;192.168.0.83:5000&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;dns&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;8.8.8.8&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;8.8.4.4&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;registry-mirrors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>    <span class="hljs-string">&quot;https://docker.hpcloud.cloud&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://docker.m.daocloud.io&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://docker.unsee.tech&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://docker.1panel.live&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;http://mirrors.ustc.edu.cn&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://docker.chenby.cn&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;http://mirror.azure.cn&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://dockerpull.org&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://dockerhub.icu&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://hub.rat.dev&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://proxy.1panel.live&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://docker.1panel.top&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://docker.m.daocloud.io&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://docker.1ms.run&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://docker.ketches.cn&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;https://registry.hub.docker.com&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;http://hub-mirror.c.163.com&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;https://docker.mirrors.ustc.edu.cn&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;https://registry.docker-cn.com&quot;</span><br>  <span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
-
-
 <p>运行后，执行</p>
 <p>systemctl daemon-reload</p>
 <p>和</p>
 <p>systemctl restart docker</p>
-<h4 id="docker-搭建私有仓库（registry）"><a href="#docker-搭建私有仓库（registry）" class="headerlink" title="docker:搭建私有仓库（registry）"></a>docker:搭建私有仓库（registry）</h4><p><img src="https://s2.loli.net/2025/02/11/CqMZ8xj5tGLgnWu.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="docker搭建私有仓库registry">docker:搭建私有仓库（registry）</h4>
+<p><img src="https://s2.loli.net/2025/02/11/CqMZ8xj5tGLgnWu.png" srcset="/img/loading.gif" lazyload /></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs plain&#x20;text">拉取源镜像：<br>docker pull registry<br>查看本地镜像：<br>docker images<br><br>从镜像创建容器（此镜像为本地源镜像，特殊的镜像）：<br>docker run -d -p 5000:5000 registry<br><br>按照上面的流程为docker增加本地源镜像 192.168.0.83:5000<br><br>查看本地创建的容器：<br>docker ps -a<br><br>启动容器：（如下图）<br>docker start 330e77a24bc4<br><br>运行后，浏览器访问：<br>http://192.168.0.83:5000/v2/_catalog<br>可以查看私有的镜像源，搭建完毕。<br><br></code></pre></td></tr></table></figure>
-
-
-
-<p><img src="https://s2.loli.net/2025/02/11/w31BrcaoUIVpQgR.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://s2.loli.net/2025/02/11/npuVIeLdQ1YUHEa.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://s2.loli.net/2025/02/11/w31BrcaoUIVpQgR.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img src="https://s2.loli.net/2025/02/11/npuVIeLdQ1YUHEa.png" srcset="/img/loading.gif" lazyload /></p>
 <p>修改daemon.json，增加私有仓库：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-string">&quot;insecure-registries&quot;</span>:[<span class="hljs-string">&quot;192.168.0.83:5000&quot;</span>],<br></code></pre></td></tr></table></figure>
-
-
-
 <p>可以通过push将镜像推送到私有仓库：</p>
-<p>Docker push [私有仓库地址包括端口]&#x2F;[镜像名称]:[镜像版本]</p>
-<h4 id="docker-总结操作命令"><a href="#docker-总结操作命令" class="headerlink" title="docker:总结操作命令"></a>docker:总结操作命令</h4><p>查看镜像： docker images</p>
+<p>Docker push [私有仓库地址包括端口]/[镜像名称]:[镜像版本]</p>
+<h4 id="docker总结操作命令">docker:总结操作命令</h4>
+<p>查看镜像： docker images</p>
 <p>查看容器： docker ps -a</p>
-<p>运行容器： docker run [一堆参数]  【docker run相当于执行了两步操作：将镜像放入容器中（docker create）,然后将容器启动，使之变成运行时容器（docker start）】</p>
-<p>启动容器： docker start  [容器ID或name]</p>
+<p>运行容器： docker run [一堆参数] 【docker
+run相当于执行了两步操作：将镜像放入容器中（docker
+create）,然后将容器启动，使之变成运行时容器（docker start）】</p>
+<p>启动容器： docker start [容器ID或name]</p>
 <p>查看容器运行日志： docker logs -f [容器ID或name]</p>
-<p>重启容器： docker restart  [容器ID或name]</p>
-<p>停止容器： docker stop  [容器ID或name]</p>
-<p>删除容器： docker rm  [容器ID或name]</p>
+<p>重启容器： docker restart [容器ID或name]</p>
+<p>停止容器： docker stop [容器ID或name]</p>
+<p>删除容器： docker rm [容器ID或name]</p>
 <p>删除镜像： docker rmi [镜像ID]</p>
-<p>进入容器中执行命令： <strong>docker container exec -it [docker id] &#x2F;bin&#x2F;bash</strong> ，执行结束后exit。</p>
-<p>进入容器中执行命令： <strong>docker run -it [docker name] &#x2F;bin&#x2F;bash</strong></p>
-<p>查看容器版本： docker version （服务器和客户端）， 或 docker -v，仅查看客户端的版本。</p>
-<p>创建镜像： docker build -t [docker的文件名]:[docker的Tags] .   【最后的“.”代表有Dockerfile的目录。】</p>
+<p>进入容器中执行命令： <strong>docker container exec -it [docker id]
+/bin/bash</strong> ，执行结束后exit。</p>
+<p>进入容器中执行命令： <strong>docker run -it [docker name]
+/bin/bash</strong></p>
+<p>查看容器版本： docker version （服务器和客户端）， 或 docker
+-v，仅查看客户端的版本。</p>
+<p>创建镜像： docker build -t [docker的文件名]:[docker的Tags] .
+【最后的“.”代表有Dockerfile的目录。】</p>
 <p>进入容器之后，可以通过evn查看环境变量（EVN）。</p>
-<h4 id="docker-compose编排服务"><a href="#docker-compose编排服务" class="headerlink" title="docker compose编排服务"></a>docker compose编排服务</h4><p>【docker-compose.yaml】</p>
-<h4 id="安装Gitlab（用docker）"><a href="#安装Gitlab（用docker）" class="headerlink" title="安装Gitlab（用docker）"></a>安装Gitlab（用docker）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs plain&#x20;text">#拉取镜像<br>docker pull gitlab/gitlab-ce<br><br>#查看本地镜像<br>docker images<br><br>#本机建立的3个目录<br>#为了gitlab容器通过挂载本机目录启动后可以映射到本机，然后后续就可以直接在本机查看和编辑了，不用再进容器操作<br>#配置文件<br>mkdir -p /data/gitlab/etc<br>#数据文件<br>mkdir -p /data/gitlab/data<br>#日志文件<br>mkdir -p /data/gitlab/1ogs<br><br>#启动容器【没有使用，因为当时这个镜像拉取总是失败，所以使用了下面的极狐的】<br>docker run --name=&#x27;gitlab&#x27; -d \<br> --publish 7043:443 --publish 7080:80 \<br> -v /data/gitlab/etc:/etc/gitlab \<br> -v /data/gitlab/data:/var/opt/gitlab \<br> -v /data/git1ab/1ogs:/var/1og/gitlab \<br> --restart always \<br> gitlab/gitlab-ce:latest <br> <br>#查看启动日志<br>docker 1ogs -f gitlab<br><br>其中参数“--restart always \” 是让这个docker随着openEuler系统一起启动<br><br></code></pre></td></tr></table></figure>
-
-
-
+<h4 id="docker-compose编排服务">docker compose编排服务</h4>
+<p>【docker-compose.yaml】</p>
+<h4 id="安装gitlab用docker">安装Gitlab（用docker）</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs plain&#x20;text">#拉取镜像<br>docker pull gitlab/gitlab-ce<br><br>#查看本地镜像<br>docker images<br><br>#本机建立的3个目录<br>#为了gitlab容器通过挂载本机目录启动后可以映射到本机，然后后续就可以直接在本机查看和编辑了，不用再进容器操作<br>#配置文件<br>mkdir -p /data/gitlab/etc<br>#数据文件<br>mkdir -p /data/gitlab/data<br>#日志文件<br>mkdir -p /data/gitlab/1ogs<br><br>#启动容器【没有使用，因为当时这个镜像拉取总是失败，所以使用了下面的极狐的】<br>docker run --name=&#x27;gitlab&#x27; -d \<br> --publish 7043:443 --publish 7080:80 \<br> -v /data/gitlab/etc:/etc/gitlab \<br> -v /data/gitlab/data:/var/opt/gitlab \<br> -v /data/git1ab/1ogs:/var/1og/gitlab \<br> --restart always \<br> gitlab/gitlab-ce:latest <br> <br>#查看启动日志<br>docker 1ogs -f gitlab<br><br>其中参数“--restart always \” 是让这个docker随着openEuler系统一起启动<br><br></code></pre></td></tr></table></figure>
 <p>以上拉取镜像总是被卡死，如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost ~]# docker pull gitlab/gitlab-ce<br>Using default tag: latest<br>latest: Pulling from gitlab/gitlab-ce<br>6414378b6477: Pull complete <br>a625401f465a: Pull complete <br>e8907e8d964d: Pull complete <br>fa153a8aca38: Pull complete <br>e37d8f6ef4c4: Pull complete <br>16d0e00c967b: Pull complete <br>790773297c19: Pull complete <br>54cf79629b55: Pull complete <br>a390b2bab26f: Waiting <br>^C<br></code></pre></td></tr></table></figure>
-
-
-
 <p>于是尝试使用极狐Gitlab：</p>
-<p><a target="_blank" rel="noopener" href="https://gitlab.cn/resources/articles/09091723-86a3-4f63-86e9-feb77b0e4289">https://gitlab.cn/resources/articles/09091723-86a3-4f63-86e9-feb77b0e4289</a></p>
+<p>https://gitlab.cn/resources/articles/09091723-86a3-4f63-86e9-feb77b0e4289</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost ~]# docker pull docker.888666222.xyz/library/gitlab/gitlab-ce<br>Using default tag: latest<br>Error response from daemon: Head <span class="hljs-string">&quot;https://docker.888666222.xyz/v2/library/gitlab/gitlab-ce/manifests/latest&quot;</span>: Get <span class="hljs-string">&quot;https://auth.docker.io/token?scope=repository%3Alibrary%2Fgitlab%2Fgitlab-ce%3Apull&amp;service=registry.docker.io&quot;</span>: net/http: request canceled <span class="hljs-keyword">while</span> waiting <span class="hljs-keyword">for</span> connection (Client.Timeout exceeded <span class="hljs-keyword">while</span> awaiting headers)<br>[root@localhost ~]# docker pull registry.gitlab.cn/omnibus/gitlab-jh:latest<br>latest: Pulling from omnibus/gitlab-jh<br>6414378b6477: Pull complete <br>bc9b441a8dc7: Pull complete <br>a2be2778da30: Pull complete <br>063742421638: Pull complete <br>cc88ff8054d4: Pull complete <br>3b1e4d6d4683: Pull complete <br>fb47474ef7a7: Pull complete <br>d10127e76315: Pull complete <br>2c99056d70c7: Pull complete <br>Digest: sha256:5ae0cf69d01c8745c04fb1f993b11bf305cb492527b73a2828210ab9e5cb2b2f<br>Status: Downloaded newer image <span class="hljs-keyword">for</span> registry.gitlab.cn/omnibus/gitlab-jh:latest<br>registry.gitlab.cn/omnibus/gitlab-jh:latest<br></code></pre></td></tr></table></figure>
-
 <p>对应的启动命令如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> docker run --detach \<br>  --hostname gitlab.example.com \<br>  --publish 443:443 --publish 80:80 --publish 22:22 \<br>  --name gitlab \<br>  --restart always \<br>  --volume <span class="hljs-variable">$GITLAB_HOME</span>/config:/etc/gitlab \<br>  --volume <span class="hljs-variable">$GITLAB_HOME</span>/logs:/var/log/gitlab \<br>  --volume <span class="hljs-variable">$GITLAB_HOME</span>/data:/var/opt/gitlab \<br>  --shm-size 256m \<br>  registry.gitlab.cn/omnibus/gitlab-jh:latest<br></code></pre></td></tr></table></figure>
-
 <p>跟对应的英文官方的比较：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run --name=<span class="hljs-string">&#x27;gitlab&#x27;</span> -d \<br> --publish 7043:443 --publish 7080:80 \<br> -v /data/gitlab/etc:/etc/gitlab \<br> -v /data/gitlab/data:/var/opt/gitlab \<br> -v /data/gitlab/1ogs:/var/1og/gitlab \<br> gitlab/gitlab-ce:latest <br><br><br> <br></code></pre></td></tr></table></figure>
-
-
-
-<h5 id="启动极狐Gitlab"><a href="#启动极狐Gitlab" class="headerlink" title="启动极狐Gitlab"></a>启动极狐Gitlab</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#综合后的启动命令 </span><br>docker run --name=<span class="hljs-string">&#x27;gitlab&#x27;</span> -d \<br> --publish 7043:443 --publish 7080:80 --publish 7022:22 \<br> -v /data/gitlab/etc:/etc/gitlab \<br> -v /data/gitlab/data:/var/opt/gitlab \<br> -v /data/gitlab/1ogs:/var/1og/gitlab \<br> --shm-size 256m \<br> --restart always \<br> registry.gitlab.cn/omnibus/gitlab-jh:latest <br></code></pre></td></tr></table></figure>
-
-
-
+<h5 id="启动极狐gitlab">启动极狐Gitlab</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#综合后的启动命令 </span><br>docker run --name=<span class="hljs-string">&#x27;gitlab&#x27;</span> -d \<br> --publish 7043:443 --publish 7080:80 --publish 7022:22 \<br> -v /data/gitlab/etc:/etc/gitlab \<br> -v /data/gitlab/data:/var/opt/gitlab \<br> -v /data/gitlab/1ogs:/var/1og/gitlab \<br> --shm-size 256m \<br> --restart always \<br> registry.gitlab.cn/omnibus/gitlab-jh:latest <br></code></pre></td></tr></table></figure>
 <p>放入容器后，配置Gitlab，参考这篇文档：</p>
-<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/922952">https://developer.aliyun.com/article/922952</a></p>
+<p>https://developer.aliyun.com/article/922952</p>
 <p><strong>访问的网址为：</strong></p>
-<p><strong><a target="_blank" rel="noopener" href="http://192.168.0.83:7080/">http://192.168.0.83:7080/</a></strong></p>
+<p><strong>http://192.168.0.83:7080/</strong></p>
 <p>似乎不需要设置external url之类的参数。</p>
 <p>在Apache中做公网映射：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">&lt;VirtualHost *:80&gt;<br>    ServerName gitlab.test.tseo.cn<br>    ProxyPass / http://127.0.0.1:7080/<br>    ProxyPassReverse / http://127.0.0.1:7080/<br>    ErrorLog /data/httpd_logs/dummy-test.tseo.cn-error.log<br>    CustomLog /data/httpd_logs/dummy-test.tseo.cn-access.log vhost_combined<br>&lt;/VirtualHost&gt;<br><br></code></pre></td></tr></table></figure>
-
-
-
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost gitlab]# find ./ -name init*<br>./etc/initial_root_password<br><br>[root@localhost gitlab]# ll etc/<br>总用量 204<br>-rw------- 1 root root 157735  1月 26 13:46 gitlab.rb<br>-rw------- 1 root root  16358  1月 26 13:46 gitlab-secrets.json<br>-rw------- 1 root root    749  1月 26 13:02 initial_root_password<br>-rw------- 1 root root    513  1月 26 13:02 ssh_host_ecdsa_key<br>-rw-r--r-- 1 root root    179  1月 26 13:02 ssh_host_ecdsa_key.pub<br>-rw------- 1 root root    411  1月 26 13:02 ssh_host_ed25519_key<br>-rw-r--r-- 1 root root     99  1月 26 13:02 ssh_host_ed25519_key.pub<br>-rw------- 1 root root   2602  1月 26 13:02 ssh_host_rsa_key<br>-rw-r--r-- 1 root root    571  1月 26 13:02 ssh_host_rsa_key.pub<br>drwxr-xr-x 2 root root   4096  1月 26 13:02 trusted-certs<br><br>[root@localhost gitlab]# vi /data/gitlab/etc/initial_root_password <br>[root@localhost gitlab]# <br>[root@localhost gitlab]# <br>[root@localhost gitlab]# <br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="安装Java-1-8开发环境"><a href="#安装Java-1-8开发环境" class="headerlink" title="安装Java 1.8开发环境"></a>安装Java 1.8开发环境</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br>[root@localhost ~]# wget https://corretto.aws/downloads/latest/amazon-corretto-8-x64-linux-jdk.rpm<br><br><br>[root@localhost ~]# yum localinstall amazon-corretto-8-x64-linux-jdk.rpm<br><br>[root@localhost ~]# java -version<br>openjdk version <span class="hljs-string">&quot;1.8.0_442&quot;</span><br>OpenJDK Runtime Environment Corretto-8.442.06.1 (build 1.8.0_442-b06)<br>OpenJDK 64-Bit Server VM Corretto-8.442.06.1 (build 25.442-b06, mixed mode)<br></code></pre></td></tr></table></figure>
-
-
-
-<h4 id="安装Maven-3-6-3环境"><a href="#安装Maven-3-6-3环境" class="headerlink" title="安装Maven 3.6.3环境"></a>安装Maven 3.6.3环境</h4><ol>
-<li><p>下载指定版本，解压。</p>
-</li>
-<li><p>配置conf下的国内镜像源。</p>
-</li>
-<li><p>使用绝对路径访问。</p>
-</li>
+<h4 id="安装java-1.8开发环境">安装Java 1.8开发环境</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br>[root@localhost ~]# wget https://corretto.aws/downloads/latest/amazon-corretto-8-x64-linux-jdk.rpm<br><br><br>[root@localhost ~]# yum localinstall amazon-corretto-8-x64-linux-jdk.rpm<br><br>[root@localhost ~]# java -version<br>openjdk version <span class="hljs-string">&quot;1.8.0_442&quot;</span><br>OpenJDK Runtime Environment Corretto-8.442.06.1 (build 1.8.0_442-b06)<br>OpenJDK 64-Bit Server VM Corretto-8.442.06.1 (build 25.442-b06, mixed mode)<br></code></pre></td></tr></table></figure>
+<h4 id="安装maven-3.6.3环境">安装Maven 3.6.3环境</h4>
+<ol type="1">
+<li><p>下载指定版本，解压。</p></li>
+<li><p>配置conf下的国内镜像源。</p></li>
+<li><p>使用绝对路径访问。</p></li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash">直接下载：<br><br>[root@localhost ~]# wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz<br><br>解压：<br>[root@localhost ~]# tar zxvf apache-maven-3.6.3-bin.tar.gz <br><br>使用绝对路径：<br>[root@localhost bin]# /root/apache-maven-3.6.3/bin/mvn -v<br>Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)<br>Maven home: /root/apache-maven-3.6.3<br>Java version: 1.8.0_442, vendor: Amazon.com Inc., runtime: /usr/lib/jvm/java-1.8.0-amazon-corretto/jre<br>Default locale: zh_CN, platform encoding: UTF-8<br>OS name: <span class="hljs-string">&quot;linux&quot;</span>, version: <span class="hljs-string">&quot;5.10.0-247.0.0.149.oe2203sp3.x86_64&quot;</span>, <span class="hljs-built_in">arch</span>: <span class="hljs-string">&quot;amd64&quot;</span>, family: <span class="hljs-string">&quot;unix&quot;</span><br>[root@localhost bin]# <br><br></code></pre></td></tr></table></figure>
-
 <p>下载完成后，在conf目录下为Maven设置阿里云镜像，过程同Windows 11。</p>
-<h4 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run \<br>  --name=jenkins \<br>  -u root \<br>  -d \<br>  -p 7081:8080 \<br>  -p 7051:50000 \<br>  -v /run/docker.sock:/var/run/docker.sock \<br>  -v /usr/bin/docker:/usr/bin/docker \<br>  -v /usr/lib/jvm/java-1.8.0-amazon-corretto:/usr/java/jdk1.8.0_181 \<br>  -v /root/apache-maven-3.6.3:/usr/local/maven \<br>  -v /root/maven_local_repository:/usr/local/maven_repository \<br>  -v /data/jenkins-data:/var/jenkins_home \<br>  --restart always \<br>  jenkins/jenkins:lts<br><br><br>以上参数，可以通过find查找：<br>[root@localhost ~]# find / -name docker.sock<br>/run/docker.sock<br>[root@localhost ~]# <br>同样的，分别查找 docker  java  maven<br><br>其中：<br>-u root为指定root用户，是Jenkins的root用户，不是Linux的。<br><br><br><br>  <br></code></pre></td></tr></table></figure>
-
-
-
+<h4 id="安装jenkins">安装Jenkins</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run \<br>  --name=jenkins \<br>  -u root \<br>  -d \<br>  -p 7081:8080 \<br>  -p 7051:50000 \<br>  -v /run/docker.sock:/var/run/docker.sock \<br>  -v /usr/bin/docker:/usr/bin/docker \<br>  -v /usr/lib/jvm/java-1.8.0-amazon-corretto:/usr/java/jdk1.8.0_181 \<br>  -v /root/apache-maven-3.6.3:/usr/local/maven \<br>  -v /root/maven_local_repository:/usr/local/maven_repository \<br>  -v /data/jenkins-data:/var/jenkins_home \<br>  --restart always \<br>  jenkins/jenkins:lts<br><br><br>以上参数，可以通过find查找：<br>[root@localhost ~]# find / -name docker.sock<br>/run/docker.sock<br>[root@localhost ~]# <br>同样的，分别查找 docker  java  maven<br><br>其中：<br>-u root为指定root用户，是Jenkins的root用户，不是Linux的。<br><br><br><br>  <br></code></pre></td></tr></table></figure>
 <p>打开防火墙：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">firewall-cmd --zone=public --add-port=7081/tcp --permanent<br>firewall-cmd --zone=public --add-port=7051/tcp --permanent<br>firewall-cmd –reload<br></code></pre></td></tr></table></figure>
-
-
 <p>进入容器中查看root的密码：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br>[root@localhost ~]# <br>[root@localhost ~]# <br>[root@localhost ~]# <br>[root@localhost ~]# docker <span class="hljs-built_in">exec</span> -it jenkins bash<br>root@8f2c9dfb22e1:/# <span class="hljs-built_in">cat</span> /var/jenkins_home/secrets/initialAdminPassword<br>cb00dd69a5034e69a525766ac264bbd8<br>root@8f2c9dfb22e1:/# <br>root@8f2c9dfb22e1:/# <span class="hljs-built_in">exit</span><br><span class="hljs-built_in">exit</span><br>[root@localhost ~]# <br>[root@localhost ~]# <br>[root@localhost ~]# <br><br><br></code></pre></td></tr></table></figure>
-
-
-
 <p>访问网址，登录Jenkins：</p>
-<p><a target="_blank" rel="noopener" href="http://192.168.0.83:7081/">http://192.168.0.83:7081</a></p>
-<p><a target="_blank" rel="noopener" href="http://127.0.0.1:7081/">http://127.0.0.1:7081</a></p>
+<p>http://192.168.0.83:7081</p>
+<p>http://127.0.0.1:7081</p>
 <p>首次登录需要设置新增一个管理员用户，默认是admin，这里我们设置了root。</p>
 <p>增加Apache的配置：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">&lt;VirtualHost *:80&gt;<br>    ServerName jenkins.test.tseo.cn<br>    ProxyPass / http://127.0.0.1:7081/<br>    ProxyPassReverse / http://127.0.0.1:7081/<br>    ErrorLog /data/httpd_logs/dummy-test.tseo.cn-error.log<br>    CustomLog /data/httpd_logs/dummy-test.tseo.cn-access.log vhost_combined<br>&lt;/VirtualHost&gt;<br></code></pre></td></tr></table></figure>
-
-
-<p><img src="https://s2.loli.net/2025/02/11/YMxSR3Qkn4GiUlp.png" srcset="/img/loading.gif" lazyload></p>
-<h4 id="k8s-Kubernetes-1-26-0-安装"><a href="#k8s-Kubernetes-1-26-0-安装" class="headerlink" title="k8s - Kubernetes 1.26.0 安装"></a>k8s - Kubernetes 1.26.0 安装</h4><p><img src="https://s2.loli.net/2025/02/11/XuOHowBlqMpcS3h.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://s2.loli.net/2025/02/11/xEBfcK9IPwdkgMX.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://s2.loli.net/2025/02/11/TerQH91JtFDKgBl.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://s2.loli.net/2025/02/11/PNip9dODL7safU5.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://s2.loli.net/2025/02/11/YMxSR3Qkn4GiUlp.png" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="k8s---kubernetes-1.26.0-安装">k8s - Kubernetes 1.26.0 安装</h4>
+<p><img src="https://s2.loli.net/2025/02/11/XuOHowBlqMpcS3h.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img src="https://s2.loli.net/2025/02/11/xEBfcK9IPwdkgMX.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img src="https://s2.loli.net/2025/02/11/TerQH91JtFDKgBl.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img src="https://s2.loli.net/2025/02/11/PNip9dODL7safU5.png" srcset="/img/loading.gif" lazyload /></p>
 
                 
               </div>
@@ -1961,6 +1912,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -2178,6 +2135,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

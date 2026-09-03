@@ -19,17 +19,17 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="认识Objective - C什么是Objective - CObjective - C是一种面向对象的编程语言，它是C语言的超集，同时也兼容C语言。Objective - C的设计目标是提供一种简单、灵活、高效的编程语言，用于开发iOS和MacOS应用程序。Objective - C的语法类似于C语言，但是它引入了一些新的特性，如面向对象编程、动态类型、消息传递等。Objective - C的代">
+    <meta name="description" content="认识Objective - C 什么是Objective - C Objective - C是一种面向对象的编程语言，它是C语言的超集，同时也兼容C语言。Objective - C的设计目标是提供一种简单、灵活、高效的编程语言，用于开发iOS和MacOS应用程序。Objective - C的语法类似于C语言，但是它引入了一些新的特性，如面向对象编程、动态类型、消息传递等。Objective - C">
 <meta property="og:type" content="article">
 <meta property="og:title" content="学习Objective-C的一些笔记">
 <meta property="og:url" content="https://jycpp.github.io/2023/23-12-26-%E5%AD%A6%E4%B9%A0Objective-C%E8%AF%BB%E8%BF%99%E4%B8%AA%E5%B0%B1%E8%B6%B3%E5%A4%9F%E4%BA%86.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="认识Objective - C什么是Objective - CObjective - C是一种面向对象的编程语言，它是C语言的超集，同时也兼容C语言。Objective - C的设计目标是提供一种简单、灵活、高效的编程语言，用于开发iOS和MacOS应用程序。Objective - C的语法类似于C语言，但是它引入了一些新的特性，如面向对象编程、动态类型、消息传递等。Objective - C的代">
+<meta property="og:description" content="认识Objective - C 什么是Objective - C Objective - C是一种面向对象的编程语言，它是C语言的超集，同时也兼容C语言。Objective - C的设计目标是提供一种简单、灵活、高效的编程语言，用于开发iOS和MacOS应用程序。Objective - C的语法类似于C语言，但是它引入了一些新的特性，如面向对象编程、动态类型、消息传递等。Objective - C">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2025/02/11/raBDhswSfJd3Ayq.png">
 <meta property="og:image" content="https://s2.loli.net/2025/02/11/75pfWHPlYdC1LZV.png">
 <meta property="article:published_time" content="2023-12-26T00:00:00.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.105Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.663Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="编程语言">
 <meta property="article:tag" content="Objective-C">
@@ -321,7 +321,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1050,7 +1050,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1068,6 +1068,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1370,102 +1379,163 @@ true
             
               <div class="markdown-body">
                 
-                <h2 id="认识Objective-C"><a href="#认识Objective-C" class="headerlink" title="认识Objective - C"></a>认识Objective - C</h2><h3 id="什么是Objective-C"><a href="#什么是Objective-C" class="headerlink" title="什么是Objective - C"></a>什么是Objective - C</h3><p>Objective - C是一种面向对象的编程语言，它是C语言的超集，同时也兼容C语言。Objective - C的设计目标是提供一种简单、灵活、高效的编程语言，用于开发iOS和MacOS应用程序。Objective - C的语法类似于C语言，但是它引入了一些新的特性，如面向对象编程、动态类型、消息传递等。Objective - C的代码可以直接编译成机器码，因此它的执行效率非常高。</p>
-<h3 id="先给自己洗脑：OC在iOS开发中的现状与趋势"><a href="#先给自己洗脑：OC在iOS开发中的现状与趋势" class="headerlink" title="先给自己洗脑：OC在iOS开发中的现状与趋势"></a>先给自己洗脑：OC在iOS开发中的现状与趋势</h3><h4 id="逐步被Swift取代的趋势"><a href="#逐步被Swift取代的趋势" class="headerlink" title="逐步被Swift取代的趋势"></a>逐步被Swift取代的趋势</h4><p>Swift是苹果于2014年推出的全新编程语言，具有语法简洁、安全性能高、开发效率快等显著优势。它在设计上吸收了现代编程语言的众多优秀特性，如类型推断、闭包等，使得代码更加易读、易维护。随着时间的推移，苹果也在不断加大对Swift的支持力度，许多新的框架和API都优先以Swift进行开发和文档编写，同时一些新的编程特性和开发工具也更多地围绕Swift展开，这使得Swift在iOS开发社区中的影响力与日俱增，越来越多的开发者倾向于使用Swift进行项目开发，从长期来看，Objective - C被Swift取代是一个不可避免的趋势。</p>
-<h4 id="仍将长期作为主流开发语言的原因"><a href="#仍将长期作为主流开发语言的原因" class="headerlink" title="仍将长期作为主流开发语言的原因"></a>仍将长期作为主流开发语言的原因</h4><p>然而，目前大量的iOS项目依旧在使用Objective - C。这主要是因为Objective - C拥有悠久的历史，在iOS开发领域已经积累了庞大的代码库和丰富的开发资源。许多早期开发的APP以及一些大型的、成熟的商业项目都是基于Objective - C构建的，对这些项目进行重构和迁移到Swift需要耗费巨大的人力、物力和时间成本，所以短期内这些项目不会轻易放弃Objective - C。此外，Objective - C与底层系统的交互能力非常强，在一些对性能要求极高或者需要与旧有系统深度集成的场景下，Objective - C仍然具有不可替代的优势。因此，在未来相当长的一段时间内，Objective - C仍将是苹果手机版本APP开发的主流语言之一。</p>
-<h3 id="学习Objective-C编程的主要知识点"><a href="#学习Objective-C编程的主要知识点" class="headerlink" title="学习Objective - C编程的主要知识点"></a>学习Objective - C编程的主要知识点</h3><h4 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h4><ul>
-<li><strong>数据类型</strong>：了解基本数据类型，如 <code>int</code>、<code>float</code>、<code>double</code>、<code>char</code> 等，以及对象类型，如 <code>NSString</code>、<code>NSArray</code>、<code>NSDictionary</code> 等。掌握这些数据类型的声明、初始化和使用方法。</li>
+                <h2 id="认识objective---c">认识Objective - C</h2>
+<h3 id="什么是objective---c">什么是Objective - C</h3>
+<p>Objective -
+C是一种面向对象的编程语言，它是C语言的超集，同时也兼容C语言。Objective -
+C的设计目标是提供一种简单、灵活、高效的编程语言，用于开发iOS和MacOS应用程序。Objective
+-
+C的语法类似于C语言，但是它引入了一些新的特性，如面向对象编程、动态类型、消息传递等。Objective
+- C的代码可以直接编译成机器码，因此它的执行效率非常高。</p>
+<h3
+id="先给自己洗脑oc在ios开发中的现状与趋势">先给自己洗脑：OC在iOS开发中的现状与趋势</h3>
+<h4 id="逐步被swift取代的趋势">逐步被Swift取代的趋势</h4>
+<p>Swift是苹果于2014年推出的全新编程语言，具有语法简洁、安全性能高、开发效率快等显著优势。它在设计上吸收了现代编程语言的众多优秀特性，如类型推断、闭包等，使得代码更加易读、易维护。随着时间的推移，苹果也在不断加大对Swift的支持力度，许多新的框架和API都优先以Swift进行开发和文档编写，同时一些新的编程特性和开发工具也更多地围绕Swift展开，这使得Swift在iOS开发社区中的影响力与日俱增，越来越多的开发者倾向于使用Swift进行项目开发，从长期来看，Objective
+- C被Swift取代是一个不可避免的趋势。</p>
+<h4
+id="仍将长期作为主流开发语言的原因">仍将长期作为主流开发语言的原因</h4>
+<p>然而，目前大量的iOS项目依旧在使用Objective - C。这主要是因为Objective
+-
+C拥有悠久的历史，在iOS开发领域已经积累了庞大的代码库和丰富的开发资源。许多早期开发的APP以及一些大型的、成熟的商业项目都是基于Objective
+-
+C构建的，对这些项目进行重构和迁移到Swift需要耗费巨大的人力、物力和时间成本，所以短期内这些项目不会轻易放弃Objective
+- C。此外，Objective -
+C与底层系统的交互能力非常强，在一些对性能要求极高或者需要与旧有系统深度集成的场景下，Objective
+- C仍然具有不可替代的优势。因此，在未来相当长的一段时间内，Objective -
+C仍将是苹果手机版本APP开发的主流语言之一。</p>
+<h3 id="学习objective---c编程的主要知识点">学习Objective -
+C编程的主要知识点</h3>
+<h4 id="基础语法">基础语法</h4>
+<ul>
+<li><strong>数据类型</strong>：了解基本数据类型，如
+<code>int</code>、<code>float</code>、<code>double</code>、<code>char</code>
+等，以及对象类型，如
+<code>NSString</code>、<code>NSArray</code>、<code>NSDictionary</code>
+等。掌握这些数据类型的声明、初始化和使用方法。</li>
 <li><strong>变量与常量</strong>：学会如何声明和使用变量和常量，理解它们的作用域和生命周期。</li>
-<li><strong>控制流语句</strong>：掌握 <code>if - else</code>、<code>switch</code>、<code>for</code>、<code>while</code> 等控制流语句的使用，用于实现程序的逻辑判断和循环操作。</li>
+<li><strong>控制流语句</strong>：掌握
+<code>if - else</code>、<code>switch</code>、<code>for</code>、<code>while</code>
+等控制流语句的使用，用于实现程序的逻辑判断和循环操作。</li>
 <li><strong>函数</strong>：学习函数的定义、声明和调用，了解参数传递和返回值的处理方式。</li>
 </ul>
-<h4 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h4><ul>
+<h4 id="面向对象编程">面向对象编程</h4>
+<ul>
 <li><strong>类与对象</strong>：理解类和对象的概念，学会定义类、创建对象以及访问对象的属性和方法。</li>
 <li><strong>继承</strong>：掌握继承的机制，通过继承可以创建新的类，继承父类的属性和方法，并可以进行扩展和重写。</li>
 <li><strong>多态</strong>：了解多态的概念和实现方式，多态可以提高代码的灵活性和可扩展性。</li>
 <li><strong>封装</strong>：学会使用封装来隐藏对象的内部实现细节，提供公共的接口供外部访问。</li>
 </ul>
-<h4 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h4><ul>
-<li><strong>引用计数</strong>：理解Objective - C的引用计数机制，这是Objective - C内存管理的基础。了解对象的引用计数是如何增加和减少的，以及何时对象会被释放。</li>
+<h4 id="内存管理">内存管理</h4>
+<ul>
+<li><strong>引用计数</strong>：理解Objective -
+C的引用计数机制，这是Objective -
+C内存管理的基础。了解对象的引用计数是如何增加和减少的，以及何时对象会被释放。</li>
 <li><strong>自动引用计数（ARC）</strong>：掌握ARC的工作原理和使用方法，ARC是苹果推出的一种自动内存管理机制，它可以大大简化内存管理的工作。</li>
 <li><strong>弱引用和强引用</strong>：了解弱引用和强引用的区别，以及在避免循环引用等场景下的使用方法。</li>
 </ul>
-<h4 id="消息传递机制"><a href="#消息传递机制" class="headerlink" title="消息传递机制"></a>消息传递机制</h4><ul>
-<li><strong>消息发送</strong>：Objective - C采用消息传递机制，学会如何使用 <code>[对象 方法名:参数]</code> 的语法来发送消息，理解消息的查找和调用过程。</li>
+<h4 id="消息传递机制">消息传递机制</h4>
+<ul>
+<li><strong>消息发送</strong>：Objective -
+C采用消息传递机制，学会如何使用 <code>[对象 方法名:参数]</code>
+的语法来发送消息，理解消息的查找和调用过程。</li>
 <li><strong>选择器（Selector）</strong>：掌握选择器的概念和使用方法，选择器可以用来表示一个方法的名称，在运行时可以通过选择器来动态调用方法。</li>
 </ul>
-<h4 id="框架与API使用"><a href="#框架与API使用" class="headerlink" title="框架与API使用"></a>框架与API使用</h4><ul>
-<li><strong>Foundation框架</strong>：这是Objective - C的基础框架，包含了许多常用的类和功能，如字符串处理、集合操作、日期和时间处理等。</li>
-<li><strong>UIKit框架</strong>：用于开发iOS应用的用户界面，学习如何使用UIKit中的各种控件，如 <code>UIButton</code>、<code>UILabel</code>、<code>UITableView</code> 等，以及视图控制器的管理和导航。</li>
-<li><strong>网络编程</strong>：了解如何使用 <code>NSURLSession</code> 等类进行网络请求，实现数据的下载和上传，处理网络错误等。</li>
+<h4 id="框架与api使用">框架与API使用</h4>
+<ul>
+<li><strong>Foundation框架</strong>：这是Objective -
+C的基础框架，包含了许多常用的类和功能，如字符串处理、集合操作、日期和时间处理等。</li>
+<li><strong>UIKit框架</strong>：用于开发iOS应用的用户界面，学习如何使用UIKit中的各种控件，如
+<code>UIButton</code>、<code>UILabel</code>、<code>UITableView</code>
+等，以及视图控制器的管理和导航。</li>
+<li><strong>网络编程</strong>：了解如何使用 <code>NSURLSession</code>
+等类进行网络请求，实现数据的下载和上传，处理网络错误等。</li>
 </ul>
-<h4 id="调试与错误处理"><a href="#调试与错误处理" class="headerlink" title="调试与错误处理"></a>调试与错误处理</h4><ul>
+<h4 id="调试与错误处理">调试与错误处理</h4>
+<ul>
 <li><strong>调试工具</strong>：学会使用Xcode的调试工具，如断点调试、日志输出等，来定位和解决代码中的问题。</li>
-<li><strong>异常处理</strong>：了解Objective - C的异常处理机制，学会使用 <code>@try</code>、<code>@catch</code>、<code>@finally</code> 等关键字来捕获和处理异常。</li>
+<li><strong>异常处理</strong>：了解Objective - C的异常处理机制，学会使用
+<code>@try</code>、<code>@catch</code>、<code>@finally</code>
+等关键字来捕获和处理异常。</li>
 </ul>
-<h2 id="使用Objective-C进行iOS-App开发"><a href="#使用Objective-C进行iOS-App开发" class="headerlink" title="使用Objective - C进行iOS App开发"></a>使用Objective - C进行iOS App开发</h2><p>以下是使用Objective - C进行iOS App开发并将其上传到App Store的详细过程：</p>
-<h3 id="1-申请苹果开发者账号"><a href="#1-申请苹果开发者账号" class="headerlink" title="1. 申请苹果开发者账号"></a>1. 申请苹果开发者账号</h3><p>苹果开发者账号是发布iOS应用所必需的，分为个人账号、公司账号和企业账号，一般个人开发者选择个人账号即可。</p>
-<ul>
-<li><strong>访问苹果开发者官网</strong>：打开 <a target="_blank" rel="noopener" href="https://developer.apple.com/">苹果开发者网站</a>，点击右上角“Account”登录或注册Apple ID。</li>
-<li><strong>注册开发者账号</strong>：登录后，按照指引选择加入 Apple Developer Program。个人账号每年费用为99美元，需要提供个人信息、联系方式、付款信息等，完成付款后即可成为苹果开发者。</li>
-</ul>
-<h3 id="2-安装Xcode"><a href="#2-安装Xcode" class="headerlink" title="2. 安装Xcode"></a>2. 安装Xcode</h3><p>Xcode是苹果官方提供的集成开发环境（IDE），用于开发iOS、macOS等平台的应用程序。</p>
-<ul>
-<li><strong>打开Mac App Store</strong>：在Mac电脑上找到并打开App Store应用程序。</li>
-<li><strong>搜索Xcode</strong>：在App Store的搜索框中输入“Xcode”。</li>
-<li><strong>下载并安装</strong>：找到Xcode应用后，点击“获取”或“下载”按钮，等待下载和安装完成，整个过程可能需要一些时间，具体取决于网络速度。</li>
-</ul>
-<h3 id="3-建立第一个iOS-App项目"><a href="#3-建立第一个iOS-App项目" class="headerlink" title="3. 建立第一个iOS App项目"></a>3. 建立第一个iOS App项目</h3><p>完成Xcode安装后，就可以创建一个新的iOS项目。</p>
-<ul>
-<li><strong>启动Xcode</strong>：在Launchpad或应用程序文件夹中找到Xcode并打开。</li>
-<li><strong>创建新项目</strong>：选择“Create a new Xcode project”，在弹出的模板选择窗口中，选择“iOS” - “App”，点击“Next”。</li>
-<li><strong>配置项目信息</strong>：<ul>
-<li><strong>Product Name</strong>：输入应用的名称。</li>
-<li><strong>Organization Identifier</strong>：一般填写反向域名，如 <code>com.example</code>。</li>
-<li><strong>Interface</strong>：选择 “Storyboard”（可视化界面设计工具）。</li>
-<li><strong>Language</strong>：选择 “Objective - C”。</li>
-<li>其他选项根据需要进行设置，设置完成后点击“Next”。</li>
-</ul>
-</li>
-<li><strong>选择项目保存位置</strong>：选择一个合适的文件夹来保存项目，点击“Create”，Xcode会自动生成项目的基本结构。</li>
-</ul>
-<h3 id="4-编写Objective-C代码"><a href="#4-编写Objective-C代码" class="headerlink" title="4. 编写Objective - C代码"></a>4. 编写Objective - C代码</h3><p>在项目中可以开始编写Objective - C代码实现应用的功能。</p>
-<ul>
-<li><strong>打开ViewController.m文件</strong>：在项目导航器中找到 <code>ViewController.m</code> 文件，这是视图控制器的实现文件，主要用于处理视图的逻辑。</li>
-<li><strong>编写代码示例</strong>：例如，在 <code>viewDidLoad</code> 方法中添加以下代码，在屏幕上显示一个标签：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs objective-c">- (void)viewDidLoad &#123;<br>    [super viewDidLoad];<br>    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 50)];<br>    label.text = @&quot;Hello, Objective - C!&quot;;<br>    label.textAlignment = NSTextAlignmentCenter;<br>    [self.view addSubview:label];<br>&#125;<br></code></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="5-编译和调试"><a href="#5-编译和调试" class="headerlink" title="5. 编译和调试"></a>5. 编译和调试</h3><p>编写完代码后，需要对项目进行编译和调试，确保代码没有错误。</p>
-<ul>
-<li><strong>编译项目</strong>：点击Xcode工具栏上的“Build”按钮（或者使用快捷键 <code>Command + B</code>），Xcode会对项目进行编译，检查代码中的语法错误和其他问题。如果编译成功，会在控制台显示“Build Succeeded”。</li>
-<li><strong>调试代码</strong>：点击“Run”按钮（或者使用快捷键 <code>Command + R</code>），Xcode会尝试在模拟器或真机上运行应用。在运行过程中，可以设置断点（在代码行号旁边点击），当程序执行到断点处时会暂停，此时可以查看变量的值、执行代码步骤等，帮助定位和解决问题。</li>
-</ul>
-<h3 id="6-模拟器预览"><a href="#6-模拟器预览" class="headerlink" title="6. 模拟器预览"></a>6. 模拟器预览</h3><p>Xcode自带了iOS模拟器，可以在模拟器上预览应用的运行效果。</p>
-<ul>
-<li><strong>选择模拟器</strong>：点击Xcode工具栏上的设备选择器，选择一个合适的模拟器型号，如 iPhone 14。</li>
-<li><strong>运行应用</strong>：点击“Run”按钮，Xcode会将应用安装到模拟器上并启动，你可以在模拟器上像操作真实设备一样测试应用的功能和界面。</li>
-</ul>
-<h3 id="7-真机体验"><a href="#7-真机体验" class="headerlink" title="7. 真机体验"></a>7. 真机体验</h3><p>除了在模拟器上测试，还可以将应用安装到真实的iOS设备上进行测试。</p>
-<ul>
-<li><strong>连接设备</strong>：使用Lightning数据线将iOS设备连接到Mac电脑。</li>
-<li><strong>信任设备</strong>：在设备上点击“信任此电脑”。</li>
-<li><strong>配置签名</strong>：在Xcode中选择项目，在“Signing &amp; Capabilities”选项卡中，选择你的开发者账号，并确保“Automatically manage signing”选项被勾选。</li>
-<li><strong>运行应用</strong>：在设备选择器中选择你的iOS设备，点击“Run”按钮，Xcode会将应用安装到设备上并启动。</li>
-</ul>
-<h3 id="8-上传App-Store"><a href="#8-上传App-Store" class="headerlink" title="8. 上传App Store"></a>8. 上传App Store</h3><p>当应用开发和测试完成后，就可以将应用上传到App Store。</p>
-<ul>
-<li><strong>创建App记录</strong>：登录 <a target="_blank" rel="noopener" href="https://appstoreconnect.apple.com/">App Store Connect</a>，点击“My Apps”，然后点击“+”按钮，选择“New App”，填写应用的基本信息，如名称、描述、图标等，点击“Create”。</li>
-<li><strong>准备应用二进制文件</strong>：在Xcode中，选择“Product” - “Archive”，Xcode会对项目进行打包，生成一个归档文件。</li>
-<li><strong>上传归档文件</strong>：归档完成后，会弹出“Organizer”窗口，选择刚刚生成的归档文件，点击“Distribute App”，选择“App Store Connect”，按照指引完成上传过程。</li>
-</ul>
-<h3 id="9-提交审核"><a href="#9-提交审核" class="headerlink" title="9. 提交审核"></a>9. 提交审核</h3><p>上传应用二进制文件后，需要提交应用进行审核。</p>
-<ul>
-<li><strong>填写审核信息</strong>：在App Store Connect中，填写应用的审核信息，如隐私政策、使用说明等。</li>
-<li><strong>提交审核</strong>：确认所有信息无误后，点击“Submit for Review”，苹果审核团队会对应用进行审核，审核时间一般为几个工作日到几周不等，审核通过后应用就会在App Store上架。</li>
-</ul>
-<h2 id="Objective-C学习笔记"><a href="#Objective-C学习笔记" class="headerlink" title="Objective-C学习笔记"></a>Objective-C学习笔记</h2><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><ol>
+<h2 id="使用objective---c进行ios-app开发">使用Objective - C进行iOS
+App开发</h2>
+<p>以下是使用Objective - C进行iOS App开发并将其上传到App
+Store的详细过程：</p>
+<h3 id="申请苹果开发者账号">1. 申请苹果开发者账号</h3>
+<p>苹果开发者账号是发布iOS应用所必需的，分为个人账号、公司账号和企业账号，一般个人开发者选择个人账号即可。
+- <strong>访问苹果开发者官网</strong>：打开 <a
+target="_blank" rel="noopener" href="https://developer.apple.com/">苹果开发者网站</a>，点击右上角“Account”登录或注册Apple
+ID。 - <strong>注册开发者账号</strong>：登录后，按照指引选择加入 Apple
+Developer
+Program。个人账号每年费用为99美元，需要提供个人信息、联系方式、付款信息等，完成付款后即可成为苹果开发者。</p>
+<h3 id="安装xcode">2. 安装Xcode</h3>
+<p>Xcode是苹果官方提供的集成开发环境（IDE），用于开发iOS、macOS等平台的应用程序。
+- <strong>打开Mac App Store</strong>：在Mac电脑上找到并打开App
+Store应用程序。 - <strong>搜索Xcode</strong>：在App
+Store的搜索框中输入“Xcode”。 -
+<strong>下载并安装</strong>：找到Xcode应用后，点击“获取”或“下载”按钮，等待下载和安装完成，整个过程可能需要一些时间，具体取决于网络速度。</p>
+<h3 id="建立第一个ios-app项目">3. 建立第一个iOS App项目</h3>
+<p>完成Xcode安装后，就可以创建一个新的iOS项目。 -
+<strong>启动Xcode</strong>：在Launchpad或应用程序文件夹中找到Xcode并打开。
+- <strong>创建新项目</strong>：选择“Create a new Xcode
+project”，在弹出的模板选择窗口中，选择“iOS” - “App”，点击“Next”。 -
+<strong>配置项目信息</strong>： - <strong>Product
+Name</strong>：输入应用的名称。 - <strong>Organization
+Identifier</strong>：一般填写反向域名，如 <code>com.example</code>。 -
+<strong>Interface</strong>：选择 “Storyboard”（可视化界面设计工具）。 -
+<strong>Language</strong>：选择 “Objective - C”。 -
+其他选项根据需要进行设置，设置完成后点击“Next”。 -
+<strong>选择项目保存位置</strong>：选择一个合适的文件夹来保存项目，点击“Create”，Xcode会自动生成项目的基本结构。</p>
+<h3 id="编写objective---c代码">4. 编写Objective - C代码</h3>
+<p>在项目中可以开始编写Objective - C代码实现应用的功能。 -
+<strong>打开ViewController.m文件</strong>：在项目导航器中找到
+<code>ViewController.m</code>
+文件，这是视图控制器的实现文件，主要用于处理视图的逻辑。 -
+<strong>编写代码示例</strong>：例如，在 <code>viewDidLoad</code>
+方法中添加以下代码，在屏幕上显示一个标签： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs objective-c">- (void)viewDidLoad &#123;<br>    [super viewDidLoad];<br>    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 50)];<br>    label.text = @&quot;Hello, Objective - C!&quot;;<br>    label.textAlignment = NSTextAlignmentCenter;<br>    [self.view addSubview:label];<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<h3 id="编译和调试">5. 编译和调试</h3>
+<p>编写完代码后，需要对项目进行编译和调试，确保代码没有错误。 -
+<strong>编译项目</strong>：点击Xcode工具栏上的“Build”按钮（或者使用快捷键
+<code>Command + B</code>），Xcode会对项目进行编译，检查代码中的语法错误和其他问题。如果编译成功，会在控制台显示“Build
+Succeeded”。 - <strong>调试代码</strong>：点击“Run”按钮（或者使用快捷键
+<code>Command + R</code>），Xcode会尝试在模拟器或真机上运行应用。在运行过程中，可以设置断点（在代码行号旁边点击），当程序执行到断点处时会暂停，此时可以查看变量的值、执行代码步骤等，帮助定位和解决问题。</p>
+<h3 id="模拟器预览">6. 模拟器预览</h3>
+<p>Xcode自带了iOS模拟器，可以在模拟器上预览应用的运行效果。 -
+<strong>选择模拟器</strong>：点击Xcode工具栏上的设备选择器，选择一个合适的模拟器型号，如
+iPhone 14。 -
+<strong>运行应用</strong>：点击“Run”按钮，Xcode会将应用安装到模拟器上并启动，你可以在模拟器上像操作真实设备一样测试应用的功能和界面。</p>
+<h3 id="真机体验">7. 真机体验</h3>
+<p>除了在模拟器上测试，还可以将应用安装到真实的iOS设备上进行测试。 -
+<strong>连接设备</strong>：使用Lightning数据线将iOS设备连接到Mac电脑。 -
+<strong>信任设备</strong>：在设备上点击“信任此电脑”。 -
+<strong>配置签名</strong>：在Xcode中选择项目，在“Signing &amp;
+Capabilities”选项卡中，选择你的开发者账号，并确保“Automatically manage
+signing”选项被勾选。 -
+<strong>运行应用</strong>：在设备选择器中选择你的iOS设备，点击“Run”按钮，Xcode会将应用安装到设备上并启动。</p>
+<h3 id="上传app-store">8. 上传App Store</h3>
+<p>当应用开发和测试完成后，就可以将应用上传到App Store。 -
+<strong>创建App记录</strong>：登录 <a
+target="_blank" rel="noopener" href="https://appstoreconnect.apple.com/">App Store Connect</a>，点击“My
+Apps”，然后点击“+”按钮，选择“New
+App”，填写应用的基本信息，如名称、描述、图标等，点击“Create”。 -
+<strong>准备应用二进制文件</strong>：在Xcode中，选择“Product” -
+“Archive”，Xcode会对项目进行打包，生成一个归档文件。 -
+<strong>上传归档文件</strong>：归档完成后，会弹出“Organizer”窗口，选择刚刚生成的归档文件，点击“Distribute
+App”，选择“App Store Connect”，按照指引完成上传过程。</p>
+<h3 id="提交审核">9. 提交审核</h3>
+<p>上传应用二进制文件后，需要提交应用进行审核。 -
+<strong>填写审核信息</strong>：在App Store
+Connect中，填写应用的审核信息，如隐私政策、使用说明等。 -
+<strong>提交审核</strong>：确认所有信息无误后，点击“Submit for
+Review”，苹果审核团队会对应用进行审核，审核时间一般为几个工作日到几周不等，审核通过后应用就会在App
+Store上架。</p>
+<h2 id="objective-c学习笔记">Objective-C学习笔记</h2>
+<h3 id="基础知识">基础知识</h3>
+<ol type="1">
 <li>对象方法的函数用“-”开头，类方法用“+”；</li>
 <li>interface和implementation</li>
-<li>@property属性会自动生成set和get方法；</li>
+<li><span class="citation"
+data-cites="property属性会自动生成set和get方法">@property属性会自动生成set和get方法</span>；</li>
 <li>函数的多个参数和不带名参数传递</li>
 <li>常用对象（Java中叫容器）：NSString，NSNumber，NSArray，NSSet</li>
 <li>内存自动释放：NSAutoReleasePool</li>
@@ -1474,55 +1544,76 @@ true
 <li>iOS的基础组件：NSBuddle和plist。</li>
 <li>UIView控制器基础。</li>
 </ol>
-<h3 id="对于Foundation框架的学习"><a href="#对于Foundation框架的学习" class="headerlink" title="对于Foundation框架的学习"></a>对于Foundation框架的学习</h3><p><img src="https://s2.loli.net/2025/02/11/raBDhswSfJd3Ayq.png" srcset="/img/loading.gif" lazyload alt="20250211093831"></p>
-<h3 id="装箱和拆箱"><a href="#装箱和拆箱" class="headerlink" title="装箱和拆箱"></a>装箱和拆箱</h3><p><img src="https://s2.loli.net/2025/02/11/75pfWHPlYdC1LZV.png" srcset="/img/loading.gif" lazyload alt="20250211093910"></p>
-<h2 id="对于UIViewController的学习理解和应用"><a href="#对于UIViewController的学习理解和应用" class="headerlink" title="对于UIViewController的学习理解和应用"></a>对于UIViewController的学习理解和应用</h2><p><code>UIViewController</code> 是 iOS 开发中非常核心且基础的类，在构建 iOS 应用界面和管理界面逻辑方面发挥着关键作用。以下将从学习理解和实际应用两个维度进行详细阐述：</p>
-<h3 id="学习理解"><a href="#学习理解" class="headerlink" title="学习理解"></a>学习理解</h3><h4 id="概念与作用"><a href="#概念与作用" class="headerlink" title="概念与作用"></a>概念与作用</h4><p><code>UIViewController</code> 是视图控制器，它负责管理应用程序的一个或多个视图（<code>UIView</code>），起到了视图和数据之间的桥梁作用。一个视图控制器通常对应应用程序中的一个屏幕或一个特定的功能模块，负责处理用户与视图的交互、管理视图的生命周期、响应用户事件等。</p>
-<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><p>理解 <code>UIViewController</code> 的生命周期是掌握其使用的关键，它的生命周期包含多个重要的方法，这些方法在不同阶段被系统自动调用：</p>
-<ol>
-<li><strong>实例化</strong>：<ul>
-<li><code>initWithNibName:bundle:</code>：当使用 XIB 文件来设计视图时，会调用这个方法来初始化视图控制器。</li>
-<li><code>init</code>：默认的初始化方法，若不使用 XIB 文件，一般会使用这个方法进行初始化。</li>
-</ul>
-</li>
-<li><strong>视图加载</strong>：<ul>
-<li><code>loadView</code>：负责创建视图控制器的根视图，若不手动重写该方法，系统会根据情况从 XIB 文件或 Storyboard 加载视图。</li>
-<li><code>viewDidLoad</code>：视图加载完成后调用，通常在此方法中进行视图的初始化设置、数据加载等操作。</li>
-</ul>
-</li>
-<li><strong>视图即将显示与显示完成</strong>：<ul>
-<li><code>viewWillAppear:</code>：视图即将显示在屏幕上时调用，可以在此进行一些视图显示前的准备工作，如设置导航栏样式等。</li>
-<li><code>viewDidAppear:</code>：视图已经完全显示在屏幕上时调用，可用于启动一些需要在视图显示后执行的操作，如开始动画等。</li>
-</ul>
-</li>
-<li><strong>视图即将消失与消失完成</strong>：<ul>
-<li><code>viewWillDisappear:</code>：视图即将从屏幕上消失时调用，可用于保存数据、停止动画等操作。</li>
-<li><code>viewDidDisappear:</code>：视图已经完全从屏幕上消失时调用。</li>
-</ul>
-</li>
-<li><strong>内存警告处理</strong>：<ul>
-<li><code>didReceiveMemoryWarning</code>：当系统内存不足时调用，需要在此方法中释放一些不必要的资源。</li>
-</ul>
-</li>
-</ol>
-<h4 id="视图管理"><a href="#视图管理" class="headerlink" title="视图管理"></a>视图管理</h4><p><code>UIViewController</code> 可以管理一个或多个视图，通过 <code>view</code> 属性可以访问其根视图。可以在 <code>viewDidLoad</code> 方法中添加子视图到根视图上，例如：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs objc">- (<span class="hljs-type">void</span>)viewDidLoad &#123;<br>    [<span class="hljs-variable language_">super</span> viewDidLoad];<br>    <span class="hljs-built_in">UILabel</span> *label = [[<span class="hljs-built_in">UILabel</span> alloc] initWithFrame:<span class="hljs-built_in">CGRectMake</span>(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">200</span>, <span class="hljs-number">50</span>)];<br>    label.text = <span class="hljs-string">@&quot;Hello, World!&quot;</span>;<br>    [<span class="hljs-keyword">self</span>.view addSubview:label];<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="导航与转场"><a href="#导航与转场" class="headerlink" title="导航与转场"></a>导航与转场</h4><p>在 iOS 应用中，<code>UIViewController</code> 之间的导航和转场是常见的操作。可以使用 <code>UINavigationController</code> 进行导航管理，通过 <code>pushViewController:animated:</code> 方法将一个视图控制器压入导航栈，使用 <code>popViewControllerAnimated:</code> 方法将当前视图控制器从导航栈中弹出。</p>
-<h3 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h3><h4 id="单视图应用"><a href="#单视图应用" class="headerlink" title="单视图应用"></a>单视图应用</h4><p>在简单的单视图应用中，一个 <code>UIViewController</code> 可以管理整个屏幕的视图和逻辑。例如，创建一个显示静态文本信息的应用，只需要在 <code>UIViewController</code> 的 <code>viewDidLoad</code> 方法中添加一个 <code>UILabel</code> 并设置文本内容即可。</p>
-<h4 id="多视图应用"><a href="#多视图应用" class="headerlink" title="多视图应用"></a>多视图应用</h4><p>在复杂的多视图应用中，会使用多个 <code>UIViewController</code> 来管理不同的屏幕或功能模块。例如，一个电商应用可能有商品列表视图控制器、商品详情视图控制器、购物车视图控制器等。通过导航控制器或标签栏控制器来管理这些视图控制器之间的切换。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs objc"><span class="hljs-comment">// 创建导航控制器</span><br><span class="hljs-built_in">UINavigationController</span> *navigationController = [[<span class="hljs-built_in">UINavigationController</span> alloc] initWithRootViewController:rootViewController];<br><br><span class="hljs-comment">// 压入新的视图控制器</span><br>DetailViewController *detailViewController = [[DetailViewController alloc] init];<br>[navigationController pushViewController:detailViewController animated:<span class="hljs-literal">YES</span>];<br></code></pre></td></tr></table></figure>
-
-<h4 id="模态视图展示"><a href="#模态视图展示" class="headerlink" title="模态视图展示"></a>模态视图展示</h4><p>除了使用导航控制器进行视图切换，还可以使用模态视图的方式展示新的视图控制器。模态视图会覆盖当前视图，通常用于展示临时的信息或进行一些独立的操作。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs objc">SecondViewController *secondViewController = [[SecondViewController alloc] init];<br>[<span class="hljs-keyword">self</span> presentViewController:secondViewController animated:<span class="hljs-literal">YES</span> completion:<span class="hljs-literal">nil</span>];<br></code></pre></td></tr></table></figure>
-
-<h4 id="数据传递"><a href="#数据传递" class="headerlink" title="数据传递"></a>数据传递</h4><p>在不同的 <code>UIViewController</code> 之间传递数据也是常见的需求。可以通过属性赋值、代理模式、通知中心等方式实现数据的传递。例如，在从商品列表视图控制器跳转到商品详情视图控制器时，需要将商品的详细信息传递过去，可以通过在商品详情视图控制器中定义属性来接收数据：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs objc"><span class="hljs-comment">// 在商品详情视图控制器中定义属性</span><br><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">DetailViewController</span> : <span class="hljs-title">UIViewController</span></span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">strong</span>) Product *product;<br><span class="hljs-keyword">@end</span><br><br><span class="hljs-comment">// 在商品列表视图控制器中传递数据</span><br>DetailViewController *detailViewController = [[DetailViewController alloc] init];<br>detailViewController.product = selectedProduct;<br>[<span class="hljs-keyword">self</span>.navigationController pushViewController:detailViewController animated:<span class="hljs-literal">YES</span>];<br></code></pre></td></tr></table></figure>
-
-
-
-
-
+<h3 id="对于foundation框架的学习">对于Foundation框架的学习</h3>
+<figure>
+<img src="https://s2.loli.net/2025/02/11/raBDhswSfJd3Ayq.png" srcset="/img/loading.gif" lazyload
+alt="20250211093831" />
+<figcaption aria-hidden="true">20250211093831</figcaption>
+</figure>
+<h3 id="装箱和拆箱">装箱和拆箱</h3>
+<figure>
+<img src="https://s2.loli.net/2025/02/11/75pfWHPlYdC1LZV.png" srcset="/img/loading.gif" lazyload
+alt="20250211093910" />
+<figcaption aria-hidden="true">20250211093910</figcaption>
+</figure>
+<h2
+id="对于uiviewcontroller的学习理解和应用">对于UIViewController的学习理解和应用</h2>
+<p><code>UIViewController</code> 是 iOS 开发中非常核心且基础的类，在构建
+iOS
+应用界面和管理界面逻辑方面发挥着关键作用。以下将从学习理解和实际应用两个维度进行详细阐述：</p>
+<h3 id="学习理解">学习理解</h3>
+<h4 id="概念与作用">概念与作用</h4>
+<p><code>UIViewController</code>
+是视图控制器，它负责管理应用程序的一个或多个视图（<code>UIView</code>），起到了视图和数据之间的桥梁作用。一个视图控制器通常对应应用程序中的一个屏幕或一个特定的功能模块，负责处理用户与视图的交互、管理视图的生命周期、响应用户事件等。</p>
+<h4 id="生命周期">生命周期</h4>
+<p>理解 <code>UIViewController</code>
+的生命周期是掌握其使用的关键，它的生命周期包含多个重要的方法，这些方法在不同阶段被系统自动调用：
+1. <strong>实例化</strong>： -
+<code>initWithNibName:bundle:</code>：当使用 XIB
+文件来设计视图时，会调用这个方法来初始化视图控制器。 -
+<code>init</code>：默认的初始化方法，若不使用 XIB
+文件，一般会使用这个方法进行初始化。 2. <strong>视图加载</strong>： -
+<code>loadView</code>：负责创建视图控制器的根视图，若不手动重写该方法，系统会根据情况从
+XIB 文件或 Storyboard 加载视图。 -
+<code>viewDidLoad</code>：视图加载完成后调用，通常在此方法中进行视图的初始化设置、数据加载等操作。
+3. <strong>视图即将显示与显示完成</strong>： -
+<code>viewWillAppear:</code>：视图即将显示在屏幕上时调用，可以在此进行一些视图显示前的准备工作，如设置导航栏样式等。
+-
+<code>viewDidAppear:</code>：视图已经完全显示在屏幕上时调用，可用于启动一些需要在视图显示后执行的操作，如开始动画等。
+4. <strong>视图即将消失与消失完成</strong>： -
+<code>viewWillDisappear:</code>：视图即将从屏幕上消失时调用，可用于保存数据、停止动画等操作。
+- <code>viewDidDisappear:</code>：视图已经完全从屏幕上消失时调用。 5.
+<strong>内存警告处理</strong>： -
+<code>didReceiveMemoryWarning</code>：当系统内存不足时调用，需要在此方法中释放一些不必要的资源。</p>
+<h4 id="视图管理">视图管理</h4>
+<p><code>UIViewController</code> 可以管理一个或多个视图，通过
+<code>view</code> 属性可以访问其根视图。可以在 <code>viewDidLoad</code>
+方法中添加子视图到根视图上，例如： <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs objc">- (<span class="hljs-type">void</span>)viewDidLoad &#123;<br>    [<span class="hljs-variable language_">super</span> viewDidLoad];<br>    <span class="hljs-built_in">UILabel</span> *label = [[<span class="hljs-built_in">UILabel</span> alloc] initWithFrame:<span class="hljs-built_in">CGRectMake</span>(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">200</span>, <span class="hljs-number">50</span>)];<br>    label.text = <span class="hljs-string">@&quot;Hello, World!&quot;</span>;<br>    [<span class="hljs-keyword">self</span>.view addSubview:label];<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<h4 id="导航与转场">导航与转场</h4>
+<p>在 iOS 应用中，<code>UIViewController</code>
+之间的导航和转场是常见的操作。可以使用
+<code>UINavigationController</code> 进行导航管理，通过
+<code>pushViewController:animated:</code>
+方法将一个视图控制器压入导航栈，使用
+<code>popViewControllerAnimated:</code>
+方法将当前视图控制器从导航栈中弹出。</p>
+<h3 id="实际应用">实际应用</h3>
+<h4 id="单视图应用">单视图应用</h4>
+<p>在简单的单视图应用中，一个 <code>UIViewController</code>
+可以管理整个屏幕的视图和逻辑。例如，创建一个显示静态文本信息的应用，只需要在
+<code>UIViewController</code> 的 <code>viewDidLoad</code> 方法中添加一个
+<code>UILabel</code> 并设置文本内容即可。</p>
+<h4 id="多视图应用">多视图应用</h4>
+<p>在复杂的多视图应用中，会使用多个 <code>UIViewController</code>
+来管理不同的屏幕或功能模块。例如，一个电商应用可能有商品列表视图控制器、商品详情视图控制器、购物车视图控制器等。通过导航控制器或标签栏控制器来管理这些视图控制器之间的切换。
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs objc"><span class="hljs-comment">// 创建导航控制器</span><br><span class="hljs-built_in">UINavigationController</span> *navigationController = [[<span class="hljs-built_in">UINavigationController</span> alloc] initWithRootViewController:rootViewController];<br><br><span class="hljs-comment">// 压入新的视图控制器</span><br>DetailViewController *detailViewController = [[DetailViewController alloc] init];<br>[navigationController pushViewController:detailViewController animated:<span class="hljs-literal">YES</span>];<br></code></pre></td></tr></table></figure></p>
+<h4 id="模态视图展示">模态视图展示</h4>
+<p>除了使用导航控制器进行视图切换，还可以使用模态视图的方式展示新的视图控制器。模态视图会覆盖当前视图，通常用于展示临时的信息或进行一些独立的操作。
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs objc">SecondViewController *secondViewController = [[SecondViewController alloc] init];<br>[<span class="hljs-keyword">self</span> presentViewController:secondViewController animated:<span class="hljs-literal">YES</span> completion:<span class="hljs-literal">nil</span>];<br></code></pre></td></tr></table></figure></p>
+<h4 id="数据传递">数据传递</h4>
+<p>在不同的 <code>UIViewController</code>
+之间传递数据也是常见的需求。可以通过属性赋值、代理模式、通知中心等方式实现数据的传递。例如，在从商品列表视图控制器跳转到商品详情视图控制器时，需要将商品的详细信息传递过去，可以通过在商品详情视图控制器中定义属性来接收数据：
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs objc"><span class="hljs-comment">// 在商品详情视图控制器中定义属性</span><br><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">DetailViewController</span> : <span class="hljs-title">UIViewController</span></span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">strong</span>) Product *product;<br><span class="hljs-keyword">@end</span><br><br><span class="hljs-comment">// 在商品列表视图控制器中传递数据</span><br>DetailViewController *detailViewController = [[DetailViewController alloc] init];<br>detailViewController.product = selectedProduct;<br>[<span class="hljs-keyword">self</span>.navigationController pushViewController:detailViewController animated:<span class="hljs-literal">YES</span>];<br></code></pre></td></tr></table></figure></p>
 
                 
               </div>
@@ -1713,6 +1804,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1930,6 +2027,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

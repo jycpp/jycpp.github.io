@@ -27,7 +27,7 @@
 <meta property="og:description" content="Open WebUI开发过程中，掌握一些高级接口参数，可以帮助我们提升大模型调用性能和能力。本文主要总结以下知识点：  “model_status_cache”可以设置缓存时间，以提高首次对话时候模型的加载速度。 消息包中messages 中通过 parentId 和 childrens id 来实现连续对话。 AI对话过程中，通过 call function 来调用各种工具，例如查询天气等。 通">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-09T14:35:22.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.107Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.667Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Open WebUI">
 <meta property="article:tag" content="大模型">
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.3k 字
+          3.2k 字
         
       </span>
     
@@ -317,7 +317,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1046,7 +1046,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1064,6 +1064,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1366,120 +1375,144 @@ true
             
               <div class="markdown-body">
                 
-                <p>Open WebUI开发过程中，掌握一些高级接口参数，可以帮助我们提升大模型调用性能和能力。本文主要总结以下知识点：</p>
-<ol>
+                <p>Open
+WebUI开发过程中，掌握一些高级接口参数，可以帮助我们提升大模型调用性能和能力。本文主要总结以下知识点：</p>
+<ol type="1">
 <li>“model_status_cache”可以设置缓存时间，以提高首次对话时候模型的加载速度。</li>
-<li>消息包中messages 中通过 parentId 和 childrens id 来实现连续对话。</li>
-<li>AI对话过程中，通过 call function 来调用各种工具，例如查询天气等。</li>
-<li>通过 model input 参数的 system 属性来设置系统级的提示词，相当于设置一个智能体的角色。</li>
+<li>消息包中messages 中通过 parentId 和 childrens id
+来实现连续对话。</li>
+<li>AI对话过程中，通过 call function
+来调用各种工具，例如查询天气等。</li>
+<li>通过 model input 参数的 system
+属性来设置系统级的提示词，相当于设置一个智能体的角色。</li>
 </ol>
-<h2 id="1-高级应用开发要点"><a href="#1-高级应用开发要点" class="headerlink" title="1 高级应用开发要点"></a>1 高级应用开发要点</h2><h3 id="1-1-模型加载与性能优化：缓存机制的应用"><a href="#1-1-模型加载与性能优化：缓存机制的应用" class="headerlink" title="1.1 模型加载与性能优化：缓存机制的应用"></a>1.1 模型加载与性能优化：缓存机制的应用</h3><ol>
-<li><p><strong>模型状态缓存（<code>model_status_cache</code>）</strong><br>为提升模型列表加载速度，Open WebUI支持通过配置<code>model_status_cache</code>减少对底层模型服务（如Ollama）的频繁查询。例如，在<code>config.json</code>中设置缓存有效期（如<code>ttl: 300</code>，即5分钟），可避免重复检查模型状态（如是否运行、元数据是否完整），尤其适用于本地部署的大模型（如70B级量化模型），显著降低首次对话的等待时间。</p>
-</li>
+<h2 id="高级应用开发要点">1 高级应用开发要点</h2>
+<h3 id="模型加载与性能优化缓存机制的应用">1.1
+模型加载与性能优化：缓存机制的应用</h3>
+<ol type="1">
+<li><p><strong>模型状态缓存（<code>model_status_cache</code>）</strong>
+为提升模型列表加载速度，Open
+WebUI支持通过配置<code>model_status_cache</code>减少对底层模型服务（如Ollama）的频繁查询。例如，在<code>config.json</code>中设置缓存有效期（如<code>ttl: 300</code>，即5分钟），可避免重复检查模型状态（如是否运行、元数据是否完整），尤其适用于本地部署的大模型（如70B级量化模型），显著降低首次对话的等待时间。</p></li>
 <li><p><strong>数据库与Redis优化</strong></p>
 <ul>
 <li>模型列表、用户权限等高频查询数据可缓存至Redis，通过<code>redis</code>配置项（如<code>host: localhost</code>、<code>port: 6379</code>）实现，减少数据库压力。</li>
 <li>数据库需合理设计索引（如<code>models</code>表的<code>owner_id</code>、<code>status</code>字段），避免全表扫描，优化多表关联查询（如用户-角色-模型权限的联动校验）。</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h3 id="1-2-连续会话的实现：对话链与上下文维护"><a href="#1-2-连续会话的实现：对话链与上下文维护" class="headerlink" title="1.2 连续会话的实现：对话链与上下文维护"></a>1.2 连续会话的实现：对话链与上下文维护</h3><ol>
-<li><p><strong><code>messages</code>数组与双向链表结构</strong><br>连续会话依赖<code>messages</code>数组中的<code>id</code>、<code>parentId</code>和<code>childrenIds</code>字段构建对话链：</p>
+<h3 id="连续会话的实现对话链与上下文维护">1.2
+连续会话的实现：对话链与上下文维护</h3>
+<ol type="1">
+<li><strong><code>messages</code>数组与双向链表结构</strong>
+连续会话依赖<code>messages</code>数组中的<code>id</code>、<code>parentId</code>和<code>childrenIds</code>字段构建对话链：
 <ul>
 <li><code>parentId</code>指向当前消息的前一条消息ID，<code>childrenIds</code>存储后续消息ID，形成类似双向链表的结构，确保上下文连贯性。</li>
 <li>每次请求需携带完整历史消息（包含<code>user</code>和<code>assistant</code>角色的内容），模型基于全量上下文生成响应，避免服务端无状态导致的上下文丢失。</li>
-</ul>
-</li>
-<li><p><strong>流式响应与Token管理</strong><br>通过<code>stream: true</code>参数启用流式响应，逐行接收模型输出（格式为<code>data: &#123;&quot;content&quot;: &quot;部分内容&quot;&#125;</code>），提升交互实时性。同时需注意<code>max_tokens</code>参数控制单次响应长度，避免超过模型上下文限制（如GPT-4 Turbo的128k Token）。</p>
-</li>
+</ul></li>
+<li><strong>流式响应与Token管理</strong>
+通过<code>stream: true</code>参数启用流式响应，逐行接收模型输出（格式为<code>data: &#123;"content": "部分内容"&#125;</code>），提升交互实时性。同时需注意<code>max_tokens</code>参数控制单次响应长度，避免超过模型上下文限制（如GPT-4
+Turbo的128k Token）。</li>
 </ol>
-<h3 id="1-3-工具调用与自定义函数：扩展模型能力边界"><a href="#1-3-工具调用与自定义函数：扩展模型能力边界" class="headerlink" title="1.3 工具调用与自定义函数：扩展模型能力边界"></a>1.3 工具调用与自定义函数：扩展模型能力边界</h3><ol>
-<li><p><strong>函数调用的核心流程</strong><br>模型可通过<code>function call</code>机制调用外部工具（如天气查询、数据库操作），需通过以下步骤实现：</p>
+<h3 id="工具调用与自定义函数扩展模型能力边界">1.3
+工具调用与自定义函数：扩展模型能力边界</h3>
+<ol type="1">
+<li><strong>函数调用的核心流程</strong>
+模型可通过<code>function call</code>机制调用外部工具（如天气查询、数据库操作），需通过以下步骤实现：
 <ul>
-<li><strong>定义函数</strong>：按OpenAPI 3.0规范编写JSON&#x2F;YAML文档，描述函数名称（如<code>get_weather</code>）、参数（如<code>city</code>）、返回值（如温度、天气状况）及后端服务地址（<code>servers.url</code>）。</li>
-<li><strong>注册函数</strong>：在Open WebUI的<code>Admin Panel → Tools → Functions</code>中导入函数文档，配置触发条件（如关键词“天气”）和权限（如允许特定用户组调用）。</li>
-<li><strong>执行与反馈</strong>：用户提问触发模型生成函数调用指令（如<code>&#123;&quot;function&quot;: &quot;get_weather&quot;, &quot;parameters&quot;: &#123;&quot;city&quot;: &quot;上海&quot;&#125;&#125;</code>），后端解析并调用对应服务，将结果返回模型后整理为自然语言回答。</li>
-</ul>
-</li>
-<li><p><strong>典型应用场景</strong></p>
+<li><strong>定义函数</strong>：按OpenAPI
+3.0规范编写JSON/YAML文档，描述函数名称（如<code>get_weather</code>）、参数（如<code>city</code>）、返回值（如温度、天气状况）及后端服务地址（<code>servers.url</code>）。</li>
+<li><strong>注册函数</strong>：在Open
+WebUI的<code>Admin Panel → Tools → Functions</code>中导入函数文档，配置触发条件（如关键词“天气”）和权限（如允许特定用户组调用）。</li>
+<li><strong>执行与反馈</strong>：用户提问触发模型生成函数调用指令（如<code>&#123;"function": "get_weather", "parameters": &#123;"city": "上海"&#125;&#125;</code>），后端解析并调用对应服务，将结果返回模型后整理为自然语言回答。</li>
+</ul></li>
+<li><strong>典型应用场景</strong>
 <ul>
 <li>动态获取实时数据（如股票行情、新闻）；</li>
 <li>集成企业内部系统（如CRM查询、订单处理）；</li>
 <li>通过工具函数实现“固定提示词预设”（如<code>set_fixed_prompt</code>函数存储系统提示，后续对话自动注入）。</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h3 id="1-4-系统提示词与智能体：定义模型的“身份与规则”"><a href="#1-4-系统提示词与智能体：定义模型的“身份与规则”" class="headerlink" title="1.4 系统提示词与智能体：定义模型的“身份与规则”"></a>1.4 系统提示词与智能体：定义模型的“身份与规则”</h3><ol>
-<li><p><strong><code>system</code>属性的作用</strong><br><code>model input</code>中的<code>system</code>属性用于设置系统级提示词，定义模型的角色、行为规则（如“用简洁中文回答”“避免专业术语”），是区分不同“智能体”的核心标志之一。例如：</p>
+<h3 id="系统提示词与智能体定义模型的身份与规则">1.4
+系统提示词与智能体：定义模型的“身份与规则”</h3>
+<ol type="1">
+<li><strong><code>system</code>属性的作用</strong>
+<code>model input</code>中的<code>system</code>属性用于设置系统级提示词，定义模型的角色、行为规则（如“用简洁中文回答”“避免专业术语”），是区分不同“智能体”的核心标志之一。例如：
 <ul>
 <li>若<code>system</code>设为“你是数学教师，需详细推导解题步骤”，模型会以“数学教师”身份响应；</li>
 <li>若<code>system</code>设为“你是电商客服，优先解决订单问题”，模型则表现为“客服智能体”。</li>
-</ul>
-</li>
-<li><p><strong>与智能体（Agents）的关联与差异</strong></p>
+</ul></li>
+<li><strong>与智能体（Agents）的关联与差异</strong>
 <ul>
 <li><strong>关联</strong>：<code>system</code>提示词是智能体的“基础身份定义”，决定其核心行为逻辑。</li>
 <li><strong>差异</strong>：完整的智能体（如Coze平台的Agents）还包含工具集、记忆机制、工作流规则等（如“先调用工具获取数据，再生成报告”），而<code>system</code>仅为其中的角色配置部分。</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h3 id="1-5-API接口与权限管理：安全与可控的访问"><a href="#1-5-API接口与权限管理：安全与可控的访问" class="headerlink" title="1.5 API接口与权限管理：安全与可控的访问"></a>1.5 API接口与权限管理：安全与可控的访问</h3><ol>
-<li><p><strong>核心API端点</strong></p>
+<h3 id="api接口与权限管理安全与可控的访问">1.5
+API接口与权限管理：安全与可控的访问</h3>
+<ol type="1">
+<li><strong>核心API端点</strong>
 <ul>
 <li>聊天补全：<code>POST /api/chat/completions</code>（兼容OpenAI格式，支持流式响应和RAG）；</li>
 <li>模型管理：<code>GET /api/models</code>（获取模型列表）、<code>POST /api/models/pull</code>（拉取新模型）；</li>
 <li>知识库操作：<code>POST /api/documents</code>（上传文档）、<code>POST /api/reindex</code>（重新生成索引）。</li>
-</ul>
-</li>
-<li><p><strong>认证与权限控制</strong></p>
+</ul></li>
+<li><strong>认证与权限控制</strong>
 <ul>
 <li>通过<code>Authorization: Bearer YOUR_API_KEY</code>进行身份验证，API密钥在<code>设置 → 账户</code>中生成；</li>
-<li>管理员可在<code>Admin Panel → Users &amp; Permissions</code>中为用户&#x2F;角色分配权限（如允许访问的模型、工具调用权限），确保操作可控。</li>
-</ul>
-</li>
+<li>管理员可在<code>Admin Panel → Users &amp; Permissions</code>中为用户/角色分配权限（如允许访问的模型、工具调用权限），确保操作可控。</li>
+</ul></li>
 </ol>
-<h3 id="1-6-总结"><a href="#1-6-总结" class="headerlink" title="1.6 总结"></a>1.6 总结</h3><p>Open WebUI通过缓存优化提升性能，依赖对话链维护连续会话，借助函数调用扩展工具能力，通过<code>system</code>提示词定义智能体角色，同时提供完整的API接口与权限管理，兼顾灵活性与安全性。这些特性使其既能作为轻量对话工具，也能扩展为企业级智能体平台，适配从简单问答到复杂业务集成的多样化需求。</p>
-<h2 id="2-示例代码"><a href="#2-示例代码" class="headerlink" title="2 示例代码"></a>2 示例代码</h2><h3 id="2-1-连续对话的实现（基于messages数组与对话链）"><a href="#2-1-连续对话的实现（基于messages数组与对话链）" class="headerlink" title="2.1 连续对话的实现（基于messages数组与对话链）"></a>2.1 连续对话的实现（基于<code>messages</code>数组与对话链）</h3><p>连续对话需通过<code>id</code>、<code>parentId</code>和<code>childrenIds</code>维护上下文，每次请求携带完整历史消息。</p>
-<h4 id="2-1-1-首次对话（初始化对话链）"><a href="#2-1-1-首次对话（初始化对话链）" class="headerlink" title="2.1.1. 首次对话（初始化对话链）"></a>2.1.1. 首次对话（初始化对话链）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> uuid<br><br>API_URL = <span class="hljs-string">&quot;http://localhost:3000/api/chat/completions&quot;</span><br>API_KEY = <span class="hljs-string">&quot;your_openwebui_api_key&quot;</span>  <span class="hljs-comment"># 从Open WebUI的「设置→账户」获取</span><br><br><span class="hljs-comment"># 生成唯一消息ID（可使用uuid）</span><br>first_user_id = uuid.uuid4().<span class="hljs-built_in">hex</span><br><br><span class="hljs-comment"># 首次请求：发送用户消息，parentId为null</span><br>payload = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,  <span class="hljs-comment"># 目标模型</span><br>    <span class="hljs-string">&quot;messages&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;id&quot;</span>: first_user_id,<br>            <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,<br>            <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;什么是Open WebUI？&quot;</span>,<br>            <span class="hljs-string">&quot;parentId&quot;</span>: <span class="hljs-literal">None</span>,  <span class="hljs-comment"># 首次消息无父节点</span><br>            <span class="hljs-string">&quot;childrenIds&quot;</span>: []<br>        &#125;<br>    ],<br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span>  <span class="hljs-comment"># 非流式响应</span><br>&#125;<br><br>headers = &#123;<br>    <span class="hljs-string">&quot;Authorization&quot;</span>: <span class="hljs-string">f&quot;Bearer <span class="hljs-subst">&#123;API_KEY&#125;</span>&quot;</span>,<br>    <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span><br>&#125;<br><br><span class="hljs-comment"># 发送请求</span><br>response = requests.post(API_URL, json=payload, headers=headers)<br>first_resp = response.json()<br><br><span class="hljs-comment"># 提取助手响应（假设响应格式包含messages字段）</span><br>assistant_msg = first_resp[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;助手首次回复：<span class="hljs-subst">&#123;assistant_msg[<span class="hljs-string">&#x27;content&#x27;</span>]&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
-
-
-<h4 id="2-1-2-延续对话（携带历史上下文）"><a href="#2-1-2-延续对话（携带历史上下文）" class="headerlink" title="2.1.2. 延续对话（携带历史上下文）"></a>2.1.2. 延续对话（携带历史上下文）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 生成第二次用户消息ID</span><br>second_user_id = uuid.uuid4().<span class="hljs-built_in">hex</span><br><br><span class="hljs-comment"># 历史消息链：包含首次用户消息和助手响应</span><br>history_messages = [<br>    <span class="hljs-comment"># 首次用户消息</span><br>    &#123;<br>        <span class="hljs-string">&quot;id&quot;</span>: first_user_id,<br>        <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,<br>        <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;什么是Open WebUI？&quot;</span>,<br>        <span class="hljs-string">&quot;parentId&quot;</span>: <span class="hljs-literal">None</span>,<br>        <span class="hljs-string">&quot;childrenIds&quot;</span>: [assistant_msg[<span class="hljs-string">&quot;id&quot;</span>]]  <span class="hljs-comment"># 关联助手响应ID</span><br>    &#125;,<br>    <span class="hljs-comment"># 首次助手响应</span><br>    assistant_msg,<br>    <span class="hljs-comment"># 第二次用户消息（新消息）</span><br>    &#123;<br>        <span class="hljs-string">&quot;id&quot;</span>: second_user_id,<br>        <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,<br>        <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;它支持自定义函数吗？&quot;</span>,<br>        <span class="hljs-string">&quot;parentId&quot;</span>: assistant_msg[<span class="hljs-string">&quot;id&quot;</span>],  <span class="hljs-comment"># 父节点为上一条助手响应</span><br>        <span class="hljs-string">&quot;childrenIds&quot;</span>: []<br>    &#125;<br>]<br><br><span class="hljs-comment"># 第二次请求：携带完整历史</span><br>payload = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,<br>    <span class="hljs-string">&quot;messages&quot;</span>: history_messages,<br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span><br>&#125;<br><br>response = requests.post(API_URL, json=payload, headers=headers)<br>second_resp = response.json()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;助手二次回复：<span class="hljs-subst">&#123;second_resp[<span class="hljs-string">&#x27;messages&#x27;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;content&#x27;</span>]&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
-
-<p><strong>关键说明</strong>：  </p>
-<ul>
-<li>每次请求的<code>messages</code>必须包含完整历史（用户+助手消息），通过<code>parentId</code>和<code>childrenIds</code>关联；  </li>
-<li>实际开发中需用<code>uuid</code>生成唯一<code>id</code>，确保对话链不冲突。</li>
-</ul>
-<h3 id="2-2-工具与函数调用（以天气查询为例）"><a href="#2-2-工具与函数调用（以天气查询为例）" class="headerlink" title="2.2 工具与函数调用（以天气查询为例）"></a>2.2 工具与函数调用（以天气查询为例）</h3><p>需先在Open WebUI注册<code>get_weather</code>函数，再通过对话触发模型调用。</p>
-<p>注册的操作是通过浏览器访问Open WebUI的<code>Admin Panel → Tools &amp; Functions</code>，点击<code>Add Function</code>，填写函数名称、后端地址（天气服务API）、参数格式（JSON）。</p>
+<h3 id="总结">1.6 总结</h3>
+<p>Open
+WebUI通过缓存优化提升性能，依赖对话链维护连续会话，借助函数调用扩展工具能力，通过<code>system</code>提示词定义智能体角色，同时提供完整的API接口与权限管理，兼顾灵活性与安全性。这些特性使其既能作为轻量对话工具，也能扩展为企业级智能体平台，适配从简单问答到复杂业务集成的多样化需求。</p>
+<h2 id="示例代码">2 示例代码</h2>
+<h3 id="连续对话的实现基于messages数组与对话链">2.1
+连续对话的实现（基于<code>messages</code>数组与对话链）</h3>
+<p>连续对话需通过<code>id</code>、<code>parentId</code>和<code>childrenIds</code>维护上下文，每次请求携带完整历史消息。</p>
+<h4 id="首次对话初始化对话链">2.1.1. 首次对话（初始化对话链）</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> uuid<br><br>API_URL = <span class="hljs-string">&quot;http://localhost:3000/api/chat/completions&quot;</span><br>API_KEY = <span class="hljs-string">&quot;your_openwebui_api_key&quot;</span>  <span class="hljs-comment"># 从Open WebUI的「设置→账户」获取</span><br><br><span class="hljs-comment"># 生成唯一消息ID（可使用uuid）</span><br>first_user_id = uuid.uuid4().<span class="hljs-built_in">hex</span><br><br><span class="hljs-comment"># 首次请求：发送用户消息，parentId为null</span><br>payload = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,  <span class="hljs-comment"># 目标模型</span><br>    <span class="hljs-string">&quot;messages&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;id&quot;</span>: first_user_id,<br>            <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,<br>            <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;什么是Open WebUI？&quot;</span>,<br>            <span class="hljs-string">&quot;parentId&quot;</span>: <span class="hljs-literal">None</span>,  <span class="hljs-comment"># 首次消息无父节点</span><br>            <span class="hljs-string">&quot;childrenIds&quot;</span>: []<br>        &#125;<br>    ],<br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span>  <span class="hljs-comment"># 非流式响应</span><br>&#125;<br><br>headers = &#123;<br>    <span class="hljs-string">&quot;Authorization&quot;</span>: <span class="hljs-string">f&quot;Bearer <span class="hljs-subst">&#123;API_KEY&#125;</span>&quot;</span>,<br>    <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span><br>&#125;<br><br><span class="hljs-comment"># 发送请求</span><br>response = requests.post(API_URL, json=payload, headers=headers)<br>first_resp = response.json()<br><br><span class="hljs-comment"># 提取助手响应（假设响应格式包含messages字段）</span><br>assistant_msg = first_resp[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;助手首次回复：<span class="hljs-subst">&#123;assistant_msg[<span class="hljs-string">&#x27;content&#x27;</span>]&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+<h4 id="延续对话携带历史上下文">2.1.2. 延续对话（携带历史上下文）</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 生成第二次用户消息ID</span><br>second_user_id = uuid.uuid4().<span class="hljs-built_in">hex</span><br><br><span class="hljs-comment"># 历史消息链：包含首次用户消息和助手响应</span><br>history_messages = [<br>    <span class="hljs-comment"># 首次用户消息</span><br>    &#123;<br>        <span class="hljs-string">&quot;id&quot;</span>: first_user_id,<br>        <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,<br>        <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;什么是Open WebUI？&quot;</span>,<br>        <span class="hljs-string">&quot;parentId&quot;</span>: <span class="hljs-literal">None</span>,<br>        <span class="hljs-string">&quot;childrenIds&quot;</span>: [assistant_msg[<span class="hljs-string">&quot;id&quot;</span>]]  <span class="hljs-comment"># 关联助手响应ID</span><br>    &#125;,<br>    <span class="hljs-comment"># 首次助手响应</span><br>    assistant_msg,<br>    <span class="hljs-comment"># 第二次用户消息（新消息）</span><br>    &#123;<br>        <span class="hljs-string">&quot;id&quot;</span>: second_user_id,<br>        <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,<br>        <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;它支持自定义函数吗？&quot;</span>,<br>        <span class="hljs-string">&quot;parentId&quot;</span>: assistant_msg[<span class="hljs-string">&quot;id&quot;</span>],  <span class="hljs-comment"># 父节点为上一条助手响应</span><br>        <span class="hljs-string">&quot;childrenIds&quot;</span>: []<br>    &#125;<br>]<br><br><span class="hljs-comment"># 第二次请求：携带完整历史</span><br>payload = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,<br>    <span class="hljs-string">&quot;messages&quot;</span>: history_messages,<br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span><br>&#125;<br><br>response = requests.post(API_URL, json=payload, headers=headers)<br>second_resp = response.json()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;助手二次回复：<span class="hljs-subst">&#123;second_resp[<span class="hljs-string">&#x27;messages&#x27;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;content&#x27;</span>]&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>关键说明</strong>：<br />
+-
+每次请求的<code>messages</code>必须包含完整历史（用户+助手消息），通过<code>parentId</code>和<code>childrenIds</code>关联；<br />
+-
+实际开发中需用<code>uuid</code>生成唯一<code>id</code>，确保对话链不冲突。</p>
+<h3 id="工具与函数调用以天气查询为例">2.2
+工具与函数调用（以天气查询为例）</h3>
+<p>需先在Open
+WebUI注册<code>get_weather</code>函数，再通过对话触发模型调用。</p>
+<p>注册的操作是通过浏览器访问Open
+WebUI的<code>Admin Panel → Tools &amp; Functions</code>，点击<code>Add Function</code>，填写函数名称、后端地址（天气服务API）、参数格式（JSON）。</p>
 <p>在不同的WebUI的版本中，以上菜单可能会有区别。</p>
-<h4 id="2-2-1-注册函数的OpenAPI文档（weather-api-json）"><a href="#2-2-1-注册函数的OpenAPI文档（weather-api-json）" class="headerlink" title="2.2.1 注册函数的OpenAPI文档（weather_api.json）"></a>2.2.1 注册函数的OpenAPI文档（<code>weather_api.json</code>）</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;openapi&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;3.0.0&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;info&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;天气查询API&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1.0.0&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;paths&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;/get_weather&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;post&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;operationId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;get_weather&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;查询城市实时天气&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;requestBody&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>          <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;application/json&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>              <span class="hljs-attr">&quot;schema&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span><br>                <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                  <span class="hljs-attr">&quot;city&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                    <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span><br>                    <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;城市名称（如北京、上海）&quot;</span><br>                  <span class="hljs-punctuation">&#125;</span><br>                <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>                <span class="hljs-attr">&quot;required&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;city&quot;</span><span class="hljs-punctuation">]</span><br>              <span class="hljs-punctuation">&#125;</span><br>            <span class="hljs-punctuation">&#125;</span><br>          <span class="hljs-punctuation">&#125;</span><br>        <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;responses&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>          <span class="hljs-attr">&quot;200&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;天气信息&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>              <span class="hljs-attr">&quot;application/json&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                <span class="hljs-attr">&quot;schema&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                  <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span><br>                  <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                    <span class="hljs-attr">&quot;temperature&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;number&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>                    <span class="hljs-attr">&quot;condition&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">&#125;</span><br>                  <span class="hljs-punctuation">&#125;</span><br>                <span class="hljs-punctuation">&#125;</span><br>              <span class="hljs-punctuation">&#125;</span><br>            <span class="hljs-punctuation">&#125;</span><br>          <span class="hljs-punctuation">&#125;</span><br>        <span class="hljs-punctuation">&#125;</span><br>      <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;servers&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;url&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;http://localhost:5000&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">]</span>  # 天气服务后端地址<br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
-
+<h4 id="注册函数的openapi文档weather_api.json">2.2.1
+注册函数的OpenAPI文档（<code>weather_api.json</code>）</h4>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;openapi&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;3.0.0&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;info&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;天气查询API&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1.0.0&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;paths&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;/get_weather&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;post&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;operationId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;get_weather&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;查询城市实时天气&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;requestBody&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>          <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;application/json&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>              <span class="hljs-attr">&quot;schema&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span><br>                <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                  <span class="hljs-attr">&quot;city&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                    <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span><br>                    <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;城市名称（如北京、上海）&quot;</span><br>                  <span class="hljs-punctuation">&#125;</span><br>                <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>                <span class="hljs-attr">&quot;required&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;city&quot;</span><span class="hljs-punctuation">]</span><br>              <span class="hljs-punctuation">&#125;</span><br>            <span class="hljs-punctuation">&#125;</span><br>          <span class="hljs-punctuation">&#125;</span><br>        <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;responses&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>          <span class="hljs-attr">&quot;200&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;天气信息&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>              <span class="hljs-attr">&quot;application/json&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                <span class="hljs-attr">&quot;schema&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                  <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span><br>                  <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                    <span class="hljs-attr">&quot;temperature&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;number&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>                    <span class="hljs-attr">&quot;condition&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">&#125;</span><br>                  <span class="hljs-punctuation">&#125;</span><br>                <span class="hljs-punctuation">&#125;</span><br>              <span class="hljs-punctuation">&#125;</span><br>            <span class="hljs-punctuation">&#125;</span><br>          <span class="hljs-punctuation">&#125;</span><br>        <span class="hljs-punctuation">&#125;</span><br>      <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;servers&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;url&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;http://localhost:5000&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">]</span>  # 天气服务后端地址<br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 <p>以上代码中，<code>/get_weather</code>路径下的<code>post</code>方法定义了天气查询的接口，接收<code>city</code>参数，返回<code>temperature</code>和<code>condition</code>。实际的请求会被转发到天气服务后端（如<code>http://localhost:5000/get_weather</code>）。</p>
-<h4 id="2-2-2-模型调用函数的对话示例"><a href="#2-2-2-模型调用函数的对话示例" class="headerlink" title="2.2.2 模型调用函数的对话示例"></a>2.2.2 模型调用函数的对话示例</h4><p>天气后端的具体代码实现的示例，我们用Python Flask框架编写一个简单的天气服务后端。</p>
+<h4 id="模型调用函数的对话示例">2.2.2 模型调用函数的对话示例</h4>
+<p>天气后端的具体代码实现的示例，我们用Python
+Flask框架编写一个简单的天气服务后端。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 用户提问：&quot;查询上海的天气&quot;</span><br>user_msg_id = uuid.uuid4().<span class="hljs-built_in">hex</span><br>payload = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,  <span class="hljs-comment"># 需支持函数调用的模型</span><br>    <span class="hljs-string">&quot;messages&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;id&quot;</span>: user_msg_id,<br>            <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,<br>            <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;查询上海的天气&quot;</span>,<br>            <span class="hljs-string">&quot;parentId&quot;</span>: <span class="hljs-literal">None</span>,<br>            <span class="hljs-string">&quot;childrenIds&quot;</span>: []<br>        &#125;<br>    ],<br>    <span class="hljs-string">&quot;functions&quot;</span>: [  <span class="hljs-comment"># 显式传入已注册的函数（部分版本需手动指定）</span><br>        &#123;<br>            <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;get_weather&quot;</span>,<br>            <span class="hljs-string">&quot;parameters&quot;</span>: &#123;<span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;上海&quot;</span>&#125;<br>        &#125;<br>    ],<br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span><br>&#125;<br><br>response = requests.post(API_URL, json=payload, headers=headers)<br>function_call = response.json()<br><br><span class="hljs-comment"># 假设模型返回函数调用指令</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型生成的函数调用：&quot;</span>, function_call[<span class="hljs-string">&quot;function_call&quot;</span>])<br><span class="hljs-comment"># 输出示例：&#123;&quot;name&quot;: &quot;get_weather&quot;, &quot;parameters&quot;: &#123;&quot;city&quot;: &quot;上海&quot;&#125;&#125;</span><br><br><br><span class="hljs-comment"># 后端执行函数（调用天气服务）</span><br><span class="hljs-keyword">import</span> json<br>weather_backend_url = <span class="hljs-string">&quot;http://localhost:5000/get_weather&quot;</span><br>weather_response = requests.post(<br>    weather_backend_url,<br>    json=&#123;<span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;上海&quot;</span>&#125;<br>)<br>weather_data = weather_response.json()  <span class="hljs-comment"># 假设返回：&#123;&quot;temperature&quot;: 25, &quot;condition&quot;: &quot;晴&quot;&#125;</span><br><br><br><span class="hljs-comment"># 将函数结果返回给模型，生成自然语言回答</span><br>final_payload = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,<br>    <span class="hljs-string">&quot;messages&quot;</span>: [<br>        <span class="hljs-comment"># 历史用户消息</span><br>        &#123;<br>            <span class="hljs-string">&quot;id&quot;</span>: user_msg_id,<br>            <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,<br>            <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;查询上海的天气&quot;</span>,<br>            <span class="hljs-string">&quot;parentId&quot;</span>: <span class="hljs-literal">None</span>,<br>            <span class="hljs-string">&quot;childrenIds&quot;</span>: [function_call[<span class="hljs-string">&quot;id&quot;</span>]]<br>        &#125;,<br>        <span class="hljs-comment"># 函数调用结果（作为工具返回）</span><br>        &#123;<br>            <span class="hljs-string">&quot;id&quot;</span>: function_call[<span class="hljs-string">&quot;id&quot;</span>],<br>            <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;function&quot;</span>,<br>            <span class="hljs-string">&quot;content&quot;</span>: json.dumps(weather_data),<br>            <span class="hljs-string">&quot;parentId&quot;</span>: user_msg_id,<br>            <span class="hljs-string">&quot;childrenIds&quot;</span>: []<br>        &#125;<br>    ],<br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span><br>&#125;<br><br>final_response = requests.post(API_URL, json=final_payload, headers=headers)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;最终回答：&quot;</span>, final_response.json()[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;content&quot;</span>])<br><span class="hljs-comment"># 输出示例：&quot;上海当前天气为晴，气温25℃。&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>关键说明</strong>：  </p>
-<ul>
-<li>模型通过分析用户输入生成<code>function_call</code>指令；  </li>
-<li>后端需解析指令并调用实际服务，再将结果返回模型生成自然语言。</li>
-</ul>
-<h3 id="2-3-system参数的使用（定义智能体角色）"><a href="#2-3-system参数的使用（定义智能体角色）" class="headerlink" title="2.3 system参数的使用（定义智能体角色）"></a>2.3 <code>system</code>参数的使用（定义智能体角色）</h3><p><code>system</code>参数用于设置全局规则，定义模型的“身份”和行为方式。</p>
+<p><strong>关键说明</strong>：<br />
+- 模型通过分析用户输入生成<code>function_call</code>指令；<br />
+- 后端需解析指令并调用实际服务，再将结果返回模型生成自然语言。</p>
+<h3 id="system参数的使用定义智能体角色">2.3
+<code>system</code>参数的使用（定义智能体角色）</h3>
+<p><code>system</code>参数用于设置全局规则，定义模型的“身份”和行为方式。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 示例1：设置&quot;简洁回答&quot;智能体</span><br>payload_simple = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,<br>    <span class="hljs-string">&quot;system&quot;</span>: <span class="hljs-string">&quot;你是一个简洁回答助手，用不超过20字回应用户。&quot;</span>,  <span class="hljs-comment"># system提示词</span><br>    <span class="hljs-string">&quot;messages&quot;</span>: [&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;什么是Open WebUI？&quot;</span>&#125;],<br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span><br>&#125;<br>response_simple = requests.post(API_URL, json=payload_simple, headers=headers)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;简洁回答：&quot;</span>, response_simple.json()[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;content&quot;</span>])<br><span class="hljs-comment"># 输出示例：&quot;Open WebUI是开源的大模型交互平台。&quot;</span><br><br><br><span class="hljs-comment"># 示例2：设置&quot;详细解释&quot;智能体</span><br>payload_detail = &#123;<br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;llama-3.2&quot;</span>,<br>    <span class="hljs-string">&quot;system&quot;</span>: <span class="hljs-string">&quot;你是技术顾问，需详细解释技术概念，包含核心功能。&quot;</span>,<br>    <span class="hljs-string">&quot;messages&quot;</span>: [&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;什么是Open WebUI？&quot;</span>&#125;],<br>    <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">False</span><br>&#125;<br>response_detail = requests.post(API_URL, json=payload_detail, headers=headers)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;详细回答：&quot;</span>, response_detail.json()[<span class="hljs-string">&quot;messages&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;content&quot;</span>])<br><span class="hljs-comment"># 输出示例：&quot;Open WebUI是一款开源的大模型交互平台，支持多模型集成（如Ollama、OpenAI）、对话历史管理、工具函数调用等功能，可通过API实现自动化交互...&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>关键说明</strong>：  </p>
-<ul>
-<li><code>system</code>参数优先级高于用户消息，直接影响模型的回答风格和深度；  </li>
-<li>结合工具函数时，<code>system</code>可定义调用工具的规则（如“优先调用天气API获取实时数据”）。</li>
-</ul>
-<h3 id="2-4-总结"><a href="#2-4-总结" class="headerlink" title="2.4 总结"></a>2.4 总结</h3><p>以上示例直观展示了：  </p>
-<ul>
-<li>连续对话通过<code>messages</code>数组的<code>id</code>关联维护上下文；  </li>
-<li>工具调用需通过OpenAPI定义函数，由模型生成调用指令并执行；  </li>
-<li><code>system</code>参数通过预设规则定义模型的“智能体角色”，控制回答风格。</li>
-</ul>
-<p>实际开发中需根据Open WebUI版本调整参数格式，并处理流式响应、错误重试等细节。</p>
+<p><strong>关键说明</strong>：<br />
+-
+<code>system</code>参数优先级高于用户消息，直接影响模型的回答风格和深度；<br />
+-
+结合工具函数时，<code>system</code>可定义调用工具的规则（如“优先调用天气API获取实时数据”）。</p>
+<h3 id="总结-1">2.4 总结</h3>
+<p>以上示例直观展示了：<br />
+-
+连续对话通过<code>messages</code>数组的<code>id</code>关联维护上下文；<br />
+- 工具调用需通过OpenAPI定义函数，由模型生成调用指令并执行；<br />
+-
+<code>system</code>参数通过预设规则定义模型的“智能体角色”，控制回答风格。</p>
+<p>实际开发中需根据Open
+WebUI版本调整参数格式，并处理流式响应、错误重试等细节。</p>
 
                 
               </div>
@@ -1668,6 +1701,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1885,6 +1924,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

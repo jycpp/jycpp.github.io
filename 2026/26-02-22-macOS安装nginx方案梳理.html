@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在 macOS 上搭建 Nginx，最推荐用 Homebrew + brew services 管理（一键启停+开机自启），搭配 Nginx UI 做网页控制面板；也可原生用 launchd 实现自启，或用官方命令直接控制。下面分方案给出完整操作。  一、方案总览（按推荐度） Homebrew + brew services（首选）：命令行极简管理、自动配置 launchd 开机自启、无额外依赖。">
+    <meta name="description" content="在 macOS 上搭建 Nginx，最推荐用 Homebrew + brew services 管理（一键启停+开机自启），搭配 Nginx UI 做网页控制面板；也可原生用 launchd 实现自启，或用官方命令直接控制。下面分方案给出完整操作。  一、方案总览（按推荐度）  Homebrew + brew services（首选）：命令行极简管理、自动配置 launchd 开机自启、无额外依赖">
 <meta property="og:type" content="article">
 <meta property="og:title" content="macOS安装nginx方案梳理">
 <meta property="og:url" content="https://jycpp.github.io/2026/26-02-22-macOS%E5%AE%89%E8%A3%85nginx%E6%96%B9%E6%A1%88%E6%A2%B3%E7%90%86.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="在 macOS 上搭建 Nginx，最推荐用 Homebrew + brew services 管理（一键启停+开机自启），搭配 Nginx UI 做网页控制面板；也可原生用 launchd 实现自启，或用官方命令直接控制。下面分方案给出完整操作。  一、方案总览（按推荐度） Homebrew + brew services（首选）：命令行极简管理、自动配置 launchd 开机自启、无额外依赖。">
+<meta property="og:description" content="在 macOS 上搭建 Nginx，最推荐用 Homebrew + brew services 管理（一键启停+开机自启），搭配 Nginx UI 做网页控制面板；也可原生用 launchd 实现自启，或用官方命令直接控制。下面分方案给出完整操作。  一、方案总览（按推荐度）  Homebrew + brew services（首选）：命令行极简管理、自动配置 launchd 开机自启、无额外依赖">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-02-22T11:30:45.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.108Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.669Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="配置管理">
 <meta property="article:tag" content="自动化部署">
@@ -317,7 +317,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1046,7 +1046,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1064,6 +1064,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1366,82 +1375,121 @@ true
             
               <div class="markdown-body">
                 
-                <p>在 macOS 上搭建 Nginx，<strong>最推荐用 Homebrew + brew services 管理</strong>（一键启停+开机自启），搭配 <strong>Nginx UI</strong> 做网页控制面板；也可原生用 <code>launchd</code> 实现自启，或用官方命令直接控制。下面分方案给出完整操作。</p>
-<hr>
-<h3 id="一、方案总览（按推荐度）"><a href="#一、方案总览（按推荐度）" class="headerlink" title="一、方案总览（按推荐度）"></a>一、方案总览（按推荐度）</h3><ol>
-<li><strong>Homebrew + brew services（首选）</strong>：命令行极简管理、自动配置 <code>launchd</code> 开机自启、无额外依赖。</li>
-<li><strong>Homebrew + launchd（原生自启）</strong>：手动写 plist，适合精细化权限&#x2F;启停控制。</li>
-<li><strong>Nginx UI（网页控制界面）</strong>：Web 面板一键启停、配置编辑、日志查看，兼容 brew 安装的 Nginx。</li>
-<li><strong>官方二进制命令（纯命令行）</strong>：无需 brew，直接调用 nginx 二进制，适合绿色&#x2F;便携部署。</li>
+                <p>在 macOS 上搭建 Nginx，<strong>最推荐用 Homebrew + brew services
+管理</strong>（一键启停+开机自启），搭配 <strong>Nginx UI</strong>
+做网页控制面板；也可原生用 <code>launchd</code>
+实现自启，或用官方命令直接控制。下面分方案给出完整操作。</p>
+<hr />
+<h3 id="一方案总览按推荐度">一、方案总览（按推荐度）</h3>
+<ol type="1">
+<li><strong>Homebrew + brew
+services（首选）</strong>：命令行极简管理、自动配置 <code>launchd</code>
+开机自启、无额外依赖。</li>
+<li><strong>Homebrew + launchd（原生自启）</strong>：手动写
+plist，适合精细化权限/启停控制。</li>
+<li><strong>Nginx UI（网页控制界面）</strong>：Web
+面板一键启停、配置编辑、日志查看，兼容 brew 安装的 Nginx。</li>
+<li><strong>官方二进制命令（纯命令行）</strong>：无需 brew，直接调用
+nginx 二进制，适合绿色/便携部署。</li>
 </ol>
-<hr>
-<h3 id="二、方案1：Homebrew-brew-services（最简，推荐）"><a href="#二、方案1：Homebrew-brew-services（最简，推荐）" class="headerlink" title="二、方案1：Homebrew + brew services（最简，推荐）"></a>二、方案1：Homebrew + brew services（最简，推荐）</h3><h4 id="1-安装-Nginx"><a href="#1-安装-Nginx" class="headerlink" title="1. 安装 Nginx"></a>1. 安装 Nginx</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装（自动处理依赖：openssl、pcre 等）</span><br>brew install nginx<br><br><span class="hljs-comment"># 验证安装</span><br>nginx -v<br><span class="hljs-comment"># Intel 配置路径：/usr/local/etc/nginx/nginx.conf</span><br><span class="hljs-comment"># Apple Silicon 配置路径：/opt/homebrew/etc/nginx/nginx.conf</span><br><span class="hljs-comment"># 网站根目录：/usr/local/var/www 或 /opt/homebrew/var/www</span><br></code></pre></td></tr></table></figure>
-
-<h4 id="2-命令行控制（一键启停-自启）"><a href="#2-命令行控制（一键启停-自启）" class="headerlink" title="2. 命令行控制（一键启停+自启）"></a>2. 命令行控制（一键启停+自启）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 启动并设置开机自启（核心命令！）</span><br>brew services start nginx<br><br><span class="hljs-comment"># 查看状态（显示 started 即正常）</span><br>brew services list | grep nginx<br><br><span class="hljs-comment"># 停止服务</span><br>brew services stop nginx<br><br><span class="hljs-comment"># 重启服务（重载配置）</span><br>brew services restart nginx<br><br><span class="hljs-comment"># 取消开机自启（仅停止自启，不停止当前进程）</span><br>brew services <span class="hljs-built_in">disable</span> nginx<br></code></pre></td></tr></table></figure>
-
-<h4 id="3-验证运行"><a href="#3-验证运行" class="headerlink" title="3. 验证运行"></a>3. 验证运行</h4><ul>
-<li>默认端口 <strong>8080</strong>，浏览器访问：<code>http://localhost:8080</code>，看到 “Welcome to nginx!” 即成功。</li>
-<li>如需改 80 端口：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 停止自带 Apache（占用 80）</span><br><span class="hljs-built_in">sudo</span> apachectl stop<br><br><span class="hljs-comment"># 编辑配置（Intel 用 /usr/local/etc/nginx/nginx.conf）</span><br>nano /opt/homebrew/etc/nginx/nginx.conf<br><span class="hljs-comment"># 把 listen 8080 改为 listen 80，保存退出</span><br><br><span class="hljs-comment"># 重载配置</span><br><span class="hljs-built_in">sudo</span> nginx -s reload<br></code></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="4-开机自启原理"><a href="#4-开机自启原理" class="headerlink" title="4. 开机自启原理"></a>4. 开机自启原理</h4><p><code>brew services</code> 自动在 <code>~/Library/LaunchAgents/</code> 生成 <code>homebrew.mxcl.nginx.plist</code>，并注册到 <code>launchd</code>，开机自动加载。</p>
-<hr>
-<h3 id="三、方案2：Homebrew-launchd（原生自启，适合进阶）"><a href="#三、方案2：Homebrew-launchd（原生自启，适合进阶）" class="headerlink" title="三、方案2：Homebrew + launchd（原生自启，适合进阶）"></a>三、方案2：Homebrew + launchd（原生自启，适合进阶）</h3><h4 id="1-准备-plist-文件"><a href="#1-准备-plist-文件" class="headerlink" title="1. 准备 plist 文件"></a>1. 准备 plist 文件</h4><p>创建 <code>/Library/LaunchDaemons/com.nginx.server.plist</code>（系统级自启，需 root）：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">plist</span> <span class="hljs-keyword">PUBLIC</span> <span class="hljs-string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> <span class="hljs-string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">plist</span> <span class="hljs-attr">version</span>=<span class="hljs-string">&quot;1.0&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dict</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>Label<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>com.nginx.server<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>ProgramArguments<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">array</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>/usr/local/opt/nginx/bin/nginx<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>-g<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>daemon off;<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">array</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>RunAtLoad<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">true</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>KeepAlive<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">true</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>StandardErrorPath<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>/usr/local/var/log/nginx/error.log<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>StandardOutPath<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>/usr/local/var/log/nginx/access.log<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dict</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">plist</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h4 id="2-赋权并加载服务"><a href="#2-赋权并加载服务" class="headerlink" title="2. 赋权并加载服务"></a>2. 赋权并加载服务</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 赋权（root 所有，644 权限，防止篡改）</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chown</span> root:wheel /Library/LaunchDaemons/com.nginx.server.plist<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> 644 /Library/LaunchDaemons/com.nginx.server.plist<br><br><span class="hljs-comment"># 加载并启动</span><br><span class="hljs-built_in">sudo</span> launchctl load -w /Library/LaunchDaemons/com.nginx.server.plist<br><br><span class="hljs-comment"># 查看是否生效</span><br>launchctl list | grep nginx<br><br><span class="hljs-comment"># 停止服务</span><br><span class="hljs-built_in">sudo</span> launchctl stop com.nginx.server<br><br><span class="hljs-comment"># 取消自启</span><br><span class="hljs-built_in">sudo</span> launchctl unload -w /Library/LaunchDaemons/com.nginx.server.plist<br></code></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="四、方案3：Nginx-UI（网页控制面板，可视化管理）"><a href="#四、方案3：Nginx-UI（网页控制面板，可视化管理）" class="headerlink" title="四、方案3：Nginx UI（网页控制面板，可视化管理）"></a>四、方案3：Nginx UI（网页控制面板，可视化管理）</h3><h4 id="1-安装-Nginx-UI（需先通过-brew-安装-Nginx）"><a href="#1-安装-Nginx-UI（需先通过-brew-安装-Nginx）" class="headerlink" title="1. 安装 Nginx UI（需先通过 brew 安装 Nginx）"></a>1. 安装 Nginx UI（需先通过 brew 安装 Nginx）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 添加仓库并安装</span><br>brew install 0xjacky/tools/nginx-ui<br><br><span class="hljs-comment"># 启动 Nginx UI（默认端口 9000）</span><br>brew services start nginx-ui<br><br><span class="hljs-comment"># 查看状态</span><br>brew services list | grep nginx-ui<br></code></pre></td></tr></table></figure>
-
-<h4 id="2-访问与配置"><a href="#2-访问与配置" class="headerlink" title="2. 访问与配置"></a>2. 访问与配置</h4><ul>
-<li>浏览器打开：<code>http://localhost:9000</code></li>
-<li>默认账号密码：<code>admin</code> &#x2F; <code>admin</code>（首次登录强制修改）。</li>
-<li>面板功能：<ul>
-<li>✅ 一键启停&#x2F;重启 Nginx</li>
-<li>✅ 在线编辑 nginx 配置（语法高亮+错误检测）</li>
-<li>✅ 实时查看访问&#x2F;错误日志</li>
-<li>✅ 监控 CPU、内存、连接数。</li>
-</ul>
-</li>
-</ul>
-<h4 id="3-关联本地-Nginx"><a href="#3-关联本地-Nginx" class="headerlink" title="3. 关联本地 Nginx"></a>3. 关联本地 Nginx</h4><p>登录后在「设置」页填写：</p>
+<hr />
+<h3 id="二方案1homebrew-brew-services最简推荐">二、方案1：Homebrew +
+brew services（最简，推荐）</h3>
+<h4 id="安装-nginx">1. 安装 Nginx</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装（自动处理依赖：openssl、pcre 等）</span><br>brew install nginx<br><br><span class="hljs-comment"># 验证安装</span><br>nginx -v<br><span class="hljs-comment"># Intel 配置路径：/usr/local/etc/nginx/nginx.conf</span><br><span class="hljs-comment"># Apple Silicon 配置路径：/opt/homebrew/etc/nginx/nginx.conf</span><br><span class="hljs-comment"># 网站根目录：/usr/local/var/www 或 /opt/homebrew/var/www</span><br></code></pre></td></tr></table></figure>
+<h4 id="命令行控制一键启停自启">2. 命令行控制（一键启停+自启）</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 启动并设置开机自启（核心命令！）</span><br>brew services start nginx<br><br><span class="hljs-comment"># 查看状态（显示 started 即正常）</span><br>brew services list | grep nginx<br><br><span class="hljs-comment"># 停止服务</span><br>brew services stop nginx<br><br><span class="hljs-comment"># 重启服务（重载配置）</span><br>brew services restart nginx<br><br><span class="hljs-comment"># 取消开机自启（仅停止自启，不停止当前进程）</span><br>brew services <span class="hljs-built_in">disable</span> nginx<br></code></pre></td></tr></table></figure>
+<h4 id="验证运行">3. 验证运行</h4>
 <ul>
-<li>Nginx 路径：<code>/usr/local/opt/nginx/bin/nginx</code>（Intel）或 <code>/opt/homebrew/opt/nginx/bin/nginx</code>（Apple Silicon）</li>
-<li>配置文件路径：<code>/usr/local/etc/nginx/nginx.conf</code>（对应芯片路径）</li>
-<li>保存后即可通过面板管理本地 Nginx。</li>
+<li>默认端口
+<strong>8080</strong>，浏览器访问：<code>http://localhost:8080</code>，看到
+“Welcome to nginx!” 即成功。</li>
+<li>如需改 80 端口： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 停止自带 Apache（占用 80）</span><br><span class="hljs-built_in">sudo</span> apachectl stop<br><br><span class="hljs-comment"># 编辑配置（Intel 用 /usr/local/etc/nginx/nginx.conf）</span><br>nano /opt/homebrew/etc/nginx/nginx.conf<br><span class="hljs-comment"># 把 listen 8080 改为 listen 80，保存退出</span><br><br><span class="hljs-comment"># 重载配置</span><br><span class="hljs-built_in">sudo</span> nginx -s reload<br></code></pre></td></tr></table></figure></li>
 </ul>
-<hr>
-<h3 id="五、方案4：官方二进制命令（纯命令行，无-brew）"><a href="#五、方案4：官方二进制命令（纯命令行，无-brew）" class="headerlink" title="五、方案4：官方二进制命令（纯命令行，无 brew）"></a>五、方案4：官方二进制命令（纯命令行，无 brew）</h3><h4 id="1-手动安装-Nginx（可选，也可直接用-brew-安装的二进制）"><a href="#1-手动安装-Nginx（可选，也可直接用-brew-安装的二进制）" class="headerlink" title="1. 手动安装 Nginx（可选，也可直接用 brew 安装的二进制）"></a>1. 手动安装 Nginx（可选，也可直接用 brew 安装的二进制）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 下载解压（示例版本，可换最新）</span><br>wget http://nginx.org/download/nginx-1.25.3.tar.gz<br>tar -zxvf nginx-1.25.3.tar.gz<br><span class="hljs-built_in">cd</span> nginx-1.25.3<br><br><span class="hljs-comment"># 编译安装（依赖 pcre、openssl，需提前 brew install pcre openssl）</span><br>./configure --prefix=/usr/local/nginx --with-http_ssl_module<br>make &amp;&amp; <span class="hljs-built_in">sudo</span> make install<br></code></pre></td></tr></table></figure>
-
-<h4 id="2-命令行控制"><a href="#2-命令行控制" class="headerlink" title="2. 命令行控制"></a>2. 命令行控制</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 启动（默认配置 /usr/local/nginx/conf/nginx.conf）</span><br><span class="hljs-built_in">sudo</span> /usr/local/nginx/sbin/nginx<br><br><span class="hljs-comment"># 停止（优雅退出，处理完当前请求）</span><br><span class="hljs-built_in">sudo</span> /usr/local/nginx/sbin/nginx -s quit<br><br><span class="hljs-comment"># 强制停止</span><br><span class="hljs-built_in">sudo</span> /usr/local/nginx/sbin/nginx -s stop<br><br><span class="hljs-comment"># 重载配置（不中断服务）</span><br><span class="hljs-built_in">sudo</span> /usr/local/nginx/sbin/nginx -s reload<br><br><span class="hljs-comment"># 测试配置语法</span><br><span class="hljs-built_in">sudo</span> /usr/local/nginx/sbin/nginx -t<br></code></pre></td></tr></table></figure>
-
-<h4 id="3-开机自启（同方案2，写-plist-指向该二进制）"><a href="#3-开机自启（同方案2，写-plist-指向该二进制）" class="headerlink" title="3. 开机自启（同方案2，写 plist 指向该二进制）"></a>3. 开机自启（同方案2，写 plist 指向该二进制）</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>ProgramArguments<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">array</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>/usr/local/nginx/sbin/nginx<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>-g<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>daemon off;<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">array</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="六、常见问题与避坑"><a href="#六、常见问题与避坑" class="headerlink" title="六、常见问题与避坑"></a>六、常见问题与避坑</h3><ol>
-<li><strong>80 端口权限 denied</strong>：macOS 禁止普通用户绑定 1-1023 端口，需 <code>sudo</code> 启动，或用 <code>sudo chmod u+s /usr/local/opt/nginx/bin/nginx</code> 给二进制提权（谨慎使用）。</li>
-<li><strong>日志目录不存在</strong>：手动创建并赋权：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">mkdir</span> -p /usr/local/var/log/nginx<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chown</span> -R <span class="hljs-variable">$USER</span>:staff /usr/local/var/log/nginx<br></code></pre></td></tr></table></figure></li>
-<li><strong>launchd 加载失败</strong>：plist 格式必须严格 XML，无多余空格；权限必须 <code>root:wheel</code>、<code>644</code>。</li>
+<h4 id="开机自启原理">4. 开机自启原理</h4>
+<p><code>brew services</code> 自动在
+<code>~/Library/LaunchAgents/</code> 生成
+<code>homebrew.mxcl.nginx.plist</code>，并注册到
+<code>launchd</code>，开机自动加载。</p>
+<hr />
+<h3 id="三方案2homebrew-launchd原生自启适合进阶">三、方案2：Homebrew +
+launchd（原生自启，适合进阶）</h3>
+<h4 id="准备-plist-文件">1. 准备 plist 文件</h4>
+<p>创建
+<code>/Library/LaunchDaemons/com.nginx.server.plist</code>（系统级自启，需
+root）： <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">plist</span> <span class="hljs-keyword">PUBLIC</span> <span class="hljs-string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> <span class="hljs-string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">plist</span> <span class="hljs-attr">version</span>=<span class="hljs-string">&quot;1.0&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dict</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>Label<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>com.nginx.server<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>ProgramArguments<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">array</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>/usr/local/opt/nginx/bin/nginx<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>-g<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>daemon off;<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">array</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>RunAtLoad<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">true</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>KeepAlive<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">true</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>StandardErrorPath<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>/usr/local/var/log/nginx/error.log<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>StandardOutPath<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>/usr/local/var/log/nginx/access.log<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dict</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">plist</span>&gt;</span><br></code></pre></td></tr></table></figure></p>
+<h4 id="赋权并加载服务">2. 赋权并加载服务</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 赋权（root 所有，644 权限，防止篡改）</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chown</span> root:wheel /Library/LaunchDaemons/com.nginx.server.plist<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> 644 /Library/LaunchDaemons/com.nginx.server.plist<br><br><span class="hljs-comment"># 加载并启动</span><br><span class="hljs-built_in">sudo</span> launchctl load -w /Library/LaunchDaemons/com.nginx.server.plist<br><br><span class="hljs-comment"># 查看是否生效</span><br>launchctl list | grep nginx<br><br><span class="hljs-comment"># 停止服务</span><br><span class="hljs-built_in">sudo</span> launchctl stop com.nginx.server<br><br><span class="hljs-comment"># 取消自启</span><br><span class="hljs-built_in">sudo</span> launchctl unload -w /Library/LaunchDaemons/com.nginx.server.plist<br></code></pre></td></tr></table></figure>
+<hr />
+<h3 id="四方案3nginx-ui网页控制面板可视化管理">四、方案3：Nginx
+UI（网页控制面板，可视化管理）</h3>
+<h4 id="安装-nginx-ui需先通过-brew-安装-nginx">1. 安装 Nginx
+UI（需先通过 brew 安装 Nginx）</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 添加仓库并安装</span><br>brew install 0xjacky/tools/nginx-ui<br><br><span class="hljs-comment"># 启动 Nginx UI（默认端口 9000）</span><br>brew services start nginx-ui<br><br><span class="hljs-comment"># 查看状态</span><br>brew services list | grep nginx-ui<br></code></pre></td></tr></table></figure>
+<h4 id="访问与配置">2. 访问与配置</h4>
+<ul>
+<li>浏览器打开：<code>http://localhost:9000</code></li>
+<li>默认账号密码：<code>admin</code> /
+<code>admin</code>（首次登录强制修改）。</li>
+<li>面板功能：
+<ul>
+<li>✅ 一键启停/重启 Nginx</li>
+<li>✅ 在线编辑 nginx 配置（语法高亮+错误检测）</li>
+<li>✅ 实时查看访问/错误日志</li>
+<li>✅ 监控 CPU、内存、连接数。</li>
+</ul></li>
+</ul>
+<h4 id="关联本地-nginx">3. 关联本地 Nginx</h4>
+<p>登录后在「设置」页填写： - Nginx
+路径：<code>/usr/local/opt/nginx/bin/nginx</code>（Intel）或
+<code>/opt/homebrew/opt/nginx/bin/nginx</code>（Apple Silicon） -
+配置文件路径：<code>/usr/local/etc/nginx/nginx.conf</code>（对应芯片路径）
+- 保存后即可通过面板管理本地 Nginx。</p>
+<hr />
+<h3
+id="五方案4官方二进制命令纯命令行无-brew">五、方案4：官方二进制命令（纯命令行，无
+brew）</h3>
+<h4 id="手动安装-nginx可选也可直接用-brew-安装的二进制">1. 手动安装
+Nginx（可选，也可直接用 brew 安装的二进制）</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 下载解压（示例版本，可换最新）</span><br>wget http://nginx.org/download/nginx-1.25.3.tar.gz<br>tar -zxvf nginx-1.25.3.tar.gz<br><span class="hljs-built_in">cd</span> nginx-1.25.3<br><br><span class="hljs-comment"># 编译安装（依赖 pcre、openssl，需提前 brew install pcre openssl）</span><br>./configure --prefix=/usr/local/nginx --with-http_ssl_module<br>make &amp;&amp; <span class="hljs-built_in">sudo</span> make install<br></code></pre></td></tr></table></figure>
+<h4 id="命令行控制">2. 命令行控制</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 启动（默认配置 /usr/local/nginx/conf/nginx.conf）</span><br><span class="hljs-built_in">sudo</span> /usr/local/nginx/sbin/nginx<br><br><span class="hljs-comment"># 停止（优雅退出，处理完当前请求）</span><br><span class="hljs-built_in">sudo</span> /usr/local/nginx/sbin/nginx -s quit<br><br><span class="hljs-comment"># 强制停止</span><br><span class="hljs-built_in">sudo</span> /usr/local/nginx/sbin/nginx -s stop<br><br><span class="hljs-comment"># 重载配置（不中断服务）</span><br><span class="hljs-built_in">sudo</span> /usr/local/nginx/sbin/nginx -s reload<br><br><span class="hljs-comment"># 测试配置语法</span><br><span class="hljs-built_in">sudo</span> /usr/local/nginx/sbin/nginx -t<br></code></pre></td></tr></table></figure>
+<h4 id="开机自启同方案2写-plist-指向该二进制">3. 开机自启（同方案2，写
+plist 指向该二进制）</h4>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>ProgramArguments<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">array</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>/usr/local/nginx/sbin/nginx<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>-g<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>daemon off;<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">array</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<hr />
+<h3 id="六常见问题与避坑">六、常见问题与避坑</h3>
+<ol type="1">
+<li><strong>80 端口权限 denied</strong>：macOS 禁止普通用户绑定 1-1023
+端口，需 <code>sudo</code> 启动，或用
+<code>sudo chmod u+s /usr/local/opt/nginx/bin/nginx</code>
+给二进制提权（谨慎使用）。</li>
+<li><strong>日志目录不存在</strong>：手动创建并赋权： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">mkdir</span> -p /usr/local/var/log/nginx<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chown</span> -R <span class="hljs-variable">$USER</span>:staff /usr/local/var/log/nginx<br></code></pre></td></tr></table></figure></li>
+<li><strong>launchd 加载失败</strong>：plist 格式必须严格
+XML，无多余空格；权限必须
+<code>root:wheel</code>、<code>644</code>。</li>
 </ol>
-<hr>
-<h3 id="七、总结和脚本"><a href="#七、总结和脚本" class="headerlink" title="七、总结和脚本"></a>七、总结和脚本</h3><ul>
-<li><strong>新手&#x2F;极简管理</strong>：选 <strong>Homebrew + brew services</strong>，3 条命令搞定安装、自启、控制。</li>
-<li><strong>可视化需求</strong>：叠加 <strong>Nginx UI</strong>，网页端全流程管理，降低操作门槛。</li>
-<li><strong>进阶&#x2F;精细化控制</strong>：用 <strong>launchd</strong> 原生配置，自定义启停参数、日志路径、权限。</li>
+<hr />
+<h3 id="七总结和脚本">七、总结和脚本</h3>
+<ul>
+<li><strong>新手/极简管理</strong>：选 <strong>Homebrew + brew
+services</strong>，3 条命令搞定安装、自启、控制。</li>
+<li><strong>可视化需求</strong>：叠加 <strong>Nginx
+UI</strong>，网页端全流程管理，降低操作门槛。</li>
+<li><strong>进阶/精细化控制</strong>：用 <strong>launchd</strong>
+原生配置，自定义启停参数、日志路径、权限。</li>
 </ul>
-<h4 id="自动部署脚本和注意事项"><a href="#自动部署脚本和注意事项" class="headerlink" title="自动部署脚本和注意事项"></a>自动部署脚本和注意事项</h4><ul>
-<li>适配 Apple Silicon &#x2F; Intel macOS 自动识别路径</li>
+<h4 id="自动部署脚本和注意事项">自动部署脚本和注意事项</h4>
+<ul>
+<li>适配 Apple Silicon / Intel macOS 自动识别路径</li>
 <li>自动安装 Homebrew Nginx、配置开机自启</li>
 <li>修复 80 端口绑定权限</li>
 <li>自动安装并集成 Nginx UI</li>
 <li>全程复制直接终端执行，无需手动改配置</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs Bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">set</span> -e<br><br><span class="hljs-comment"># 1. 检查并安装 Homebrew</span><br><span class="hljs-keyword">if</span> ! <span class="hljs-built_in">command</span> -v brew &amp;&gt; /dev/null; <span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;===== 开始安装 Homebrew =====&quot;</span><br>    /bin/bash -c <span class="hljs-string">&quot;<span class="hljs-subst">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)</span>&quot;</span><br><span class="hljs-keyword">fi</span><br><br><span class="hljs-comment"># 2. 安装 Nginx</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;===== 安装 Nginx =====&quot;</span><br>brew install nginx<br><br><span class="hljs-comment"># 3. 安装 Nginx UI</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;===== 安装 Nginx UI =====&quot;</span><br>brew tap 0xjacky/tools<br>brew install nginx-ui<br><br><span class="hljs-comment"># 4. 关闭系统自带 Apache 避免占用80端口</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;===== 关闭系统 Apache =====&quot;</span><br><span class="hljs-built_in">sudo</span> apachectl stop<br><span class="hljs-built_in">sudo</span> launchctl unload -w /System/Library/LaunchDaemons/org.apached.plist 2&gt;/dev/null || <span class="hljs-literal">true</span><br><br><span class="hljs-comment"># 5. 配置 Nginx 80 端口权限修复</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;===== 修复80端口权限 =====&quot;</span><br>NGINX_BIN=$(<span class="hljs-built_in">which</span> nginx)<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chown</span> root:wheel <span class="hljs-string">&quot;<span class="hljs-variable">$NGINX_BIN</span>&quot;</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> u+s <span class="hljs-string">&quot;<span class="hljs-variable">$NGINX_BIN</span>&quot;</span><br><br><span class="hljs-comment"># 6. brew services 开机自启 + 启动服务</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;===== 设置 Nginx、Nginx UI 开机自启并启动 =====&quot;</span><br>brew services start nginx<br>brew services start nginx-ui<br><br><span class="hljs-comment"># 7. 放行/创建日志目录权限</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;===== 配置日志目录权限 =====&quot;</span><br><span class="hljs-built_in">mkdir</span> -p <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/Library/Logs/nginx&quot;</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> -R 755 <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/Library/Logs/nginx&quot;</span><br><br><span class="hljs-comment"># 8. 输出访问信息</span><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;\n=====================================&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;✅ Nginx 部署完成&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;🌐 Nginx 默认访问: http://localhost:8080&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;🌐 Nginx UI 访问: http://localhost:9000&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;🔑 Nginx UI 默认账号/密码: admin / admin&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=====================================&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;常用控制命令：&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;brew services start/stop/restart nginx&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;brew services start/stop/restart nginx-ui&quot;</span><br><br></code></pre></td></tr></table></figure>
-
-
 <p>需要赋予文件可执行权限：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Bash"><span class="hljs-built_in">chmod</span> +x deploy-nginx-mac.sh<br>./deploy-nginx-mac.sh<br></code></pre></td></tr></table></figure>
-
 
                 
               </div>
@@ -1630,6 +1678,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1847,6 +1901,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

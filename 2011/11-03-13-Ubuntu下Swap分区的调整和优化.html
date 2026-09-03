@@ -27,7 +27,7 @@
 <meta property="og:description" content="在Ubuntu系统中，swappiness的值与如何使用Swap分区密切相关。当swappiness &#x3D; 0时，系统会最大限度地使用物理内存，之后才会使用Swap空间；而当swappiness &#x3D; 100时，系统会积极使用Swap分区，并及时将内存中的数据转移到Swap空间。Ubuntu的默认设置下，这个值为60，不过建议将其修改为10，这样能优化系统性能。具体操作步骤如下：  查看系统中的swa">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2011-03-13T17:27:20.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.103Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.661Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Ubuntu">
 <meta property="article:tag" content="Swap分区">
@@ -258,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          773 字
+          775 字
         
       </span>
     
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1369,40 +1378,40 @@ true
               <div class="markdown-body">
                 
                 <p>在Ubuntu系统中，<code>swappiness</code>的值与如何使用Swap分区密切相关。当<code>swappiness = 0</code>时，系统会最大限度地使用物理内存，之后才会使用Swap空间；而当<code>swappiness = 100</code>时，系统会积极使用Swap分区，并及时将内存中的数据转移到Swap空间。Ubuntu的默认设置下，这个值为60，不过建议将其修改为10，这样能优化系统性能。具体操作步骤如下：</p>
-<ol>
-<li><strong>查看系统中的<code>swappiness</code>值</strong>：<br>在终端中输入以下命令：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /proc/sys/vm/swappiness<br></code></pre></td></tr></table></figure>
+<ol type="1">
+<li><strong>查看系统中的<code>swappiness</code>值</strong>：
+在终端中输入以下命令： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /proc/sys/vm/swappiness<br></code></pre></td></tr></table></figure>
 正常情况下，你会看到显示的值为60。</li>
-<li><strong>修改<code>swappiness</code>值为10</strong>：<br>首先，在终端中执行临时修改命令：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> sysctl vm.swappiness=10<br></code></pre></td></tr></table></figure>
-但需要注意的是，这种修改只是临时性的，重启系统后会恢复默认的60。因此，还需要进行如下操作：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gksudo gedit /etc/sysctl.conf<br></code></pre></td></tr></table></figure>
-在打开的文件末尾添加一行：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vm.swappiness=10<br></code></pre></td></tr></table></figure>
+<li><strong>修改<code>swappiness</code>值为10</strong>：
+首先，在终端中执行临时修改命令： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> sysctl vm.swappiness=10<br></code></pre></td></tr></table></figure>
+但需要注意的是，这种修改只是临时性的，重启系统后会恢复默认的60。因此，还需要进行如下操作：
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gksudo gedit /etc/sysctl.conf<br></code></pre></td></tr></table></figure> 在打开的文件末尾添加一行： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vm.swappiness=10<br></code></pre></td></tr></table></figure>
 保存文件并重启系统，这样设置就会生效。你可能会发现系统运行速度有所提升。另外，你也可以使用其他编辑器（如<code>kate</code>、<code>vi</code>、<code>vim</code>、<code>nano</code>等）进行修改，只需将上述命令中的<code>gedit</code>替换成相应编辑器名称即可。这里使用<code>gedit</code>是因为大多数人使用的是Gnome桌面。</li>
 </ol>
 <p>除了调整<code>swappiness</code>值，有时还需要调整Swap分区的大小。比如，当系统中的Swap分区大小不符合某些软件（如<code>Oracle-xe-client</code>）的安装要求时，就需要进行调整。以下是调整Swap分区大小的具体步骤：</p>
-<ol>
+<ol type="1">
 <li><strong>查看系统内Swap分区大小</strong>：</li>
 </ol>
 <p>在终端中输入命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">free -m<br></code></pre></td></tr></table></figure>
-<p>示例输出如下：</p>
-<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs tap">total used free shared buffers cache<br>Mem:<span class="hljs-number"> 1002 </span>964<span class="hljs-number"> 38 </span>0<span class="hljs-number"> 21 </span>410<br>-/+ buffers/cache:<span class="hljs-number"> 532 </span>470<br>Swap:<span class="hljs-number"> 951 </span>32 929<br></code></pre></td></tr></table></figure>
-<p>从输出中可以看到，当前Swap分区大小为951M。<br>2. <strong>创建一个Swap文件</strong>：<br>首先创建一个用于存放Swap文件的目录，然后进入该目录：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> swap<br><span class="hljs-built_in">cd</span> swap<br></code></pre></td></tr></table></figure>
-<p>接着使用<code>dd</code>命令创建Swap文件，<code>count</code>的值决定了Swap文件的大小。例如，执行以下命令创建一个大小为100000块（每块1024字节，即约100MB）的Swap文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">dd</span> <span class="hljs-keyword">if</span>=/dev/zero of=swapfile bs=1024 count=100000<br></code></pre></td></tr></table></figure>
-<p>执行命令后，会出现类似以下提示：</p>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dns">记录了 <span class="hljs-number">100000+0</span> 的读入<br>记录了 <span class="hljs-number">100000+0</span> 的写出<br><span class="hljs-number">102400000</span> 字节 (<span class="hljs-number">102</span> MB) 已复制，<span class="hljs-number">0.74704</span> 秒，<span class="hljs-number">137</span> MB/秒<br></code></pre></td></tr></table></figure>
-<ol start="3">
-<li><strong>把生成的文件转换成Swap文件</strong>：<br>在终端中执行以下命令：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> mkswap swapfile<br></code></pre></td></tr></table></figure>
-执行结果示例如下：<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Setting</span> up swapspace version <span class="hljs-number">1</span>, size = <span class="hljs-number">102395</span> kB<br><span class="hljs-attribute">no</span> label, UUID=<span class="hljs-number">09</span>fde987-<span class="hljs-number">5567</span>-<span class="hljs-number">498</span>a-a60b-<span class="hljs-number">477</span>e302a988b<br></code></pre></td></tr></table></figure></li>
-<li><strong>激活Swap文件</strong>：<br>使用以下命令激活刚刚创建的Swap文件：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> swapon swapfile<br></code></pre></td></tr></table></figure>
-激活后，再次使用<code>free -m</code>命令查看系统内存和Swap分区情况，示例输出如下：<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">total</span> <span class="hljs-string">used</span> <span class="hljs-string">free</span> <span class="hljs-string">shared</span> <span class="hljs-string">buffers</span> <span class="hljs-string">cached</span><br><span class="hljs-attr">Mem:</span> <span class="hljs-number">1002 </span><span class="hljs-number">967</span> <span class="hljs-number">34</span> <span class="hljs-number">0</span> <span class="hljs-number">22</span> <span class="hljs-number">410</span><br><span class="hljs-string">-/+</span> <span class="hljs-attr">buffers/cache:</span> <span class="hljs-number">534</span> <span class="hljs-number">467</span><br><span class="hljs-attr">Swap:</span> <span class="hljs-number">1053 </span><span class="hljs-number">32</span> <span class="hljs-number">1021</span><br></code></pre></td></tr></table></figure>
-可以看到，Swap分区大小已增加到1053M，说明添加成功。</li>
-</ol>
-<p><strong>扩展内容</strong>：<br>如果需要卸载这个Swap文件，可以进入建立的Swap文件目录，执行以下命令：</p>
+<p>示例输出如下： <figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs tap">total used free shared buffers cache<br>Mem:<span class="hljs-number"> 1002 </span>964<span class="hljs-number"> 38 </span>0<span class="hljs-number"> 21 </span>410<br>-/+ buffers/cache:<span class="hljs-number"> 532 </span>470<br>Swap:<span class="hljs-number"> 951 </span>32 929<br></code></pre></td></tr></table></figure>
+从输出中可以看到，当前Swap分区大小为951M。 2.
+<strong>创建一个Swap文件</strong>：
+首先创建一个用于存放Swap文件的目录，然后进入该目录： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> swap<br><span class="hljs-built_in">cd</span> swap<br></code></pre></td></tr></table></figure>
+接着使用<code>dd</code>命令创建Swap文件，<code>count</code>的值决定了Swap文件的大小。例如，执行以下命令创建一个大小为100000块（每块1024字节，即约100MB）的Swap文件：
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">dd</span> <span class="hljs-keyword">if</span>=/dev/zero of=swapfile bs=1024 count=100000<br></code></pre></td></tr></table></figure> 执行命令后，会出现类似以下提示： <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dns">记录了 <span class="hljs-number">100000+0</span> 的读入<br>记录了 <span class="hljs-number">100000+0</span> 的写出<br><span class="hljs-number">102400000</span> 字节 (<span class="hljs-number">102</span> MB) 已复制，<span class="hljs-number">0.74704</span> 秒，<span class="hljs-number">137</span> MB/秒<br></code></pre></td></tr></table></figure> 3.
+<strong>把生成的文件转换成Swap文件</strong>： 在终端中执行以下命令：
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> mkswap swapfile<br></code></pre></td></tr></table></figure> 执行结果示例如下： <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Setting</span> up swapspace version <span class="hljs-number">1</span>, size = <span class="hljs-number">102395</span> kB<br><span class="hljs-attribute">no</span> label, UUID=<span class="hljs-number">09</span>fde987-<span class="hljs-number">5567</span>-<span class="hljs-number">498</span>a-a60b-<span class="hljs-number">477</span>e302a988b<br></code></pre></td></tr></table></figure> 4.
+<strong>激活Swap文件</strong>： 使用以下命令激活刚刚创建的Swap文件：
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> swapon swapfile<br></code></pre></td></tr></table></figure>
+激活后，再次使用<code>free -m</code>命令查看系统内存和Swap分区情况，示例输出如下：
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">total</span> <span class="hljs-string">used</span> <span class="hljs-string">free</span> <span class="hljs-string">shared</span> <span class="hljs-string">buffers</span> <span class="hljs-string">cached</span><br><span class="hljs-attr">Mem:</span> <span class="hljs-number">1002 </span><span class="hljs-number">967</span> <span class="hljs-number">34</span> <span class="hljs-number">0</span> <span class="hljs-number">22</span> <span class="hljs-number">410</span><br><span class="hljs-string">-/+</span> <span class="hljs-attr">buffers/cache:</span> <span class="hljs-number">534</span> <span class="hljs-number">467</span><br><span class="hljs-attr">Swap:</span> <span class="hljs-number">1053 </span><span class="hljs-number">32</span> <span class="hljs-number">1021</span><br></code></pre></td></tr></table></figure> 可以看到，Swap分区大小已增加到1053M，说明添加成功。</p>
+<p><strong>扩展内容</strong>：
+如果需要卸载这个Swap文件，可以进入建立的Swap文件目录，执行以下命令：
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> swapoff swapfile<br></code></pre></td></tr></table></figure>
-<p>如果希望系统一直保持这个Swap文件，可以将其写入<code>/etc/fstab</code>文件，在文件中添加一行：</p>
+如果希望系统一直保持这个Swap文件，可以将其写入<code>/etc/fstab</code>文件，在文件中添加一行：
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">swapfilepath swap swap defaults 0 0<br></code></pre></td></tr></table></figure>
-<p>其中，<code>swapfilepath</code>需要替换为实际的Swap文件路径。 </p>
+其中，<code>swapfilepath</code>需要替换为实际的Swap文件路径。</p>
 
                 
               </div>
@@ -1582,6 +1591,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1799,6 +1814,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="微服务可观测性：两套主流监控方案对比与Docker落地实操 摘要：可观测性分为指标监控、链路追踪两大方向。本文对比两套生产常用方案，给出可直接复制的Docker Compose部署步骤，适合开发运维人员参考。为了更形象的说明问题，我做了一个网页版本，点击这里查看 两套主流监控方案对比和部署实操  1 核心组件概念解释为方便后续理解，直白介绍4个核心组件，全部结合实际工作场景。 1.1 Promet">
+    <meta name="description" content="微服务可观测性：两套主流监控方案对比与Docker落地实操  摘要：可观测性分为指标监控、链路追踪两大方向。本文对比两套生产常用方案，给出可直接复制的Docker Compose部署步骤，适合开发运维人员参考。 为了更形象的说明问题，我做了一个网页版本，点击这里查看 两套主流监控方案对比和部署实操  1 核心组件概念解释 为方便后续理解，直白介绍4个核心组件，全部结合实际工作场景。 1.1 Pro">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微服务可观测性：两套主流监控方案对比与Docker落地实操">
 <meta property="og:url" content="https://jycpp.github.io/2024/24-06-10-%E4%B8%A4%E5%A5%97%E4%B8%BB%E6%B5%81%E7%9B%91%E6%8E%A7%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E5%92%8C%E9%83%A8%E7%BD%B2%E5%AE%9E%E6%93%8D.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="微服务可观测性：两套主流监控方案对比与Docker落地实操 摘要：可观测性分为指标监控、链路追踪两大方向。本文对比两套生产常用方案，给出可直接复制的Docker Compose部署步骤，适合开发运维人员参考。为了更形象的说明问题，我做了一个网页版本，点击这里查看 两套主流监控方案对比和部署实操  1 核心组件概念解释为方便后续理解，直白介绍4个核心组件，全部结合实际工作场景。 1.1 Promet">
+<meta property="og:description" content="微服务可观测性：两套主流监控方案对比与Docker落地实操  摘要：可观测性分为指标监控、链路追踪两大方向。本文对比两套生产常用方案，给出可直接复制的Docker Compose部署步骤，适合开发运维人员参考。 为了更形象的说明问题，我做了一个网页版本，点击这里查看 两套主流监控方案对比和部署实操  1 核心组件概念解释 为方便后续理解，直白介绍4个核心组件，全部结合实际工作场景。 1.1 Pro">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-06-10T14:15:30.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.105Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.665Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Docker">
 <meta property="article:tag" content="Prometheus">
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1368,216 +1377,273 @@ true
             
               <div class="markdown-body">
                 
-                <h1 id="微服务可观测性：两套主流监控方案对比与Docker落地实操"><a href="#微服务可观测性：两套主流监控方案对比与Docker落地实操" class="headerlink" title="微服务可观测性：两套主流监控方案对比与Docker落地实操"></a>微服务可观测性：两套主流监控方案对比与Docker落地实操</h1><blockquote>
-<p>摘要：可观测性分为指标监控、链路追踪两大方向。本文对比两套生产常用方案，给出可直接复制的Docker Compose部署步骤，适合开发运维人员参考。<br>为了更形象的说明问题，我做了一个网页版本，点击这里查看 <a href="/html/%E4%B8%BB%E6%B5%81%E7%9B%91%E6%8E%A7%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%AE%9E%E6%93%8D.html">两套主流监控方案对比和部署实操</a></p>
+                <h1
+id="微服务可观测性两套主流监控方案对比与docker落地实操">微服务可观测性：两套主流监控方案对比与Docker落地实操</h1>
+<blockquote>
+<p>摘要：可观测性分为指标监控、链路追踪两大方向。本文对比两套生产常用方案，给出可直接复制的Docker
+Compose部署步骤，适合开发运维人员参考。
+为了更形象的说明问题，我做了一个网页版本，点击这里查看 <a
+href="/html/主流监控方案对比与部署实操.html">两套主流监控方案对比和部署实操</a></p>
 </blockquote>
-<h2 id="1-核心组件概念解释"><a href="#1-核心组件概念解释" class="headerlink" title="1 核心组件概念解释"></a>1 核心组件概念解释</h2><p>为方便后续理解，直白介绍4个核心组件，全部结合实际工作场景。</p>
-<h3 id="1-1-Prometheus"><a href="#1-1-Prometheus" class="headerlink" title="1.1 Prometheus"></a>1.1 Prometheus</h3><p>Prometheus 是开源<strong>时序指标监控工具</strong>，用来采集、存储、查询各类数值型指标：服务器CPU、内存、接口QPS、错误率、数据库连接数等。<br>采用Pull拉取模型，定时主动抓取目标暴露的<code>/metrics</code>接口；自带PromQL查询语言，支持告警规则，是云原生环境指标监控的事实标准。</p>
-<h3 id="1-2-Grafana"><a href="#1-2-Grafana" class="headerlink" title="1.2 Grafana"></a>1.2 Grafana</h3><p>Grafana 是开源可视化面板工具。<strong>本身不采集、不存储数据</strong>，只对接各类数据源（Prometheus、MySQL、Elasticsearch等），把数据渲染成折线图、大盘、报表。<br>社区有大量现成Dashboard模板，自定义能力强，我们日常看到的监控大盘基本都是Grafana实现。</p>
-<h3 id="1-3-SkyWalking"><a href="#1-3-SkyWalking" class="headerlink" title="1.3 SkyWalking"></a>1.3 SkyWalking</h3><p>SkyWalking 是国产开源分布式链路追踪APM工具，面向微服务。一次用户请求穿越多个服务时，它可以完整还原调用链路，定位慢接口、报错节点，输出服务拓扑、吞吐量、延迟统计。<br>使用Agent探针采集数据，业务代码几乎不用改造，适合微服务故障排查与性能调优。</p>
-<h3 id="1-4-Elasticsearch（ES）"><a href="#1-4-Elasticsearch（ES）" class="headerlink" title="1.4 Elasticsearch（ES）"></a>1.4 Elasticsearch（ES）</h3><p>Elasticsearch 是分布式检索分析引擎。擅长存储海量半结构化数据，提供快速检索、聚合统计。<br>在这套监控场景下，主要用来存放SkyWalking产生的链路、追踪明细数据，方便故障复盘回溯。</p>
-<h2 id="2-两套监控方案对比"><a href="#2-两套监控方案对比" class="headerlink" title="2 两套监控方案对比"></a>2 两套监控方案对比</h2><p>Prometheus+Grafana偏向宏观指标监控；SkyWalking+Elasticsearch偏向链路追踪与故障溯源。下表从核心功能、数据收集、可视化、应用场景做横向对比。</p>
+<h2 id="核心组件概念解释">1 核心组件概念解释</h2>
+<p>为方便后续理解，直白介绍4个核心组件，全部结合实际工作场景。</p>
+<h3 id="prometheus">1.1 Prometheus</h3>
+<p>Prometheus
+是开源<strong>时序指标监控工具</strong>，用来采集、存储、查询各类数值型指标：服务器CPU、内存、接口QPS、错误率、数据库连接数等。
+采用Pull拉取模型，定时主动抓取目标暴露的<code>/metrics</code>接口；自带PromQL查询语言，支持告警规则，是云原生环境指标监控的事实标准。</p>
+<h3 id="grafana">1.2 Grafana</h3>
+<p>Grafana
+是开源可视化面板工具。<strong>本身不采集、不存储数据</strong>，只对接各类数据源（Prometheus、MySQL、Elasticsearch等），把数据渲染成折线图、大盘、报表。
+社区有大量现成Dashboard模板，自定义能力强，我们日常看到的监控大盘基本都是Grafana实现。</p>
+<h3 id="skywalking">1.3 SkyWalking</h3>
+<p>SkyWalking
+是国产开源分布式链路追踪APM工具，面向微服务。一次用户请求穿越多个服务时，它可以完整还原调用链路，定位慢接口、报错节点，输出服务拓扑、吞吐量、延迟统计。
+使用Agent探针采集数据，业务代码几乎不用改造，适合微服务故障排查与性能调优。</p>
+<h3 id="elasticsearches">1.4 Elasticsearch（ES）</h3>
+<p>Elasticsearch
+是分布式检索分析引擎。擅长存储海量半结构化数据，提供快速检索、聚合统计。
+在这套监控场景下，主要用来存放SkyWalking产生的链路、追踪明细数据，方便故障复盘回溯。</p>
+<h2 id="两套监控方案对比">2 两套监控方案对比</h2>
+<p>Prometheus+Grafana偏向宏观指标监控；SkyWalking+Elasticsearch偏向链路追踪与故障溯源。下表从核心功能、数据收集、可视化、应用场景做横向对比。</p>
 <table>
+
 <thead>
-<tr>
+<tr class="header">
 <th>对比维度</th>
 <th>Prometheus + Grafana</th>
 <th>SkyWalking + Elasticsearch</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td><strong>核心功能</strong></td>
 <td>时序指标监控；资源、业务指标、告警、趋势统计；看系统整体水位。没有链路追踪能力，看不到单次请求完整调用流程。</td>
 <td>分布式链路追踪、APM性能剖析；还原完整请求链路，定位慢调用、报错节点；存储海量链路明细。通用指标能力偏弱。</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>数据收集方式</strong></td>
 <td>Pull拉取模式；被监控端暴露<code>/metrics</code>接口；通过各类Exporter对接MySQL、中间件、K8s；无代码侵入，集中式采集。</td>
 <td>Push推送模式；应用挂载Agent探针采集链路数据，上报OAP服务，最终存入ES；几乎零代码侵入，应用侧埋点采集。</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>可视化能力</strong></td>
 <td>Grafana驱动，能力极强；自定义面板、模板变量、海量社区模板，大屏友好。</td>
 <td>SkyWalking自带UI，提供拓扑、链路视图；可对接Kibana查看ES原始数据；自定义报表灵活性弱于Grafana。</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>适用场景</strong></td>
-<td>服务器&#x2F;容器资源监控、业务指标大盘、日常巡检、资源告警、K8s全局监控；适合常态化运维。</td>
+<td>服务器/容器资源监控、业务指标大盘、日常巡检、资源告警、K8s全局监控；适合常态化运维。</td>
 <td>微服务故障排查、慢请求定位、调用关系梳理、线上偶发问题溯源；适合排障、性能优化。</td>
 </tr>
-</tbody></table>
-<h2 id="3-Prometheus-Grafana工作流程与Docker部署实操"><a href="#3-Prometheus-Grafana工作流程与Docker部署实操" class="headerlink" title="3 Prometheus+Grafana工作流程与Docker部署实操"></a>3 Prometheus+Grafana工作流程与Docker部署实操</h2><h3 id="3-1-工作流程图"><a href="#3-1-工作流程图" class="headerlink" title="3.1 工作流程图"></a>3.1 工作流程图</h3><div class="mermaid">graph LR
+</tbody>
+</table>
+<h2 id="prometheusgrafana工作流程与docker部署实操">3
+Prometheus+Grafana工作流程与Docker部署实操</h2>
+<h3 id="工作流程图">3.1 工作流程图</h3>
+<div class="mermaid">graph LR
     A[被监控服务/服务器] -- 暴露metrics接口 --> B[Prometheus]
     C[MySQL数据库] -- MySQL Exporter输出指标 --> B
     B[Prometheus] -- 写入时序数据 --> D[本地时序存储]
     B -- 查询接口输出指标 --> E[Grafana]
     E -- 渲染图表 --> F[用户浏览器]
     B -- 匹配告警规则 --> G[告警通知]</div>
-
-<h3 id="3-2-环境说明"><a href="#3-2-环境说明" class="headerlink" title="3.2 环境说明"></a>3.2 环境说明</h3><ul>
-<li>操作系统：Ubuntu Server 20.04 &#x2F; 22.04</li>
+<h3 id="环境说明">3.2 环境说明</h3>
+<ul>
+<li>操作系统：Ubuntu Server 20.04 / 22.04</li>
 <li>运行环境：Docker + Docker Compose</li>
 <li>组件：Prometheus、Grafana、mysql‑exporter（监控MySQL）</li>
 </ul>
-<h3 id="3-3-创建目录"><a href="#3-3-创建目录" class="headerlink" title="3.3 创建目录"></a>3.3 创建目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> -p /data/prometheus-grafana/&#123;prometheus,exporter-mysql,grafana&#125;<br><span class="hljs-built_in">cd</span> /data/prometheus-grafana<br></code></pre></td></tr></table></figure>
-
-<h3 id="3-4-配置文件"><a href="#3-4-配置文件" class="headerlink" title="3.4 配置文件"></a>3.4 配置文件</h3><h4 id="3-4-1-prometheus-prometheus-yml"><a href="#3-4-1-prometheus-prometheus-yml" class="headerlink" title="3.4.1 prometheus&#x2F;prometheus.yml"></a>3.4.1 prometheus&#x2F;prometheus.yml</h4><p>路径：<code>/data/prometheus-grafana/prometheus/prometheus.yml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">global:</span><br>  <span class="hljs-attr">scrape_interval:</span> <span class="hljs-string">15s</span><br>  <span class="hljs-attr">evaluation_interval:</span> <span class="hljs-string">15s</span><br><br><span class="hljs-attr">rule_files:</span><br><span class="hljs-comment"># - &quot;alert.rules.yml&quot; # 需要告警时打开</span><br><br><span class="hljs-attr">scrape_configs:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">&#x27;prometheus&#x27;</span><br>    <span class="hljs-attr">static_configs:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> [<span class="hljs-string">&#x27;localhost:9090&#x27;</span>]<br><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">&#x27;mysql&#x27;</span><br>    <span class="hljs-attr">static_configs:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> [<span class="hljs-string">&#x27;mysql-exporter:9104&#x27;</span>]<br></code></pre></td></tr></table></figure>
-
-<h4 id="3-4-2-docker‑compose-yml"><a href="#3-4-2-docker‑compose-yml" class="headerlink" title="3.4.2 docker‑compose.yml"></a>3.4.2 docker‑compose.yml</h4><p>路径：<code>/data/prometheus-grafana/docker-compose.yml</code></p>
-<blockquote>
-<p>修复：把废弃<code>version: &#39;3.8&#39;</code>去掉，新版compose不需要；增加持久化权限说明；密码请按需修改。</p>
-</blockquote>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">prometheus:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">prom/prometheus:v2.53.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">prometheus</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./prometheus/data:/prometheus</span><br>    <span class="hljs-attr">command:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;--config.file=/etc/prometheus/prometheus.yml&#x27;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;--storage.tsdb.path=/prometheus&#x27;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;--storage.tsdb.retention=7d&#x27;</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9090:9090&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">monitor-net</span><br><br>  <span class="hljs-attr">mysql-exporter:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">prom/mysqld-exporter:v0.15.1</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mysql-exporter</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">DATA_SOURCE_NAME:</span> <span class="hljs-string">&quot;root:123456@tcp(192.168.1.100:3306)/&quot;</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9104:9104&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">monitor-net</span><br><br>  <span class="hljs-attr">grafana:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">grafana/grafana:11.2.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">grafana</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./grafana/data:/var/lib/grafana</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;3000:3000&quot;</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">GF_SECURITY_ADMIN_PASSWORD:</span> <span class="hljs-string">admin123456</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">monitor-net</span><br><br><span class="hljs-attr">networks:</span><br>  <span class="hljs-attr">monitor-net:</span><br>    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="3-5-启动与初始化"><a href="#3-5-启动与初始化" class="headerlink" title="3.5 启动与初始化"></a>3.5 启动与初始化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># grafana目录权限处理</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chown</span> -R 472:472 ./grafana/data<br><br>docker compose up -d<br>docker compose ps<br></code></pre></td></tr></table></figure>
-
-<p>访问地址：</p>
-<ul>
-<li>Prometheus：<code>http://服务器IP:9090</code></li>
-<li>Grafana：<code>http://服务器IP:3000</code> 账号<code>admin</code>，密码<code>admin123456</code></li>
-</ul>
+<h3 id="创建目录">3.3 创建目录</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> -p /data/prometheus-grafana/&#123;prometheus,exporter-mysql,grafana&#125;<br><span class="hljs-built_in">cd</span> /data/prometheus-grafana<br></code></pre></td></tr></table></figure>
+<h3 id="配置文件">3.4 配置文件</h3>
+<h4 id="prometheusprometheus.yml">3.4.1 prometheus/prometheus.yml</h4>
+<p>路径：<code>/data/prometheus-grafana/prometheus/prometheus.yml</code>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">global:</span><br>  <span class="hljs-attr">scrape_interval:</span> <span class="hljs-string">15s</span><br>  <span class="hljs-attr">evaluation_interval:</span> <span class="hljs-string">15s</span><br><br><span class="hljs-attr">rule_files:</span><br><span class="hljs-comment"># - &quot;alert.rules.yml&quot; # 需要告警时打开</span><br><br><span class="hljs-attr">scrape_configs:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">&#x27;prometheus&#x27;</span><br>    <span class="hljs-attr">static_configs:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> [<span class="hljs-string">&#x27;localhost:9090&#x27;</span>]<br><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">&#x27;mysql&#x27;</span><br>    <span class="hljs-attr">static_configs:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> [<span class="hljs-string">&#x27;mysql-exporter:9104&#x27;</span>]<br></code></pre></td></tr></table></figure></p>
+<h4 id="dockercompose.yml">3.4.2 docker‑compose.yml</h4>
+<p>路径：<code>/data/prometheus-grafana/docker-compose.yml</code> &gt;
+修复：把废弃<code>version: '3.8'</code>去掉，新版compose不需要；增加持久化权限说明；密码请按需修改。
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">prometheus:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">prom/prometheus:v2.53.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">prometheus</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./prometheus/data:/prometheus</span><br>    <span class="hljs-attr">command:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;--config.file=/etc/prometheus/prometheus.yml&#x27;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;--storage.tsdb.path=/prometheus&#x27;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;--storage.tsdb.retention=7d&#x27;</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9090:9090&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">monitor-net</span><br><br>  <span class="hljs-attr">mysql-exporter:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">prom/mysqld-exporter:v0.15.1</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mysql-exporter</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">DATA_SOURCE_NAME:</span> <span class="hljs-string">&quot;root:123456@tcp(192.168.1.100:3306)/&quot;</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9104:9104&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">monitor-net</span><br><br>  <span class="hljs-attr">grafana:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">grafana/grafana:11.2.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">grafana</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./grafana/data:/var/lib/grafana</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;3000:3000&quot;</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">GF_SECURITY_ADMIN_PASSWORD:</span> <span class="hljs-string">admin123456</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">monitor-net</span><br><br><span class="hljs-attr">networks:</span><br>  <span class="hljs-attr">monitor-net:</span><br>    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span><br></code></pre></td></tr></table></figure></p>
+<h3 id="启动与初始化">3.5 启动与初始化</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># grafana目录权限处理</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chown</span> -R 472:472 ./grafana/data<br><br>docker compose up -d<br>docker compose ps<br></code></pre></td></tr></table></figure>
+<p>访问地址： - Prometheus：<code>http://服务器IP:9090</code> -
+Grafana：<code>http://服务器IP:3000</code>
+账号<code>admin</code>，密码<code>admin123456</code></p>
 <p>Grafana操作：添加数据源选择Prometheus，地址填<code>http://prometheus:9090</code>，测试连通成功后导入社区Dashboard模板即可出大盘。</p>
-<h2 id="4-SkyWalking-Elasticsearch工作流程与Docker部署实操"><a href="#4-SkyWalking-Elasticsearch工作流程与Docker部署实操" class="headerlink" title="4 SkyWalking+Elasticsearch工作流程与Docker部署实操"></a>4 SkyWalking+Elasticsearch工作流程与Docker部署实操</h2><h3 id="4-1-工作流程图"><a href="#4-1-工作流程图" class="headerlink" title="4.1 工作流程图"></a>4.1 工作流程图</h3><div class="mermaid">graph LR
+<h2 id="skywalkingelasticsearch工作流程与docker部署实操">4
+SkyWalking+Elasticsearch工作流程与Docker部署实操</h2>
+<h3 id="工作流程图-1">4.1 工作流程图</h3>
+<div class="mermaid">graph LR
     A[微服务应用] -- Agent探针上报链路数据 --> B[SkyWalking OAP服务]
     B[OAP服务] -- 清洗聚合 --> C[Elasticsearch存储]
     B -- 对外提供API --> D[SkyWalking UI]
     D -- 拓扑/链路/报表 --> E[用户浏览器]
     C[ES] -- 原始链路检索 --> D</div>
-
-<h3 id="4-2-环境说明"><a href="#4-2-环境说明" class="headerlink" title="4.2 环境说明"></a>4.2 环境说明</h3><ul>
-<li>操作系统：Ubuntu Server 20.04 &#x2F; 22.04</li>
-<li>运行环境：Docker + Docker Compose</li>
-<li>组件：Elasticsearch7.17.0、SkyWalking OAP‑Server 9.5.0、SkyWalking‑UI 9.5.0</li>
-</ul>
-<h3 id="4-3-创建目录"><a href="#4-3-创建目录" class="headerlink" title="4.3 创建目录"></a>4.3 创建目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> -p /data/skywalking-es/&#123;es-data,oap-config,ui-config&#125;<br><span class="hljs-built_in">cd</span> /data/skywalking-es<br></code></pre></td></tr></table></figure>
-
-<h3 id="4-4-docker‑compose-yml"><a href="#4-4-docker‑compose-yml" class="headerlink" title="4.4 docker‑compose.yml"></a>4.4 docker‑compose.yml</h3><p>路径：<code>/data/skywalking-es/docker-compose.yml</code></p>
-<blockquote>
-<p>ES单节点模式，内存调小适合测试环境；生产环境需要集群。</p>
-</blockquote>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">elasticsearch:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">docker.elastic.co/elasticsearch/elasticsearch:7.17.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">elasticsearch</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">discovery.type=single-node</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">ES_JAVA_OPTS=-Xms512m</span> <span class="hljs-string">-Xmx512m</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">xpack.security.enabled=false</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./es-data:/usr/share/elasticsearch/data</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9200:9200&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9300:9300&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">sky-net</span><br><br>  <span class="hljs-attr">skywalking-oap:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">apache/skywalking-oap-server:9.5.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">skywalking-oap</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">depends_on:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">elasticsearch</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">SW_STORAGE:</span> <span class="hljs-string">elasticsearch</span><br>      <span class="hljs-attr">SW_STORAGE_ES_CLUSTER_NODES:</span> <span class="hljs-string">elasticsearch:9200</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;11800:11800&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;12800:12800&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">sky-net</span><br><br>  <span class="hljs-attr">skywalking-ui:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">apache/skywalking-ui:9.5.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">skywalking-ui</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">depends_on:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">skywalking-oap</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">SW_OAP_ADDRESS:</span> <span class="hljs-string">http://skywalking-oap:12800</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;8081:8080&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">sky-net</span><br><br><span class="hljs-attr">networks:</span><br>  <span class="hljs-attr">sky-net:</span><br>    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="4-5-权限与启动"><a href="#4-5-权限与启动" class="headerlink" title="4.5 权限与启动"></a>4.5 权限与启动</h3><blockquote>
-<p>ES容器内部用户uid&#x3D;1000，宿主机目录必须授权，否则启动失败。</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> 777 -R ./es-data<br><br>docker compose up -d<br>docker compose ps<br></code></pre></td></tr></table></figure>
-
-<p>访问地址：</p>
+<h3 id="环境说明-1">4.2 环境说明</h3>
 <ul>
-<li>Elasticsearch：<code>http://服务器IP:9200</code></li>
-<li>SkyWalking UI：<code>http://服务器IP:8081</code></li>
+<li>操作系统：Ubuntu Server 20.04 / 22.04</li>
+<li>运行环境：Docker + Docker Compose</li>
+<li>组件：Elasticsearch7.17.0、SkyWalking OAP‑Server
+9.5.0、SkyWalking‑UI 9.5.0</li>
 </ul>
+<h3 id="创建目录-1">4.3 创建目录</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> -p /data/skywalking-es/&#123;es-data,oap-config,ui-config&#125;<br><span class="hljs-built_in">cd</span> /data/skywalking-es<br></code></pre></td></tr></table></figure>
+<h3 id="dockercompose.yml-1">4.4 docker‑compose.yml</h3>
+<p>路径：<code>/data/skywalking-es/docker-compose.yml</code> &gt;
+ES单节点模式，内存调小适合测试环境；生产环境需要集群。 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">elasticsearch:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">docker.elastic.co/elasticsearch/elasticsearch:7.17.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">elasticsearch</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">discovery.type=single-node</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">ES_JAVA_OPTS=-Xms512m</span> <span class="hljs-string">-Xmx512m</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">xpack.security.enabled=false</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./es-data:/usr/share/elasticsearch/data</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9200:9200&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9300:9300&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">sky-net</span><br><br>  <span class="hljs-attr">skywalking-oap:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">apache/skywalking-oap-server:9.5.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">skywalking-oap</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">depends_on:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">elasticsearch</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">SW_STORAGE:</span> <span class="hljs-string">elasticsearch</span><br>      <span class="hljs-attr">SW_STORAGE_ES_CLUSTER_NODES:</span> <span class="hljs-string">elasticsearch:9200</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;11800:11800&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;12800:12800&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">sky-net</span><br><br>  <span class="hljs-attr">skywalking-ui:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">apache/skywalking-ui:9.5.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">skywalking-ui</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">depends_on:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">skywalking-oap</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">SW_OAP_ADDRESS:</span> <span class="hljs-string">http://skywalking-oap:12800</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;8081:8080&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">sky-net</span><br><br><span class="hljs-attr">networks:</span><br>  <span class="hljs-attr">sky-net:</span><br>    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span><br></code></pre></td></tr></table></figure></p>
+<h3 id="权限与启动">4.5 权限与启动</h3>
 <blockquote>
-<p>使用：业务程序配置SkyWalking Agent探针，启动应用上报数据，UI即可看到服务拓扑、调用链路、异常信息，链路数据持久化到ES。</p>
+<p>ES容器内部用户uid=1000，宿主机目录必须授权，否则启动失败。
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> 777 -R ./es-data<br><br>docker compose up -d<br>docker compose ps<br></code></pre></td></tr></table></figure></p>
 </blockquote>
-<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5 总结"></a>5 总结</h2><p>两套方案不是互斥替代，而是互补。<br>Prometheus+Grafana作为指标监控底座，负责日常资源、业务指标巡检与告警；SkyWalking+ES做链路追踪，负责微服务故障定位、性能调优。真实生产环境一般两套一起部署，同时拿到指标大盘与链路排障能力。</p>
-<hr>
-<h1 id="常见踩坑清单"><a href="#常见踩坑清单" class="headerlink" title="常见踩坑清单"></a>常见踩坑清单</h1><h2 id="1-Elasticsearch-启动失败"><a href="#1-Elasticsearch-启动失败" class="headerlink" title="1 Elasticsearch 启动失败"></a>1 Elasticsearch 启动失败</h2><h3 id="1-1-容器反复重启，日志提示权限-denied"><a href="#1-1-容器反复重启，日志提示权限-denied" class="headerlink" title="1.1 容器反复重启，日志提示权限 denied"></a>1.1 容器反复重启，日志提示权限 denied</h3><ul>
+<p>访问地址： - Elasticsearch：<code>http://服务器IP:9200</code> -
+SkyWalking UI：<code>http://服务器IP:8081</code></p>
+<blockquote>
+<p>使用：业务程序配置SkyWalking
+Agent探针，启动应用上报数据，UI即可看到服务拓扑、调用链路、异常信息，链路数据持久化到ES。</p>
+</blockquote>
+<h2 id="总结">5 总结</h2>
+<p>两套方案不是互斥替代，而是互补。
+Prometheus+Grafana作为指标监控底座，负责日常资源、业务指标巡检与告警；SkyWalking+ES做链路追踪，负责微服务故障定位、性能调优。真实生产环境一般两套一起部署，同时拿到指标大盘与链路排障能力。</p>
+<hr />
+<h1 id="常见踩坑清单">常见踩坑清单</h1>
+<h2 id="elasticsearch-启动失败">1 Elasticsearch 启动失败</h2>
+<h3 id="容器反复重启日志提示权限-denied">1.1 容器反复重启，日志提示权限
+denied</h3>
+<ul>
 <li><strong>现象</strong>：<code>docker compose ps</code>看到elasticsearch状态为Restarting；日志输出<code>Permission denied</code></li>
-<li><strong>根因</strong>：ES容器内部运行用户UID&#x3D;1000，宿主机挂载目录<code>es-data</code>权限不足，无法写入数据文件。</li>
-<li><strong>解决</strong><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 进入compose所在目录执行</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> 777 -R ./es-data<br></code></pre></td></tr></table></figure>
-<blockquote>
-<p>生产环境不建议777；测试环境快速调试可用；生产应当修改目录属主 <code>sudo chown -R 1000:1000 ./es-data</code></p>
-</blockquote>
-</li>
+<li><strong>根因</strong>：ES容器内部运行用户UID=1000，宿主机挂载目录<code>es-data</code>权限不足，无法写入数据文件。</li>
+<li><strong>解决</strong> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 进入compose所在目录执行</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> 777 -R ./es-data<br></code></pre></td></tr></table></figure> &gt;
+生产环境不建议777；测试环境快速调试可用；生产应当修改目录属主
+<code>sudo chown -R 1000:1000 ./es-data</code></li>
 </ul>
-<h3 id="1-2-ES启动报内存溢出、OOM被杀"><a href="#1-2-ES启动报内存溢出、OOM被杀" class="headerlink" title="1.2 ES启动报内存溢出、OOM被杀"></a>1.2 ES启动报内存溢出、OOM被杀</h3><ul>
-<li><strong>现象</strong>：容器刚启动直接退出；dmesg能看到OOM killer杀掉进程</li>
+<h3 id="es启动报内存溢出oom被杀">1.2 ES启动报内存溢出、OOM被杀</h3>
+<ul>
+<li><strong>现象</strong>：容器刚启动直接退出；dmesg能看到OOM
+killer杀掉进程</li>
 <li><strong>根因</strong>：机器内存太小，ES堆内存配置过大；机器低于2G内存极易复现。</li>
-<li><strong>解决</strong> 修改compose中ES环境变量，降低堆大小<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">environment:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">ES_JAVA_OPTS=-Xms256m</span> <span class="hljs-string">-Xmx256m</span><br></code></pre></td></tr></table></figure>
-<blockquote>
-<p>ES要求 Xms 与 Xmx保持一致；测试环境最小256M，生产建议至少1G以上。</p>
-</blockquote>
-</li>
+<li><strong>解决</strong> 修改compose中ES环境变量，降低堆大小
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">environment:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">ES_JAVA_OPTS=-Xms256m</span> <span class="hljs-string">-Xmx256m</span><br></code></pre></td></tr></table></figure> &gt; ES要求 Xms 与
+Xmx保持一致；测试环境最小256M，生产建议至少1G以上。</li>
 </ul>
-<h3 id="1-3-ES单节点报错-discovery-type-未配置"><a href="#1-3-ES单节点报错-discovery-type-未配置" class="headerlink" title="1.3 ES单节点报错 discovery.type 未配置"></a>1.3 ES单节点报错 <code>discovery.type</code> 未配置</h3><ul>
-<li><strong>现象</strong>：日志报 master not discovered；集群无法形成，一直重启</li>
+<h3 id="es单节点报错-discovery.type-未配置">1.3 ES单节点报错
+<code>discovery.type</code> 未配置</h3>
+<ul>
+<li><strong>现象</strong>：日志报 master not
+discovered；集群无法形成，一直重启</li>
 <li><strong>根因</strong>：单机部署忘记配置<code>discovery.type=single-node</code>，ES默认试图找集群其他节点。</li>
-<li><strong>解决</strong> compose elasticsearch service环境必须带上：<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-bullet">-</span> <span class="hljs-string">discovery.type=single-node</span><br></code></pre></td></tr></table></figure></li>
+<li><strong>解决</strong> compose elasticsearch service环境必须带上：
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-bullet">-</span> <span class="hljs-string">discovery.type=single-node</span><br></code></pre></td></tr></table></figure></li>
 </ul>
-<h3 id="1-4-vm-max-map-count-系统参数不足（Linux经典坑）"><a href="#1-4-vm-max-map-count-系统参数不足（Linux经典坑）" class="headerlink" title="1.4 vm.max_map_count 系统参数不足（Linux经典坑）"></a>1.4 vm.max_map_count 系统参数不足（Linux经典坑）</h3><ul>
-<li><strong>现象</strong>：ES启动日志 <code>max virtual memory areas vm.max_map_count [65530] is too low</code></li>
+<h3 id="vm.max_map_count-系统参数不足linux经典坑">1.4 vm.max_map_count
+系统参数不足（Linux经典坑）</h3>
+<ul>
+<li><strong>现象</strong>：ES启动日志
+<code>max virtual memory areas vm.max_map_count [65530] is too low</code></li>
 <li><strong>根因</strong>：Linux系统默认虚拟内存映射数不够，ES需要更大。</li>
-<li><strong>临时生效（重启机器失效）</strong><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> sysctl -w vm.max_map_count=262144<br></code></pre></td></tr></table></figure></li>
-<li><strong>永久生效</strong><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;vm.max_map_count=262144&quot;</span> | <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> -a /etc/sysctl.conf<br><span class="hljs-built_in">sudo</span> sysctl -p<br></code></pre></td></tr></table></figure></li>
+<li><strong>临时生效（重启机器失效）</strong> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> sysctl -w vm.max_map_count=262144<br></code></pre></td></tr></table></figure></li>
+<li><strong>永久生效</strong> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;vm.max_map_count=262144&quot;</span> | <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> -a /etc/sysctl.conf<br><span class="hljs-built_in">sudo</span> sysctl -p<br></code></pre></td></tr></table></figure></li>
 </ul>
-<h2 id="2-SkyWalking-Agent-连不上-OAP服务"><a href="#2-SkyWalking-Agent-连不上-OAP服务" class="headerlink" title="2 SkyWalking Agent 连不上 OAP服务"></a>2 SkyWalking Agent 连不上 OAP服务</h2><blockquote>
+<h2 id="skywalking-agent-连不上-oap服务">2 SkyWalking Agent 连不上
+OAP服务</h2>
+<blockquote>
 <p>Agent运行在业务应用侧，OAP运行在docker容器内，这个坑出现频率很高。</p>
 </blockquote>
-<h3 id="2-1-Agent报错：connect-to-oap-11800-timeout-connection-refused"><a href="#2-1-Agent报错：connect-to-oap-11800-timeout-connection-refused" class="headerlink" title="2.1 Agent报错：connect to oap 11800 timeout &#x2F; connection refused"></a>2.1 Agent报错：connect to oap 11800 timeout &#x2F; connection refused</h3><ul>
-<li><strong>现象</strong>：应用日志大量warn，Agent无法上报数据；SkyWalking UI看不到任何服务。</li>
+<h3 id="agent报错connect-to-oap-11800-timeout-connection-refused">2.1
+Agent报错：connect to oap 11800 timeout / connection refused</h3>
+<ul>
+<li><strong>现象</strong>：应用日志大量warn，Agent无法上报数据；SkyWalking
+UI看不到任何服务。</li>
 <li><strong>根因分类</strong></li>
 </ul>
-<ol>
+<ol type="1">
 <li>Agent配置的OAP地址写错；</li>
-<li>防火墙&#x2F;安全组没有放行**11800端口(gRPC上报端口)**；12800是UI调用HTTP端口，Agent不走12800；</li>
+<li>防火墙/安全组没有放行<strong>11800端口(gRPC上报端口)</strong>；12800是UI调用HTTP端口，Agent不走12800；</li>
 <li>业务应用不在docker网络内，填容器内部主机名<code>skywalking‑oap</code>无法解析，必须填写宿主机IP。</li>
 </ol>
 <ul>
 <li><strong>解决步骤</strong></li>
 </ul>
-<ol>
-<li>Agent配置<code>agent.config</code>中 <code>collector.backend_service</code> 填写<strong>宿主机IP:11800</strong>，不要填容器名；<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">collector.backend_service</span>=<span class="hljs-string">192.168.1.100:11800</span><br></code></pre></td></tr></table></figure></li>
+<ol type="1">
+<li>Agent配置<code>agent.config</code>中
+<code>collector.backend_service</code>
+填写<strong>宿主机IP:11800</strong>，不要填容器名； <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">collector.backend_service</span>=<span class="hljs-string">192.168.1.100:11800</span><br></code></pre></td></tr></table></figure></li>
 <li>服务器防火墙放行11800端口；云服务器安全组放行11800；</li>
-<li>在业务机器上验证连通：<code>telnet 192.168.1.100 11800</code> 或者 <code>nc -zv 192.168.1.100 11800</code>，必须通。</li>
+<li>在业务机器上验证连通：<code>telnet 192.168.1.100 11800</code> 或者
+<code>nc -zv 192.168.1.100 11800</code>，必须通。</li>
 </ol>
-<h3 id="2-2-OAP还没就绪，Agent就开始上报"><a href="#2-2-OAP还没就绪，Agent就开始上报" class="headerlink" title="2.2 OAP还没就绪，Agent就开始上报"></a>2.2 OAP还没就绪，Agent就开始上报</h3><ul>
+<h3 id="oap还没就绪agent就开始上报">2.2
+OAP还没就绪，Agent就开始上报</h3>
+<ul>
 <li><strong>现象</strong>：OAP刚启动几十秒内，Agent报连接失败；等待一段时间自动恢复。</li>
-<li><strong>根因</strong>：OAP启动需要初始化ES索引，启动慢；docker compose的<code>depends_on</code>只保证容器启动顺序，不保证服务就绪。</li>
+<li><strong>根因</strong>：OAP启动需要初始化ES索引，启动慢；docker
+compose的<code>depends_on</code>只保证容器启动顺序，不保证服务就绪。</li>
 <li><strong>解决</strong>：业务应用晚几分钟启动；开发环境可以忽略；生产增加健康检查。</li>
 </ul>
-<h3 id="2-3-Agent版本和OAP版本不一致"><a href="#2-3-Agent版本和OAP版本不一致" class="headerlink" title="2.3 Agent版本和OAP版本不一致"></a>2.3 Agent版本和OAP版本不一致</h3><ul>
+<h3 id="agent版本和oap版本不一致">2.3 Agent版本和OAP版本不一致</h3>
+<ul>
 <li><strong>现象</strong>：连接可以通，但是无数据，报序列化异常。</li>
-<li><strong>根因</strong>：SkyWalking Agent版本号必须和后端OAP版本严格对齐；例如OAP 9.5.0，Agent也必须9.5.0。跨版本会出现协议不兼容。</li>
+<li><strong>根因</strong>：SkyWalking
+Agent版本号必须和后端OAP版本严格对齐；例如OAP
+9.5.0，Agent也必须9.5.0。跨版本会出现协议不兼容。</li>
 <li><strong>解决</strong>：保持Agent、OAP‑Server、UI三者版本完全一致。</li>
 </ul>
-<h3 id="2-4-ES异常导致OAP工作异常，间接Agent上报失败"><a href="#2-4-ES异常导致OAP工作异常，间接Agent上报失败" class="headerlink" title="2.4 ES异常导致OAP工作异常，间接Agent上报失败"></a>2.4 ES异常导致OAP工作异常，间接Agent上报失败</h3><ul>
+<h3 id="es异常导致oap工作异常间接agent上报失败">2.4
+ES异常导致OAP工作异常，间接Agent上报失败</h3>
+<ul>
 <li><strong>现象</strong>：Agent显示上报成功，但UI看不到链路；OAP日志大量ES报错。</li>
 <li><strong>根因</strong>：OAP虽然gRPC端口通，但无法写入ES，数据直接丢弃。</li>
 <li><strong>排查</strong>：查看<code>docker compose logs skywalking-oap</code>，看ES相关报错；优先保证ES正常运行。</li>
 </ul>
-<h2 id="3-Grafana-数据源连通异常（对接Prometheus）"><a href="#3-Grafana-数据源连通异常（对接Prometheus）" class="headerlink" title="3 Grafana 数据源连通异常（对接Prometheus）"></a>3 Grafana 数据源连通异常（对接Prometheus）</h2><h3 id="3-1-Save-test-报错：connection-refused"><a href="#3-1-Save-test-报错：connection-refused" class="headerlink" title="3.1 Save &amp; test 报错：connection refused"></a>3.1 Save &amp; test 报错：connection refused</h3><ul>
+<h2 id="grafana-数据源连通异常对接prometheus">3 Grafana
+数据源连通异常（对接Prometheus）</h2>
+<h3 id="save-test-报错connection-refused">3.1 Save &amp; test
+报错：connection refused</h3>
+<ul>
 <li><strong>现象</strong>：Grafana页面添加Prometheus数据源，填写地址，测试报错连接拒绝。</li>
 <li><strong>根因区分</strong></li>
 </ul>
-<ol>
+<ol type="1">
 <li>填<code>127.0.0.1:9090</code>：Grafana跑在docker容器内部，127.0.0.1指向Grafana容器自己，不是宿主机prometheus。</li>
-<li>填宿主机IP，但防火墙&#x2F;安全组拦截9090。</li>
+<li>填宿主机IP，但防火墙/安全组拦截9090。</li>
 <li>网络问题：没有使用compose内部网络，容器之间无法互通。</li>
 </ol>
 <ul>
-<li><strong>正确写法</strong>：<blockquote>
-<p>在同一个docker compose网络<code>monitor‑net</code>内部，直接写容器名：</p>
-</blockquote>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">http:</span><span class="hljs-comment">//prometheus:9090</span><br></code></pre></td></tr></table></figure>
-<blockquote>
-<p>如果Grafana不在同一个compose，填写宿主机真实IP:9090，并且确认防火墙放行9090。</p>
-</blockquote>
-</li>
+<li><strong>正确写法</strong>： &gt; 在同一个docker
+compose网络<code>monitor‑net</code>内部，直接写容器名： <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">http:</span><span class="hljs-comment">//prometheus:9090</span><br></code></pre></td></tr></table></figure>
+&gt;
+如果Grafana不在同一个compose，填写宿主机真实IP:9090，并且确认防火墙放行9090。</li>
 </ul>
-<h3 id="3-2-可以连通，但面板无数据"><a href="#3-2-可以连通，但面板无数据" class="headerlink" title="3.2 可以连通，但面板无数据"></a>3.2 可以连通，但面板无数据</h3><ul>
+<h3 id="可以连通但面板无数据">3.2 可以连通，但面板无数据</h3>
+<ul>
 <li><strong>现象</strong>：数据源测试成功，导入Dashboard后图表空白。</li>
 <li><strong>根因</strong></li>
 </ul>
-<ol>
-<li>Prometheus <code>scrape_configs</code> job采集失败；targets页面显示DOWN；</li>
+<ol type="1">
+<li>Prometheus <code>scrape_configs</code>
+job采集失败；targets页面显示DOWN；</li>
 <li>Dashboard模板选择时间范围不对；</li>
 <li>使用的PromQL指标名称和exporter输出指标不匹配。</li>
 </ol>
 <ul>
-<li><strong>排查</strong><br>打开Prometheus页面 Status → Targets，查看各个job状态；如果target显示DOWN，检查exporter配置。</li>
+<li><strong>排查</strong> 打开Prometheus页面 Status →
+Targets，查看各个job状态；如果target显示DOWN，检查exporter配置。</li>
 </ul>
-<h3 id="3-3-mysql‑exporter连接MySQL失败，采集不到MySQL指标"><a href="#3-3-mysql‑exporter连接MySQL失败，采集不到MySQL指标" class="headerlink" title="3.3 mysql‑exporter连接MySQL失败，采集不到MySQL指标"></a>3.3 mysql‑exporter连接MySQL失败，采集不到MySQL指标</h3><ul>
-<li><strong>现象</strong>：Prometheus target中mysql job UP，但无mysql相关指标。</li>
-<li><strong>根因</strong>：<code>DATA_SOURCE_NAME</code>账号密码、MySQL地址错误；MySQL账号没有授权访问。<blockquote>
-<p>注意：<code>DATA_SOURCE_NAME=root:123456@tcp(192.168.1.100:3306)/</code> 不要加多余空格。</p>
-</blockquote>
-</li>
-<li><strong>验证exporter是否正常</strong>：浏览器访问 <code>http://宿主机IP:9104/metrics</code>，看是否输出大量mysql指标。输出为空说明exporter连不上数据库。</li>
+<h3 id="mysqlexporter连接mysql失败采集不到mysql指标">3.3
+mysql‑exporter连接MySQL失败，采集不到MySQL指标</h3>
+<ul>
+<li><strong>现象</strong>：Prometheus target中mysql job
+UP，但无mysql相关指标。</li>
+<li><strong>根因</strong>：<code>DATA_SOURCE_NAME</code>账号密码、MySQL地址错误；MySQL账号没有授权访问。
+&gt;
+注意：<code>DATA_SOURCE_NAME=root:123456@tcp(192.168.1.100:3306)/</code>
+不要加多余空格。</li>
+<li><strong>验证exporter是否正常</strong>：浏览器访问
+<code>http://宿主机IP:9104/metrics</code>，看是否输出大量mysql指标。输出为空说明exporter连不上数据库。</li>
 </ul>
-<h2 id="4-其他通用小坑"><a href="#4-其他通用小坑" class="headerlink" title="4 其他通用小坑"></a>4 其他通用小坑</h2><ol>
-<li><strong>docker compose v1&#x2F;v2命令差异</strong>：新版是<code>docker compose up -d</code>（无短横线）；老版本<code>docker‑compose up -d</code>。</li>
+<h2 id="其他通用小坑">4 其他通用小坑</h2>
+<ol type="1">
+<li><strong>docker compose
+v1/v2命令差异</strong>：新版是<code>docker compose up -d</code>（无短横线）；老版本<code>docker‑compose up -d</code>。</li>
 <li>容器重建后数据丢失：确认volumes挂载路径正确，不要挂载容器内部临时路径。</li>
 <li>Prometheus数据保留时间：<code>storage.tsdb.retention=7d</code>默认7天；磁盘紧张注意调小。</li>
 </ol>
@@ -1773,6 +1839,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1990,6 +2062,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

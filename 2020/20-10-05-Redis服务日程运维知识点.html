@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="启动Redis在Windows中，Redis可以作为普通的程序启动，也可以注册为Windows服务进程启动。如果服务器是Windows server 2012或者更高版本，可以通过服务管理器来管理Redis服务。如果是在Windows电脑上开始时候使用，作为普通的程序启动即可。 在Linux中，我们以CentOS为例，也可以下载Redis的压缩包，解压运行；也可以作为服务进程，通过systemct">
+    <meta name="description" content="启动Redis 在Windows中，Redis可以作为普通的程序启动，也可以注册为Windows服务进程启动。如果服务器是Windows server 2012或者更高版本，可以通过服务管理器来管理Redis服务。如果是在Windows电脑上开始时候使用，作为普通的程序启动即可。 在Linux中，我们以CentOS为例，也可以下载Redis的压缩包，解压运行；也可以作为服务进程，通过systemc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis服务日程运维知识点">
 <meta property="og:url" content="https://jycpp.github.io/2020/20-10-05-Redis%E6%9C%8D%E5%8A%A1%E6%97%A5%E7%A8%8B%E8%BF%90%E7%BB%B4%E7%9F%A5%E8%AF%86%E7%82%B9.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="启动Redis在Windows中，Redis可以作为普通的程序启动，也可以注册为Windows服务进程启动。如果服务器是Windows server 2012或者更高版本，可以通过服务管理器来管理Redis服务。如果是在Windows电脑上开始时候使用，作为普通的程序启动即可。 在Linux中，我们以CentOS为例，也可以下载Redis的压缩包，解压运行；也可以作为服务进程，通过systemct">
+<meta property="og:description" content="启动Redis 在Windows中，Redis可以作为普通的程序启动，也可以注册为Windows服务进程启动。如果服务器是Windows server 2012或者更高版本，可以通过服务管理器来管理Redis服务。如果是在Windows电脑上开始时候使用，作为普通的程序启动即可。 在Linux中，我们以CentOS为例，也可以下载Redis的压缩包，解压运行；也可以作为服务进程，通过systemc">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-10-05T17:27:20.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.104Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.661Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Redis">
 <meta property="article:tag" content="运维">
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1368,78 +1377,89 @@ true
             
               <div class="markdown-body">
                 
-                <h2 id="启动Redis"><a href="#启动Redis" class="headerlink" title="启动Redis"></a>启动Redis</h2><p>在Windows中，Redis可以作为普通的程序启动，也可以注册为Windows服务进程启动。如果服务器是Windows server 2012或者更高版本，可以通过服务管理器来管理Redis服务。如果是在Windows电脑上开始时候使用，作为普通的程序启动即可。</p>
-<p>在Linux中，我们以CentOS为例，也可以下载Redis的压缩包，解压运行；也可以作为服务进程，通过systemctl enable xxxx 和 service xxxx start来管理和启动。</p>
-<p>我们以压缩包解压运行为例，解压后，进入到redis目录下，执行redis-server.exe redis.conf即可启动Redis。</p>
+                <h2 id="启动redis">启动Redis</h2>
+<p>在Windows中，Redis可以作为普通的程序启动，也可以注册为Windows服务进程启动。如果服务器是Windows
+server
+2012或者更高版本，可以通过服务管理器来管理Redis服务。如果是在Windows电脑上开始时候使用，作为普通的程序启动即可。</p>
+<p>在Linux中，我们以CentOS为例，也可以下载Redis的压缩包，解压运行；也可以作为服务进程，通过systemctl
+enable xxxx 和 service xxxx start来管理和启动。</p>
+<p>我们以压缩包解压运行为例，解压后，进入到redis目录下，执行redis-server.exe
+redis.conf即可启动Redis。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> redis-6.2.6<br>redis-server.exe redis.conf<br></code></pre></td></tr></table></figure>
-
-<p>在CentOS下，这个程序一般是放在src中的，我们可以进入到src目录下，执行make命令编译，然后执行src&#x2F;redis-server即可启动Redis。</p>
+<p>在CentOS下，这个程序一般是放在src中的，我们可以进入到src目录下，执行make命令编译，然后执行src/redis-server即可启动Redis。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> redis-6.2.6<br><br>src/redis-server redis.conf<br></code></pre></td></tr></table></figure>
-
-<h2 id="退出Redis"><a href="#退出Redis" class="headerlink" title="退出Redis"></a>退出Redis</h2><p>在CentOS中，我们可以通过查看Redis的进程，然后使用kill命令退出Redis。</p>
+<h2 id="退出redis">退出Redis</h2>
+<p>在CentOS中，我们可以通过查看Redis的进程，然后使用kill命令退出Redis。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ps -ef | grep redis<br><span class="hljs-built_in">kill</span> -9 pid<br></code></pre></td></tr></table></figure>
-
 <p>当然，这是下下策，优雅的退出Redis也是可以的，我们通过redis-cli来实现：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">redis-cli -h 127.0.0.1 -p 6379 shutdown<br></code></pre></td></tr></table></figure>
-
 <p>在Windows中，我们可以通过任务管理器来退出Redis。</p>
-<h2 id="访问灵活性与安全性"><a href="#访问灵活性与安全性" class="headerlink" title="访问灵活性与安全性"></a>访问灵活性与安全性</h2><p>redis是一个高性能的key-value数据库，它支持多种数据结构，如字符串、哈希、列表、集合、有序集合等。</p>
+<h2 id="访问灵活性与安全性">访问灵活性与安全性</h2>
+<p>redis是一个高性能的key-value数据库，它支持多种数据结构，如字符串、哈希、列表、集合、有序集合等。</p>
 <p>redis支持多种访问方式，包括命令行、客户端、REST API等。</p>
 <p>我们需要在不同的场景下选择合适的访问方式，以保证访问的灵活性和安全性。</p>
-<h3 id="访问redis的方式"><a href="#访问redis的方式" class="headerlink" title="访问redis的方式"></a>访问redis的方式</h3><p>redis的访问方式有很多种，我们需要根据不同的场景选择合适的访问方式。</p>
-<p>例如，我们可以使用命令行进行简单的访问，也可以使用客户端进行批量操作。<br>我们也可以使用REST API进行批量操作，也可以使用客户端进行加密。</p>
+<h3 id="访问redis的方式">访问redis的方式</h3>
+<p>redis的访问方式有很多种，我们需要根据不同的场景选择合适的访问方式。</p>
+<p>例如，我们可以使用命令行进行简单的访问，也可以使用客户端进行批量操作。
+我们也可以使用REST API进行批量操作，也可以使用客户端进行加密。</p>
 <p>我们还可以使用redis的官方客户端进行访问，也可以使用第三方客户端进行访问。</p>
-<ol>
+<ol type="1">
 <li>命令行</li>
 </ol>
 <p>命令行是redis最基本的访问方式，它支持多种命令，如set、get、del、keys等。</p>
 <p>命令行的优点是简单易用，缺点是无法进行批量操作，而且命令行的访问方式不适合在生产环境中使用。</p>
-<ol start="2">
-<li>客户端<br>客户端是redis的官方客户端，它支持多种语言，如Python、Java、C++等。</li>
+<ol start="2" type="1">
+<li>客户端
+客户端是redis的官方客户端，它支持多种语言，如Python、Java、C++等。</li>
 </ol>
 <p>客户端的优点是支持批量操作，而且客户端的访问方式可以进行加密，缺点是客户端的安装和配置比较麻烦。</p>
-<ol start="3">
+<ol start="3" type="1">
 <li>REST API</li>
 </ol>
-<p>REST API是redis的官方API，它支持多种语言，如Python、Java、C++等。<br>REST API的优点是支持批量操作，而且REST API的访问方式可以进行加密，缺点是REST API的安装和配置比较麻烦。</p>
-<h3 id="避免绑定127-0-0-1"><a href="#避免绑定127-0-0-1" class="headerlink" title="避免绑定127.0.0.1"></a>避免绑定127.0.0.1</h3><p>我们以redis-6.2.6为例，在redis.conf中添加如下配置：</p>
+<p>REST API是redis的官方API，它支持多种语言，如Python、Java、C++等。
+REST API的优点是支持批量操作，而且REST
+API的访问方式可以进行加密，缺点是REST API的安装和配置比较麻烦。</p>
+<h3 id="避免绑定127.0.0.1">避免绑定127.0.0.1</h3>
+<p>我们以redis-6.2.6为例，在redis.conf中添加如下配置：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">bind</span> 0.0.0.0<br></code></pre></td></tr></table></figure>
-
 <p>这样就可以在任何IP上访问redis了。</p>
-<h3 id="配置密码"><a href="#配置密码" class="headerlink" title="配置密码"></a>配置密码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">requirepass 123456<br></code></pre></td></tr></table></figure>
-
+<h3 id="配置密码">配置密码</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">requirepass 123456<br></code></pre></td></tr></table></figure>
 <p>这样访问redis的时候就需要输入密码了。</p>
-<h3 id="配置持久化"><a href="#配置持久化" class="headerlink" title="配置持久化"></a>配置持久化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 配置持久化</span><br>appendonly <span class="hljs-built_in">yes</span><br></code></pre></td></tr></table></figure>
-
+<h3 id="配置持久化">配置持久化</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 配置持久化</span><br>appendonly <span class="hljs-built_in">yes</span><br></code></pre></td></tr></table></figure>
 <p>这样redis就会把数据写入到appendonly.aof文件中，这样即使redis重启，数据也不会丢失。</p>
-<h2 id="Redis的高级应用"><a href="#Redis的高级应用" class="headerlink" title="Redis的高级应用"></a>Redis的高级应用</h2><p>redis的高级应用有很多，我们需要根据不同的场景选择合适的应用。</p>
-<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p>redis的缓存功能是redis最常用的功能之一，它可以将数据存储在内存中，这样可以提高访问速度。</p>
+<h2 id="redis的高级应用">Redis的高级应用</h2>
+<p>redis的高级应用有很多，我们需要根据不同的场景选择合适的应用。</p>
+<h3 id="缓存">缓存</h3>
+<p>redis的缓存功能是redis最常用的功能之一，它可以将数据存储在内存中，这样可以提高访问速度。</p>
 <p>我们可以使用redis的set命令将数据存储在内存中，然后使用get命令获取数据。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">set</span> key value<br>get key<br></code></pre></td></tr></table></figure>
-
-<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><p>redis的分布式锁是redis最常用的功能之一，它可以保证在分布式环境下，只有一个进程可以获取锁。<br>我们可以使用redis的setnx命令获取锁，然后使用del命令释放锁。</p>
+<h3 id="分布式锁">分布式锁</h3>
+<p>redis的分布式锁是redis最常用的功能之一，它可以保证在分布式环境下，只有一个进程可以获取锁。
+我们可以使用redis的setnx命令获取锁，然后使用del命令释放锁。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">setnx lock_key value<br>del lock_key<br></code></pre></td></tr></table></figure>
-
-<h3 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h3><p>redis的发布订阅功能是redis最常用的功能之一，它可以实现消息的发布和订阅。</p>
+<h3 id="发布订阅">发布订阅</h3>
+<p>redis的发布订阅功能是redis最常用的功能之一，它可以实现消息的发布和订阅。</p>
 <p>我们可以使用redis的publish命令发布消息，然后使用subscribe命令订阅消息。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">publish channel message<br>subscribe channel<br></code></pre></td></tr></table></figure>
-
-<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><p>redis的事务功能是redis最常用的功能之一，它可以保证在一个事务中，所有的命令都成功执行，或者都失败。</p>
+<h3 id="事务">事务</h3>
+<p>redis的事务功能是redis最常用的功能之一，它可以保证在一个事务中，所有的命令都成功执行，或者都失败。</p>
 <p>我们可以使用redis的multi命令开始一个事务，然后使用exec命令执行事务。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">multi<br><span class="hljs-built_in">set</span> key value<br><span class="hljs-built_in">exec</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="限流"><a href="#限流" class="headerlink" title="限流"></a>限流</h3><p>redis的限流功能是redis最常用的功能之一，它可以保证在一个时间段内，只有一定数量的请求可以访问。</p>
+<h3 id="限流">限流</h3>
+<p>redis的限流功能是redis最常用的功能之一，它可以保证在一个时间段内，只有一定数量的请求可以访问。</p>
 <p>我们可以使用redis的incr命令将请求次数加1，然后使用expire命令设置过期时间。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">incr key<br>expire key 10<br></code></pre></td></tr></table></figure>
-
-<h3 id="分布式队列"><a href="#分布式队列" class="headerlink" title="分布式队列"></a>分布式队列</h3><p>redis的分布式队列是redis最常用的功能之一，它可以实现消息的发布和订阅。</p>
+<h3 id="分布式队列">分布式队列</h3>
+<p>redis的分布式队列是redis最常用的功能之一，它可以实现消息的发布和订阅。</p>
 <p>我们可以使用redis的lpush命令将消息放入队列，然后使用rpop命令获取消息。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">lpush queue message<br>rpop queue<br></code></pre></td></tr></table></figure>
-
-
-<h3 id="配置主从复制"><a href="#配置主从复制" class="headerlink" title="配置主从复制"></a>配置主从复制</h3><p>同时运行多台redis，其中一台作为主节点，其他的作为从节点，这样就可以实现数据的备份和负载均衡了。</p>
+<h3 id="配置主从复制">配置主从复制</h3>
+<p>同时运行多台redis，其中一台作为主节点，其他的作为从节点，这样就可以实现数据的备份和负载均衡了。</p>
 <p>本文不具体展开，有兴趣的可以自行了解。</p>
-<h3 id="配置哨兵"><a href="#配置哨兵" class="headerlink" title="配置哨兵"></a>配置哨兵</h3><p>哨兵是redis的高可用方案，哨兵可以监控redis的状态，如果redis挂了，哨兵会自动将从节点切换为主节点，这样就可以保证redis的高可用了。</p>
+<h3 id="配置哨兵">配置哨兵</h3>
+<p>哨兵是redis的高可用方案，哨兵可以监控redis的状态，如果redis挂了，哨兵会自动将从节点切换为主节点，这样就可以保证redis的高可用了。</p>
 
                 
               </div>
@@ -1632,6 +1652,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1849,6 +1875,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

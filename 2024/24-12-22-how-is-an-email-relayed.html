@@ -19,17 +19,17 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check a">
+    <meta name="description" content="In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check an">
 <meta property="og:type" content="article">
 <meta property="og:title" content="电子邮件是如何被传递的？ How is an email relayed?">
 <meta property="og:url" content="https://jycpp.github.io/2024/24-12-22-how-is-an-email-relayed.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check a">
+<meta property="og:description" content="In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check an">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2025/02/09/KgNuAh2tLGxF7MB.jpg">
 <meta property="og:image" content="https://s2.loli.net/2025/02/09/Kzp9rqIWTOLtehn.png">
 <meta property="article:published_time" content="2024-12-22T17:27:20.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.106Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.665Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="邮件服务器">
 <meta property="article:tag" content="电子邮件">
@@ -255,7 +255,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          125 字
+          112 字
         
       </span>
     
@@ -266,7 +266,7 @@
         
         
         
-          2 分钟
+          1 分钟
         
       </span>
     
@@ -446,20 +446,72 @@ true
             
               <div class="markdown-body">
                 
-                <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113711540866975&bvid=BV1CtCAYYEdj&cid=27519618287&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="min-height:400px; min-width:700px; margin:0 auto;"></iframe>
-
-
-<p>In the digital world, when we aim to send an email address to someone, there are several steps involved. For instance, before actually sending the email, we should first conduct a necessary check and locate the receiver’s email server. This is crucial as it serves as the destination for our message.</p>
-<p><img src="https://s2.loli.net/2025/02/09/KgNuAh2tLGxF7MB.jpg" srcset="/img/loading.gif" lazyload alt="1_(238)(3)-1024px"></p>
-<p>To check the email server corresponding to a specific email address, a useful command that comes in handy is ‘nslookup’. Here’s how it works: First, you open the command prompt or terminal on your computer. Then, after typing in the ‘nslookup’ command, you need to set the query type as’mx’. This query type specifically helps us to find the mail exchange records for the domain. For example, if the email address is “<a href="mailto:&#x65;&#x78;&#x61;&#109;&#x70;&#x6c;&#101;&#x40;&#101;&#x78;&#x61;&#109;&#112;&#108;&#x65;&#46;&#99;&#111;&#109;">&#x65;&#x78;&#x61;&#109;&#x70;&#x6c;&#101;&#x40;&#101;&#x78;&#x61;&#109;&#112;&#108;&#x65;&#46;&#99;&#111;&#109;</a>“, you would type in the domain part which is “example.com” after setting the’mx’ query type. The system will then return the information about the email server responsible for handling emails for that domain.</p>
-<p><img src="https://s2.loli.net/2025/02/09/Kzp9rqIWTOLtehn.png" srcset="/img/loading.gif" lazyload alt="20250209212804"></p>
-<p>Once we’ve identified the email server, the next step is to establish a connection with it. We can achieve this by using socket communication. Through this method, the TCP network packets of the SMTP (Simple Mail Transfer Protocol) will be transferred over the connection. The SMTP protocol is the standard for sending emails across the Internet. For example, in a Python program, you might use the’socket’ library to create a socket object and then connect to the server’s IP address and port (usually port 25 for SMTP). Here’s a simple code snippet to illustrate this concept:</p>
+                <iframe src="//player.bilibili.com/player.html?isOutside=true&amp;aid=113711540866975&amp;bvid=BV1CtCAYYEdj&amp;cid=27519618287&amp;p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="min-height:400px; min-width:700px; margin:0 auto;">
+</iframe>
+<p>In the digital world, when we aim to send an email address to
+someone, there are several steps involved. For instance, before actually
+sending the email, we should first conduct a necessary check and locate
+the receiver’s email server. This is crucial as it serves as the
+destination for our message.</p>
+<figure>
+<img src="https://s2.loli.net/2025/02/09/KgNuAh2tLGxF7MB.jpg" srcset="/img/loading.gif" lazyload
+alt="1_(238)(3)-1024px" />
+<figcaption aria-hidden="true">1_(238)(3)-1024px</figcaption>
+</figure>
+<p>To check the email server corresponding to a specific email address,
+a useful command that comes in handy is ‘nslookup’. Here’s how it works:
+First, you open the command prompt or terminal on your computer. Then,
+after typing in the ‘nslookup’ command, you need to set the query type
+as’mx’. This query type specifically helps us to find the mail exchange
+records for the domain. For example, if the email address is
+“example@example.com”, you would type in the domain part which is
+“example.com” after setting the’mx’ query type. The system will then
+return the information about the email server responsible for handling
+emails for that domain.</p>
+<figure>
+<img src="https://s2.loli.net/2025/02/09/Kzp9rqIWTOLtehn.png" srcset="/img/loading.gif" lazyload
+alt="20250209212804" />
+<figcaption aria-hidden="true">20250209212804</figcaption>
+</figure>
+<p>Once we’ve identified the email server, the next step is to establish
+a connection with it. We can achieve this by using socket communication.
+Through this method, the TCP network packets of the SMTP (Simple Mail
+Transfer Protocol) will be transferred over the connection. The SMTP
+protocol is the standard for sending emails across the Internet. For
+example, in a Python program, you might use the’socket’ library to
+create a socket object and then connect to the server’s IP address and
+port (usually port 25 for SMTP). Here’s a simple code snippet to
+illustrate this concept:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> socket<br><br><span class="hljs-comment"># Create a socket object</span><br>s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br><br><span class="hljs-comment"># Connect to the server</span><br>server_address = (<span class="hljs-string">&#x27;mail.example.com&#x27;</span>, <span class="hljs-number">25</span>)  <span class="hljs-comment"># Replace with actual server address and port</span><br>s.connect(server_address)<br><br><span class="hljs-comment"># You can then start interacting with the server using SMTP commands</span><br><span class="hljs-comment"># This is just a basic connection example and further commands would be needed for a full email sending process</span><br></code></pre></td></tr></table></figure>
-
-<p>After the network connection is successfully established and the session is initialized, we need to focus on organizing the email content. This should be done meticulously in accordance with the format of email files. It includes specifying the sender’s email addresses clearly and ensuring the correct encoding of the characters. For example, if you are using UTF-8 encoding, you need to set the appropriate headers in the email content to indicate this. The email content should also follow the proper structure with fields like “From:”, “To:”, “Subject:”, and the body of the message.</p>
-<p>In a particular scenario like email marketing, where we usually need to reach out to multiple recipients, things get a bit more complicated. We need to set multiple receivers’ email addresses. And this information should be properly included in the email file content. If we choose to set these receivers’ email addresses one by one or separately, then we will have to organize multiple similar email contents, which can be time-consuming but might be necessary depending on the specific requirements. For instance, if we have a list of email addresses in a text file, we might read them one by one in a loop and create separate email messages for each recipient in our programming code.</p>
-<p>Finally, once everything is set up and the email content is ready, we can send this email or multiple emails as per our requirements. After the sending process is completed successfully, we should disconnect the connection to free up resources and end the communication session with the email server. This ensures a smooth and proper email sending process from start to finish.</p>
-<p>Please note that the above code is just a simple example for demonstrating the connection part, and in a real-world application, more comprehensive handling of SMTP commands and error handling would be required to ensure the emails are sent correctly. </p>
+<p>After the network connection is successfully established and the
+session is initialized, we need to focus on organizing the email
+content. This should be done meticulously in accordance with the format
+of email files. It includes specifying the sender’s email addresses
+clearly and ensuring the correct encoding of the characters. For
+example, if you are using UTF-8 encoding, you need to set the
+appropriate headers in the email content to indicate this. The email
+content should also follow the proper structure with fields like
+“From:”, “To:”, “Subject:”, and the body of the message.</p>
+<p>In a particular scenario like email marketing, where we usually need
+to reach out to multiple recipients, things get a bit more complicated.
+We need to set multiple receivers’ email addresses. And this information
+should be properly included in the email file content. If we choose to
+set these receivers’ email addresses one by one or separately, then we
+will have to organize multiple similar email contents, which can be
+time-consuming but might be necessary depending on the specific
+requirements. For instance, if we have a list of email addresses in a
+text file, we might read them one by one in a loop and create separate
+email messages for each recipient in our programming code.</p>
+<p>Finally, once everything is set up and the email content is ready, we
+can send this email or multiple emails as per our requirements. After
+the sending process is completed successfully, we should disconnect the
+connection to free up resources and end the communication session with
+the email server. This ensures a smooth and proper email sending process
+from start to finish.</p>
+<p>Please note that the above code is just a simple example for
+demonstrating the connection part, and in a real-world application, more
+comprehensive handling of SMTP commands and error handling would be
+required to ensure the emails are sent correctly.</p>
 
                 
               </div>
@@ -640,6 +692,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -857,6 +915,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

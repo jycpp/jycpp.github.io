@@ -27,7 +27,7 @@
 <meta property="og:description" content="网上有很多使用大语言模型模型生成PPT文件的教程，但是我发现很多教程都只是到了生成PPT大纲这个阶段就戛然而止了，没有讲清楚拿到PPT大纲之后怎么做，还有一些网站可以根据PPT大纲，自动生成PPT文件，但是也是需要收费的这个且不说，也没有讲清楚中间过程，所以我决定写一篇文章来讲解一下从ChatGPT到生成PPT文件，中间经历了什么？">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-09-17T17:27:20.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.105Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.665Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="大语言模型">
@@ -984,11 +984,9 @@ true
                 
                 <p>网上有很多使用大语言模型模型生成PPT文件的教程，但是我发现很多教程都只是到了生成PPT大纲这个阶段就戛然而止了，没有讲清楚拿到PPT大纲之后怎么做，还有一些网站可以根据PPT大纲，自动生成PPT文件，但是也是需要收费的这个且不说，也没有讲清楚中间过程，所以我决定写一篇文章来讲解一下从ChatGPT到生成PPT文件，中间经历了什么？</p>
 <span id="more"></span>
-
 <p>其实不仅仅是ChatGPT，几乎所有的大语言模型都提供生成PPT文件大纲的功能，包括豆包、文心一言、讯飞星火、通义千问等，但是也仅仅是到了PPT大纲阶段就戛然而止了，完全停留在ChatPPT的阶段，而且还仅仅是聊聊PPT，没有实际制作PPT文件。</p>
 <p>最近公司在做AI智能体开发的项目，所以顺便就了解了一下大语言模型对个人知识库的定制方面的能力，以及在调用传统软件功能业务上的应用，比如生成PPT文件大纲，生成PPT文件，生成代码，生成文档等等。</p>
 <!-- mermaid语法： TD LR控制流程图的方向 -->
-
 <div class="mermaid">graph TD;
     A[输入提示词给大语言模型] --> B[大语言模型生成PPT大纲（Markdown或JSON格式）];
     B --> C[Python分析大纲确定内容和页数];
@@ -998,70 +996,88 @@ true
     F -- 否 --> G[调用大语言模型扩写文案];
     G --> E;
     F -- 是 --> H[组织成完整PPT文件];</div>
-
-<p>从提示词生成PPT大纲，到自动选择模板、替换内容，最终生成完整PPT文件，这就是通过AI自动生成PPT的整个流程。关键点包括：</p>
-<ol>
-<li><strong>大语言模型生成大纲</strong>：确保大纲结构清晰、内容完整。</li>
-<li><strong>Python 解析与处理</strong>：自动化分析大纲内容并选择模板。</li>
-<li><strong>模板替换与扩写</strong>：根据内容动态调整 PPT 页面。</li>
-<li><strong>PPT 文件生成</strong>：将所有页面组合成最终的 PPT 文件。</li>
-</ol>
-<p>下面结合大语言模型的生成能力和 Python 的自动化处理能力，可以实现从大纲生成到最终 PPT 文件的完整流程。</p>
-<hr>
-<h3 id="1-通过提示词让大语言模型生成-PPT-大纲"><a href="#1-通过提示词让大语言模型生成-PPT-大纲" class="headerlink" title="1. 通过提示词让大语言模型生成 PPT 大纲"></a><strong>1. 通过提示词让大语言模型生成 PPT 大纲</strong></h3><ul>
-<li><strong>目标</strong>：根据用户提供的主题或提示词，生成一个结构化的 PPT 大纲。</li>
-<li><strong>实现方法</strong>：<ol>
-<li>用户输入提示词，例如：<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">请生成一个关于“人工智能在医疗领域的应用”的 PPT 大纲。<br></code></pre></td></tr></table></figure></li>
-<li>调用 ChatGPT 生成大纲，要求输出格式为 Markdown 或 JSON，例如：<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># 人工智能在医疗领域的应用</span><br><span class="hljs-section">## 1. 引言</span><br><span class="hljs-bullet">-</span> 人工智能的定义<br><span class="hljs-bullet">-</span> 医疗领域的挑战<br><span class="hljs-section">## 2. 人工智能在医疗中的应用场景</span><br><span class="hljs-bullet">-</span> 医学影像分析<br><span class="hljs-bullet">-</span> 疾病预测与诊断<br><span class="hljs-bullet">-</span> 药物研发<br><span class="hljs-section">## 3. 案例分析</span><br><span class="hljs-bullet">-</span> IBM Watson 在癌症治疗中的应用<br><span class="hljs-bullet">-</span> Google DeepMind 的眼病诊断系统<br><span class="hljs-section">## 4. 未来展望</span><br><span class="hljs-bullet">-</span> 人工智能在医疗中的潜力<br><span class="hljs-bullet">-</span> 面临的挑战与伦理问题<br></code></pre></td></tr></table></figure></li>
+<p>从提示词生成PPT大纲，到自动选择模板、替换内容，最终生成完整PPT文件，这就是通过AI自动生成PPT的整个流程。关键点包括：
+1. <strong>大语言模型生成大纲</strong>：确保大纲结构清晰、内容完整。 2.
+<strong>Python 解析与处理</strong>：自动化分析大纲内容并选择模板。 3.
+<strong>模板替换与扩写</strong>：根据内容动态调整 PPT 页面。 4.
+<strong>PPT 文件生成</strong>：将所有页面组合成最终的 PPT 文件。</p>
+<p>下面结合大语言模型的生成能力和 Python
+的自动化处理能力，可以实现从大纲生成到最终 PPT 文件的完整流程。</p>
+<hr />
+<h3 id="通过提示词让大语言模型生成-ppt-大纲"><strong>1.
+通过提示词让大语言模型生成 PPT 大纲</strong></h3>
+<ul>
+<li><strong>目标</strong>：根据用户提供的主题或提示词，生成一个结构化的
+PPT 大纲。</li>
+<li><strong>实现方法</strong>：
+<ol type="1">
+<li>用户输入提示词，例如： <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">请生成一个关于“人工智能在医疗领域的应用”的 PPT 大纲。<br></code></pre></td></tr></table></figure></li>
+<li>调用 ChatGPT 生成大纲，要求输出格式为 Markdown 或 JSON，例如：
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># 人工智能在医疗领域的应用</span><br><span class="hljs-section">## 1. 引言</span><br><span class="hljs-bullet">-</span> 人工智能的定义<br><span class="hljs-bullet">-</span> 医疗领域的挑战<br><span class="hljs-section">## 2. 人工智能在医疗中的应用场景</span><br><span class="hljs-bullet">-</span> 医学影像分析<br><span class="hljs-bullet">-</span> 疾病预测与诊断<br><span class="hljs-bullet">-</span> 药物研发<br><span class="hljs-section">## 3. 案例分析</span><br><span class="hljs-bullet">-</span> IBM Watson 在癌症治疗中的应用<br><span class="hljs-bullet">-</span> Google DeepMind 的眼病诊断系统<br><span class="hljs-section">## 4. 未来展望</span><br><span class="hljs-bullet">-</span> 人工智能在医疗中的潜力<br><span class="hljs-bullet">-</span> 面临的挑战与伦理问题<br></code></pre></td></tr></table></figure></li>
 <li>将生成的大纲保存为 Markdown 或 JSON 文件。</li>
-</ol>
-</li>
+</ol></li>
 </ul>
-<hr>
-<h3 id="2-通过-Python-分析-Markdown-或-JSON-格式的-PPT-大纲"><a href="#2-通过-Python-分析-Markdown-或-JSON-格式的-PPT-大纲" class="headerlink" title="2. 通过 Python 分析 Markdown 或 JSON 格式的 PPT 大纲"></a><strong>2. 通过 Python 分析 Markdown 或 JSON 格式的 PPT 大纲</strong></h3><ul>
-<li><strong>目标</strong>：解析大纲内容，确定 PPT 的页数和每页的内容。</li>
-<li><strong>实现方法</strong>：<ol>
-<li>使用 Python 解析 Markdown 或 JSON 文件：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">from</span> markdown <span class="hljs-keyword">import</span> Markdown<br><br><span class="hljs-comment"># 解析 Markdown</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse_markdown</span>(<span class="hljs-params">md_text</span>):<br>    md = Markdown()<br>    content = md.parse(md_text)<br>    <span class="hljs-keyword">return</span> content<br><br><span class="hljs-comment"># 解析 JSON</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse_json</span>(<span class="hljs-params">json_text</span>):<br>    <span class="hljs-keyword">return</span> json.loads(json_text)<br><br><span class="hljs-comment"># 示例：解析 Markdown</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;ppt_outline.md&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> file:<br>    md_text = file.read()<br>    outline = parse_markdown(md_text)<br></code></pre></td></tr></table></figure></li>
-<li>根据大纲的层级结构（如 <code>#</code>、<code>##</code>、<code>###</code>）确定 PPT 的页数和每页的内容：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_ppt_structure</span>(<span class="hljs-params">outline</span>):<br>    pages = []<br>    current_page = &#123;<span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: []&#125;<br>    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> outline.split(<span class="hljs-string">&quot;\n&quot;</span>):<br>        <span class="hljs-keyword">if</span> line.startswith(<span class="hljs-string">&quot;# &quot;</span>):<br>            <span class="hljs-keyword">if</span> current_page[<span class="hljs-string">&quot;title&quot;</span>]:<br>                pages.append(current_page)<br>            current_page = &#123;<span class="hljs-string">&quot;title&quot;</span>: line[<span class="hljs-number">2</span>:], <span class="hljs-string">&quot;content&quot;</span>: []&#125;<br>        <span class="hljs-keyword">elif</span> line.startswith(<span class="hljs-string">&quot;## &quot;</span>):<br>            current_page[<span class="hljs-string">&quot;content&quot;</span>].append(&#123;<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;heading&quot;</span>, <span class="hljs-string">&quot;text&quot;</span>: line[<span class="hljs-number">3</span>:]&#125;)<br>        <span class="hljs-keyword">elif</span> line.startswith(<span class="hljs-string">&quot;- &quot;</span>):<br>            current_page[<span class="hljs-string">&quot;content&quot;</span>].append(&#123;<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;bullet&quot;</span>, <span class="hljs-string">&quot;text&quot;</span>: line[<span class="hljs-number">2</span>:]&#125;)<br>    <span class="hljs-keyword">if</span> current_page[<span class="hljs-string">&quot;title&quot;</span>]:<br>        pages.append(current_page)<br>    <span class="hljs-keyword">return</span> pages<br></code></pre></td></tr></table></figure></li>
-</ol>
-</li>
+<hr />
+<h3 id="通过-python-分析-markdown-或-json-格式的-ppt-大纲"><strong>2.
+通过 Python 分析 Markdown 或 JSON 格式的 PPT 大纲</strong></h3>
+<ul>
+<li><strong>目标</strong>：解析大纲内容，确定 PPT
+的页数和每页的内容。</li>
+<li><strong>实现方法</strong>：
+<ol type="1">
+<li>使用 Python 解析 Markdown 或 JSON 文件： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">from</span> markdown <span class="hljs-keyword">import</span> Markdown<br><br><span class="hljs-comment"># 解析 Markdown</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse_markdown</span>(<span class="hljs-params">md_text</span>):<br>    md = Markdown()<br>    content = md.parse(md_text)<br>    <span class="hljs-keyword">return</span> content<br><br><span class="hljs-comment"># 解析 JSON</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse_json</span>(<span class="hljs-params">json_text</span>):<br>    <span class="hljs-keyword">return</span> json.loads(json_text)<br><br><span class="hljs-comment"># 示例：解析 Markdown</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;ppt_outline.md&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> file:<br>    md_text = file.read()<br>    outline = parse_markdown(md_text)<br></code></pre></td></tr></table></figure></li>
+<li>根据大纲的层级结构（如
+<code>#</code>、<code>##</code>、<code>###</code>）确定 PPT
+的页数和每页的内容： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_ppt_structure</span>(<span class="hljs-params">outline</span>):<br>    pages = []<br>    current_page = &#123;<span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: []&#125;<br>    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> outline.split(<span class="hljs-string">&quot;\n&quot;</span>):<br>        <span class="hljs-keyword">if</span> line.startswith(<span class="hljs-string">&quot;# &quot;</span>):<br>            <span class="hljs-keyword">if</span> current_page[<span class="hljs-string">&quot;title&quot;</span>]:<br>                pages.append(current_page)<br>            current_page = &#123;<span class="hljs-string">&quot;title&quot;</span>: line[<span class="hljs-number">2</span>:], <span class="hljs-string">&quot;content&quot;</span>: []&#125;<br>        <span class="hljs-keyword">elif</span> line.startswith(<span class="hljs-string">&quot;## &quot;</span>):<br>            current_page[<span class="hljs-string">&quot;content&quot;</span>].append(&#123;<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;heading&quot;</span>, <span class="hljs-string">&quot;text&quot;</span>: line[<span class="hljs-number">3</span>:]&#125;)<br>        <span class="hljs-keyword">elif</span> line.startswith(<span class="hljs-string">&quot;- &quot;</span>):<br>            current_page[<span class="hljs-string">&quot;content&quot;</span>].append(&#123;<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;bullet&quot;</span>, <span class="hljs-string">&quot;text&quot;</span>: line[<span class="hljs-number">2</span>:]&#125;)<br>    <span class="hljs-keyword">if</span> current_page[<span class="hljs-string">&quot;title&quot;</span>]:<br>        pages.append(current_page)<br>    <span class="hljs-keyword">return</span> pages<br></code></pre></td></tr></table></figure></li>
+</ol></li>
 </ul>
-<hr>
-<h3 id="3-根据-PPT-大纲的内容选择合适的模板"><a href="#3-根据-PPT-大纲的内容选择合适的模板" class="headerlink" title="3. 根据 PPT 大纲的内容选择合适的模板"></a><strong>3. 根据 PPT 大纲的内容选择合适的模板</strong></h3><ul>
-<li><strong>目标</strong>：根据每页的内容结构（如 2 个内容块、3 个内容块等），选择合适的 PPT 模板。</li>
-<li><strong>实现方法</strong>：<ol>
-<li>定义不同结构的 PPT 模板：<ul>
+<hr />
+<h3 id="根据-ppt-大纲的内容选择合适的模板"><strong>3. 根据 PPT
+大纲的内容选择合适的模板</strong></h3>
+<ul>
+<li><strong>目标</strong>：根据每页的内容结构（如 2 个内容块、3
+个内容块等），选择合适的 PPT 模板。</li>
+<li><strong>实现方法</strong>：
+<ol type="1">
+<li>定义不同结构的 PPT 模板：
+<ul>
 <li><strong>左右结构</strong>：适合 2 个内容块。</li>
 <li><strong>上下结构</strong>：适合 2 个内容块。</li>
 <li><strong>三栏结构</strong>：适合 3 个内容块。</li>
 <li><strong>四象限结构</strong>：适合 4 个内容块。</li>
+</ul></li>
+<li>使用 Python 根据内容块数量选择模板： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">select_template</span>(<span class="hljs-params">content</span>):<br>    num_blocks = <span class="hljs-built_in">len</span>(content)<br>    <span class="hljs-keyword">if</span> num_blocks == <span class="hljs-number">2</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;two_column_template.pptx&quot;</span><br>    <span class="hljs-keyword">elif</span> num_blocks == <span class="hljs-number">3</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;three_column_template.pptx&quot;</span><br>    <span class="hljs-keyword">elif</span> num_blocks == <span class="hljs-number">4</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;four_quadrant_template.pptx&quot;</span><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;default_template.pptx&quot;</span><br></code></pre></td></tr></table></figure></li>
+<li>使用 <code>python-pptx</code> 库替换模板中的内容：
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pptx <span class="hljs-keyword">import</span> Presentation<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">replace_template_content</span>(<span class="hljs-params">template_path, page_content</span>):<br>    prs = Presentation(template_path)<br>    slide = prs.slides[<span class="hljs-number">0</span>]<br>    <span class="hljs-keyword">for</span> shape <span class="hljs-keyword">in</span> slide.shapes:<br>        <span class="hljs-keyword">if</span> shape.has_text_frame:<br>            <span class="hljs-keyword">for</span> paragraph <span class="hljs-keyword">in</span> shape.text_frame.paragraphs:<br>                <span class="hljs-keyword">for</span> run <span class="hljs-keyword">in</span> paragraph.runs:<br>                    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;&#123;&#123;title&#125;&#125;&quot;</span> <span class="hljs-keyword">in</span> run.text:<br>                        run.text = run.text.replace(<span class="hljs-string">&quot;&#123;&#123;title&#125;&#125;&quot;</span>, page_content[<span class="hljs-string">&quot;title&quot;</span>])<br>                    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;&#123;&#123;content&#125;&#125;&quot;</span> <span class="hljs-keyword">in</span> run.text:<br>                        run.text = run.text.replace(<span class="hljs-string">&quot;&#123;&#123;content&#125;&#125;&quot;</span>, <span class="hljs-string">&quot;\n&quot;</span>.join([item[<span class="hljs-string">&quot;text&quot;</span>] <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> page_content[<span class="hljs-string">&quot;content&quot;</span>]]))<br>    <span class="hljs-keyword">return</span> prs<br></code></pre></td></tr></table></figure></li>
+</ol></li>
 </ul>
-</li>
-<li>使用 Python 根据内容块数量选择模板：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">select_template</span>(<span class="hljs-params">content</span>):<br>    num_blocks = <span class="hljs-built_in">len</span>(content)<br>    <span class="hljs-keyword">if</span> num_blocks == <span class="hljs-number">2</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;two_column_template.pptx&quot;</span><br>    <span class="hljs-keyword">elif</span> num_blocks == <span class="hljs-number">3</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;three_column_template.pptx&quot;</span><br>    <span class="hljs-keyword">elif</span> num_blocks == <span class="hljs-number">4</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;four_quadrant_template.pptx&quot;</span><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;default_template.pptx&quot;</span><br></code></pre></td></tr></table></figure></li>
-<li>使用 <code>python-pptx</code> 库替换模板中的内容：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pptx <span class="hljs-keyword">import</span> Presentation<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">replace_template_content</span>(<span class="hljs-params">template_path, page_content</span>):<br>    prs = Presentation(template_path)<br>    slide = prs.slides[<span class="hljs-number">0</span>]<br>    <span class="hljs-keyword">for</span> shape <span class="hljs-keyword">in</span> slide.shapes:<br>        <span class="hljs-keyword">if</span> shape.has_text_frame:<br>            <span class="hljs-keyword">for</span> paragraph <span class="hljs-keyword">in</span> shape.text_frame.paragraphs:<br>                <span class="hljs-keyword">for</span> run <span class="hljs-keyword">in</span> paragraph.runs:<br>                    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;&#123;&#123;title&#125;&#125;&quot;</span> <span class="hljs-keyword">in</span> run.text:<br>                        run.text = run.text.replace(<span class="hljs-string">&quot;&#123;&#123;title&#125;&#125;&quot;</span>, page_content[<span class="hljs-string">&quot;title&quot;</span>])<br>                    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;&#123;&#123;content&#125;&#125;&quot;</span> <span class="hljs-keyword">in</span> run.text:<br>                        run.text = run.text.replace(<span class="hljs-string">&quot;&#123;&#123;content&#125;&#125;&quot;</span>, <span class="hljs-string">&quot;\n&quot;</span>.join([item[<span class="hljs-string">&quot;text&quot;</span>] <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> page_content[<span class="hljs-string">&quot;content&quot;</span>]]))<br>    <span class="hljs-keyword">return</span> prs<br></code></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ul>
-<hr>
-<h3 id="4-如果大纲内容不足，调用大语言模型扩写文案"><a href="#4-如果大纲内容不足，调用大语言模型扩写文案" class="headerlink" title="4. 如果大纲内容不足，调用大语言模型扩写文案"></a><strong>4. 如果大纲内容不足，调用大语言模型扩写文案</strong></h3><ul>
-<li><strong>目标</strong>：如果大纲中的内容不足以填充 PPT 页面，调用 ChatGPT 扩写相关内容。</li>
-<li><strong>实现方法</strong>：<ol>
-<li>检测内容是否不足：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">is_content_insufficient</span>(<span class="hljs-params">page_content</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(page_content[<span class="hljs-string">&quot;content&quot;</span>]) &lt; <span class="hljs-number">2</span>  <span class="hljs-comment"># 假设每页至少需要 2 个内容块</span><br></code></pre></td></tr></table></figure></li>
-<li>调用 ChatGPT 扩写内容：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">expand_content_with_chatgpt</span>(<span class="hljs-params">prompt</span>):<br>    <span class="hljs-comment"># 调用 ChatGPT API</span><br>    response = openai.ChatCompletion.create(<br>        model=<span class="hljs-string">&quot;gpt-4&quot;</span>,<br>        messages=[&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: prompt&#125;]<br>    )<br>    <span class="hljs-keyword">return</span> response[<span class="hljs-string">&quot;choices&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;message&quot;</span>][<span class="hljs-string">&quot;content&quot;</span>]<br></code></pre></td></tr></table></figure></li>
+<hr />
+<h3 id="如果大纲内容不足调用大语言模型扩写文案"><strong>4.
+如果大纲内容不足，调用大语言模型扩写文案</strong></h3>
+<ul>
+<li><strong>目标</strong>：如果大纲中的内容不足以填充 PPT 页面，调用
+ChatGPT 扩写相关内容。</li>
+<li><strong>实现方法</strong>：
+<ol type="1">
+<li>检测内容是否不足： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">is_content_insufficient</span>(<span class="hljs-params">page_content</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(page_content[<span class="hljs-string">&quot;content&quot;</span>]) &lt; <span class="hljs-number">2</span>  <span class="hljs-comment"># 假设每页至少需要 2 个内容块</span><br></code></pre></td></tr></table></figure></li>
+<li>调用 ChatGPT 扩写内容： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">expand_content_with_chatgpt</span>(<span class="hljs-params">prompt</span>):<br>    <span class="hljs-comment"># 调用 ChatGPT API</span><br>    response = openai.ChatCompletion.create(<br>        model=<span class="hljs-string">&quot;gpt-4&quot;</span>,<br>        messages=[&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: prompt&#125;]<br>    )<br>    <span class="hljs-keyword">return</span> response[<span class="hljs-string">&quot;choices&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;message&quot;</span>][<span class="hljs-string">&quot;content&quot;</span>]<br></code></pre></td></tr></table></figure></li>
 <li>将扩写的内容添加到 PPT 页面中。</li>
-</ol>
-</li>
+</ol></li>
 </ul>
-<hr>
-<h3 id="5-将替换的模板组织成完整的-PPT-文件"><a href="#5-将替换的模板组织成完整的-PPT-文件" class="headerlink" title="5. 将替换的模板组织成完整的 PPT 文件"></a><strong>5. 将替换的模板组织成完整的 PPT 文件</strong></h3><ul>
+<hr />
+<h3 id="将替换的模板组织成完整的-ppt-文件"><strong>5.
+将替换的模板组织成完整的 PPT 文件</strong></h3>
+<ul>
 <li><strong>目标</strong>：将所有页面组合成一个完整的 PPT 文件。</li>
-<li><strong>实现方法</strong>：<ol>
-<li>使用 <code>python-pptx</code> 库创建和保存 PPT：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">save_ppt</span>(<span class="hljs-params">presentation, output_path</span>):<br>    presentation.save(output_path)<br><br><span class="hljs-comment"># 示例：生成完整 PPT</span><br>prs = Presentation()<br><span class="hljs-keyword">for</span> page <span class="hljs-keyword">in</span> ppt_structure:<br>    template_path = select_template(page[<span class="hljs-string">&quot;content&quot;</span>])<br>    slide_prs = replace_template_content(template_path, page)<br>    <span class="hljs-keyword">for</span> slide <span class="hljs-keyword">in</span> slide_prs.slides:<br>        prs.slides.add_slide(slide)<br>save_ppt(prs, <span class="hljs-string">&quot;output_presentation.pptx&quot;</span>)<br></code></pre></td></tr></table></figure></li>
-</ol>
-</li>
+<li><strong>实现方法</strong>：
+<ol type="1">
+<li>使用 <code>python-pptx</code> 库创建和保存 PPT： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">save_ppt</span>(<span class="hljs-params">presentation, output_path</span>):<br>    presentation.save(output_path)<br><br><span class="hljs-comment"># 示例：生成完整 PPT</span><br>prs = Presentation()<br><span class="hljs-keyword">for</span> page <span class="hljs-keyword">in</span> ppt_structure:<br>    template_path = select_template(page[<span class="hljs-string">&quot;content&quot;</span>])<br>    slide_prs = replace_template_content(template_path, page)<br>    <span class="hljs-keyword">for</span> slide <span class="hljs-keyword">in</span> slide_prs.slides:<br>        prs.slides.add_slide(slide)<br>save_ppt(prs, <span class="hljs-string">&quot;output_presentation.pptx&quot;</span>)<br></code></pre></td></tr></table></figure></li>
+</ol></li>
 </ul>
-<hr>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>这种方法可以显著提高 PPT 制作的效率，特别适合需要快速生成大量演示文稿的场景。</p>
+<hr />
+<h3 id="总结"><strong>总结</strong></h3>
+<p>这种方法可以显著提高 PPT
+制作的效率，特别适合需要快速生成大量演示文稿的场景。</p>
 
                 
               </div>
@@ -1250,6 +1266,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1467,6 +1489,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

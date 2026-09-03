@@ -19,17 +19,17 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、操作过程记录在 IntelliJ IDEA 中运行或调试 Spring Boot 应用时，可以通过以下方式为启动命令添加参数（如 --nacos_host&#x3D;192.168.1.7）： 1. 配置 Run&#x2F;Debug Configurations 添加 VM Options 或 Program arguments 步骤如下： 打开顶部菜单栏：Run &gt; Edit Configur">
+    <meta name="description" content="一、操作过程记录 在 IntelliJ IDEA 中运行或调试 Spring Boot 应用时，可以通过以下方式为启动命令添加参数（如 --nacos_host&#x3D;192.168.1.7）： 1. 配置 Run&#x2F;Debug Configurations 添加 VM Options 或 Program arguments   运行&gt;&gt;编辑配置  步骤如下：  打开顶部菜单栏：Run &amp;gt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IntelliJ IDEA中配置运行调试启动命令参数">
 <meta property="og:url" content="https://jycpp.github.io/2023/23-09-11-IntelliJ%20IDEA%E4%B8%AD%E9%85%8D%E7%BD%AE%E8%BF%90%E8%A1%8C%E8%B0%83%E8%AF%95%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="一、操作过程记录在 IntelliJ IDEA 中运行或调试 Spring Boot 应用时，可以通过以下方式为启动命令添加参数（如 --nacos_host&#x3D;192.168.1.7）： 1. 配置 Run&#x2F;Debug Configurations 添加 VM Options 或 Program arguments 步骤如下： 打开顶部菜单栏：Run &gt; Edit Configur">
+<meta property="og:description" content="一、操作过程记录 在 IntelliJ IDEA 中运行或调试 Spring Boot 应用时，可以通过以下方式为启动命令添加参数（如 --nacos_host&#x3D;192.168.1.7）： 1. 配置 Run&#x2F;Debug Configurations 添加 VM Options 或 Program arguments   运行&gt;&gt;编辑配置  步骤如下：  打开顶部菜单栏：Run &amp;gt">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2025/05/17/L8Xxq5Ibar1imUR.png">
 <meta property="og:image" content="https://s2.loli.net/2025/05/17/EsG1D7mfzLSkwYd.png">
 <meta property="article:published_time" content="2023-09-11T14:35:20.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.105Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.663Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Nacos">
 <meta property="article:tag" content="IntelliJ IDEA">
@@ -261,7 +261,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          890 字
+          903 字
         
       </span>
     
@@ -322,7 +322,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1051,7 +1051,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1069,6 +1069,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1371,113 +1380,143 @@ true
             
               <div class="markdown-body">
                 
-                <h2 id="一、操作过程记录"><a href="#一、操作过程记录" class="headerlink" title="一、操作过程记录"></a>一、操作过程记录</h2><p>在 IntelliJ IDEA 中运行或调试 Spring Boot 应用时，可以通过以下方式为启动命令添加参数（如 <code>--nacos_host=192.168.1.7</code>）：</p>
-<h3 id="1-配置-Run-Debug-Configurations-添加-VM-Options-或-Program-arguments"><a href="#1-配置-Run-Debug-Configurations-添加-VM-Options-或-Program-arguments" class="headerlink" title="1. 配置 Run&#x2F;Debug Configurations 添加 VM Options 或 Program arguments"></a>1. 配置 Run&#x2F;Debug Configurations 添加 VM Options 或 Program arguments</h3><p><img src="https://s2.loli.net/2025/05/17/L8Xxq5Ibar1imUR.png" srcset="/img/loading.gif" lazyload alt="运行&gt;&gt;编辑配置"></p>
-<h4 id="步骤如下："><a href="#步骤如下：" class="headerlink" title="步骤如下："></a>步骤如下：</h4><ol>
+                <h2 id="一操作过程记录">一、操作过程记录</h2>
+<p>在 IntelliJ IDEA 中运行或调试 Spring Boot
+应用时，可以通过以下方式为启动命令添加参数（如
+<code>--nacos_host=192.168.1.7</code>）：</p>
+<h3
+id="配置-rundebug-configurations-添加-vm-options-或-program-arguments">1.
+配置 Run/Debug Configurations 添加 VM Options 或 Program arguments</h3>
+<figure>
+<img src="https://s2.loli.net/2025/05/17/L8Xxq5Ibar1imUR.png" srcset="/img/loading.gif" lazyload
+alt="运行&gt;&gt;编辑配置" />
+<figcaption aria-hidden="true">运行&gt;&gt;编辑配置</figcaption>
+</figure>
+<h4 id="步骤如下">步骤如下：</h4>
+<ol type="1">
 <li>打开顶部菜单栏：<strong>Run &gt; Edit Configurations…</strong></li>
 <li>选择你的 Spring Boot 启动配置（通常是一个 Application 类）。</li>
-<li>在 <strong>Configuration</strong> 标签下找到：<ul>
-<li><strong>VM options</strong>：用于设置 JVM 参数（以 <code>-D</code> 开头）</li>
-<li><strong>Program arguments</strong>：用于设置应用程序参数（即你希望通过 <code>--xxx=yyy</code> 传递的参数）</li>
-</ul>
-</li>
+<li>在 <strong>Configuration</strong> 标签下找到：
+<ul>
+<li><strong>VM options</strong>：用于设置 JVM 参数（以 <code>-D</code>
+开头）</li>
+<li><strong>Program
+arguments</strong>：用于设置应用程序参数（即你希望通过
+<code>--xxx=yyy</code> 传递的参数）</li>
+</ul></li>
 </ol>
-<h4 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">--nacos_host=192.168.1.7 --nacos_port=8848<br></code></pre></td></tr></table></figure>
-
+<h4 id="示例">示例：</h4>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">--nacos_host=192.168.1.7 --nacos_port=8848<br></code></pre></td></tr></table></figure>
 <p>将上述内容粘贴到 <strong>Program arguments</strong> 输入框中。</p>
-<p><img src="https://s2.loli.net/2025/05/17/EsG1D7mfzLSkwYd.png" srcset="/img/loading.gif" lazyload alt="设置命令行参数"></p>
-<hr>
-<h3 id="2-使用-Environment-Variables（环境变量）方式替代参数传入"><a href="#2-使用-Environment-Variables（环境变量）方式替代参数传入" class="headerlink" title="2. 使用 Environment Variables（环境变量）方式替代参数传入"></a>2. 使用 Environment Variables（环境变量）方式替代参数传入</h3><p>如果希望通过环境变量定义（比如部署和开发分离），也可以这样写：</p>
+<figure>
+<img src="https://s2.loli.net/2025/05/17/EsG1D7mfzLSkwYd.png" srcset="/img/loading.gif" lazyload
+alt="设置命令行参数" />
+<figcaption aria-hidden="true">设置命令行参数</figcaption>
+</figure>
+<hr />
+<h3 id="使用-environment-variables环境变量方式替代参数传入">2. 使用
+Environment Variables（环境变量）方式替代参数传入</h3>
+<p>如果希望通过环境变量定义（比如部署和开发分离），也可以这样写：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">-Dnacos_host=192.168.1.7 -Dnacos_port=8848<br></code></pre></td></tr></table></figure>
-
-
 <p>然后将其粘贴到 <strong>VM options</strong> 中。</p>
 <p><em>如上图的第二个方框所示</em></p>
-<hr>
-<h3 id="3-保存并运行"><a href="#3-保存并运行" class="headerlink" title="3. 保存并运行"></a>3. 保存并运行</h3><p>点击 <strong>Apply</strong> 和 <strong>OK</strong>，然后使用 Run 或 Debug 按钮启动应用即可生效。</p>
-<hr>
-<p>✅ <strong>验证方法</strong>：</p>
-<ul>
-<li>可以在代码中注入 <code>Environment</code> 并打印出 <code>nacos_host</code> 和 <code>nacos_port</code> 的值。</li>
-<li>或者查看启动日志，Spring Boot 会在启动时打印出使用的配置项。</li>
-</ul>
+<hr />
+<h3 id="保存并运行">3. 保存并运行</h3>
+<p>点击 <strong>Apply</strong> 和 <strong>OK</strong>，然后使用 Run 或
+Debug 按钮启动应用即可生效。</p>
+<hr />
+<p>✅ <strong>验证方法</strong>： - 可以在代码中注入
+<code>Environment</code> 并打印出 <code>nacos_host</code> 和
+<code>nacos_port</code> 的值。 - 或者查看启动日志，Spring Boot
+会在启动时打印出使用的配置项。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;<br><span class="hljs-keyword">import</span> org.springframework.core.env.Environment;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><br><span class="hljs-keyword">import</span> javax.annotation.PostConstruct;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NacosConfigPrinter</span> &#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> Environment environment;<br><br>    <span class="hljs-meta">@PostConstruct</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">printNacosConfig</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">nacosHost</span> <span class="hljs-operator">=</span> environment.getProperty(<span class="hljs-string">&quot;nacos_host&quot;</span>);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">nacosPort</span> <span class="hljs-operator">=</span> environment.getProperty(<span class="hljs-string">&quot;nacos_port&quot;</span>);<br><br>        System.out.println(<span class="hljs-string">&quot;nacos_host: &quot;</span> + nacosHost);<br>        System.out.println(<span class="hljs-string">&quot;nacos_port: &quot;</span> + nacosPort);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-<p>如有需要可以进一步配置 Spring Profiles 来区分 dev&#x2F;test 环境。</p>
-<h2 id="二、补充Springboot基础知识"><a href="#二、补充Springboot基础知识" class="headerlink" title="二、补充Springboot基础知识"></a>二、补充Springboot基础知识</h2><p>之前有网友专门私发Email询问以上示例代码的含义，示例代码中的 NacosConfigPrinter 如何在Springboot项目中被调用呢？</p>
-<p>在 Spring Boot 项目中，<code>NacosConfigPrinter</code> 是一个被 <code>@Component</code> 注解标记的组件类，会被 Spring 容器自动扫描并注册为 Bean。它通过 <code>@PostConstruct</code> 注解确保在 Bean 初始化完成后执行打印逻辑。</p>
-<h3 id="调用流程说明："><a href="#调用流程说明：" class="headerlink" title="调用流程说明："></a>调用流程说明：</h3><ol>
-<li><p><strong>Spring 容器启动</strong></p>
+<p>如有需要可以进一步配置 Spring Profiles 来区分 dev/test 环境。</p>
+<h2 id="二补充springboot基础知识">二、补充Springboot基础知识</h2>
+<p>之前有网友专门私发Email询问以上示例代码的含义，示例代码中的
+NacosConfigPrinter 如何在Springboot项目中被调用呢？</p>
+<p>在 Spring Boot 项目中，<code>NacosConfigPrinter</code> 是一个被
+<code>@Component</code> 注解标记的组件类，会被 Spring
+容器自动扫描并注册为 Bean。它通过 <code>@PostConstruct</code> 注解确保在
+Bean 初始化完成后执行打印逻辑。</p>
+<h3 id="调用流程说明">调用流程说明：</h3>
+<ol type="1">
+<li><strong>Spring 容器启动</strong>
 <ul>
-<li>在 Spring Boot 应用启动时，会自动扫描 <code>@Component</code>、<code>@Service</code> 等注解的类。</li>
+<li>在 Spring Boot 应用启动时，会自动扫描
+<code>@Component</code>、<code>@Service</code> 等注解的类。</li>
 <li><code>NacosConfigPrinter</code> 类会被注册为一个单例 Bean。</li>
-</ul>
-</li>
-<li><p><strong>依赖注入完成</strong></p>
+</ul></li>
+<li><strong>依赖注入完成</strong>
 <ul>
-<li><code>@Autowired</code> 注解的 <code>Environment</code> 属性会被正确注入。</li>
-</ul>
-</li>
-<li><p><strong><code>@PostConstruct</code> 方法自动调用</strong></p>
+<li><code>@Autowired</code> 注解的 <code>Environment</code>
+属性会被正确注入。</li>
+</ul></li>
+<li><strong><code>@PostConstruct</code> 方法自动调用</strong>
 <ul>
-<li>在 Bean 初始化完成后，Spring 会自动调用标注了 <code>@PostConstruct</code> 的方法（即 <code>printNacosConfig()</code>）。</li>
-<li>此时会从配置中读取 <code>nacos_host</code> 和 <code>nacos_port</code> 并打印到控制台。</li>
-</ul>
-</li>
+<li>在 Bean 初始化完成后，Spring 会自动调用标注了
+<code>@PostConstruct</code> 的方法（即
+<code>printNacosConfig()</code>）。</li>
+<li>此时会从配置中读取 <code>nacos_host</code> 和
+<code>nacos_port</code> 并打印到控制台。</li>
+</ul></li>
 </ol>
-<hr>
-<h3 id="验证方式："><a href="#验证方式：" class="headerlink" title="验证方式："></a>验证方式：</h3><p>你可以在 Spring Boot 启动日志中看到如下输出（假设你在本地设置了参数）：</p>
+<hr />
+<h3 id="验证方式">验证方式：</h3>
+<p>你可以在 Spring Boot
+启动日志中看到如下输出（假设你在本地设置了参数）：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">nacos_host: 192.168.1.7<br>nacos_port: 8848<br></code></pre></td></tr></table></figure>
-
-
 <blockquote>
-<p>✅ 注意：如果未设置参数，则输出可能为默认值：</p>
+<p>✅ 注意：如果未设置参数，则输出可能为默认值： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">nacos_host: nacos-host<br>nacos_port: 8848<br></code></pre></td></tr></table></figure></p>
 </blockquote>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">nacos_host: nacos-host<br>nacos_port: 8848<br></code></pre></td></tr></table></figure>
-
-
-<hr>
-<h3 id="如何确保该类被调用？"><a href="#如何确保该类被调用？" class="headerlink" title="如何确保该类被调用？"></a>如何确保该类被调用？</h3><ul>
-<li><p><strong>确保类在组件扫描路径下</strong><br>如果你的 Spring Boot 主启动类上有 <code>@SpringBootApplication</code> 注解，它会默认扫描同包及其子包下的组件。</p>
+<hr />
+<h3 id="如何确保该类被调用">如何确保该类被调用？</h3>
 <ul>
-<li>如果 <code>NacosConfigPrinter</code> 所在包不在主类的子包下，需要显式配置组件扫描路径：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@ComponentScan(basePackages = &quot;com.yourcompany.yourpackage&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Application</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SpringApplication.run(Application.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><strong>确保类在组件扫描路径下</strong><br />
+如果你的 Spring Boot 主启动类上有 <code>@SpringBootApplication</code>
+注解，它会默认扫描同包及其子包下的组件。
+<ul>
+<li>如果 <code>NacosConfigPrinter</code>
+所在包不在主类的子包下，需要显式配置组件扫描路径： <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@ComponentScan(basePackages = &quot;com.yourcompany.yourpackage&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Application</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SpringApplication.run(Application.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul></li>
+<li><strong>确保类不是被 new 出来的</strong><br />
+不要使用 <code>new NacosConfigPrinter()</code> 创建实例，这样会导致
+<code>@Autowired</code> 注入失败。应由 Spring 管理生命周期。</li>
 </ul>
-</li>
-<li><p><strong>确保类不是被 new 出来的</strong><br>不要使用 <code>new NacosConfigPrinter()</code> 创建实例，这样会导致 <code>@Autowired</code> 注入失败。应由 Spring 管理生命周期。</p>
-</li>
-</ul>
-<hr>
-<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><table>
+<hr />
+<h3 id="总结">总结：</h3>
+<table>
 <thead>
-<tr>
+<tr class="header">
 <th>步骤</th>
 <th>内容</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>1</td>
 <td><code>@Component</code> 让 Spring 管理该类</td>
 </tr>
-<tr>
+<tr class="even">
 <td>2</td>
 <td><code>@Autowired</code> 注入 <code>Environment</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>3</td>
 <td><code>@PostConstruct</code> 触发打印逻辑</td>
 </tr>
-<tr>
+<tr class="even">
 <td>4</td>
 <td>Spring Boot 启动时自动执行</td>
 </tr>
-</tbody></table>
-<p>只要满足组件扫描路径和依赖注入条件，<code>NacosConfigPrinter</code> 就会被 Spring 自动调用并打印配置信息。</p>
-<p><strong>扩展：使用 @Value 注解直接注入属性</strong></p>
-<p>也可以通过 @Value 直接将属性注入到字段中：</p>
+</tbody>
+</table>
+<p>只要满足组件扫描路径和依赖注入条件，<code>NacosConfigPrinter</code>
+就会被 Spring 自动调用并打印配置信息。</p>
+<p><strong>扩展：使用 <span class="citation"
+data-cites="Value">@Value</span> 注解直接注入属性</strong></p>
+<p>也可以通过 <span class="citation" data-cites="Value">@Value</span>
+直接将属性注入到字段中：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><br><span class="hljs-keyword">import</span> javax.annotation.PostConstruct;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NacosConfigPrinter</span> &#123;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;nacos_host&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String nacosHost;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;nacos_port&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String nacosPort;<br><br>    <span class="hljs-meta">@PostConstruct</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">printNacosConfig</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;nacos_host: &quot;</span> + nacosHost);<br>        System.out.println(<span class="hljs-string">&quot;nacos_port: &quot;</span> + nacosPort);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-
 
                 
               </div>
@@ -1670,6 +1709,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1887,6 +1932,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

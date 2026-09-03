@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Kotlin是现在我们做新版本的Android项目首选的开发语言，其中的 data class 相较于其他编程语言有所不同，深刻理解对于我们提高开发原生App的效率有很大的帮助。 1. 基本概念data class 是 Kotlin 中一种特殊的类，主要用于存储数据。编译器会自动为 data class 生成一些常用的函数，减少样板代码。 1data class PhotoTaken(val ph">
+    <meta name="description" content="Kotlin是现在我们做新版本的Android项目首选的开发语言，其中的 data class 相较于其他编程语言有所不同，深刻理解对于我们提高开发原生App的效率有很大的帮助。 1. 基本概念 data class 是 Kotlin 中一种特殊的类，主要用于存储数据。编译器会自动为 data class 生成一些常用的函数，减少样板代码。 1data class PhotoTaken(val p">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kotlin中的data class及其应用">
 <meta property="og:url" content="https://jycpp.github.io/2021/21-10-23-kotlin%E4%B8%AD%E7%9A%84data%20class%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="Kotlin是现在我们做新版本的Android项目首选的开发语言，其中的 data class 相较于其他编程语言有所不同，深刻理解对于我们提高开发原生App的效率有很大的帮助。 1. 基本概念data class 是 Kotlin 中一种特殊的类，主要用于存储数据。编译器会自动为 data class 生成一些常用的函数，减少样板代码。 1data class PhotoTaken(val ph">
+<meta property="og:description" content="Kotlin是现在我们做新版本的Android项目首选的开发语言，其中的 data class 相较于其他编程语言有所不同，深刻理解对于我们提高开发原生App的效率有很大的帮助。 1. 基本概念 data class 是 Kotlin 中一种特殊的类，主要用于存储数据。编译器会自动为 data class 生成一些常用的函数，减少样板代码。 1data class PhotoTaken(val p">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-10-23T16:17:57.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.104Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.662Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Kotlin">
@@ -253,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          1.1k 字
         
       </span>
     
@@ -314,7 +314,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1043,7 +1043,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1061,6 +1061,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1363,78 +1372,75 @@ true
             
               <div class="markdown-body">
                 
-                <p>Kotlin是现在我们做新版本的Android项目首选的开发语言，其中的 data class 相较于其他编程语言有所不同，深刻理解对于我们提高开发原生App的效率有很大的帮助。</p>
-<h3 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h3><p><code>data class</code> 是 Kotlin 中一种特殊的类，主要用于存储数据。编译器会自动为 <code>data class</code> 生成一些常用的函数，减少样板代码。</p>
+                <p>Kotlin是现在我们做新版本的Android项目首选的开发语言，其中的 data
+class
+相较于其他编程语言有所不同，深刻理解对于我们提高开发原生App的效率有很大的帮助。</p>
+<h3 id="基本概念">1. 基本概念</h3>
+<p><code>data class</code> 是 Kotlin
+中一种特殊的类，主要用于存储数据。编译器会自动为 <code>data class</code>
+生成一些常用的函数，减少样板代码。</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PhotoTaken</span>(<span class="hljs-keyword">val</span> photoInfo: String, <span class="hljs-keyword">val</span> photo_filename: String) : Event()<br></code></pre></td></tr></table></figure>
-
-
-<h3 id="2-自动生成的函数"><a href="#2-自动生成的函数" class="headerlink" title="2. 自动生成的函数"></a>2. 自动生成的函数</h3><p>当声明一个 <code>data class</code> 时，Kotlin 编译器会自动生成以下函数：</p>
-<h4 id="基础函数"><a href="#基础函数" class="headerlink" title="基础函数"></a>基础函数</h4><ul>
-<li><code>equals()</code> 和 <code>hashCode()</code> - 用于对象比较和哈希计算</li>
+<h3 id="自动生成的函数">2. 自动生成的函数</h3>
+<p>当声明一个 <code>data class</code> 时，Kotlin
+编译器会自动生成以下函数：</p>
+<h4 id="基础函数">基础函数</h4>
+<ul>
+<li><code>equals()</code> 和 <code>hashCode()</code> -
+用于对象比较和哈希计算</li>
 <li><code>toString()</code> - 返回包含所有属性的字符串表示</li>
 <li><code>copy()</code> - 创建对象副本</li>
 <li><code>componentN()</code> 函数 - 支持解构声明</li>
 </ul>
-<h4 id="示例演示"><a href="#示例演示" class="headerlink" title="示例演示"></a>示例演示</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span>(<span class="hljs-keyword">val</span> name: String, <span class="hljs-keyword">val</span> age: <span class="hljs-built_in">Int</span>)<br><br><span class="hljs-keyword">val</span> person1 = Person(<span class="hljs-string">&quot;张三&quot;</span>, <span class="hljs-number">25</span>)<br><span class="hljs-keyword">val</span> person2 = Person(<span class="hljs-string">&quot;张三&quot;</span>, <span class="hljs-number">25</span>)<br><span class="hljs-keyword">val</span> person3 = Person(<span class="hljs-string">&quot;李四&quot;</span>, <span class="hljs-number">30</span>)<br><br><span class="hljs-comment">// equals() 和 hashCode()</span><br>println(person1 == person2) <span class="hljs-comment">// true</span><br>println(person1.hashCode() == person2.hashCode()) <span class="hljs-comment">// true</span><br><br><span class="hljs-comment">// toString()</span><br>println(person1.toString()) <span class="hljs-comment">// Person(name=张三, age=25)</span><br><br><span class="hljs-comment">// copy()</span><br><span class="hljs-keyword">val</span> person4 = person1.copy(age = <span class="hljs-number">26</span>)<br>println(person4) <span class="hljs-comment">// Person(name=张三, age=26)</span><br><br><span class="hljs-comment">// 解构声明</span><br><span class="hljs-keyword">val</span> (name, age) = person1<br>println(<span class="hljs-string">&quot;姓名: <span class="hljs-variable">$name</span>, 年龄: <span class="hljs-variable">$age</span>&quot;</span>) <span class="hljs-comment">// 姓名: 张三, 年龄: 25</span><br></code></pre></td></tr></table></figure>
-
+<h4 id="示例演示">示例演示</h4>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span>(<span class="hljs-keyword">val</span> name: String, <span class="hljs-keyword">val</span> age: <span class="hljs-built_in">Int</span>)<br><br><span class="hljs-keyword">val</span> person1 = Person(<span class="hljs-string">&quot;张三&quot;</span>, <span class="hljs-number">25</span>)<br><span class="hljs-keyword">val</span> person2 = Person(<span class="hljs-string">&quot;张三&quot;</span>, <span class="hljs-number">25</span>)<br><span class="hljs-keyword">val</span> person3 = Person(<span class="hljs-string">&quot;李四&quot;</span>, <span class="hljs-number">30</span>)<br><br><span class="hljs-comment">// equals() 和 hashCode()</span><br>println(person1 == person2) <span class="hljs-comment">// true</span><br>println(person1.hashCode() == person2.hashCode()) <span class="hljs-comment">// true</span><br><br><span class="hljs-comment">// toString()</span><br>println(person1.toString()) <span class="hljs-comment">// Person(name=张三, age=25)</span><br><br><span class="hljs-comment">// copy()</span><br><span class="hljs-keyword">val</span> person4 = person1.copy(age = <span class="hljs-number">26</span>)<br>println(person4) <span class="hljs-comment">// Person(name=张三, age=26)</span><br><br><span class="hljs-comment">// 解构声明</span><br><span class="hljs-keyword">val</span> (name, age) = person1<br>println(<span class="hljs-string">&quot;姓名: <span class="hljs-variable">$name</span>, 年龄: <span class="hljs-variable">$age</span>&quot;</span>) <span class="hljs-comment">// 姓名: 张三, 年龄: 25</span><br></code></pre></td></tr></table></figure>
 <p>同时，也可以通过data class的属性直接访问其值：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">println(person1.name) <span class="hljs-comment">// 张三</span><br>println(person1.age) <span class="hljs-comment">// 25</span><br></code></pre></td></tr></table></figure>
-
 <p>更详细的举例说明：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span>(<span class="hljs-keyword">val</span> name: String, <span class="hljs-keyword">val</span> age: <span class="hljs-built_in">Int</span>, <span class="hljs-keyword">var</span> address: String)<br><br><span class="hljs-keyword">val</span> person = Person(<span class="hljs-string">&quot;张三&quot;</span>, <span class="hljs-number">25</span>, <span class="hljs-string">&quot;北京市&quot;</span>)<br><br><span class="hljs-comment">// 直接访问属性（只读属性）</span><br>println(person.name)    <span class="hljs-comment">// 输出: 张三</span><br>println(person.age)     <span class="hljs-comment">// 输出: 25</span><br><br><span class="hljs-comment">// 直接访问和修改可变属性</span><br>println(person.address)        <span class="hljs-comment">// 输出: 北京市</span><br>person.address = <span class="hljs-string">&quot;上海市&quot;</span>      <span class="hljs-comment">// 修改 var 属性</span><br>println(person.address)        <span class="hljs-comment">// 输出: 上海市</span><br><br><span class="hljs-comment">// 编译错误示例 - 无法修改只读属性</span><br><span class="hljs-comment">// person.name = &quot;李四&quot;  // 编译错误：Val cannot be reassigned</span><br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="3-主要特性"><a href="#3-主要特性" class="headerlink" title="3. 主要特性"></a>3. 主要特性</h3><h4 id="主构造函数要求"><a href="#主构造函数要求" class="headerlink" title="主构造函数要求"></a>主构造函数要求</h4><p><code>data class</code> 必须至少有一个主构造函数参数：</p>
+<h3 id="主要特性">3. 主要特性</h3>
+<h4 id="主构造函数要求">主构造函数要求</h4>
+<p><code>data class</code> 必须至少有一个主构造函数参数：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// 正确</span><br><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span>(<span class="hljs-keyword">val</span> id: <span class="hljs-built_in">Int</span>, <span class="hljs-keyword">val</span> name: String)<br><br><span class="hljs-comment">// 错误 - 没有主构造函数参数</span><br><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EmptyDataClass</span> // 编译错误<br></code></pre></td></tr></table></figure>
-
-
-<h4 id="属性可变性"><a href="#属性可变性" class="headerlink" title="属性可变性"></a>属性可变性</h4><p>支持 <code>val</code>（只读）和 <code>var</code>（可变）属性：</p>
+<h4 id="属性可变性">属性可变性</h4>
+<p>支持 <code>val</code>（只读）和 <code>var</code>（可变）属性：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MutableUser</span>(<span class="hljs-keyword">var</span> id: <span class="hljs-built_in">Int</span>, <span class="hljs-keyword">val</span> name: String)<br><br><span class="hljs-keyword">val</span> user = MutableUser(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;张三&quot;</span>)<br>user.id = <span class="hljs-number">2</span> <span class="hljs-comment">// 可以修改 var 属性</span><br><span class="hljs-comment">// user.name = &quot;李四&quot; // 编译错误，val 属性不可修改</span><br></code></pre></td></tr></table></figure>
-
-
-<h3 id="4-实际应用场景"><a href="#4-实际应用场景" class="headerlink" title="4. 实际应用场景"></a>4. 实际应用场景</h3><h4 id="1-数据传输对象-DTO"><a href="#1-数据传输对象-DTO" class="headerlink" title="1. 数据传输对象 (DTO)"></a>1. 数据传输对象 (DTO)</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserDto</span>(<br>    <span class="hljs-keyword">val</span> id: <span class="hljs-built_in">Long</span>,<br>    <span class="hljs-keyword">val</span> username: String,<br>    <span class="hljs-keyword">val</span> email: String,<br>    <span class="hljs-keyword">val</span> createdAt: String<br>)<br></code></pre></td></tr></table></figure>
-
-
-<h4 id="2-网络请求响应"><a href="#2-网络请求响应" class="headerlink" title="2. 网络请求响应"></a>2. 网络请求响应</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ApiResponse</span>&lt;<span class="hljs-type">T</span>&gt;(<br>    <span class="hljs-keyword">val</span> code: <span class="hljs-built_in">Int</span>,<br>    <span class="hljs-keyword">val</span> message: String,<br>    <span class="hljs-keyword">val</span> <span class="hljs-keyword">data</span>: T?<br>)<br></code></pre></td></tr></table></figure>
-
-
-<h4 id="3-状态管理"><a href="#3-状态管理" class="headerlink" title="3. 状态管理"></a>3. 状态管理</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// 在sealed class中</span><br><span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Event</span> &#123;<br>    <span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PhotoTaken</span>(<span class="hljs-keyword">val</span> photoInfo: String, <span class="hljs-keyword">val</span> photo_filename: String) : Event()<br>    <span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LogMessage</span>(<span class="hljs-keyword">val</span> message: String) : Event()<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-<h4 id="4-配置信息"><a href="#4-配置信息" class="headerlink" title="4. 配置信息"></a>4. 配置信息</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppConfig</span>(<br>    <span class="hljs-keyword">val</span> apiUrl: String,<br>    <span class="hljs-keyword">val</span> timeout: <span class="hljs-built_in">Int</span>,<br>    <span class="hljs-keyword">val</span> retryCount: <span class="hljs-built_in">Int</span><br>)<br></code></pre></td></tr></table></figure>
-
-
-<h3 id="5-高级用法"><a href="#5-高级用法" class="headerlink" title="5. 高级用法"></a>5. 高级用法</h3><h4 id="copy-函数的使用"><a href="#copy-函数的使用" class="headerlink" title="copy() 函数的使用"></a>copy() 函数的使用</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Product</span>(<span class="hljs-keyword">val</span> id: <span class="hljs-built_in">Int</span>, <span class="hljs-keyword">val</span> name: String, <span class="hljs-keyword">val</span> price: <span class="hljs-built_in">Double</span>, <span class="hljs-keyword">val</span> category: String)<br><br><span class="hljs-keyword">val</span> product = Product(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;手机&quot;</span>, <span class="hljs-number">2999.0</span>, <span class="hljs-string">&quot;电子产品&quot;</span>)<br><span class="hljs-keyword">val</span> discountedProduct = product.copy(price = <span class="hljs-number">2499.0</span>) <span class="hljs-comment">// 只修改价格</span><br><span class="hljs-keyword">val</span> renamedProduct = product.copy(name = <span class="hljs-string">&quot;智能手机&quot;</span>, category = <span class="hljs-string">&quot;智能设备&quot;</span>) <span class="hljs-comment">// 修改多个属性</span><br></code></pre></td></tr></table></figure>
-
-
-<h4 id="解构声明"><a href="#解构声明" class="headerlink" title="解构声明"></a>解构声明</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Point</span>(<span class="hljs-keyword">val</span> x: <span class="hljs-built_in">Int</span>, <span class="hljs-keyword">val</span> y: <span class="hljs-built_in">Int</span>)<br><br><span class="hljs-keyword">val</span> point = Point(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>)<br><span class="hljs-keyword">val</span> (x, y) = point <span class="hljs-comment">// 解构</span><br>println(<span class="hljs-string">&quot;坐标: (<span class="hljs-variable">$x</span>, <span class="hljs-variable">$y</span>)&quot;</span>) <span class="hljs-comment">// 坐标: (10, 20)</span><br><br><span class="hljs-comment">// 在集合中使用</span><br><span class="hljs-keyword">val</span> points = listOf(Point(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>), Point(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>), Point(<span class="hljs-number">5</span>, <span class="hljs-number">6</span>))<br><span class="hljs-keyword">for</span> ((x, y) <span class="hljs-keyword">in</span> points) &#123;<br>    println(<span class="hljs-string">&quot;点: (<span class="hljs-variable">$x</span>, <span class="hljs-variable">$y</span>)&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-<h4 id="与集合操作结合"><a href="#与集合操作结合" class="headerlink" title="与集合操作结合"></a>与集合操作结合</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span>(<span class="hljs-keyword">val</span> name: String, <span class="hljs-keyword">val</span> score: <span class="hljs-built_in">Int</span>)<br><br><span class="hljs-keyword">val</span> students = listOf(<br>    Student(<span class="hljs-string">&quot;张三&quot;</span>, <span class="hljs-number">85</span>),<br>    Student(<span class="hljs-string">&quot;李四&quot;</span>, <span class="hljs-number">92</span>),<br>    Student(<span class="hljs-string">&quot;王五&quot;</span>, <span class="hljs-number">78</span>)<br>)<br><br><span class="hljs-comment">// 过滤和映射</span><br><span class="hljs-keyword">val</span> highScorers = students.filter &#123; it.score &gt; <span class="hljs-number">80</span> &#125;<br><span class="hljs-keyword">val</span> names = students.map &#123; it.name &#125;<br><br><span class="hljs-comment">// 分组</span><br><span class="hljs-keyword">val</span> groupedByScore = students.groupBy &#123; <span class="hljs-keyword">if</span> (it.score &gt;= <span class="hljs-number">90</span>) <span class="hljs-string">&quot;优秀&quot;</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;一般&quot;</span> &#125;<br></code></pre></td></tr></table></figure>
-
-
-<h3 id="6-注意事项和限制"><a href="#6-注意事项和限制" class="headerlink" title="6. 注意事项和限制"></a>6. 注意事项和限制</h3><h4 id="1-继承限制"><a href="#1-继承限制" class="headerlink" title="1. 继承限制"></a>1. 继承限制</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// data class 可以继承其他类</span><br><span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BaseEntity</span>(<span class="hljs-keyword">val</span> id: <span class="hljs-built_in">Long</span>)<br><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span>(<span class="hljs-keyword">override</span> <span class="hljs-keyword">val</span> id: <span class="hljs-built_in">Long</span>, <span class="hljs-keyword">val</span> name: String) : BaseEntity(id)<br><br><span class="hljs-comment">// 但不能被其他类继承</span><br><span class="hljs-comment">// class SpecialUser : User(1, &quot;特殊用户&quot;) // 编译错误</span><br></code></pre></td></tr></table></figure>
-
-
-<h4 id="2-与密封类结合"><a href="#2-与密封类结合" class="headerlink" title="2. 与密封类结合"></a>2. 与密封类结合</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Result</span>&lt;<span class="hljs-type">T</span>&gt; &#123;<br>    <span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Success</span>&lt;<span class="hljs-type">T</span>&gt;(<span class="hljs-keyword">val</span> <span class="hljs-keyword">data</span>: T) : Result&lt;T&gt;()<br>    <span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Error</span>&lt;<span class="hljs-type">T</span>&gt;(<span class="hljs-keyword">val</span> message: String) : Result&lt;T&gt;()<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-<h4 id="3-注意重写函数"><a href="#3-注意重写函数" class="headerlink" title="3. 注意重写函数"></a>3. 注意重写函数</h4><p>如果手动重写了自动生成的函数，编译器不会重新生成：</p>
+<h3 id="实际应用场景">4. 实际应用场景</h3>
+<h4 id="数据传输对象-dto">1. 数据传输对象 (DTO)</h4>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserDto</span>(<br>    <span class="hljs-keyword">val</span> id: <span class="hljs-built_in">Long</span>,<br>    <span class="hljs-keyword">val</span> username: String,<br>    <span class="hljs-keyword">val</span> email: String,<br>    <span class="hljs-keyword">val</span> createdAt: String<br>)<br></code></pre></td></tr></table></figure>
+<h4 id="网络请求响应">2. 网络请求响应</h4>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ApiResponse</span>&lt;<span class="hljs-type">T</span>&gt;(<br>    <span class="hljs-keyword">val</span> code: <span class="hljs-built_in">Int</span>,<br>    <span class="hljs-keyword">val</span> message: String,<br>    <span class="hljs-keyword">val</span> <span class="hljs-keyword">data</span>: T?<br>)<br></code></pre></td></tr></table></figure>
+<h4 id="状态管理">3. 状态管理</h4>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// 在sealed class中</span><br><span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Event</span> &#123;<br>    <span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PhotoTaken</span>(<span class="hljs-keyword">val</span> photoInfo: String, <span class="hljs-keyword">val</span> photo_filename: String) : Event()<br>    <span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LogMessage</span>(<span class="hljs-keyword">val</span> message: String) : Event()<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="配置信息">4. 配置信息</h4>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppConfig</span>(<br>    <span class="hljs-keyword">val</span> apiUrl: String,<br>    <span class="hljs-keyword">val</span> timeout: <span class="hljs-built_in">Int</span>,<br>    <span class="hljs-keyword">val</span> retryCount: <span class="hljs-built_in">Int</span><br>)<br></code></pre></td></tr></table></figure>
+<h3 id="高级用法">5. 高级用法</h3>
+<h4 id="copy-函数的使用">copy() 函数的使用</h4>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Product</span>(<span class="hljs-keyword">val</span> id: <span class="hljs-built_in">Int</span>, <span class="hljs-keyword">val</span> name: String, <span class="hljs-keyword">val</span> price: <span class="hljs-built_in">Double</span>, <span class="hljs-keyword">val</span> category: String)<br><br><span class="hljs-keyword">val</span> product = Product(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;手机&quot;</span>, <span class="hljs-number">2999.0</span>, <span class="hljs-string">&quot;电子产品&quot;</span>)<br><span class="hljs-keyword">val</span> discountedProduct = product.copy(price = <span class="hljs-number">2499.0</span>) <span class="hljs-comment">// 只修改价格</span><br><span class="hljs-keyword">val</span> renamedProduct = product.copy(name = <span class="hljs-string">&quot;智能手机&quot;</span>, category = <span class="hljs-string">&quot;智能设备&quot;</span>) <span class="hljs-comment">// 修改多个属性</span><br></code></pre></td></tr></table></figure>
+<h4 id="解构声明">解构声明</h4>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Point</span>(<span class="hljs-keyword">val</span> x: <span class="hljs-built_in">Int</span>, <span class="hljs-keyword">val</span> y: <span class="hljs-built_in">Int</span>)<br><br><span class="hljs-keyword">val</span> point = Point(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>)<br><span class="hljs-keyword">val</span> (x, y) = point <span class="hljs-comment">// 解构</span><br>println(<span class="hljs-string">&quot;坐标: (<span class="hljs-variable">$x</span>, <span class="hljs-variable">$y</span>)&quot;</span>) <span class="hljs-comment">// 坐标: (10, 20)</span><br><br><span class="hljs-comment">// 在集合中使用</span><br><span class="hljs-keyword">val</span> points = listOf(Point(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>), Point(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>), Point(<span class="hljs-number">5</span>, <span class="hljs-number">6</span>))<br><span class="hljs-keyword">for</span> ((x, y) <span class="hljs-keyword">in</span> points) &#123;<br>    println(<span class="hljs-string">&quot;点: (<span class="hljs-variable">$x</span>, <span class="hljs-variable">$y</span>)&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="与集合操作结合">与集合操作结合</h4>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span>(<span class="hljs-keyword">val</span> name: String, <span class="hljs-keyword">val</span> score: <span class="hljs-built_in">Int</span>)<br><br><span class="hljs-keyword">val</span> students = listOf(<br>    Student(<span class="hljs-string">&quot;张三&quot;</span>, <span class="hljs-number">85</span>),<br>    Student(<span class="hljs-string">&quot;李四&quot;</span>, <span class="hljs-number">92</span>),<br>    Student(<span class="hljs-string">&quot;王五&quot;</span>, <span class="hljs-number">78</span>)<br>)<br><br><span class="hljs-comment">// 过滤和映射</span><br><span class="hljs-keyword">val</span> highScorers = students.filter &#123; it.score &gt; <span class="hljs-number">80</span> &#125;<br><span class="hljs-keyword">val</span> names = students.map &#123; it.name &#125;<br><br><span class="hljs-comment">// 分组</span><br><span class="hljs-keyword">val</span> groupedByScore = students.groupBy &#123; <span class="hljs-keyword">if</span> (it.score &gt;= <span class="hljs-number">90</span>) <span class="hljs-string">&quot;优秀&quot;</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;一般&quot;</span> &#125;<br></code></pre></td></tr></table></figure>
+<h3 id="注意事项和限制">6. 注意事项和限制</h3>
+<h4 id="继承限制">1. 继承限制</h4>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// data class 可以继承其他类</span><br><span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BaseEntity</span>(<span class="hljs-keyword">val</span> id: <span class="hljs-built_in">Long</span>)<br><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span>(<span class="hljs-keyword">override</span> <span class="hljs-keyword">val</span> id: <span class="hljs-built_in">Long</span>, <span class="hljs-keyword">val</span> name: String) : BaseEntity(id)<br><br><span class="hljs-comment">// 但不能被其他类继承</span><br><span class="hljs-comment">// class SpecialUser : User(1, &quot;特殊用户&quot;) // 编译错误</span><br></code></pre></td></tr></table></figure>
+<h4 id="与密封类结合">2. 与密封类结合</h4>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Result</span>&lt;<span class="hljs-type">T</span>&gt; &#123;<br>    <span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Success</span>&lt;<span class="hljs-type">T</span>&gt;(<span class="hljs-keyword">val</span> <span class="hljs-keyword">data</span>: T) : Result&lt;T&gt;()<br>    <span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Error</span>&lt;<span class="hljs-type">T</span>&gt;(<span class="hljs-keyword">val</span> message: String) : Result&lt;T&gt;()<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="注意重写函数">3. 注意重写函数</h4>
+<p>如果手动重写了自动生成的函数，编译器不会重新生成：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomToString</span>(<span class="hljs-keyword">val</span> name: String, <span class="hljs-keyword">val</span> age: <span class="hljs-built_in">Int</span>) &#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">toString</span><span class="hljs-params">()</span></span>: String &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Custom: <span class="hljs-variable">$name</span> (<span class="hljs-variable">$age</span> years old)&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-<h3 id="7-在您的项目中的应用"><a href="#7-在您的项目中的应用" class="headerlink" title="7. 在您的项目中的应用"></a>7. 在您的项目中的应用</h3><p>在我写的一个测试项目的 [UiHandler.kt] （代码在我的github或者gitee上）(file:&#x2F;&#x2F;&#x2F;Users&#x2F;test003&#x2F;AndroidStudioProjects&#x2F;testWifi001&#x2F;app&#x2F;src&#x2F;main&#x2F;java&#x2F;com&#x2F;example&#x2F;testwifi001&#x2F;UiHandler.kt) 中，<code>data class</code> 的使用体现了以下优势：</p>
-<ol>
+<h3 id="在您的项目中的应用">7. 在您的项目中的应用</h3>
+<p>在我写的一个测试项目的 [UiHandler.kt]
+（代码在我的github或者gitee上）(file:///Users/test003/AndroidStudioProjects/testWifi001/app/src/main/java/com/example/testwifi001/UiHandler.kt)
+中，<code>data class</code> 的使用体现了以下优势：</p>
+<ol type="1">
 <li><strong>类型安全</strong>：每个事件类型都有明确的参数定义</li>
 <li><strong>简洁性</strong>：避免手动编写 getter、equals 等方法</li>
 <li><strong>可读性</strong>：一眼就能看出事件携带的数据</li>
 <li><strong>解构支持</strong>：可以在接收端方便地解构使用</li>
 </ol>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// 定义事件</span><br><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PhotoTaken</span>(<span class="hljs-keyword">val</span> photoInfo: String, <span class="hljs-keyword">val</span> photo_filename: String) : Event()<br><br><span class="hljs-comment">// 发送事件</span><br>UiHandler.sendEvent(UiHandler.Event.PhotoTaken(photoInfo, filePath))<br><br><span class="hljs-comment">// 接收事件</span><br><span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onUiEvent</span><span class="hljs-params">(event: <span class="hljs-type">UiHandler</span>.<span class="hljs-type">Event</span>)</span></span> &#123;<br>    <span class="hljs-keyword">when</span> (event) &#123;<br>        <span class="hljs-keyword">is</span> UiHandler.Event.PhotoTaken -&gt; &#123;<br>            <span class="hljs-comment">// 直接访问属性</span><br>            handlePhotoTaken(event.photoInfo, event.photo_filename)<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-<p>这种设计模式在 Android 开发中非常常见，特别是在事件总线、状态管理、网络响应等场景中广泛使用。</p>
+<p>这种设计模式在 Android
+开发中非常常见，特别是在事件总线、状态管理、网络响应等场景中广泛使用。</p>
 
                 
               </div>
@@ -1617,6 +1623,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1834,6 +1846,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

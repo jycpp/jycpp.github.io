@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Git Stash：代码的”临时储物柜”，高效管理开发中的临时修改在Git版本控制的日常开发中，常会遇到这样的场景：开发者在feature分支开发复杂功能时，代码编写到一半需要切换到main分支修复紧急问题；准备执行git pull拉取远程更新时，因本地未提交修改而收到”冲突覆盖”警告；为避免污染提交历史，不愿为临时切换创建”半成品”提交记录。   git stash 正是为解决这类问题而生的本地">
+    <meta name="description" content="Git Stash：代码的”临时储物柜”，高效管理开发中的临时修改 在Git版本控制的日常开发中，常会遇到这样的场景：开发者在feature分支开发复杂功能时，代码编写到一半需要切换到main分支修复紧急问题；准备执行git pull拉取远程更新时，因本地未提交修改而收到”冲突覆盖”警告；为避免污染提交历史，不愿为临时切换创建”半成品”提交记录。 git stash 正是为解决这类问题而生的本地临">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git Stash：代码的&quot;临时储物柜&quot;，高效管理开发中的临时修改">
 <meta property="og:url" content="https://jycpp.github.io/2026/26-03-21-Git-Stash-%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%B4%E6%97%B6%E5%82%A8%E7%89%A9%E6%9F%9C.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="Git Stash：代码的”临时储物柜”，高效管理开发中的临时修改在Git版本控制的日常开发中，常会遇到这样的场景：开发者在feature分支开发复杂功能时，代码编写到一半需要切换到main分支修复紧急问题；准备执行git pull拉取远程更新时，因本地未提交修改而收到”冲突覆盖”警告；为避免污染提交历史，不愿为临时切换创建”半成品”提交记录。   git stash 正是为解决这类问题而生的本地">
+<meta property="og:description" content="Git Stash：代码的”临时储物柜”，高效管理开发中的临时修改 在Git版本控制的日常开发中，常会遇到这样的场景：开发者在feature分支开发复杂功能时，代码编写到一半需要切换到main分支修复紧急问题；准备执行git pull拉取远程更新时，因本地未提交修改而收到”冲突覆盖”警告；为避免污染提交历史，不愿为临时切换创建”半成品”提交记录。 git stash 正是为解决这类问题而生的本地临">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-03-21T10:51:00.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.108Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.669Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Git">
 <meta property="article:tag" content="版本控制">
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1368,18 +1377,32 @@ true
             
               <div class="markdown-body">
                 
-                <h1 id="Git-Stash：代码的”临时储物柜”，高效管理开发中的临时修改"><a href="#Git-Stash：代码的”临时储物柜”，高效管理开发中的临时修改" class="headerlink" title="Git Stash：代码的”临时储物柜”，高效管理开发中的临时修改"></a>Git Stash：代码的”临时储物柜”，高效管理开发中的临时修改</h1><p>在Git版本控制的日常开发中，常会遇到这样的场景：开发者在<code>feature</code>分支开发复杂功能时，代码编写到一半需要切换到<code>main</code>分支修复紧急问题；准备执行<code>git pull</code>拉取远程更新时，因本地未提交修改而收到”冲突覆盖”警告；为避免污染提交历史，不愿为临时切换创建”半成品”提交记录。  </p>
-<p><strong><code>git stash</code></strong> 正是为解决这类问题而生的本地临时存储机制。它能将工作区和暂存区的未提交修改安全封存，让仓库恢复到最近一次提交的干净状态，切换任务后可轻松取回继续开发。  </p>
-<h2 id="一、Git-Stash的核心价值与应用场景"><a href="#一、Git-Stash的核心价值与应用场景" class="headerlink" title="一、Git Stash的核心价值与应用场景"></a>一、Git Stash的核心价值与应用场景</h2><h3 id="1-临时切换任务的桥梁"><a href="#1-临时切换任务的桥梁" class="headerlink" title="1. 临时切换任务的桥梁"></a>1. 临时切换任务的桥梁</h3><p>当需要从当前开发分支切换到其他分支时，<code>git stash</code>可将本地修改暂存，避免”带着半成品切换分支”导致的代码混乱。  </p>
-<h3 id="2-拉取远程更新的前置条件"><a href="#2-拉取远程更新的前置条件" class="headerlink" title="2. 拉取远程更新的前置条件"></a>2. 拉取远程更新的前置条件</h3><p>执行<code>git pull</code>前，若本地存在未提交修改，Git会因”远程更新可能覆盖本地修改”而拒绝执行。通过<code>git stash</code>暂存修改，可先拉取远程代码，再恢复本地修改。  </p>
-<h3 id="3-保持提交历史的整洁"><a href="#3-保持提交历史的整洁" class="headerlink" title="3. 保持提交历史的整洁"></a>3. 保持提交历史的整洁</h3><p>相比为临时切换创建”WIP（Work In Progress）”提交记录，<code>git stash</code>提供了更优雅的解决方案，用临时存储代替无效提交，维护清晰的提交历史。  </p>
-<h2 id="二、Git-Stash典型工作流程与可视化解析"><a href="#二、Git-Stash典型工作流程与可视化解析" class="headerlink" title="二、Git Stash典型工作流程与可视化解析"></a>二、Git Stash典型工作流程与可视化解析</h2><h3 id="1-Mermaid时序图：stash核心交互逻辑"><a href="#1-Mermaid时序图：stash核心交互逻辑" class="headerlink" title="1. Mermaid时序图：stash核心交互逻辑"></a>1. Mermaid时序图：stash核心交互逻辑</h3><div class="mermaid">sequenceDiagram
+                <h1 id="git-stash代码的临时储物柜高效管理开发中的临时修改">Git
+Stash：代码的”临时储物柜”，高效管理开发中的临时修改</h1>
+<p>在Git版本控制的日常开发中，常会遇到这样的场景：开发者在<code>feature</code>分支开发复杂功能时，代码编写到一半需要切换到<code>main</code>分支修复紧急问题；准备执行<code>git pull</code>拉取远程更新时，因本地未提交修改而收到”冲突覆盖”警告；为避免污染提交历史，不愿为临时切换创建”半成品”提交记录。</p>
+<p><strong><code>git stash</code></strong>
+正是为解决这类问题而生的本地临时存储机制。它能将工作区和暂存区的未提交修改安全封存，让仓库恢复到最近一次提交的干净状态，切换任务后可轻松取回继续开发。</p>
+<h2 id="一git-stash的核心价值与应用场景">一、Git
+Stash的核心价值与应用场景</h2>
+<h3 id="临时切换任务的桥梁">1. 临时切换任务的桥梁</h3>
+<p>当需要从当前开发分支切换到其他分支时，<code>git stash</code>可将本地修改暂存，避免”带着半成品切换分支”导致的代码混乱。</p>
+<h3 id="拉取远程更新的前置条件">2. 拉取远程更新的前置条件</h3>
+<p>执行<code>git pull</code>前，若本地存在未提交修改，Git会因”远程更新可能覆盖本地修改”而拒绝执行。通过<code>git stash</code>暂存修改，可先拉取远程代码，再恢复本地修改。</p>
+<h3 id="保持提交历史的整洁">3. 保持提交历史的整洁</h3>
+<p>相比为临时切换创建”WIP（Work In
+Progress）“提交记录，<code>git stash</code>提供了更优雅的解决方案，用临时存储代替无效提交，维护清晰的提交历史。</p>
+<h2 id="二git-stash典型工作流程与可视化解析">二、Git
+Stash典型工作流程与可视化解析</h2>
+<h3 id="mermaid时序图stash核心交互逻辑">1.
+Mermaid时序图：stash核心交互逻辑</h3>
+<div class="mermaid">sequenceDiagram
     participant A as 工作区
     participant B as Stash栈
     A->>B: 暂存修改（git stash）
     B-->>A: 恢复修改（git stash pop）</div>
-
-<h3 id="2-Mermaid流程图：stash操作全流程"><a href="#2-Mermaid流程图：stash操作全流程" class="headerlink" title="2. Mermaid流程图：stash操作全流程"></a>2. Mermaid流程图：stash操作全流程</h3><div class="mermaid">graph TD
+<h3 id="mermaid流程图stash操作全流程">2.
+Mermaid流程图：stash操作全流程</h3>
+<div class="mermaid">graph TD
     Start[开始：开发新功能] --> A[修改文件A、B]
     A --> B{需要拉取远程更新？}
     B -->|是| C[git stash push -m 暂存修改]
@@ -1389,95 +1412,97 @@ true
     F -->|是| G[解决冲突→git add→git commit]
     F -->|否| End[继续开发]
     B -->|否| End</div>
-
-
-<h2 id="三、Git-Stash使用步骤与冲突解决详解"><a href="#三、Git-Stash使用步骤与冲突解决详解" class="headerlink" title="三、Git Stash使用步骤与冲突解决详解"></a>三、Git Stash使用步骤与冲突解决详解</h2><h3 id="1-基础命令速查表"><a href="#1-基础命令速查表" class="headerlink" title="1. 基础命令速查表"></a>1. 基础命令速查表</h3><table>
+<h2 id="三git-stash使用步骤与冲突解决详解">三、Git
+Stash使用步骤与冲突解决详解</h2>
+<h3 id="基础命令速查表">1. 基础命令速查表</h3>
+<table>
 <thead>
-<tr>
+<tr class="header">
 <th>命令</th>
 <th>作用</th>
 </tr>
 </thead>
-<tbody><tr>
-<td><code>git stash push -m &quot;描述&quot;</code></td>
+<tbody>
+<tr class="odd">
+<td><code>git stash push -m "描述"</code></td>
 <td>暂存所有修改（含暂存区），添加备注</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>git stash list</code></td>
 <td>查看所有stash条目（如<code>stash@&#123;0&#125;</code>为最近一次）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>git stash pop</code></td>
 <td>应用最近stash并从栈中删除</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>git stash apply stash@&#123;n&#125;</code></td>
 <td>应用指定stash（不删除，可重复用）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>git stash drop stash@&#123;n&#125;</code></td>
 <td>删除指定stash</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>git stash clear</code></td>
 <td>清空所有stash（谨慎使用）</td>
 </tr>
-</tbody></table>
-<h3 id="2-实战案例：用stash解决”pull冲突”与冲突处理"><a href="#2-实战案例：用stash解决”pull冲突”与冲突处理" class="headerlink" title="2. 实战案例：用stash解决”pull冲突”与冲突处理"></a>2. 实战案例：用stash解决”pull冲突”与冲突处理</h3><h4 id="场景描述"><a href="#场景描述" class="headerlink" title="场景描述"></a>场景描述</h4><p>假设在<code>feature/updateui</code>分支开发时，需拉取远程更新，涉及文件包括：  </p>
-<ul>
-<li><code>src/main.js</code>（已修改并<code>git add</code>到暂存区）  </li>
-<li><code>src/utils/helper.js</code>（已修改但未<code>git add</code>）  </li>
-<li><code>README.md</code>（新增未跟踪文件）</li>
-</ul>
-<h4 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h4><p><strong>Step 1: 暂存本地修改</strong>  </p>
+</tbody>
+</table>
+<h3 id="实战案例用stash解决pull冲突与冲突处理">2.
+实战案例：用stash解决”pull冲突”与冲突处理</h3>
+<h4 id="场景描述">场景描述</h4>
+<p>假设在<code>feature/updateui</code>分支开发时，需拉取远程更新，涉及文件包括：<br />
+- <code>src/main.js</code>（已修改并<code>git add</code>到暂存区）<br />
+-
+<code>src/utils/helper.js</code>（已修改但未<code>git add</code>）<br />
+- <code>README.md</code>（新增未跟踪文件）</p>
+<h4 id="操作步骤">操作步骤</h4>
+<p><strong>Step 1: 暂存本地修改</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 暂存所有修改（含未跟踪文件，需加-u参数）</span><br>git stash push -u -m <span class="hljs-string">&quot;WIP: 开发 updateui 功能，涉及main.js/helper.js/README.md&quot;</span><br>```  <br>*说明*：`-u`参数确保新增的`README.md`也被暂存。  <br><br>**Step 2: 拉取远程更新**  <br><br>```bash<br>git pull origin feature/updateui<br>```  <br>此时工作区干净，可顺利同步远程代码。  <br><br>如果遇到代码冲突，可以选择merge和rebase两种处理方式，当然 fast forward也可以：<br><br>```bash<br><span class="hljs-comment"># 使用 merge</span><br>git pull --no-rebase origin main<br><br><span class="hljs-comment"># 或使用 rebase</span><br>git pull --rebase origin main<br><br><span class="hljs-comment"># 或仅快进</span><br>git pull --ff-only origin main<br></code></pre></td></tr></table></figure>
-
-
 <p>执行以上操作后，git会自动跳转到一个vi编辑器中，补充此次合并的注释说明，通过“:wq”保存后即可继续。</p>
-<p><strong>Step 3: 恢复修改并处理冲突</strong>  </p>
-<pre><code class="bash">git stash pop
-</code></pre>
-<p><strong>冲突解决示例</strong><br>若恢复时<code>src/main.js</code>出现冲突，文件内容会显示：  </p>
-<pre><code class="javascript">&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated upstream  // 远程更新内容
-function fetchData() &#123;
-  return axios.get(&#39;/api/data&#39;);
-&#125;
-=======  // 本地修改内容
-function fetchData(param) &#123;
-  return axios.get(`/api/data?param=$&#123;param&#125;`);
-&#125;
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; Stashed changes
-</code></pre>
-<p><strong>解决步骤</strong>：  </p>
-<ol>
-<li>编辑<code>src/main.js</code>，保留正确逻辑（如合并参数）：  <pre><code class="javascript">function fetchData(param) &#123;
-  return axios.get(`/api/data?param=$&#123;param&#125;`);
-&#125;
-</code></pre>
+<p><strong>Step 3: 恢复修改并处理冲突</strong></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash pop</span></code></pre></div>
+<p><strong>冲突解决示例</strong><br />
+若恢复时<code>src/main.js</code>出现冲突，文件内容会显示：</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> Updated upstream  <span class="co">// 远程更新内容</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fetchData</span>() &#123;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> axios<span class="op">.</span><span class="fu">get</span>(<span class="st">&#39;/api/data&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>&#125;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">=======</span>  <span class="co">// 本地修改内容</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fetchData</span>(param) &#123;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> axios<span class="op">.</span><span class="fu">get</span>(<span class="vs">`/api/data?param=</span><span class="sc">$&#123;</span>param<span class="sc">&#125;</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>&#125;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> Stashed changes</span></code></pre></div>
+<p><strong>解决步骤</strong>：<br />
+1. 编辑<code>src/main.js</code>，保留正确逻辑（如合并参数）：<br />
+<code>javascript    function fetchData(param) &#123;      return axios.get(`/api/data?param=$&#123;param&#125;`);    &#125;</code><br />
+2. 标记冲突已解决：<br />
+<code>bash    git add src/main.js  # 将解决后的文件加入暂存区</code><br />
+3.
+若多个文件冲突（如<code>helper.js</code>也冲突），重复上述步骤：<br />
+<code>bash    # 编辑src/utils/helper.js解决冲突后    git add src/utils/helper.js</code><br />
+4. 所有冲突解决后，完成恢复：<br />
+-
+若使用<code>git stash pop</code>后无自动提交，需手动提交（仅当恢复产生新修改时）：<br />
+<code>bash      git commit -m "解决stash pop冲突：合并main.js/helper.js修改"</code><br />
+-
+若使用<code>git stash apply</code>，可通过<code>git status</code>确认状态后决定是否提交。</p>
+<h2 id="四注意事项与最佳实践">四、注意事项与最佳实践</h2>
+<ol type="1">
+<li><strong>本地存储特性</strong>：stash仅存储在本地，不会推送到远程仓库，换设备后无法访问。<br />
 </li>
-<li>标记冲突已解决：  <pre><code class="bash">git add src/main.js  # 将解决后的文件加入暂存区
-</code></pre>
+<li><strong>未跟踪文件处理</strong>：默认不存储新增未跟踪文件，需加<code>-u</code>参数（<code>git stash -u</code>）。<br />
 </li>
-<li>若多个文件冲突（如<code>helper.js</code>也冲突），重复上述步骤：  <pre><code class="bash"># 编辑src/utils/helper.js解决冲突后
-git add src/utils/helper.js
-</code></pre>
+<li><strong>及时清理</strong>：stash适合临时存放，任务完成后用<code>git stash drop</code>或<code>clear</code>清理，避免堆积。<br />
 </li>
-<li>所有冲突解决后，完成恢复：  <ul>
-<li>若使用<code>git stash pop</code>后无自动提交，需手动提交（仅当恢复产生新修改时）：  <pre><code class="bash">git commit -m &quot;解决stash pop冲突：合并main.js/helper.js修改&quot;
-</code></pre>
-</li>
-<li>若使用<code>git stash apply</code>，可通过<code>git status</code>确认状态后决定是否提交。</li>
-</ul>
-</li>
-</ol>
-<h2 id="四、注意事项与最佳实践"><a href="#四、注意事项与最佳实践" class="headerlink" title="四、注意事项与最佳实践"></a>四、注意事项与最佳实践</h2><ol>
-<li><strong>本地存储特性</strong>：stash仅存储在本地，不会推送到远程仓库，换设备后无法访问。  </li>
-<li><strong>未跟踪文件处理</strong>：默认不存储新增未跟踪文件，需加<code>-u</code>参数（<code>git stash -u</code>）。  </li>
-<li><strong>及时清理</strong>：stash适合临时存放，任务完成后用<code>git stash drop</code>或<code>clear</code>清理，避免堆积。  </li>
 <li><strong>冲突处理原则</strong>：恢复时冲突需手动解决（同merge冲突），解决后用<code>git add</code>标记，无需额外commit（除非需记录冲突解决过程）。</li>
 </ol>
-<h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p><code>git stash</code>作为提升开发效率的工具，通过”暂存-恢复”机制，解决了分支切换与远程同步中的临时修改管理难题。其核心价值在于：既避免提交半成品污染历史，又不丢失开发进度。掌握stash的使用，尤其是冲突解决中<code>git add</code>与<code>git commit</code>的配合，能让开发流程更流畅。  </p>
-<p>当面临”本地修改未提交，却需拉代码&#x2F;切分支”的场景时，<code>git stash</code>提供了高效解决方案，实现开发任务的”无缝衔接”。</p>
+<h2 id="五总结">五、总结</h2>
+<p><code>git stash</code>作为提升开发效率的工具，通过”暂存-恢复”机制，解决了分支切换与远程同步中的临时修改管理难题。其核心价值在于：既避免提交半成品污染历史，又不丢失开发进度。掌握stash的使用，尤其是冲突解决中<code>git add</code>与<code>git commit</code>的配合，能让开发流程更流畅。</p>
+<p>当面临”本地修改未提交，却需拉代码/切分支”的场景时，<code>git stash</code>提供了高效解决方案，实现开发任务的”无缝衔接”。</p>
 
                 
               </div>
@@ -1670,6 +1695,12 @@ git add src/utils/helper.js
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1887,6 +1918,49 @@ git add src/utils/helper.js
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

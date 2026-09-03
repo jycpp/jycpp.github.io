@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="本文基于实际目录比对与配置核查整理，沉淀 CodeBuddy（JetBrains&#x2F;PyCharm 插件）与 WorkBuddy（独立 AI 助手）在产品形态、Skill 与 MCP 存储&#x2F;配置上的异同，并给出从 CodeBuddy 向 WorkBuddy 迁移 Skills 与 MCP 的可复用流程。   一、产品定位对比   维度 CodeBuddy WorkBuddy">
+    <meta name="description" content="本文基于实际目录比对与配置核查整理，沉淀 CodeBuddy（JetBrains&#x2F;PyCharm 插件）与 WorkBuddy（独立 AI 助手）在产品形态、Skill 与 MCP 存储&#x2F;配置上的异同，并给出从 CodeBuddy 向 WorkBuddy 迁移 Skills 与 MCP 的可复用流程。   一、产品定位对比     维度 CodeBuddy WorkBuddy     产品形态">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CodeBuddy 与 WorkBuddy 产品对比及 Skill &#x2F; MCP 迁移指南">
 <meta property="og:url" content="https://jycpp.github.io/2026/26-08-16-CodeBuddy%E4%B8%8EWorkBuddy%E5%AF%B9%E6%AF%94%E5%8F%8ASkill%E5%92%8CMCP%E8%BF%81%E7%A7%BB.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="本文基于实际目录比对与配置核查整理，沉淀 CodeBuddy（JetBrains&#x2F;PyCharm 插件）与 WorkBuddy（独立 AI 助手）在产品形态、Skill 与 MCP 存储&#x2F;配置上的异同，并给出从 CodeBuddy 向 WorkBuddy 迁移 Skills 与 MCP 的可复用流程。   一、产品定位对比   维度 CodeBuddy WorkBuddy">
+<meta property="og:description" content="本文基于实际目录比对与配置核查整理，沉淀 CodeBuddy（JetBrains&#x2F;PyCharm 插件）与 WorkBuddy（独立 AI 助手）在产品形态、Skill 与 MCP 存储&#x2F;配置上的异同，并给出从 CodeBuddy 向 WorkBuddy 迁移 Skills 与 MCP 的可复用流程。   一、产品定位对比     维度 CodeBuddy WorkBuddy     产品形态">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-08-16T14:32:45.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.109Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.670Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="配置">
 <meta property="article:tag" content="Skill">
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1369,87 +1378,105 @@ true
               <div class="markdown-body">
                 
                 <blockquote>
-<p>本文基于实际目录比对与配置核查整理，沉淀 CodeBuddy（JetBrains&#x2F;PyCharm 插件）与 WorkBuddy（独立 AI 助手）在产品形态、Skill 与 MCP 存储&#x2F;配置上的异同，并给出从 CodeBuddy 向 WorkBuddy 迁移 Skills 与 MCP 的可复用流程。</p>
+<p>本文基于实际目录比对与配置核查整理，沉淀 CodeBuddy（JetBrains/PyCharm
+插件）与 WorkBuddy（独立 AI 助手）在产品形态、Skill 与 MCP
+存储/配置上的异同，并给出从 CodeBuddy 向 WorkBuddy 迁移 Skills 与 MCP
+的可复用流程。</p>
 </blockquote>
-<hr>
-<h2 id="一、产品定位对比"><a href="#一、产品定位对比" class="headerlink" title="一、产品定位对比"></a>一、产品定位对比</h2><table>
+<hr />
+<h2 id="一产品定位对比">一、产品定位对比</h2>
+<table>
+
 <thead>
-<tr>
+<tr class="header">
 <th>维度</th>
 <th>CodeBuddy</th>
 <th>WorkBuddy</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>产品形态</td>
-<td>JetBrains &#x2F; PyCharm 等 IDE 插件（编辑器内嵌）</td>
+<td>JetBrains / PyCharm 等 IDE 插件（编辑器内嵌）</td>
 <td>独立 AI 助手应用（Standalone）</td>
 </tr>
-<tr>
+<tr class="even">
 <td>所属生态</td>
 <td>腾讯系 AI 编程助手</td>
 <td>腾讯系 AI 助手平台</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>核心能力</td>
 <td>代码补全、对话、Skills、MCP、插件市场</td>
-<td>Skills、Connectors、Experts、本地文件&#x2F;命令、浏览器等多能力</td>
+<td>Skills、Connectors、Experts、本地文件/命令、浏览器等多能力</td>
 </tr>
-<tr>
+<tr class="even">
 <td>扩展机制</td>
-<td><code>skills/</code> + <code>mcp.json</code> + <code>plugins/marketplaces/</code>（插件市场）</td>
-<td><code>skills/</code> + <code>mcp.json</code>（<code>Connectors</code>）+ <code>Experts</code></td>
+<td><code>skills/</code> + <code>mcp.json</code> +
+<code>plugins/marketplaces/</code>（插件市场）</td>
+<td><code>skills/</code> +
+<code>mcp.json</code>（<code>Connectors</code>）+
+<code>Experts</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>配置主目录</td>
 <td><code>~/.codebuddy</code></td>
 <td><code>~/.workbuddy</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td>能力激活</td>
 <td>IDE 内启停</td>
 <td>连接器需在 UI 中点 <strong>Trust</strong> 才连接</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <blockquote>
-<p>⚠️ 说明：产品定位部分基于对本地配置结构的观察与公开认知；具体功能范围以官方文档为准。两者同属腾讯系，因此底层 Skill 与 MCP 约定高度一致，这是下文“可互通”的根本原因。</p>
+<p>⚠️
+说明：产品定位部分基于对本地配置结构的观察与公开认知；具体功能范围以官方文档为准。两者同属腾讯系，因此底层
+Skill 与 MCP 约定高度一致，这是下文“可互通”的根本原因。</p>
 </blockquote>
-<hr>
-<h2 id="二、Skill-存储与配置"><a href="#二、Skill-存储与配置" class="headerlink" title="二、Skill 存储与配置"></a>二、Skill 存储与配置</h2><h3 id="2-1-存储结构对比"><a href="#2-1-存储结构对比" class="headerlink" title="2.1 存储结构对比"></a>2.1 存储结构对比</h3><table>
+<hr />
+<h2 id="二skill-存储与配置">二、Skill 存储与配置</h2>
+<h3 id="存储结构对比">2.1 存储结构对比</h3>
+<table>
+
 <thead>
-<tr>
+<tr class="header">
 <th>维度</th>
 <th>CodeBuddy（源）</th>
 <th>WorkBuddy（目标）</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>用户级目录</td>
 <td><code>~/.codebuddy/skills/&lt;name&gt;/</code></td>
 <td><code>~/.workbuddy/skills/&lt;name&gt;/</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td>入口文件</td>
 <td><code>SKILL.md</code></td>
 <td><code>SKILL.md</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Frontmatter</td>
 <td><code>name:</code> + <code>description:</code></td>
 <td><code>name:</code> + <code>description:</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td>附属资源</td>
 <td><code>references/</code>、<code>scripts/</code>、<code>assets/</code></td>
 <td>同左（标准 Skill 结构）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>加载方式</td>
 <td>IDE 自动扫描</td>
 <td>WorkBuddy 自动扫描 <code>~/.workbuddy/skills/</code></td>
 </tr>
-</tbody></table>
-<h3 id="2-2-存储路径示意（Mermaid）"><a href="#2-2-存储路径示意（Mermaid）" class="headerlink" title="2.2 存储路径示意（Mermaid）"></a>2.2 存储路径示意（Mermaid）</h3><div class="mermaid">flowchart LR
+</tbody>
+</table>
+<h3 id="存储路径示意mermaid">2.2 存储路径示意（Mermaid）</h3>
+<div class="mermaid">flowchart LR
     subgraph CB["CodeBuddy  ~/.codebuddy"]
         CB_S["skills/<name>/SKILL.md"]
         CB_R["skills/<name>/references"]
@@ -1466,44 +1493,51 @@ true
     CB_R --> WB_R
     CB_SC --> WB_SC
     CB_A --> WB_A</div>
-
-<p><strong>结论</strong>：Skill 目录同名、同结构，frontmatter 字段完全相同，<strong>直接复制整个 Skill 文件夹即可完成迁移</strong>，WorkBuddy 会自动加载。</p>
-<hr>
-<h2 id="三、MCP-存储与配置"><a href="#三、MCP-存储与配置" class="headerlink" title="三、MCP 存储与配置"></a>三、MCP 存储与配置</h2><h3 id="3-1-配置对比"><a href="#3-1-配置对比" class="headerlink" title="3.1 配置对比"></a>3.1 配置对比</h3><table>
+<p><strong>结论</strong>：Skill 目录同名、同结构，frontmatter
+字段完全相同，<strong>直接复制整个 Skill
+文件夹即可完成迁移</strong>，WorkBuddy 会自动加载。</p>
+<hr />
+<h2 id="三mcp-存储与配置">三、MCP 存储与配置</h2>
+<h3 id="配置对比">3.1 配置对比</h3>
+<table>
 <thead>
-<tr>
+<tr class="header">
 <th>维度</th>
 <th>CodeBuddy</th>
 <th>WorkBuddy</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>配置文件</td>
 <td><code>~/.codebuddy/mcp.json</code></td>
 <td><code>~/.workbuddy/mcp.json</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td>顶层键</td>
 <td><code>mcpServers</code></td>
 <td><code>mcpServers</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>服务器格式</td>
-<td>stdio：<code>type</code> &#x2F; <code>command</code> &#x2F; <code>args</code> &#x2F; <code>env</code></td>
+<td>stdio：<code>type</code> / <code>command</code> / <code>args</code>
+/ <code>env</code></td>
 <td>同左</td>
 </tr>
-<tr>
+<tr class="even">
 <td>激活方式</td>
 <td>IDE 内启用</td>
 <td>需连接器管理页 <strong>Trust</strong> 才连接</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>合并策略</td>
 <td>—</td>
 <td>合并时保留 WorkBuddy 原有条目，不整体覆盖</td>
 </tr>
-</tbody></table>
-<h3 id="3-2-配置结构示意（Mermaid）"><a href="#3-2-配置结构示意（Mermaid）" class="headerlink" title="3.2 配置结构示意（Mermaid）"></a>3.2 配置结构示意（Mermaid）</h3><div class="mermaid">flowchart TD
+</tbody>
+</table>
+<h3 id="配置结构示意mermaid">3.2 配置结构示意（Mermaid）</h3>
+<div class="mermaid">flowchart TD
     subgraph File["mcp.json"]
         KEY["mcpServers"]
         S1["serverA: {type, command, args, env}"]
@@ -1514,13 +1548,24 @@ true
     File -->|格式相同 合并 mcpServers| WB["~/.workbuddy/mcp.json"]
     WB -->|不会自动启用| TRUST["需连接器页点 Trust"]
     TRUST -->|连接成功| READY["MCP 可用"]</div>
-
-<p><strong>结论</strong>：两边 <code>mcp.json</code> 的 schema 完全一致，将 <code>mcpServers</code> 内容合并进 WorkBuddy 的 <code>mcp.json</code> 即可。<strong>唯一额外步骤</strong>：写入后必须到连接器管理页对该服务器点 <strong>Trust</strong>，否则不会真正连接。</p>
-<hr>
-<h2 id="四、为什么可以互通（兼容性根因）"><a href="#四、为什么可以互通（兼容性根因）" class="headerlink" title="四、为什么可以互通（兼容性根因）"></a>四、为什么可以互通（兼容性根因）</h2><p>CodeBuddy 与 WorkBuddy 同为腾讯系产品，Skill 与 MCP 的存储约定一致：</p>
+<p><strong>结论</strong>：两边 <code>mcp.json</code> 的 schema
+完全一致，将 <code>mcpServers</code> 内容合并进 WorkBuddy 的
+<code>mcp.json</code>
+即可。<strong>唯一额外步骤</strong>：写入后必须到连接器管理页对该服务器点
+<strong>Trust</strong>，否则不会真正连接。</p>
+<hr />
+<h2
+id="四为什么可以互通兼容性根因">四、为什么可以互通（兼容性根因）</h2>
+<p>CodeBuddy 与 WorkBuddy 同为腾讯系产品，Skill 与 MCP
+的存储约定一致：</p>
 <ul>
-<li><strong>Skill</strong>：均使用 <code>SKILL.md</code> 作为入口，frontmatter 仅依赖 <code>name</code> 与 <code>description</code>，且采用相同的 <code>references/scripts/assets</code> 资源目录约定。</li>
-<li><strong>MCP</strong>：均使用 <code>mcp.json</code> 的 <code>mcpServers</code> 顶层键，stdio 服务器字段（<code>type</code>&#x2F;<code>command</code>&#x2F;<code>args</code>&#x2F;<code>env</code>）完全一致。</li>
+<li><strong>Skill</strong>：均使用 <code>SKILL.md</code>
+作为入口，frontmatter 仅依赖 <code>name</code> 与
+<code>description</code>，且采用相同的
+<code>references/scripts/assets</code> 资源目录约定。</li>
+<li><strong>MCP</strong>：均使用 <code>mcp.json</code> 的
+<code>mcpServers</code> 顶层键，stdio
+服务器字段（<code>type</code>/<code>command</code>/<code>args</code>/<code>env</code>）完全一致。</li>
 </ul>
 <p>因此迁移是“复制 + 合并”，而非“转换”。</p>
 <div class="mermaid">mindmap
@@ -1550,9 +1595,11 @@ true
       成对迁移
       Plugins≠Connectors
       外部程序依赖</div>
-
-<hr>
-<h2 id="五、从-CodeBuddy-迁移到-WorkBuddy-的流程"><a href="#五、从-CodeBuddy-迁移到-WorkBuddy-的流程" class="headerlink" title="五、从 CodeBuddy 迁移到 WorkBuddy 的流程"></a>五、从 CodeBuddy 迁移到 WorkBuddy 的流程</h2><h3 id="5-1-流程图（Mermaid）"><a href="#5-1-流程图（Mermaid）" class="headerlink" title="5.1 流程图（Mermaid）"></a>5.1 流程图（Mermaid）</h3><div class="mermaid">flowchart TD
+<hr />
+<h2 id="五从-codebuddy-迁移到-workbuddy-的流程">五、从 CodeBuddy 迁移到
+WorkBuddy 的流程</h2>
+<h3 id="流程图mermaid">5.1 流程图（Mermaid）</h3>
+<div class="mermaid">flowchart TD
     A[开始迁移] --> B[兼容性确认<br/>目录与格式核对]
     B --> C{选择导入范围}
     C -->|Skills| D[复制 ~/.codebuddy/skills/&lt;name&gt;<br/>→ ~/.workbuddy/skills/&lt;name&gt;]
@@ -1564,23 +1611,43 @@ true
     H -->|是| I[完成]
     H -->|否| J[排查：Trust / App 是否安装<br/>/ CodeBuddy 专有内部行为]
     J --> G</div>
-
-<h3 id="5-2-实操步骤"><a href="#5-2-实操步骤" class="headerlink" title="5.2 实操步骤"></a>5.2 实操步骤</h3><ol>
-<li><strong>兼容性确认（无需改文件）</strong>：核对两边 Skill 目录与 <code>mcp.json</code> 格式（见第二、三节）。</li>
-<li><strong>导入 Skills</strong>：将 <code>~/.codebuddy/skills/&lt;name&gt;</code> 整个文件夹复制到 <code>~/.workbuddy/skills/</code>。</li>
-<li><strong>合并 MCP</strong>：把 <code>~/.codebuddy/mcp.json</code> 中的 <code>mcpServers</code> 合并进 <code>~/.workbuddy/mcp.json</code>，保留 WorkBuddy 原有条目。</li>
-<li><strong>激活 MCP（必须手动）</strong>：连接器管理页 → 自定义连接器 → 找到新增服务器 → 点 <strong>Trust</strong>。</li>
-<li><strong>验证</strong>：在 WorkBuddy 中说出 Skill 的触发词，确认被加载；用依赖该 MCP 的能力实测一次。</li>
+<h3 id="实操步骤">5.2 实操步骤</h3>
+<ol type="1">
+<li><strong>兼容性确认（无需改文件）</strong>：核对两边 Skill 目录与
+<code>mcp.json</code> 格式（见第二、三节）。</li>
+<li><strong>导入 Skills</strong>：将
+<code>~/.codebuddy/skills/&lt;name&gt;</code> 整个文件夹复制到
+<code>~/.workbuddy/skills/</code>。</li>
+<li><strong>合并 MCP</strong>：把 <code>~/.codebuddy/mcp.json</code>
+中的 <code>mcpServers</code> 合并进
+<code>~/.workbuddy/mcp.json</code>，保留 WorkBuddy 原有条目。</li>
+<li><strong>激活 MCP（必须手动）</strong>：连接器管理页 → 自定义连接器 →
+找到新增服务器 → 点 <strong>Trust</strong>。</li>
+<li><strong>验证</strong>：在 WorkBuddy 中说出 Skill
+的触发词，确认被加载；用依赖该 MCP 的能力实测一次。</li>
 </ol>
-<h3 id="5-3-配套脚本"><a href="#5-3-配套脚本" class="headerlink" title="5.3 配套脚本"></a>5.3 配套脚本</h3><p>已固化可复用 Skill <code>codebuddy-to-workbuddy</code>，其自带幂等脚本 <code>scripts/import_codebuddy.py</code>（仅复制&#x2F;合并，绝不删除）：</p>
+<h3 id="配套脚本">5.3 配套脚本</h3>
+<p>已固化可复用 Skill
+<code>codebuddy-to-workbuddy</code>，其自带幂等脚本
+<code>scripts/import_codebuddy.py</code>（仅复制/合并，绝不删除）：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 导入全部 Skills 与 MCP</span><br>python3 ~/.workbuddy/skills/codebuddy-to-workbuddy/scripts/import_codebuddy.py<br><br><span class="hljs-comment"># 只导 Skills / 只导 MCP</span><br>python3 ~/.workbuddy/skills/codebuddy-to-workbuddy/scripts/import_codebuddy.py --skills-only<br>python3 ~/.workbuddy/skills/codebuddy-to-workbuddy/scripts/import_codebuddy.py --mcp-only<br><br><span class="hljs-comment"># 覆盖已存在的同名 Skill（MCP 已存在则始终跳过）</span><br>python3 ~/.workbuddy/skills/codebuddy-to-workbuddy/scripts/import_codebuddy.py --force<br><br><span class="hljs-comment"># 先看会做什么，不写文件</span><br>python3 ~/.workbuddy/skills/codebuddy-to-workbuddy/scripts/import_codebuddy.py --dry-run<br></code></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="六、关键注意事项"><a href="#六、关键注意事项" class="headerlink" title="六、关键注意事项"></a>六、关键注意事项</h2><ol>
-<li><strong>Skill 与 MCP 要成对迁移</strong>：若某 Skill 依赖某个 MCP（如 <code>pencil-prototype</code> 依赖 <code>pencil-desktop</code>），只导 Skill 不导 MCP 则该技能不可用。</li>
-<li><strong>Plugins ≠ Skills &#x2F; Connectors</strong>：CodeBuddy 的 <code>plugins/marketplaces/</code>（如 <code>codebuddy-plugins-official</code>、<code>cb_teams_marketplace</code>）是一套“插件市场”机制，对应 WorkBuddy 的 <strong>Connectors &#x2F; Experts</strong>，没有 1:1 文件夹映射，不能照搬，需各自走安装流程。</li>
-<li><strong>CodeBuddy 专有内部行为</strong>：个别 Skill 可能引用 CodeBuddy 独占的工具名或内部约定，导入后需实测触发词确认无报错。</li>
-<li><strong>MCP 路径有效性</strong>：CodeBuddy 的 MCP <code>command</code> 常指向具体 App（如 <code>/Applications/Pen.app/...</code>），目标机需已安装该 App，否则 Trust 后连接失败。</li>
+<hr />
+<h2 id="六关键注意事项">六、关键注意事项</h2>
+<ol type="1">
+<li><strong>Skill 与 MCP 要成对迁移</strong>：若某 Skill 依赖某个
+MCP（如 <code>pencil-prototype</code> 依赖
+<code>pencil-desktop</code>），只导 Skill 不导 MCP 则该技能不可用。</li>
+<li><strong>Plugins ≠ Skills / Connectors</strong>：CodeBuddy 的
+<code>plugins/marketplaces/</code>（如
+<code>codebuddy-plugins-official</code>、<code>cb_teams_marketplace</code>）是一套“插件市场”机制，对应
+WorkBuddy 的 <strong>Connectors / Experts</strong>，没有 1:1
+文件夹映射，不能照搬，需各自走安装流程。</li>
+<li><strong>CodeBuddy 专有内部行为</strong>：个别 Skill 可能引用
+CodeBuddy 独占的工具名或内部约定，导入后需实测触发词确认无报错。</li>
+<li><strong>MCP 路径有效性</strong>：CodeBuddy 的 MCP
+<code>command</code> 常指向具体 App（如
+<code>/Applications/Pen.app/...</code>），目标机需已安装该 App，否则
+Trust 后连接失败。</li>
 </ol>
 
                 
@@ -1774,6 +1841,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1991,6 +2064,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="LayaAir提供Unity 3D的场景功能，但是在LayaAir 3中，Laya.Scene 类的功能更加丰富，并且与Unity 3D的场景功能有一些区别。在LayaAir 3中，Laya.Scene 类是一个场景类，它可以包含多个子节点（如游戏对象），并且可以添加组件（如脚本组件、动画组件等）。 先上LayaAir的官方文档： LayaAir官方文档 1 Laya.Scene的函数调用顺序下面">
+    <meta name="description" content="LayaAir提供Unity 3D的场景功能，但是在LayaAir 3中，Laya.Scene 类的功能更加丰富，并且与Unity 3D的场景功能有一些区别。在LayaAir 3中，Laya.Scene 类是一个场景类，它可以包含多个子节点（如游戏对象），并且可以添加组件（如脚本组件、动画组件等）。 先上LayaAir的官方文档： LayaAir官方文档 1 Laya.Scene的函数调用顺序 下">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LayaAir项目开发中的生命周期函数">
 <meta property="og:url" content="https://jycpp.github.io/2025/25-04-28-LayaAir%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="LayaAir提供Unity 3D的场景功能，但是在LayaAir 3中，Laya.Scene 类的功能更加丰富，并且与Unity 3D的场景功能有一些区别。在LayaAir 3中，Laya.Scene 类是一个场景类，它可以包含多个子节点（如游戏对象），并且可以添加组件（如脚本组件、动画组件等）。 先上LayaAir的官方文档： LayaAir官方文档 1 Laya.Scene的函数调用顺序下面">
+<meta property="og:description" content="LayaAir提供Unity 3D的场景功能，但是在LayaAir 3中，Laya.Scene 类的功能更加丰富，并且与Unity 3D的场景功能有一些区别。在LayaAir 3中，Laya.Scene 类是一个场景类，它可以包含多个子节点（如游戏对象），并且可以添加组件（如脚本组件、动画组件等）。 先上LayaAir的官方文档： LayaAir官方文档 1 Laya.Scene的函数调用顺序 下">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-04-28T17:27:20.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.107Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.666Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="资源管理">
 <meta property="article:tag" content="性能优化">
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1368,10 +1377,15 @@ true
             
               <div class="markdown-body">
                 
-                <p>LayaAir提供Unity 3D的场景功能，但是在LayaAir 3中，<code>Laya.Scene</code> 类的功能更加丰富，并且与Unity 3D的场景功能有一些区别。在LayaAir 3中，<code>Laya.Scene</code> 类是一个场景类，它可以包含多个子节点（如游戏对象），并且可以添加组件（如脚本组件、动画组件等）。</p>
+                <p>LayaAir提供Unity 3D的场景功能，但是在LayaAir
+3中，<code>Laya.Scene</code> 类的功能更加丰富，并且与Unity
+3D的场景功能有一些区别。在LayaAir 3中，<code>Laya.Scene</code>
+类是一个场景类，它可以包含多个子节点（如游戏对象），并且可以添加组件（如脚本组件、动画组件等）。</p>
 <p>先上LayaAir的官方文档：</p>
 <p><a target="_blank" rel="noopener" href="https://layaair.com/3.x/doc/">LayaAir官方文档</a></p>
-<h2 id="1-Laya-Scene的函数调用顺序"><a href="#1-Laya-Scene的函数调用顺序" class="headerlink" title="1 Laya.Scene的函数调用顺序"></a>1 Laya.Scene的函数调用顺序</h2><p>下面是用 Mermaid 绘制的 LayaAir 3 中 <code>Laya.Scene</code> 生命周期函数调用顺序的时序图：</p>
+<h2 id="laya.scene的函数调用顺序">1 Laya.Scene的函数调用顺序</h2>
+下面是用 Mermaid 绘制的 LayaAir 3 中 <code>Laya.Scene</code>
+生命周期函数调用顺序的时序图：
 <div class="mermaid">sequenceDiagram
     participant Scene
     Scene->>Scene: constructor()
@@ -1384,10 +1398,13 @@ true
     end
     Scene->>Scene: onDisable()
     Scene->>Scene: onDestroy()</div>
-<h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><ol>
+<h4 id="解释">解释</h4>
+<ol type="1">
 <li>首先调用 <code>constructor()</code> 进行场景实例的构造。</li>
-<li>接着依次调用 <code>onAwake()</code>、<code>onEnable()</code> 和 <code>onStart()</code> 完成初始化相关操作。</li>
-<li>之后进入每帧循环，每帧都会调用 <code>onUpdate()</code> 和 <code>onLateUpdate()</code> 进行场景更新。</li>
+<li>接着依次调用 <code>onAwake()</code>、<code>onEnable()</code> 和
+<code>onStart()</code> 完成初始化相关操作。</li>
+<li>之后进入每帧循环，每帧都会调用 <code>onUpdate()</code> 和
+<code>onLateUpdate()</code> 进行场景更新。</li>
 <li>当场景被禁用时调用 <code>onDisable()</code>。</li>
 <li>最后在场景销毁时调用 <code>onDestroy()</code>。</li>
 </ol>
@@ -1407,88 +1424,123 @@ true
     loopcheck -->|否| disable["onDisable()"]:::process
     disable --> destroy["onDestroy()"]:::process
     destroy --> end000([结束]):::startend</div>
-
-<h4 id="解释-1"><a href="#解释-1" class="headerlink" title="解释"></a>解释</h4><ol>
+<h4 id="解释-1">解释</h4>
+<ol type="1">
 <li>流程从开始节点进入，首先执行 <code>constructor()</code>。</li>
-<li>然后按顺序执行 <code>onAwake()</code>、<code>onEnable()</code> 和 <code>onStart()</code>。</li>
-<li>进入每帧循环判断，若处于循环中则依次执行 <code>onUpdate()</code> 和 <code>onLateUpdate()</code>，循环结束后继续执行后续步骤。</li>
+<li>然后按顺序执行 <code>onAwake()</code>、<code>onEnable()</code> 和
+<code>onStart()</code>。</li>
+<li>进入每帧循环判断，若处于循环中则依次执行 <code>onUpdate()</code> 和
+<code>onLateUpdate()</code>，循环结束后继续执行后续步骤。</li>
 <li>场景禁用时执行 <code>onDisable()</code>。</li>
 <li>最后执行 <code>onDestroy()</code> 并结束流程。</li>
 </ol>
-<p>这些图表清晰展示了 <code>Laya.Scene</code> 生命周期函数的调用顺序，有助于理解和使用这些函数。 </p>
-<h2 id="2-主要生命周期函数的具体说明"><a href="#2-主要生命周期函数的具体说明" class="headerlink" title="2 主要生命周期函数的具体说明"></a>2 主要生命周期函数的具体说明</h2><p>在 LayaAir 3 里，<code>Laya.Scene</code> 是场景类，它有一些重要的生命周期函数，下面为你详细介绍这些函数及其使用场景。</p>
-<h3 id="1-constructor"><a href="#1-constructor" class="headerlink" title="1. constructor()"></a>1. <code>constructor()</code></h3><ul>
-<li><strong>说明</strong>：这是类的构造函数，在创建 <code>Laya.Scene</code> 实例时会被调用。通常用于进行一些初始化操作，像初始化变量、绑定事件等。</li>
+<p>这些图表清晰展示了 <code>Laya.Scene</code>
+生命周期函数的调用顺序，有助于理解和使用这些函数。</p>
+<h2 id="主要生命周期函数的具体说明">2 主要生命周期函数的具体说明</h2>
+<p>在 LayaAir 3 里，<code>Laya.Scene</code>
+是场景类，它有一些重要的生命周期函数，下面为你详细介绍这些函数及其使用场景。</p>
+<h3 id="constructor">1. <code>constructor()</code></h3>
+<ul>
+<li><strong>说明</strong>：这是类的构造函数，在创建
+<code>Laya.Scene</code>
+实例时会被调用。通常用于进行一些初始化操作，像初始化变量、绑定事件等。</li>
 <li><strong>示例代码</strong>：</li>
 </ul>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Laya</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;Laya&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Scene</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/display/Scene&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyScene</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Scene</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>();<br>        <span class="hljs-comment">// 初始化操作</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">initData</span>();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">initData</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 初始化数据</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="2-onAwake"><a href="#2-onAwake" class="headerlink" title="2. onAwake()"></a>2. <code>onAwake()</code></h3><ul>
+<h3 id="onawake">2. <code>onAwake()</code></h3>
+<ul>
 <li><strong>说明</strong>：在场景实例被创建并且所有子节点和组件都初始化完成之后调用。此函数可用于完成一些依赖子节点和组件的初始化工作。</li>
 <li><strong>示例代码</strong>：</li>
 </ul>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Laya</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;Laya&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Scene</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/display/Scene&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyScene</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Scene</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>();<br>    &#125;<br><br>    <span class="hljs-title function_">onAwake</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 获取子节点并进行操作</span><br>        <span class="hljs-keyword">const</span> childNode = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getChildByName</span>(<span class="hljs-string">&quot;childNode&quot;</span>);<br>        <span class="hljs-keyword">if</span> (childNode) &#123;<br>            <span class="hljs-comment">// 对 childNode 进行操作</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="3-onEnable"><a href="#3-onEnable" class="headerlink" title="3. onEnable()"></a>3. <code>onEnable()</code></h3><ul>
+<h3 id="onenable">3. <code>onEnable()</code></h3>
+<ul>
 <li><strong>说明</strong>：当场景被启用（激活）时调用。例如，当场景被添加到舞台或者从隐藏状态变为显示状态时，该函数会被触发。可用于启动一些与场景显示相关的逻辑，如播放动画、开始计时等。</li>
 <li><strong>示例代码</strong>：</li>
 </ul>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Laya</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;Laya&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Scene</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/display/Scene&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyScene</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Scene</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>();<br>    &#125;<br><br>    <span class="hljs-title function_">onEnable</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 启动动画</span><br>        <span class="hljs-keyword">const</span> anim = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getComponent</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Animator</span>);<br>        <span class="hljs-keyword">if</span> (anim) &#123;<br>            anim.<span class="hljs-title function_">play</span>(<span class="hljs-string">&quot;idle&quot;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="4-onStart"><a href="#4-onStart" class="headerlink" title="4. onStart()"></a>4. <code>onStart()</code></h3><ul>
+<h3 id="onstart">4. <code>onStart()</code></h3>
+<ul>
 <li><strong>说明</strong>：在场景第一次被更新之前调用，且仅调用一次。通常用于进行一些只需要执行一次的初始化工作，如加载资源、设置初始状态等。</li>
 <li><strong>示例代码</strong>：</li>
 </ul>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Laya</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;Laya&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Scene</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/display/Scene&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Handler</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/utils/Handler&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyScene</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Scene</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>();<br>    &#125;<br><br>    <span class="hljs-title function_">onStart</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 加载资源</span><br>        <span class="hljs-title class_">Laya</span>.<span class="hljs-property">loader</span>.<span class="hljs-title function_">load</span>([<span class="hljs-string">&quot;res/image.png&quot;</span>], <span class="hljs-title class_">Handler</span>.<span class="hljs-title function_">create</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>            <span class="hljs-comment">// 资源加载完成后的操作</span><br>        &#125;));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="5-onUpdate"><a href="#5-onUpdate" class="headerlink" title="5. onUpdate()"></a>5. <code>onUpdate()</code></h3><ul>
+<h3 id="onupdate">5. <code>onUpdate()</code></h3>
+<ul>
 <li><strong>说明</strong>：每帧都会调用，用于处理场景的更新逻辑，像角色移动、碰撞检测等。要注意避免在该函数中进行耗时操作，以免影响性能。</li>
 <li><strong>示例代码</strong>：</li>
 </ul>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Laya</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;Laya&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Scene</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/display/Scene&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyScene</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Scene</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>();<br>    &#125;<br><br>    <span class="hljs-title function_">onUpdate</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 角色移动逻辑</span><br>        <span class="hljs-keyword">const</span> player = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getChildByName</span>(<span class="hljs-string">&quot;player&quot;</span>);<br>        <span class="hljs-keyword">if</span> (player) &#123;<br>            player.<span class="hljs-property">x</span> += <span class="hljs-number">1</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="6-onLateUpdate"><a href="#6-onLateUpdate" class="headerlink" title="6. onLateUpdate()"></a>6. <code>onLateUpdate()</code></h3><ul>
-<li><strong>说明</strong>：在 <code>onUpdate()</code> 之后调用，同样每帧都会执行。一般用于处理一些需要在 <code>onUpdate()</code> 之后进行的操作，比如相机跟随角色等。</li>
+<h3 id="onlateupdate">6. <code>onLateUpdate()</code></h3>
+<ul>
+<li><strong>说明</strong>：在 <code>onUpdate()</code>
+之后调用，同样每帧都会执行。一般用于处理一些需要在
+<code>onUpdate()</code> 之后进行的操作，比如相机跟随角色等。</li>
 <li><strong>示例代码</strong>：</li>
 </ul>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Laya</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;Laya&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Scene</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/display/Scene&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyScene</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Scene</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>();<br>    &#125;<br><br>    <span class="hljs-title function_">onUpdate</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 角色移动逻辑</span><br>        <span class="hljs-keyword">const</span> player = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getChildByName</span>(<span class="hljs-string">&quot;player&quot;</span>);<br>        <span class="hljs-keyword">if</span> (player) &#123;<br>            player.<span class="hljs-property">x</span> += <span class="hljs-number">1</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-title function_">onLateUpdate</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 相机跟随角色</span><br>        <span class="hljs-keyword">const</span> camera = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getChildByName</span>(<span class="hljs-string">&quot;camera&quot;</span>);<br>        <span class="hljs-keyword">const</span> player = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getChildByName</span>(<span class="hljs-string">&quot;player&quot;</span>);<br>        <span class="hljs-keyword">if</span> (camera &amp;&amp; player) &#123;<br>            camera.<span class="hljs-property">x</span> = player.<span class="hljs-property">x</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="7-onDisable"><a href="#7-onDisable" class="headerlink" title="7. onDisable()"></a>7. <code>onDisable()</code></h3><ul>
+<h3 id="ondisable">7. <code>onDisable()</code></h3>
+<ul>
 <li><strong>说明</strong>：当场景被禁用（隐藏或移除）时调用。可用于停止一些与场景显示相关的逻辑，如暂停动画、停止计时等。</li>
 <li><strong>示例代码</strong>：</li>
 </ul>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Laya</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;Laya&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Scene</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/display/Scene&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyScene</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Scene</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>();<br>    &#125;<br><br>    <span class="hljs-title function_">onDisable</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 暂停动画</span><br>        <span class="hljs-keyword">const</span> anim = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getComponent</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Animator</span>);<br>        <span class="hljs-keyword">if</span> (anim) &#123;<br>            anim.<span class="hljs-title function_">pause</span>();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="8-onDestroy"><a href="#8-onDestroy" class="headerlink" title="8. onDestroy()"></a>8. <code>onDestroy()</code></h3><ul>
+<h3 id="ondestroy">8. <code>onDestroy()</code></h3>
+<ul>
 <li><strong>说明</strong>：在场景被销毁时调用，用于释放资源、移除事件监听等操作，避免内存泄漏。</li>
 <li><strong>示例代码</strong>：</li>
 </ul>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Laya</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;Laya&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Scene</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/display/Scene&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyScene</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Scene</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>();<br>    &#125;<br><br>    <span class="hljs-title function_">onDestroy</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 释放资源</span><br>        <span class="hljs-keyword">const</span> anim = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getComponent</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Animator</span>);<br>        <span class="hljs-keyword">if</span> (anim) &#123;<br>            anim.<span class="hljs-title function_">destroy</span>();<br>        &#125;<br>        <span class="hljs-comment">// 移除事件监听</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">offAll</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="生命周期函数小结"><a href="#生命周期函数小结" class="headerlink" title="生命周期函数小结"></a>生命周期函数小结</h3><p>这些生命周期函数在不同的阶段被调用，你可以根据具体需求在相应的函数中编写逻辑，以实现场景的初始化、更新和销毁等操作。 </p>
-<h2 id="3-实战：为Laya-Scene增加点击事件"><a href="#3-实战：为Laya-Scene增加点击事件" class="headerlink" title="3 实战：为Laya.Scene增加点击事件"></a>3 实战：为Laya.Scene增加点击事件</h2><p>我们为Laya.Scene增加点击事件，即点击游戏主界面，并自动触发一个按钮。这个场景其实非常多，比如游戏首次打开的时候，如果没有用户交互，是不能自动播放声音和背景音乐的，而这个时候如果我们让用户点击指定的按钮去触发这个操作，用户体验就不好了，因为用户不一定会看到这个按钮。而这个时候我们假设用户点击了界面上的任何一个地方，都认为是用户想要播放声音和背景音乐的，这个时候我们就可以为Laya.Scene增加点击事件，即点击游戏主界面，并自动触发一个按钮。</p>
-<p>在 <code>onSceneClick</code> 函数中，可以模拟点击 <code>Scene</code> 中的某个按钮或图片点击的实现方式举例。</p>
-<h3 id="模拟点击按钮"><a href="#模拟点击按钮" class="headerlink" title="模拟点击按钮"></a>模拟点击按钮</h3><p>在 LayaAir 3 里，按钮通常是 <code>Laya.Button</code> 类型的实例。要模拟点击按钮，可调用按钮的 <code>event</code> 方法来触发 <code>Laya.Event.CLICK</code> 事件。</p>
-<h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Laya</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;Laya&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Scene</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/display/Scene&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Button</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/ui/Button&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Browser</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/utils/Browser&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClickDetectScene</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Scene</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-attr">myButton</span>: <span class="hljs-title class_">Button</span>;<br><br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>();<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">init</span>();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">init</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 初始化舞台</span><br>        <span class="hljs-title class_">Laya</span>.<span class="hljs-title function_">init</span>(<span class="hljs-title class_">Browser</span>.<span class="hljs-property">width</span>, <span class="hljs-title class_">Browser</span>.<span class="hljs-property">height</span>);<br>        <span class="hljs-title class_">Laya</span>.<span class="hljs-property">stage</span>.<span class="hljs-property">scaleMode</span> = <span class="hljs-title class_">Laya</span>.<span class="hljs-property">Stage</span>.<span class="hljs-property">SCALE_FULL</span>;<br><br>        <span class="hljs-comment">// 创建一个按钮</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myButton</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Button</span>();<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myButton</span>.<span class="hljs-property">label</span> = <span class="hljs-string">&quot;点击我&quot;</span>;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myButton</span>.<span class="hljs-title function_">pos</span>(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>);<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">addChild</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">myButton</span>);<br><br>        <span class="hljs-comment">// 为按钮添加点击事件监听器</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myButton</span>.<span class="hljs-title function_">on</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Event</span>.<span class="hljs-property">CLICK</span>, <span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">onButtonClick</span>);<br><br>        <span class="hljs-comment">// 监听场景的点击事件</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Event</span>.<span class="hljs-property">CLICK</span>, <span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">onSceneClick</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">onSceneClick</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;场景被点击了！&quot;</span>);<br>        <span class="hljs-comment">// 模拟点击按钮</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myButton</span>.<span class="hljs-title function_">event</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Event</span>.<span class="hljs-property">CLICK</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">onButtonClick</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;按钮被点击了！&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 在主程序中使用该场景</span><br><span class="hljs-keyword">const</span> scene = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClickDetectScene</span>();<br><span class="hljs-title class_">Laya</span>.<span class="hljs-property">stage</span>.<span class="hljs-title function_">addChild</span>(scene);<br><br></code></pre></td></tr></table></figure>
-
-<h4 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释"></a>代码解释</h4><ol>
-<li><strong>创建按钮并添加事件监听器</strong>：在 <code>init</code> 方法中，创建一个 <code>Laya.Button</code> 实例，并为其添加点击事件监听器 <code>onButtonClick</code>。</li>
-<li><strong>监听场景点击事件</strong>：为场景添加点击事件监听器 <code>onSceneClick</code>。</li>
-<li><strong>模拟点击按钮</strong>：在 <code>onSceneClick</code> 方法中，调用按钮的 <code>event</code> 方法触发 <code>Laya.Event.CLICK</code> 事件，从而模拟按钮被点击。</li>
+<h3 id="生命周期函数小结">生命周期函数小结</h3>
+<p>这些生命周期函数在不同的阶段被调用，你可以根据具体需求在相应的函数中编写逻辑，以实现场景的初始化、更新和销毁等操作。</p>
+<h2 id="实战为laya.scene增加点击事件">3
+实战：为Laya.Scene增加点击事件</h2>
+<p>我们为Laya.Scene增加点击事件，即点击游戏主界面，并自动触发一个按钮。这个场景其实非常多，比如游戏首次打开的时候，如果没有用户交互，是不能自动播放声音和背景音乐的，而这个时候如果我们让用户点击指定的按钮去触发这个操作，用户体验就不好了，因为用户不一定会看到这个按钮。而这个时候我们假设用户点击了界面上的任何一个地方，都认为是用户想要播放声音和背景音乐的，这个时候我们就可以为Laya.Scene增加点击事件，即点击游戏主界面，并自动触发一个按钮。</p>
+<p>在 <code>onSceneClick</code> 函数中，可以模拟点击 <code>Scene</code>
+中的某个按钮或图片点击的实现方式举例。</p>
+<h3 id="模拟点击按钮">模拟点击按钮</h3>
+<p>在 LayaAir 3 里，按钮通常是 <code>Laya.Button</code>
+类型的实例。要模拟点击按钮，可调用按钮的 <code>event</code> 方法来触发
+<code>Laya.Event.CLICK</code> 事件。</p>
+<h4 id="示例代码">示例代码</h4>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Laya</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;Laya&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Scene</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/display/Scene&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Button</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/ui/Button&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Browser</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/utils/Browser&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClickDetectScene</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Scene</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-attr">myButton</span>: <span class="hljs-title class_">Button</span>;<br><br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>();<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">init</span>();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">init</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 初始化舞台</span><br>        <span class="hljs-title class_">Laya</span>.<span class="hljs-title function_">init</span>(<span class="hljs-title class_">Browser</span>.<span class="hljs-property">width</span>, <span class="hljs-title class_">Browser</span>.<span class="hljs-property">height</span>);<br>        <span class="hljs-title class_">Laya</span>.<span class="hljs-property">stage</span>.<span class="hljs-property">scaleMode</span> = <span class="hljs-title class_">Laya</span>.<span class="hljs-property">Stage</span>.<span class="hljs-property">SCALE_FULL</span>;<br><br>        <span class="hljs-comment">// 创建一个按钮</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myButton</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Button</span>();<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myButton</span>.<span class="hljs-property">label</span> = <span class="hljs-string">&quot;点击我&quot;</span>;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myButton</span>.<span class="hljs-title function_">pos</span>(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>);<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">addChild</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">myButton</span>);<br><br>        <span class="hljs-comment">// 为按钮添加点击事件监听器</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myButton</span>.<span class="hljs-title function_">on</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Event</span>.<span class="hljs-property">CLICK</span>, <span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">onButtonClick</span>);<br><br>        <span class="hljs-comment">// 监听场景的点击事件</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Event</span>.<span class="hljs-property">CLICK</span>, <span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">onSceneClick</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">onSceneClick</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;场景被点击了！&quot;</span>);<br>        <span class="hljs-comment">// 模拟点击按钮</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myButton</span>.<span class="hljs-title function_">event</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Event</span>.<span class="hljs-property">CLICK</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">onButtonClick</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;按钮被点击了！&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 在主程序中使用该场景</span><br><span class="hljs-keyword">const</span> scene = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClickDetectScene</span>();<br><span class="hljs-title class_">Laya</span>.<span class="hljs-property">stage</span>.<span class="hljs-title function_">addChild</span>(scene);<br><br></code></pre></td></tr></table></figure>
+<h4 id="代码解释">代码解释</h4>
+<ol type="1">
+<li><strong>创建按钮并添加事件监听器</strong>：在 <code>init</code>
+方法中，创建一个 <code>Laya.Button</code> 实例，并为其添加点击事件监听器
+<code>onButtonClick</code>。</li>
+<li><strong>监听场景点击事件</strong>：为场景添加点击事件监听器
+<code>onSceneClick</code>。</li>
+<li><strong>模拟点击按钮</strong>：在 <code>onSceneClick</code>
+方法中，调用按钮的 <code>event</code> 方法触发
+<code>Laya.Event.CLICK</code> 事件，从而模拟按钮被点击。</li>
 </ol>
-<h3 id="模拟点击图片"><a href="#模拟点击图片" class="headerlink" title="模拟点击图片"></a>模拟点击图片</h3><p>对于图片，通常是 <code>Laya.Image</code> 类型的实例。要模拟点击图片，同样可以调用图片的 <code>event</code> 方法来触发 <code>Laya.Event.CLICK</code> 事件。</p>
-<h4 id="示例代码-1"><a href="#示例代码-1" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Laya</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;Laya&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Scene</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/display/Scene&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Image</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/ui/Image&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Browser</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/utils/Browser&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClickDetectScene</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Scene</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-attr">myImage</span>: <span class="hljs-title class_">Image</span>;<br><br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>();<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">init</span>();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">init</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 初始化舞台</span><br>        <span class="hljs-title class_">Laya</span>.<span class="hljs-title function_">init</span>(<span class="hljs-title class_">Browser</span>.<span class="hljs-property">width</span>, <span class="hljs-title class_">Browser</span>.<span class="hljs-property">height</span>);<br>        <span class="hljs-title class_">Laya</span>.<span class="hljs-property">stage</span>.<span class="hljs-property">scaleMode</span> = <span class="hljs-title class_">Laya</span>.<span class="hljs-property">Stage</span>.<span class="hljs-property">SCALE_FULL</span>;<br><br>        <span class="hljs-comment">// 创建一个图片</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myImage</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Image</span>(<span class="hljs-string">&quot;res/image.png&quot;</span>);<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myImage</span>.<span class="hljs-title function_">pos</span>(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>);<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">addChild</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">myImage</span>);<br><br>        <span class="hljs-comment">// 为图片添加点击事件监听器</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myImage</span>.<span class="hljs-title function_">on</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Event</span>.<span class="hljs-property">CLICK</span>, <span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">onImageClick</span>);<br><br>        <span class="hljs-comment">// 监听场景的点击事件</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Event</span>.<span class="hljs-property">CLICK</span>, <span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">onSceneClick</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">onSceneClick</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;场景被点击了！&quot;</span>);<br>        <span class="hljs-comment">// 模拟点击图片</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myImage</span>.<span class="hljs-title function_">event</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Event</span>.<span class="hljs-property">CLICK</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">onImageClick</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;图片被点击了！&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 在主程序中使用该场景</span><br><span class="hljs-keyword">const</span> scene = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClickDetectScene</span>();<br><span class="hljs-title class_">Laya</span>.<span class="hljs-property">stage</span>.<span class="hljs-title function_">addChild</span>(scene);<br><br></code></pre></td></tr></table></figure>
-
-<h4 id="代码解释-1"><a href="#代码解释-1" class="headerlink" title="代码解释"></a>代码解释</h4><ol>
-<li><strong>创建图片并添加事件监听器</strong>：在 <code>init</code> 方法中，创建一个 <code>Laya.Image</code> 实例，并为其添加点击事件监听器 <code>onImageClick</code>。</li>
-<li><strong>监听场景点击事件</strong>：为场景添加点击事件监听器 <code>onSceneClick</code>。</li>
-<li><strong>模拟点击图片</strong>：在 <code>onSceneClick</code> 方法中，调用图片的 <code>event</code> 方法触发 <code>Laya.Event.CLICK</code> 事件，从而模拟图片被点击。</li>
+<h3 id="模拟点击图片">模拟点击图片</h3>
+<p>对于图片，通常是 <code>Laya.Image</code>
+类型的实例。要模拟点击图片，同样可以调用图片的 <code>event</code>
+方法来触发 <code>Laya.Event.CLICK</code> 事件。</p>
+<h4 id="示例代码-1">示例代码</h4>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Laya</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;Laya&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Scene</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/display/Scene&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Image</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/ui/Image&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Browser</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;laya/utils/Browser&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClickDetectScene</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Scene</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-attr">myImage</span>: <span class="hljs-title class_">Image</span>;<br><br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>();<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">init</span>();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">init</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 初始化舞台</span><br>        <span class="hljs-title class_">Laya</span>.<span class="hljs-title function_">init</span>(<span class="hljs-title class_">Browser</span>.<span class="hljs-property">width</span>, <span class="hljs-title class_">Browser</span>.<span class="hljs-property">height</span>);<br>        <span class="hljs-title class_">Laya</span>.<span class="hljs-property">stage</span>.<span class="hljs-property">scaleMode</span> = <span class="hljs-title class_">Laya</span>.<span class="hljs-property">Stage</span>.<span class="hljs-property">SCALE_FULL</span>;<br><br>        <span class="hljs-comment">// 创建一个图片</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myImage</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Image</span>(<span class="hljs-string">&quot;res/image.png&quot;</span>);<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myImage</span>.<span class="hljs-title function_">pos</span>(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>);<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">addChild</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">myImage</span>);<br><br>        <span class="hljs-comment">// 为图片添加点击事件监听器</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myImage</span>.<span class="hljs-title function_">on</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Event</span>.<span class="hljs-property">CLICK</span>, <span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">onImageClick</span>);<br><br>        <span class="hljs-comment">// 监听场景的点击事件</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Event</span>.<span class="hljs-property">CLICK</span>, <span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">onSceneClick</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">onSceneClick</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;场景被点击了！&quot;</span>);<br>        <span class="hljs-comment">// 模拟点击图片</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myImage</span>.<span class="hljs-title function_">event</span>(<span class="hljs-title class_">Laya</span>.<span class="hljs-property">Event</span>.<span class="hljs-property">CLICK</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">onImageClick</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;图片被点击了！&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 在主程序中使用该场景</span><br><span class="hljs-keyword">const</span> scene = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClickDetectScene</span>();<br><span class="hljs-title class_">Laya</span>.<span class="hljs-property">stage</span>.<span class="hljs-title function_">addChild</span>(scene);<br><br></code></pre></td></tr></table></figure>
+<h4 id="代码解释-1">代码解释</h4>
+<ol type="1">
+<li><strong>创建图片并添加事件监听器</strong>：在 <code>init</code>
+方法中，创建一个 <code>Laya.Image</code> 实例，并为其添加点击事件监听器
+<code>onImageClick</code>。</li>
+<li><strong>监听场景点击事件</strong>：为场景添加点击事件监听器
+<code>onSceneClick</code>。</li>
+<li><strong>模拟点击图片</strong>：在 <code>onSceneClick</code>
+方法中，调用图片的 <code>event</code> 方法触发
+<code>Laya.Event.CLICK</code> 事件，从而模拟图片被点击。</li>
 </ol>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
-<li><strong>确保元素可点击</strong>：要保证按钮或图片的 <code>mouseEnabled</code> 属性为 <code>true</code>，这样才能响应点击事件。</li>
+<h3 id="注意事项">注意事项</h3>
+<ul>
+<li><strong>确保元素可点击</strong>：要保证按钮或图片的
+<code>mouseEnabled</code> 属性为
+<code>true</code>，这样才能响应点击事件。</li>
 <li><strong>避免无限循环</strong>：要避免在模拟点击的回调函数中再次触发场景的点击事件，以免造成无限循环。</li>
 </ul>
-<p>通过以上方法，你可以在 <code>onSceneClick</code> 函数中模拟点击 <code>Scene</code> 中的按钮或图片。 </p>
+<p>通过以上方法，你可以在 <code>onSceneClick</code> 函数中模拟点击
+<code>Scene</code> 中的按钮或图片。</p>
 
                 
               </div>
@@ -1681,6 +1733,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1898,6 +1956,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

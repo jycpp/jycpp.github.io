@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="http-server 启动web服务我们做vue项目开发的时候，一般是通过vue-cli创建项目，然后通过vue-cli-service serve启动项目。 但是，在nodejs项目中，我们一般是通过npm run start启动项目，这个时候，我们需要在package.json中配置启动脚本。 一般情况下，package.json的配置如下： 1234567891011&#123;  &amp;qu">
+    <meta name="description" content="http-server 启动web服务 我们做vue项目开发的时候，一般是通过vue-cli创建项目，然后通过vue-cli-service serve启动项目。 但是，在nodejs项目中，我们一般是通过npm run start启动项目，这个时候，我们需要在package.json中配置启动脚本。 一般情况下，package.json的配置如下： 1234567891011&#123;  &amp;q">
 <meta property="og:type" content="article">
 <meta property="og:title" content="分析nodejs中的express和http-server">
 <meta property="og:url" content="https://jycpp.github.io/2021/21-06-16-%E5%88%86%E6%9E%90nodejs%E4%B8%AD%E7%9A%84express%E5%92%8Chttp-server.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="http-server 启动web服务我们做vue项目开发的时候，一般是通过vue-cli创建项目，然后通过vue-cli-service serve启动项目。 但是，在nodejs项目中，我们一般是通过npm run start启动项目，这个时候，我们需要在package.json中配置启动脚本。 一般情况下，package.json的配置如下： 1234567891011&#123;  &amp;qu">
+<meta property="og:description" content="http-server 启动web服务 我们做vue项目开发的时候，一般是通过vue-cli创建项目，然后通过vue-cli-service serve启动项目。 但是，在nodejs项目中，我们一般是通过npm run start启动项目，这个时候，我们需要在package.json中配置启动脚本。 一般情况下，package.json的配置如下： 1234567891011&#123;  &amp;q">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-06-16T13:57:00.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.104Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.662Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Vite">
 <meta property="article:tag" content="Node.js">
@@ -258,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          2k 字
         
       </span>
     
@@ -269,7 +269,7 @@
         
         
         
-          18 分钟
+          17 分钟
         
       </span>
     
@@ -319,7 +319,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1048,7 +1048,7 @@
         aria-expanded="true"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1066,6 +1066,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1368,113 +1377,101 @@ true
             
               <div class="markdown-body">
                 
-                <h2 id="http-server-启动web服务"><a href="#http-server-启动web服务" class="headerlink" title="http-server 启动web服务"></a>http-server 启动web服务</h2><p>我们做vue项目开发的时候，一般是通过vue-cli创建项目，然后通过vue-cli-service serve启动项目。</p>
-<p>但是，在nodejs项目中，我们一般是通过npm run start启动项目，这个时候，我们需要在package.json中配置启动脚本。</p>
+                <h2 id="http-server-启动web服务">http-server 启动web服务</h2>
+<p>我们做vue项目开发的时候，一般是通过vue-cli创建项目，然后通过vue-cli-service
+serve启动项目。</p>
+<p>但是，在nodejs项目中，我们一般是通过npm run
+start启动项目，这个时候，我们需要在package.json中配置启动脚本。</p>
 <p>一般情况下，package.json的配置如下：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;start&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;node server.js&quot;</span><span class="hljs-punctuation">,</span>  <span class="hljs-comment">// 启动nodejs服务</span><br>    <span class="hljs-attr">&quot;dev&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;vite&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;build&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;npm run build:prod&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;build:prod&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;vue-tsc --noEmit &amp;&amp; vite build --mode production&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;build:sit&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;vue-tsc --noEmit &amp;&amp; vite build --mode production.sit&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;build:uat&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;vue-tsc --noEmit &amp;&amp; vite build --mode production.uat&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;serve&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;npm run build &amp;&amp; vite preview&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
 <p>其中负责创建Web服务的是node命令，他会执行一个JavaScript文件并创建临时的web服务，然后将当前目录下的文件作为静态文件提供给浏览器。</p>
 <p>vite也是一样的原理，执行vite命令的时候，vite会自动查找当前目录下的index.html文件，然后将当前目录下的文件作为静态文件提供给浏览器。具体的工作过程如下：</p>
-<ol>
-<li>入口文件识别<br>Vite会优先查找项目根目录的index.html作为应用入口（可通过vite.config.js的root配置修改根目录）。这个HTML文件中的</li>
+<ol type="1">
+<li>入口文件识别
+Vite会优先查找项目根目录的index.html作为应用入口（可通过vite.config.js的root配置修改根目录）。这个HTML文件中的</li>
 </ol>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
 <p>标签会被识别为项目的JS入口点。</p>
-<ol start="2">
-<li><p>模块处理<br>对于HTML中引入的.js&#x2F;.ts&#x2F;.vue等模块文件，Vite会启动ES模块服务器（基于原生ES模块导入），按需编译并热更新这些文件（HMR），而不是直接读取磁盘文件。</p>
-</li>
-<li><p>静态资源服务<br>静态资源（图片&#x2F;字体&#x2F;JSON等）的处理分为两种情况：</p>
-</li>
+<ol start="2" type="1">
+<li><p>模块处理
+对于HTML中引入的.js/.ts/.vue等模块文件，Vite会启动ES模块服务器（基于原生ES模块导入），按需编译并热更新这些文件（HMR），而不是直接读取磁盘文件。</p></li>
+<li><p>静态资源服务
+静态资源（图片/字体/JSON等）的处理分为两种情况：</p></li>
 </ol>
 <ul>
 <li>通过import或require引入的资源：会被Vite作为模块处理（可能重命名、压缩），路径会被自动解析；</li>
-<li>放置在public目录下的资源：会直接复制到输出目录（或开发服务器根路径），保持原文件名，可通过绝对路径直接访问（如&#x2F;image&#x2F;logo.png）。</li>
+<li>放置在public目录下的资源：会直接复制到输出目录（或开发服务器根路径），保持原文件名，可通过绝对路径直接访问（如/image/logo.png）。</li>
 </ul>
 <p>而有一些场景，比如Sass文件的编译，HTML不需要编译，可以直接使用，我们需要在本地预览项目，这个时候，如何不依赖于Apache、Nginx等外部服务器启动web服务n呢？</p>
 <p>这种情况下，如果需要在本地预览项目（即启动一个临时web服务器托管静态文件），需要额外安装工具并配置脚本。例如：</p>
 <p>安装轻量级静态服务器工具：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install -g http-server<br></code></pre></td></tr></table></figure>
-
 <p>在package.json中添加启动脚本：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs package.json">&#123;<br>  &quot;scripts&quot;: &#123;<br>    &quot;start&quot;: &quot;http-server ./ -p 8081&quot;  // 在8081端口启动服务器，托管当前目录<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>启动服务：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm run start  // 会创建并启动web服务，可通过http://localhost:8081访问项目<br></code></pre></td></tr></table></figure>
-
 <p>总结：sass:build是纯构建命令，启动web服务需要额外配置。</p>
-<h2 id="补充冷知识：编译Sass文件"><a href="#补充冷知识：编译Sass文件" class="headerlink" title="补充冷知识：编译Sass文件"></a>补充冷知识：编译Sass文件</h2><p>要将项目中的Sass文件编译为生产环境可用的静态CSS文件，需要先安装Sass编译器（推荐使用Dart Sass，官方维护）：</p>
+<h2 id="补充冷知识编译sass文件">补充冷知识：编译Sass文件</h2>
+<p>要将项目中的Sass文件编译为生产环境可用的静态CSS文件，需要先安装Sass编译器（推荐使用Dart
+Sass，官方维护）：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 全局安装（需先安装Node.js）</span><br>npm install -g sass<br></code></pre></td></tr></table></figure>
-
 <p>根据项目NGINX配置和代码上下文，推测Sass相关目录结构如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">apc-pc-web/<br>├─ sass/          # 源Sass文件目录（存放.scss/.sass文件）<br>├─ css/           # 编译后CSS输出目录（需提前创建）<br>└─ script/        # JS文件（当前提供的web_public.js所在目录）<br></code></pre></td></tr></table></figure>
-
 <p>在项目根目录执行以下命令，将Sass文件编译为CSS：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sass --style=compressed sass/:css/<br></code></pre></td></tr></table></figure>
-
 <ul>
-<li>–style&#x3D;compressed：指定输出样式为压缩模式（生产环境推荐）</li>
-<li>sass&#x2F;:：源目录（所有.scss&#x2F;.sass文件）</li>
-<li>css&#x2F;：输出目录（保持与源文件相同的子目录结构）</li>
+<li>–style=compressed：指定输出样式为压缩模式（生产环境推荐）</li>
+<li>sass/:：源目录（所有.scss/.sass文件）</li>
+<li>css/：输出目录（保持与源文件相同的子目录结构）</li>
 </ul>
 <p>开发过程中实时监听Sass文件修改并自动编译（输出未压缩的易读CSS）：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sass --watch --style=expanded sass/:css/<br></code></pre></td></tr></table></figure>
-
 <ul>
 <li>–watch：监听文件变化自动重新编译</li>
-<li>–style&#x3D;expanded：输出未压缩的易读格式（开发环境推荐）</li>
+<li>–style=expanded：输出未压缩的易读格式（开发环境推荐）</li>
 </ul>
-<p>编译完成后，css&#x2F;目录下会生成与Sass文件同名的CSS文件（如sass&#x2F;main.scss → css&#x2F;main.css）。</p>
-<p>只需将整个项目目录（含css&#x2F;、html&#x2F;、script&#x2F;等）部署到NGINX配置的路径&#x2F;data&#x2F;website&#x2F;sass-web&#x2F;下即可，NGINX会自动托管&#x2F;css&#x2F;目录的静态文件。</p>
+<p>编译完成后，css/目录下会生成与Sass文件同名的CSS文件（如sass/main.scss
+→ css/main.css）。</p>
+<p>只需将整个项目目录（含css/、html/、script/等）部署到NGINX配置的路径/data/website/sass-web/下即可，NGINX会自动托管/css/目录的静态文件。</p>
 <p>在项目根目录创建package.json（若不存在），添加编译脚本：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;apc-pc-web&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1.0.0&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;sass:build&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;sass --style=compressed sass/:css/&quot;</span><span class="hljs-punctuation">,</span>  <span class="hljs-comment">// 生产构建</span><br>    <span class="hljs-attr">&quot;sass:watch&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;sass --watch --style=expanded sass/:css/&quot;</span>  <span class="hljs-comment">// 开发监听</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
 <p>之后可通过以下命令执行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 生产构建</span><br>npm run sass:build<br><br><span class="hljs-comment"># 开发监听</span><br>npm run sass:watch<br></code></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="node-express-启动web服务"><a href="#node-express-启动web服务" class="headerlink" title="node+express 启动web服务"></a>node+express 启动web服务</h2><p>nginx 配置如下，在这个项目中，html文件都在 “&#x2F;html”这个目录下，不是根目录，而加载css和script资源的时候，又需要读取根目录下的子目录。</p>
+<h2 id="nodeexpress-启动web服务">node+express 启动web服务</h2>
+<p>nginx 配置如下，在这个项目中，html文件都在
+“/html”这个目录下，不是根目录，而加载css和script资源的时候，又需要读取根目录下的子目录。</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">location</span> / &#123;<br>  <span class="hljs-attribute">alias</span> /data/website/sass-web/html/;<br>  <span class="hljs-attribute">index</span> index.html;<br>&#125;<br><br><span class="hljs-section">location</span> /script/ &#123;<br>  <span class="hljs-attribute">alias</span> /data/website/sass-web/script/;<br>&#125;<br><span class="hljs-section">location</span> /framework/ &#123;<br>  <span class="hljs-attribute">alias</span> /data/website/sass-web/framework/;<br>&#125;<br><span class="hljs-section">location</span> /css/ &#123;<br>  <span class="hljs-attribute">alias</span> /data/website/sass-web/css/;<br>&#125;<br><span class="hljs-section">location</span> /image/ &#123;<br>  <span class="hljs-attribute">alias</span> /data/website/sass-web/image/;<br>&#125;<br><br><span class="hljs-section">location</span> /sass/ &#123;<br>  <span class="hljs-attribute">alias</span> /data/website/sass-web/sass/;<br>&#125;<br><span class="hljs-section">location</span> /lang/ &#123;<br>  <span class="hljs-attribute">alias</span> /data/website/sass-web/lang/;<br>&#125;           <br><span class="hljs-section">location</span> /proper/ &#123;<br>  <span class="hljs-attribute">alias</span> /data/website/sass-web/proper/;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-
 <p>这个时候，http-server就无法实现这样复杂的配置了，因此需要用express创建自定义静态服务器。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install express --save-dev  <span class="hljs-comment"># 安装Express框架</span><br></code></pre></td></tr></table></figure>
-
 <p>接下来，我们就可以基于express创建一个自定义静态服务器，用于托管静态文件。加速名称为express-server.js。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>);<br><span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>();<br><span class="hljs-keyword">const</span> port = <span class="hljs-number">8081</span>;<br><br><span class="hljs-comment">// 1. 优先挂载具体路径的中间件（如/script/、/css/等）</span><br><span class="hljs-keyword">const</span> staticDirs = [<span class="hljs-string">&#x27;script&#x27;</span>, <span class="hljs-string">&#x27;framework&#x27;</span>, <span class="hljs-string">&#x27;css&#x27;</span>, <span class="hljs-string">&#x27;image&#x27;</span>, <span class="hljs-string">&#x27;sass&#x27;</span>, <span class="hljs-string">&#x27;lang&#x27;</span>, <span class="hljs-string">&#x27;proper&#x27;</span>];<br>staticDirs.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">dir</span> =&gt;</span> &#123;<br>  app.<span class="hljs-title function_">use</span>(<span class="hljs-string">`/<span class="hljs-subst">$&#123;dir&#125;</span>/`</span>, express.<span class="hljs-title function_">static</span>(dir));  <span class="hljs-comment">// 匹配/script/、/css/等具体路径</span><br>&#125;);<br><br><span class="hljs-comment">// 2. 最后挂载根路径中间件（处理HTML文件）</span><br>app.<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x27;/&#x27;</span>, express.<span class="hljs-title function_">static</span>(<span class="hljs-string">&#x27;html&#x27;</span>, &#123;<br>  <span class="hljs-attr">index</span>: <span class="hljs-string">&#x27;index.html&#x27;</span>  <span class="hljs-comment">// 默认加载html/index.html</span><br>&#125;));<br><br>app.<span class="hljs-title function_">listen</span>(port, <span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`本地服务已启动，访问 http://localhost:<span class="hljs-subst">$&#123;port&#125;</span>`</span>);<br>&#125;);<br></code></pre></td></tr></table></figure>
-
 <p>启动这个文件，可以通过以下命令行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">node express-server.js  <span class="hljs-comment"># 替代之前的http-server命令</span><br></code></pre></td></tr></table></figure>
-
 <p>配置在package.json中：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;start:express&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;node express-server.js&quot;</span>  <span class="hljs-comment">// 启动nodejs服务</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="express实现动态路由"><a href="#express实现动态路由" class="headerlink" title="express实现动态路由"></a>express实现动态路由</h3><p>再扩展一点知识，通过express创建的静态服务器，可以支持动态路由，例如：</p>
+<h3 id="express实现动态路由">express实现动态路由</h3>
+<p>再扩展一点知识，通过express创建的静态服务器，可以支持动态路由，例如：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 动态路由示例：/user/:id</span><br>app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/user/:id&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> userId = req.<span class="hljs-property">params</span>.<span class="hljs-property">id</span>;  <span class="hljs-comment">// 获取动态参数</span><br>  res.<span class="hljs-title function_">send</span>(<span class="hljs-string">`User ID: <span class="hljs-subst">$&#123;userId&#125;</span>`</span>);  <span class="hljs-comment">// 响应动态内容</span><br>&#125;);<br><br><span class="hljs-comment">// 动态路由示例：/product/:category/:id</span><br>app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/product/:category/:id&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> category = req.<span class="hljs-property">params</span>.<span class="hljs-property">category</span>;  <span class="hljs-comment">// 获取动态参数</span><br>  <span class="hljs-keyword">const</span> productId = req.<span class="hljs-property">params</span>.<span class="hljs-property">id</span>;  <span class="hljs-comment">// 获取动态参数</span><br>  res.<span class="hljs-title function_">send</span>(<span class="hljs-string">`Category: <span class="hljs-subst">$&#123;category&#125;</span>, Product ID: <span class="hljs-subst">$&#123;productId&#125;</span>`</span>);  <span class="hljs-comment">// 响应动态内容 </span><br>&#125;)<br><br></code></pre></td></tr></table></figure>
-
-<h3 id="nodemon监控js文件变化并重启服务"><a href="#nodemon监控js文件变化并重启服务" class="headerlink" title="nodemon监控js文件变化并重启服务"></a>nodemon监控js文件变化并重启服务</h3><p>在Node.js开发中，监控JS文件变化并自动重启服务，推荐使用 nodemon 工具。虽然最新版本的nodejs（Version 18及以上）支持参数“–watch”，但在某些情况下，可能还是需要时间去验证的。</p>
+<h3
+id="nodemon监控js文件变化并重启服务">nodemon监控js文件变化并重启服务</h3>
+<p>在Node.js开发中，监控JS文件变化并自动重启服务，推荐使用 nodemon
+工具。虽然最新版本的nodejs（Version
+18及以上）支持参数“–watch”，但在某些情况下，可能还是需要时间去验证的。</p>
 <p>全局安装nodemon：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install -g nodemon<br></code></pre></td></tr></table></figure>
-
 <p>如果仅仅在项目中使用，也可以在项目目录下安装：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install nodemon --save-dev<br></code></pre></td></tr></table></figure>
-
 <p>在package.json中添加启动脚本：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;start:dev&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;nodemon server.js&quot;</span>  <span class="hljs-comment">// 启动nodejs服务</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
-<p>首次启动：与 node express-server.js 效果一致，正常运行服务。当 express-server.js 或其依赖的JS文件（如路由、中间件）发生修改并保存时，nodemon 会自动终止当前进程并重启服务。</p>
-<p>如果指定具体监控的文件或目录，可以通过在项目的根目录下增加配置文件 nodemon.json 来实现。</p>
+<p>首次启动：与 node express-server.js 效果一致，正常运行服务。当
+express-server.js
+或其依赖的JS文件（如路由、中间件）发生修改并保存时，nodemon
+会自动终止当前进程并重启服务。</p>
+<p>如果指定具体监控的文件或目录，可以通过在项目的根目录下增加配置文件
+nodemon.json 来实现。</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;watch&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;express-server.js&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;src/**/*.js&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;common/&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>  <span class="hljs-comment">// 监控src目录下的所有js文件，以及 common下的所有文件</span><br>  <span class="hljs-attr">&quot;ext&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;js&quot;</span><span class="hljs-punctuation">,</span>  <span class="hljs-comment">// 仅监控的文件扩展名</span><br>  <span class="hljs-attr">&quot;ignore&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;src/**/*.spec.js&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>  <span class="hljs-comment">// 忽略的文件</span><br>  <span class="hljs-attr">&quot;exec&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;node server.js&quot;</span>  <span class="hljs-comment">// 启动命令</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
-
 <p>如果要知道nodemon的具体参数，可以通过以下命令查看：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nodemon --<span class="hljs-built_in">help</span><br></code></pre></td></tr></table></figure>
-
-
 
                 
               </div>
@@ -1667,6 +1664,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1884,6 +1887,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

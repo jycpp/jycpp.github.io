@@ -27,7 +27,7 @@
 <meta property="og:description" content="我们以Ubuntu Server 24.04为例，介绍Ubuntu Server的初始化操作，包括安装、配置和安全加固。 kanban   Ubuntu Server 24.04      相关操作内容提纲   初始化操作     Ubuntu Server安装过程       Ubuntu Server初始化过程   安全加固     认识防火墙ufw     认识OpenSSH Server">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-10T21:30:45.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.107Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.666Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="Apache">
 <meta property="article:tag" content="Nginx">
@@ -320,7 +320,7 @@
         aria-expanded="true"
       >
         软件开发
-        <span class="list-group-count">(74)</span>
+        <span class="list-group-count">(75)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1049,7 +1049,7 @@
         aria-expanded="false"
       >
         网站建设
-        <span class="list-group-count">(7)</span>
+        <span class="list-group-count">(8)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1067,6 +1067,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
         </a>
       
     
@@ -1369,7 +1378,8 @@ true
             
               <div class="markdown-body">
                 
-                <p>我们以Ubuntu Server 24.04为例，介绍Ubuntu Server的初始化操作，包括安装、配置和安全加固。</p>
+                <p>我们以Ubuntu Server 24.04为例，介绍Ubuntu
+Server的初始化操作，包括安装、配置和安全加固。</p>
 <div class="mermaid">kanban
   Ubuntu Server 24.04 
     相关操作内容提纲
@@ -1385,17 +1395,20 @@ true
   应用功能
     安装Docker和compose
     安装AMP：Apache、MySQL和PHP</div>
-
-
-<p>Ubuntu Server 24.04是一个基于Debian的服务器操作系统，适用于需要稳定运行的服务器环境。Ubuntu的产品体系主要包括：</p>
+<p>Ubuntu Server
+24.04是一个基于Debian的服务器操作系统，适用于需要稳定运行的服务器环境。Ubuntu的产品体系主要包括：</p>
 <ul>
-<li>Ubuntu Desktop：提供桌面环境的Ubuntu版本，适用于个人用户和桌面应用。</li>
-<li>Ubuntu Server：服务器版本，适用于需要在服务器上运行应用的企业用户。</li>
+<li>Ubuntu
+Desktop：提供桌面环境的Ubuntu版本，适用于个人用户和桌面应用。</li>
+<li>Ubuntu
+Server：服务器版本，适用于需要在服务器上运行应用的企业用户。</li>
 <li>Ubuntu Core：适用于物联网和边缘计算设备，提供轻量级的操作系统。</li>
 </ul>
-<p>如果你没有机会使用Server版本，也可以使用Ubuntu Desktop版本，它提供了与Server版本相似的功能和工具。</p>
-<h2 id="Ubuntu-Server安装过程"><a href="#Ubuntu-Server安装过程" class="headerlink" title="Ubuntu Server安装过程"></a>Ubuntu Server安装过程</h2><p>Ubuntu Server 24.04的安装步骤：</p>
-<ol>
+<p>如果你没有机会使用Server版本，也可以使用Ubuntu
+Desktop版本，它提供了与Server版本相似的功能和工具。</p>
+<h2 id="ubuntu-server安装过程">Ubuntu Server安装过程</h2>
+<p>Ubuntu Server 24.04的安装步骤：</p>
+<ol type="1">
 <li>下载Ubuntu Server 24.04镜像文件</li>
 <li>创建可引导的USB安装介质</li>
 <li>从USB启动服务器</li>
@@ -1406,169 +1419,162 @@ true
 <li>选择安装OpenSSH Server（关键步骤，确保远程访问）</li>
 <li>完成安装并重启</li>
 </ol>
-<h2 id="Ubuntu-Server初始化过程"><a href="#Ubuntu-Server初始化过程" class="headerlink" title="Ubuntu Server初始化过程"></a>Ubuntu Server初始化过程</h2><p>Ubuntu Server 24.04安装完成后，需要进行一些初始化操作，以确保服务器的安全性和功能正常运行。以下是一些常见的初始化步骤：</p>
-<h3 id="1-验证SSH服务是否运行"><a href="#1-验证SSH服务是否运行" class="headerlink" title="1. 验证SSH服务是否运行"></a>1. 验证SSH服务是否运行</h3><p>安装完成后，你可以通过以下方式验证SSH服务是否正在运行：</p>
+<h2 id="ubuntu-server初始化过程">Ubuntu Server初始化过程</h2>
+<p>Ubuntu Server
+24.04安装完成后，需要进行一些初始化操作，以确保服务器的安全性和功能正常运行。以下是一些常见的初始化步骤：</p>
+<h3 id="验证ssh服务是否运行">1. 验证SSH服务是否运行</h3>
+<p>安装完成后，你可以通过以下方式验证SSH服务是否正在运行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 检查SSH服务状态</span><br><span class="hljs-built_in">sudo</span> systemctl status ssh<br><br><span class="hljs-comment"># 如果服务未运行，启动它</span><br><span class="hljs-built_in">sudo</span> systemctl start ssh<br><br><span class="hljs-comment"># 设置SSH服务开机自启</span><br><span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> ssh<br></code></pre></td></tr></table></figure>
-
-<h3 id="2-安装网络工具检查端口状态"><a href="#2-安装网络工具检查端口状态" class="headerlink" title="2. 安装网络工具检查端口状态"></a>2. 安装网络工具检查端口状态</h3><p>Ubuntu Server默认不安装<code>netstat</code>命令，需要手动安装<code>net-tools</code>包：</p>
+<h3 id="安装网络工具检查端口状态">2. 安装网络工具检查端口状态</h3>
+<p>Ubuntu
+Server默认不安装<code>netstat</code>命令，需要手动安装<code>net-tools</code>包：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装net-tools包以获取netstat命令</span><br><span class="hljs-built_in">sudo</span> apt update<br><span class="hljs-built_in">sudo</span> apt install net-tools<br><br><span class="hljs-comment"># 使用netstat检查SSH端口状态</span><br>netstat -anotp | grep :22<br></code></pre></td></tr></table></figure>
-
-<h3 id="3-配置静态IP地址"><a href="#3-配置静态IP地址" class="headerlink" title="3. 配置静态IP地址"></a>3. 配置静态IP地址</h3><p>为服务器配置静态IP地址，确保网络连接稳定：</p>
+<h3 id="配置静态ip地址">3. 配置静态IP地址</h3>
+<p>为服务器配置静态IP地址，确保网络连接稳定：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 编辑网络配置文件</span><br><span class="hljs-built_in">sudo</span> nano /etc/netplan/00-installer-config.yaml<br></code></pre></td></tr></table></figure>
-
 <p>文件内容通常类似于：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">network:</span><br>  <span class="hljs-attr">ethernets:</span><br>    <span class="hljs-attr">enp0s3:</span>  <span class="hljs-comment"># 网卡名称，根据实际情况调整</span><br>      <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
-
 <p>修改为静态IP配置：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">network:</span><br>  <span class="hljs-attr">ethernets:</span><br>    <span class="hljs-attr">enp0s3:</span>  <span class="hljs-comment"># 网卡名称，根据实际情况调整</span><br>      <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">false</span><br>      <span class="hljs-attr">addresses:</span> [<span class="hljs-number">192.168</span><span class="hljs-number">.0</span><span class="hljs-number">.84</span><span class="hljs-string">/24</span>]<br>      <span class="hljs-attr">routes:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">to:</span> <span class="hljs-string">default</span><br>          <span class="hljs-attr">via:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>  <span class="hljs-comment"># 网关地址，根据实际情况调整</span><br>      <span class="hljs-attr">nameservers:</span><br>        <span class="hljs-attr">addresses:</span> [<span class="hljs-number">8.8</span><span class="hljs-number">.8</span><span class="hljs-number">.8</span>, <span class="hljs-number">8.8</span><span class="hljs-number">.4</span><span class="hljs-number">.4</span>]  <span class="hljs-comment"># DNS服务器，可根据需要调整</span><br>  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
-
 <p>应用配置更改：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 应用网络配置</span><br><span class="hljs-built_in">sudo</span> netplan apply<br><br><span class="hljs-comment"># 验证IP地址是否已更改</span><br>ip addr show<br></code></pre></td></tr></table></figure>
-
-<h3 id="4-其他常用初始化步骤"><a href="#4-其他常用初始化步骤" class="headerlink" title="4. 其他常用初始化步骤"></a>4. 其他常用初始化步骤</h3><p>完成基本配置后，还可以进行以下初始化操作：</p>
+<h3 id="其他常用初始化步骤">4. 其他常用初始化步骤</h3>
+<p>完成基本配置后，还可以进行以下初始化操作：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 更新系统</span><br><span class="hljs-built_in">sudo</span> apt update<br><span class="hljs-built_in">sudo</span> apt upgrade -y<br><br><span class="hljs-comment"># 安装防火墙并开放SSH端口</span><br><span class="hljs-built_in">sudo</span> apt install ufw<br><span class="hljs-built_in">sudo</span> ufw allow 22<br><span class="hljs-built_in">sudo</span> ufw <span class="hljs-built_in">enable</span><br><br><span class="hljs-comment"># 设置时区</span><br><span class="hljs-built_in">sudo</span> timedatectl set-timezone Asia/Shanghai  <span class="hljs-comment"># 根据实际时区调整</span><br><br><span class="hljs-comment"># 创建普通用户并添加到sudo组（可选）</span><br><span class="hljs-built_in">sudo</span> adduser username<br><span class="hljs-built_in">sudo</span> usermod -aG <span class="hljs-built_in">sudo</span> username<br></code></pre></td></tr></table></figure>
-
-<p>通过以上步骤，我们已经完成了Ubuntu Server 24.04的安装和基本初始化配置，包括验证SSH服务、安装网络工具、配置静态IP地址等。</p>
-<h2 id="安全加固Ubuntu-Server"><a href="#安全加固Ubuntu-Server" class="headerlink" title="安全加固Ubuntu Server"></a>安全加固Ubuntu Server</h2><h3 id="认识防火墙ufw"><a href="#认识防火墙ufw" class="headerlink" title="认识防火墙ufw"></a>认识防火墙ufw</h3><p>Ubuntu默认使用的是<code>iptables</code>作为防火墙，但是<code>iptables</code>配置较为复杂，容易出错。为了简化防火墙配置，Ubuntu提供了<code>ufw</code>（Uncomplicated Firewall）工具，它提供了简单易用的命令行界面来管理防火墙规则。</p>
-<h4 id="查看已开放端口列表"><a href="#查看已开放端口列表" class="headerlink" title="查看已开放端口列表"></a>查看已开放端口列表</h4><p>要查看UFW当前已开放的端口和服务：</p>
+<p>通过以上步骤，我们已经完成了Ubuntu Server
+24.04的安装和基本初始化配置，包括验证SSH服务、安装网络工具、配置静态IP地址等。</p>
+<h2 id="安全加固ubuntu-server">安全加固Ubuntu Server</h2>
+<h3 id="认识防火墙ufw">认识防火墙ufw</h3>
+<p>Ubuntu默认使用的是<code>iptables</code>作为防火墙，但是<code>iptables</code>配置较为复杂，容易出错。为了简化防火墙配置，Ubuntu提供了<code>ufw</code>（Uncomplicated
+Firewall）工具，它提供了简单易用的命令行界面来管理防火墙规则。</p>
+<h4 id="查看已开放端口列表">查看已开放端口列表</h4>
+<p>要查看UFW当前已开放的端口和服务：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 显示已开放的端口（简洁模式）</span><br><span class="hljs-built_in">sudo</span> ufw status<br><br><span class="hljs-comment"># 显示已开放的端口（详细模式）</span><br><span class="hljs-built_in">sudo</span> ufw status verbose<br><br><span class="hljs-comment"># 显示已开放的端口（包含编号）</span><br><span class="hljs-built_in">sudo</span> ufw status numbered<br></code></pre></td></tr></table></figure>
-
-<p>输出示例：</p>
-<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs nix"><span class="hljs-params">Status:</span> active<br><br>To                         Action      From<br><span class="hljs-operator">-</span>-                         <span class="hljs-operator">-</span>-----      <span class="hljs-operator">-</span>---<br><span class="hljs-number">22</span><span class="hljs-symbol">/tcp</span>                     ALLOW       Anywhere                  <br><span class="hljs-number">80</span><span class="hljs-symbol">/tcp</span>                     ALLOW       Anywhere                  <br><span class="hljs-number">443</span><span class="hljs-symbol">/tcp</span>                    ALLOW       Anywhere                  <br><span class="hljs-number">32000</span>:<span class="hljs-number">32999</span><span class="hljs-symbol">/tcp</span>            ALLOW       Anywhere                  <br><span class="hljs-number">22</span><span class="hljs-symbol">/tcp</span> (v6)                ALLOW       Anywhere (v6)             <br><span class="hljs-number">80</span><span class="hljs-symbol">/tcp</span> (v6)                ALLOW       Anywhere (v6)             <br><span class="hljs-number">443</span><span class="hljs-symbol">/tcp</span> (v6)               ALLOW       Anywhere (v6)             <br><span class="hljs-number">32000</span>:<span class="hljs-number">32999</span><span class="hljs-symbol">/tcp</span> (v6)       ALLOW       Anywhere (v6)<br></code></pre></td></tr></table></figure>
-
-<h4 id="添加端口规则"><a href="#添加端口规则" class="headerlink" title="添加端口规则"></a>添加端口规则</h4><h5 id="1-开放单个端口"><a href="#1-开放单个端口" class="headerlink" title="1. 开放单个端口"></a>1. 开放单个端口</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 开放TCP端口21（FTP）</span><br><span class="hljs-built_in">sudo</span> ufw allow 21/tcp<br><br><span class="hljs-comment"># 开放TCP端口80（HTTP）</span><br><span class="hljs-built_in">sudo</span> ufw allow 80/tcp<br><br><span class="hljs-comment"># 开放TCP端口443（HTTPS）</span><br><span class="hljs-built_in">sudo</span> ufw allow 443/tcp<br></code></pre></td></tr></table></figure>
-
-<h5 id="2-开放端口范围"><a href="#2-开放端口范围" class="headerlink" title="2. 开放端口范围"></a>2. 开放端口范围</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 开放TCP端口范围32000-32999</span><br><span class="hljs-built_in">sudo</span> ufw allow 32000:32999/tcp<br><br><span class="hljs-comment"># 开放UDP端口范围32000-32999（如果需要）</span><br><span class="hljs-built_in">sudo</span> ufw allow 32000:32999/udp<br></code></pre></td></tr></table></figure>
-
-<h5 id="3-从特定IP地址开放端口"><a href="#3-从特定IP地址开放端口" class="headerlink" title="3. 从特定IP地址开放端口"></a>3. 从特定IP地址开放端口</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 只允许IP 192.168.1.100访问端口22（SSH）</span><br><span class="hljs-built_in">sudo</span> ufw allow from 192.168.1.100 to any port 22<br></code></pre></td></tr></table></figure>
-
-<h4 id="删除端口规则"><a href="#删除端口规则" class="headerlink" title="删除端口规则"></a>删除端口规则</h4><p>删除规则有两种方式：通过端口号或通过规则编号。</p>
-<h5 id="1-通过端口号删除"><a href="#1-通过端口号删除" class="headerlink" title="1. 通过端口号删除"></a>1. 通过端口号删除</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 删除端口21的规则</span><br><span class="hljs-built_in">sudo</span> ufw delete allow 21/tcp<br><br><span class="hljs-comment"># 删除端口范围规则</span><br><span class="hljs-built_in">sudo</span> ufw delete allow 32000:32999/tcp<br></code></pre></td></tr></table></figure>
-
-<h5 id="2-通过规则编号删除"><a href="#2-通过规则编号删除" class="headerlink" title="2. 通过规则编号删除"></a>2. 通过规则编号删除</h5><p>先查看带编号的规则列表：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> ufw status numbered<br></code></pre></td></tr></table></figure>
-
-<p>输出示例：</p>
-<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs nix"><span class="hljs-params">Status:</span> active<br><br>     To                         Action      From<br>     <span class="hljs-operator">-</span>-                         <span class="hljs-operator">-</span>-----      <span class="hljs-operator">-</span>---<br>[ <span class="hljs-number">1</span>] <span class="hljs-number">22</span><span class="hljs-symbol">/tcp</span>                     ALLOW IN    Anywhere                  <br>[ <span class="hljs-number">2</span>] <span class="hljs-number">80</span><span class="hljs-symbol">/tcp</span>                     ALLOW IN    Anywhere                  <br>[ <span class="hljs-number">3</span>] <span class="hljs-number">443</span><span class="hljs-symbol">/tcp</span>                    ALLOW IN    Anywhere                  <br>[ <span class="hljs-number">4</span>] <span class="hljs-number">32000</span>:<span class="hljs-number">32999</span><span class="hljs-symbol">/tcp</span>            ALLOW IN    Anywhere<br></code></pre></td></tr></table></figure>
-
-<p>然后根据编号删除规则：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 删除编号为4的规则</span><br><span class="hljs-built_in">sudo</span> ufw delete 4<br></code></pre></td></tr></table></figure>
-
-<h4 id="端口转发配置"><a href="#端口转发配置" class="headerlink" title="端口转发配置"></a>端口转发配置</h4><p>要配置端口转发，需要先启用IP转发并创建相应规则：</p>
-<h5 id="1-启用IP转发"><a href="#1-启用IP转发" class="headerlink" title="1. 启用IP转发"></a>1. 启用IP转发</h5><p>编辑 <code>/etc/sysctl.conf</code> 文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> nano /etc/sysctl.conf<br></code></pre></td></tr></table></figure>
-
-<p>取消以下行的注释（删除前面的 <code>#</code>）：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">net.ipv4.ip_forward</span>=<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
-
-<p>保存文件后应用更改：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> sysctl -p<br></code></pre></td></tr></table></figure>
-
-<h5 id="2-配置端口转发规则"><a href="#2-配置端口转发规则" class="headerlink" title="2. 配置端口转发规则"></a>2. 配置端口转发规则</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 转发端口8080到80（内部服务器）</span><br><span class="hljs-built_in">sudo</span> ufw route allow proto tcp from any to any port 8080 redirect-to-port 80<br><br><span class="hljs-comment"># 转发特定IP的端口（例如转发192.168.1.100:80到本地8080）</span><br><span class="hljs-built_in">sudo</span> ufw route allow proto tcp from any to 192.168.1.100 port 80 redirect-to-port 8080<br></code></pre></td></tr></table></figure>
-
-<h4 id="丢弃特定端口请求"><a href="#丢弃特定端口请求" class="headerlink" title="丢弃特定端口请求"></a>丢弃特定端口请求</h4><p>要丢弃来自端口25的所有请求（通常用于SMTP服务）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 丢弃所有TCP端口25的流量</span><br><span class="hljs-built_in">sudo</span> ufw deny 25/tcp<br><br><span class="hljs-comment"># 或者，如果想完全阻止，使用reject（会向客户端发送拒绝消息）</span><br><span class="hljs-built_in">sudo</span> ufw reject 25/tcp<br></code></pre></td></tr></table></figure>
-
-<h4 id="保存和恢复规则"><a href="#保存和恢复规则" class="headerlink" title="保存和恢复规则"></a>保存和恢复规则</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 保存当前规则（默认会自动保存）</span><br><span class="hljs-built_in">sudo</span> ufw reload<br><br><span class="hljs-comment"># 禁用UFW（不推荐，除非必要）</span><br><span class="hljs-built_in">sudo</span> ufw <span class="hljs-built_in">disable</span><br><br><span class="hljs-comment"># 启用UFW</span><br><span class="hljs-built_in">sudo</span> ufw <span class="hljs-built_in">enable</span><br></code></pre></td></tr></table></figure>
-
-<h4 id="查看规则文件"><a href="#查看规则文件" class="headerlink" title="查看规则文件"></a>查看规则文件</h4><p>UFW规则存储在以下位置：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 主要规则文件</span><br><span class="hljs-built_in">cat</span> /etc/ufw/user.rules<br><br><span class="hljs-comment"># IPv6规则</span><br><span class="hljs-built_in">cat</span> /etc/ufw/user6.rules<br></code></pre></td></tr></table></figure>
-
-<h4 id="重置UFW（谨慎使用）"><a href="#重置UFW（谨慎使用）" class="headerlink" title="重置UFW（谨慎使用）"></a>重置UFW（谨慎使用）</h4><p>这将删除所有规则并重置UFW：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> ufw reset<br></code></pre></td></tr></table></figure>
-
-<h3 id="认识OpenSSH-Server"><a href="#认识OpenSSH-Server" class="headerlink" title="认识OpenSSH Server"></a>认识OpenSSH Server</h3><p>OpenSSH Server是一个开源的SSH服务器实现，用于提供安全的远程登录和文件传输功能。它是Linux和Unix系统中最常用的SSH服务器之一。</p>
-<p>在Ubuntu上，OpenSSH Server通常已经默认安装。可以通过以下命令检查是否已安装：</p>
+<p>输出示例： <figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs nix"><span class="hljs-params">Status:</span> active<br><br>To                         Action      From<br><span class="hljs-operator">-</span>-                         <span class="hljs-operator">-</span>-----      <span class="hljs-operator">-</span>---<br><span class="hljs-number">22</span><span class="hljs-symbol">/tcp</span>                     ALLOW       Anywhere                  <br><span class="hljs-number">80</span><span class="hljs-symbol">/tcp</span>                     ALLOW       Anywhere                  <br><span class="hljs-number">443</span><span class="hljs-symbol">/tcp</span>                    ALLOW       Anywhere                  <br><span class="hljs-number">32000</span>:<span class="hljs-number">32999</span><span class="hljs-symbol">/tcp</span>            ALLOW       Anywhere                  <br><span class="hljs-number">22</span><span class="hljs-symbol">/tcp</span> (v6)                ALLOW       Anywhere (v6)             <br><span class="hljs-number">80</span><span class="hljs-symbol">/tcp</span> (v6)                ALLOW       Anywhere (v6)             <br><span class="hljs-number">443</span><span class="hljs-symbol">/tcp</span> (v6)               ALLOW       Anywhere (v6)             <br><span class="hljs-number">32000</span>:<span class="hljs-number">32999</span><span class="hljs-symbol">/tcp</span> (v6)       ALLOW       Anywhere (v6)<br></code></pre></td></tr></table></figure></p>
+<h4 id="添加端口规则">添加端口规则</h4>
+<h5 id="开放单个端口">1. 开放单个端口</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 开放TCP端口21（FTP）</span><br><span class="hljs-built_in">sudo</span> ufw allow 21/tcp<br><br><span class="hljs-comment"># 开放TCP端口80（HTTP）</span><br><span class="hljs-built_in">sudo</span> ufw allow 80/tcp<br><br><span class="hljs-comment"># 开放TCP端口443（HTTPS）</span><br><span class="hljs-built_in">sudo</span> ufw allow 443/tcp<br></code></pre></td></tr></table></figure>
+<h5 id="开放端口范围">2. 开放端口范围</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 开放TCP端口范围32000-32999</span><br><span class="hljs-built_in">sudo</span> ufw allow 32000:32999/tcp<br><br><span class="hljs-comment"># 开放UDP端口范围32000-32999（如果需要）</span><br><span class="hljs-built_in">sudo</span> ufw allow 32000:32999/udp<br></code></pre></td></tr></table></figure>
+<h5 id="从特定ip地址开放端口">3. 从特定IP地址开放端口</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 只允许IP 192.168.1.100访问端口22（SSH）</span><br><span class="hljs-built_in">sudo</span> ufw allow from 192.168.1.100 to any port 22<br></code></pre></td></tr></table></figure>
+<h4 id="删除端口规则">删除端口规则</h4>
+<p>删除规则有两种方式：通过端口号或通过规则编号。</p>
+<h5 id="通过端口号删除">1. 通过端口号删除</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 删除端口21的规则</span><br><span class="hljs-built_in">sudo</span> ufw delete allow 21/tcp<br><br><span class="hljs-comment"># 删除端口范围规则</span><br><span class="hljs-built_in">sudo</span> ufw delete allow 32000:32999/tcp<br></code></pre></td></tr></table></figure>
+<h5 id="通过规则编号删除">2. 通过规则编号删除</h5>
+<p>先查看带编号的规则列表： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> ufw status numbered<br></code></pre></td></tr></table></figure></p>
+<p>输出示例： <figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs nix"><span class="hljs-params">Status:</span> active<br><br>     To                         Action      From<br>     <span class="hljs-operator">-</span>-                         <span class="hljs-operator">-</span>-----      <span class="hljs-operator">-</span>---<br>[ <span class="hljs-number">1</span>] <span class="hljs-number">22</span><span class="hljs-symbol">/tcp</span>                     ALLOW IN    Anywhere                  <br>[ <span class="hljs-number">2</span>] <span class="hljs-number">80</span><span class="hljs-symbol">/tcp</span>                     ALLOW IN    Anywhere                  <br>[ <span class="hljs-number">3</span>] <span class="hljs-number">443</span><span class="hljs-symbol">/tcp</span>                    ALLOW IN    Anywhere                  <br>[ <span class="hljs-number">4</span>] <span class="hljs-number">32000</span>:<span class="hljs-number">32999</span><span class="hljs-symbol">/tcp</span>            ALLOW IN    Anywhere<br></code></pre></td></tr></table></figure></p>
+<p>然后根据编号删除规则： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 删除编号为4的规则</span><br><span class="hljs-built_in">sudo</span> ufw delete 4<br></code></pre></td></tr></table></figure></p>
+<h4 id="端口转发配置">端口转发配置</h4>
+<p>要配置端口转发，需要先启用IP转发并创建相应规则：</p>
+<h5 id="启用ip转发">1. 启用IP转发</h5>
+<p>编辑 <code>/etc/sysctl.conf</code> 文件： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> nano /etc/sysctl.conf<br></code></pre></td></tr></table></figure></p>
+<p>取消以下行的注释（删除前面的 <code>#</code>）： <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">net.ipv4.ip_forward</span>=<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure></p>
+<p>保存文件后应用更改： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> sysctl -p<br></code></pre></td></tr></table></figure></p>
+<h5 id="配置端口转发规则">2. 配置端口转发规则</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 转发端口8080到80（内部服务器）</span><br><span class="hljs-built_in">sudo</span> ufw route allow proto tcp from any to any port 8080 redirect-to-port 80<br><br><span class="hljs-comment"># 转发特定IP的端口（例如转发192.168.1.100:80到本地8080）</span><br><span class="hljs-built_in">sudo</span> ufw route allow proto tcp from any to 192.168.1.100 port 80 redirect-to-port 8080<br></code></pre></td></tr></table></figure>
+<h4 id="丢弃特定端口请求">丢弃特定端口请求</h4>
+<p>要丢弃来自端口25的所有请求（通常用于SMTP服务）： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 丢弃所有TCP端口25的流量</span><br><span class="hljs-built_in">sudo</span> ufw deny 25/tcp<br><br><span class="hljs-comment"># 或者，如果想完全阻止，使用reject（会向客户端发送拒绝消息）</span><br><span class="hljs-built_in">sudo</span> ufw reject 25/tcp<br></code></pre></td></tr></table></figure></p>
+<h4 id="保存和恢复规则">保存和恢复规则</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 保存当前规则（默认会自动保存）</span><br><span class="hljs-built_in">sudo</span> ufw reload<br><br><span class="hljs-comment"># 禁用UFW（不推荐，除非必要）</span><br><span class="hljs-built_in">sudo</span> ufw <span class="hljs-built_in">disable</span><br><br><span class="hljs-comment"># 启用UFW</span><br><span class="hljs-built_in">sudo</span> ufw <span class="hljs-built_in">enable</span><br></code></pre></td></tr></table></figure>
+<h4 id="查看规则文件">查看规则文件</h4>
+<p>UFW规则存储在以下位置： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 主要规则文件</span><br><span class="hljs-built_in">cat</span> /etc/ufw/user.rules<br><br><span class="hljs-comment"># IPv6规则</span><br><span class="hljs-built_in">cat</span> /etc/ufw/user6.rules<br></code></pre></td></tr></table></figure></p>
+<h4 id="重置ufw谨慎使用">重置UFW（谨慎使用）</h4>
+<p>这将删除所有规则并重置UFW： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> ufw reset<br></code></pre></td></tr></table></figure></p>
+<h3 id="认识openssh-server">认识OpenSSH Server</h3>
+<p>OpenSSH
+Server是一个开源的SSH服务器实现，用于提供安全的远程登录和文件传输功能。它是Linux和Unix系统中最常用的SSH服务器之一。</p>
+<p>在Ubuntu上，OpenSSH
+Server通常已经默认安装。可以通过以下命令检查是否已安装：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 检查 SSH 服务状态</span><br><span class="hljs-built_in">sudo</span> systemctl status ssh<br><br><span class="hljs-comment"># 如果未安装，尝试安装 OpenSSH 服务器</span><br><span class="hljs-built_in">sudo</span> apt update<br><span class="hljs-built_in">sudo</span> apt install openssh-server<br><br><br><span class="hljs-comment"># 使用正确的服务名称重启</span><br><span class="hljs-built_in">sudo</span> systemctl restart ssh<br><br><span class="hljs-comment"># 验证服务状态</span><br><span class="hljs-built_in">sudo</span> systemctl status ssh<br><br><span class="hljs-comment"># 检查 SSH 服务是否在开机启动</span><br><span class="hljs-built_in">sudo</span> systemctl is-enabled ssh<br><br><span class="hljs-comment"># 设置 SSH 服务开机自启</span><br><span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> ssh<br></code></pre></td></tr></table></figure>
-
 <p>与防火墙相关的命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 确保防火墙允许 SSH 连接</span><br><span class="hljs-built_in">sudo</span> ufw allow ssh<br><span class="hljs-comment"># 或者使用端口号</span><br><span class="hljs-built_in">sudo</span> ufw allow 22/tcp<br><br><span class="hljs-comment"># 重新加载防火墙规则</span><br><span class="hljs-built_in">sudo</span> ufw reload<br><br></code></pre></td></tr></table></figure>
-
 <p>配置相关的指令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br><span class="hljs-comment"># 查看 SSH 配置文件是否存在</span><br><span class="hljs-built_in">ls</span> -l /etc/ssh/sshd_config<br><br><span class="hljs-comment"># 如果配置文件不存在，重新安装 OpenSSH</span><br><span class="hljs-built_in">sudo</span> apt purge openssh-server<br><span class="hljs-built_in">sudo</span> apt install openssh-server<br><br><br><span class="hljs-comment"># 本地检查 SSH 服务是否监听</span><br>ss -tulpn | grep :22<br><br><span class="hljs-comment"># 从另一台机器测试连接</span><br>ssh username@server_ip<br><br><br></code></pre></td></tr></table></figure>
-
-<h3 id="修改SSH的默认端口"><a href="#修改SSH的默认端口" class="headerlink" title="修改SSH的默认端口"></a>修改SSH的默认端口</h3><p>默认情况下，SSH服务使用的是22端口，这往往是黑客攻击的目标和对象，是暴力破解的主要入口。为了提高安全性，我们可以将SSH服务的默认端口修改为其他端口，如2233。</p>
+<h3 id="修改ssh的默认端口">修改SSH的默认端口</h3>
+<p>默认情况下，SSH服务使用的是22端口，这往往是黑客攻击的目标和对象，是暴力破解的主要入口。为了提高安全性，我们可以将SSH服务的默认端口修改为其他端口，如2233。</p>
 <p>修改SSH的默认端口为2233，需要进行以下步骤：</p>
-<ol>
+<ol type="1">
 <li>编辑SSH配置文件：</li>
 </ol>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> nano /etc/ssh/sshd_config<br></code></pre></td></tr></table></figure>
-
-<ol start="2">
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> nano /etc/ssh/sshd_config<br></code></pre></td></tr></table></figure></p>
+<ol start="2" type="1">
 <li>找到并修改<code>Port</code>参数，将其值改为2233：</li>
 </ol>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Port 2233<br></code></pre></td></tr></table></figure>
-
-<ol start="3">
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Port 2233<br></code></pre></td></tr></table></figure></p>
+<ol start="3" type="1">
 <li>保存文件并退出编辑器。</li>
 </ol>
 <p>跟普通的端口不同，还需要以下操作：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. 重新加载 systemd 守护进程配置</span><br><span class="hljs-built_in">sudo</span> systemctl daemon-reload<br><br><span class="hljs-comment"># 2. 重启 SSH socket 服务（这会重新生成配置）</span><br><span class="hljs-built_in">sudo</span> systemctl restart ssh.socket<br><br><span class="hljs-comment"># 3. 最后重启 SSH 服务</span><br><span class="hljs-built_in">sudo</span> systemctl restart ssh<br><br><span class="hljs-comment"># 4. 验证新端口是否生效</span><br><span class="hljs-built_in">sudo</span> ss -tulpn | grep sshd<br></code></pre></td></tr></table></figure>
-
 <p>这个时候不要急于重启服务器，因为刚才设置的防火墙中你还没有打开新的SSH端口：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> ufw allow 2233/tcp<br></code></pre></td></tr></table></figure>
-
 <p>这项配置好之后重启服务器即可，这样就可以通过2233端口来访问SSH服务了。</p>
-<h3 id="添加新用户"><a href="#添加新用户" class="headerlink" title="添加新用户"></a>添加新用户</h3><p>假设您要创建用户 developer：</p>
+<h3 id="添加新用户">添加新用户</h3>
+<p>假设您要创建用户 developer：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br><span class="hljs-comment"># 创建用户（会提示设置密码）</span><br><span class="hljs-built_in">sudo</span> adduser developer<br><br><span class="hljs-comment"># 添加到 sudo 组</span><br><span class="hljs-built_in">sudo</span> usermod -aG <span class="hljs-built_in">sudo</span> developer<br><br><span class="hljs-comment"># 验证组 membership</span><br><span class="hljs-built_in">groups</span> developer<br><br><span class="hljs-comment"># 切换用户测试</span><br>su - developer<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">whoami</span>  <span class="hljs-comment"># 应显示 root</span><br><span class="hljs-built_in">exit</span>  <span class="hljs-comment"># 返回原始用户</span><br><br></code></pre></td></tr></table></figure>
-
-<h3 id="启用root用户"><a href="#启用root用户" class="headerlink" title="启用root用户"></a>启用root用户</h3><p>在Ubuntu Server中启用root用户，可按以下步骤进行：</p>
-<ol>
-<li>使用sudo命令切换到root用户：<code>sudo su</code>。</li>
-<li>更改root用户的密码：<code>passwd root</code>，按照提示输入新密码并确认。</li>
-<li>编辑<code>/etc/ssh/sshd_config</code>文件，找到<code>PermitRootLogin prohibit - password</code>这一行，将其修改为<code>PermitRootLogin yes</code>。</li>
-<li>重启ssh服务：<code>sudo service ssh restart</code>或<code>sudo systemctl restart ssh</code>。</li>
-</ol>
-<p>完成以上步骤后，就可以使用root用户登录Ubuntu Server了。不过，root用户拥有最高权限，使用时需格外谨慎，以免因误操作导致系统出现问题。</p>
-<h2 id="Ubuntu-Server的应用功能"><a href="#Ubuntu-Server的应用功能" class="headerlink" title="Ubuntu Server的应用功能"></a>Ubuntu Server的应用功能</h2><h3 id="安装Docker和compose（阿里云）"><a href="#安装Docker和compose（阿里云）" class="headerlink" title="安装Docker和compose（阿里云）"></a>安装Docker和compose（阿里云）</h3><p>如果是本地安装Docker，一般都是在安装操作系统的过程中选择安装的。</p>
-<p>在云服务器上，我们以阿里云为例，可以参考文档：<br><a target="_blank" rel="noopener" href="https://help.aliyun.com/zh/ecs/use-cases/install-and-use-docker">https://help.aliyun.com/zh/ecs/use-cases/install-and-use-docker</a></p>
+<h3 id="启用root用户">启用root用户</h3>
+<p>在Ubuntu Server中启用root用户，可按以下步骤进行： 1.
+使用sudo命令切换到root用户：<code>sudo su</code>。 2.
+更改root用户的密码：<code>passwd root</code>，按照提示输入新密码并确认。
+3.
+编辑<code>/etc/ssh/sshd_config</code>文件，找到<code>PermitRootLogin prohibit - password</code>这一行，将其修改为<code>PermitRootLogin yes</code>。
+4.
+重启ssh服务：<code>sudo service ssh restart</code>或<code>sudo systemctl restart ssh</code>。</p>
+<p>完成以上步骤后，就可以使用root用户登录Ubuntu
+Server了。不过，root用户拥有最高权限，使用时需格外谨慎，以免因误操作导致系统出现问题。</p>
+<h2 id="ubuntu-server的应用功能">Ubuntu Server的应用功能</h2>
+<h3 id="安装docker和compose阿里云">安装Docker和compose（阿里云）</h3>
+<p>如果是本地安装Docker，一般都是在安装操作系统的过程中选择安装的。</p>
+<p>在云服务器上，我们以阿里云为例，可以参考文档： <a
+target="_blank" rel="noopener" href="https://help.aliyun.com/zh/ecs/use-cases/install-and-use-docker">https://help.aliyun.com/zh/ecs/use-cases/install-and-use-docker</a></p>
 <p>主要的操作命令如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#更新包管理工具</span><br><span class="hljs-built_in">sudo</span> apt-get update<br><br><span class="hljs-comment">#添加Docker软件包源</span><br><span class="hljs-built_in">sudo</span> apt-get -y install apt-transport-https ca-certificates curl software-properties-common<br><br><span class="hljs-built_in">sudo</span> curl -fsSL http://mirrors.cloud.aliyuncs.com/docker-ce/linux/ubuntu/gpg | <span class="hljs-built_in">sudo</span> apt-key add -<br><br><span class="hljs-built_in">sudo</span> add-apt-repository -y <span class="hljs-string">&quot;deb [arch=<span class="hljs-subst">$(dpkg --print-architecture)</span>] http://mirrors.cloud.aliyuncs.com/docker-ce/linux/ubuntu <span class="hljs-subst">$(lsb_release -cs)</span> stable&quot;</span><br><br><span class="hljs-comment">#安装Docker社区版本，容器运行时containerd.io，以及Docker构建和Compose插件</span><br><br><span class="hljs-built_in">sudo</span> apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin<br><br><span class="hljs-comment">#启动Docker</span><br><span class="hljs-built_in">sudo</span> systemctl start docker<br><br><span class="hljs-comment">#设置Docker守护进程在系统启动时自动启动</span><br><span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> docker<br></code></pre></td></tr></table></figure>
-
 <p>以上过程安装了Docker和Docker compose，你可以使用以下命令来验证：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#验证Docker是否安装成功</span><br>docker --version<br><br><span class="hljs-comment">#显示 Docker version 28.2.2, build e6534b4</span><br><br><span class="hljs-comment">#验证Docker compose是否安装成功</span><br>docker compose version<br><br><span class="hljs-comment">#显示 Docker Compose version v2.36.2</span><br><br></code></pre></td></tr></table></figure>
-
-<p>在阿里云服务器上可以使用阿里云的Docker镜像加速服务，<br>需要设置的文件：&#x2F;etc&#x2F;docker&#x2F;daemon.json<br>内容为：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;registry-mirrors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;https://xxxxxxx.mirror.aliyuncs.com&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;debug&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;experimental&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-<p>或者</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;registry-mirrors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;https://xxxxxxx.mirror.aliyuncs.com&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
-<p>如果加速镜像没有生效，在pull镜像的时候，还是会走默认的Docker 官方（registry-1.docker.io），<br>需要在控制台开启相关服务：<br><a target="_blank" rel="noopener" href="https://cr.console.aliyun.com/">https://cr.console.aliyun.com/</a></p>
+<p>在阿里云服务器上可以使用阿里云的Docker镜像加速服务，
+需要设置的文件：/etc/docker/daemon.json 内容为： <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;registry-mirrors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;https://xxxxxxx.mirror.aliyuncs.com&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;debug&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;experimental&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure> 或者
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;registry-mirrors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;https://xxxxxxx.mirror.aliyuncs.com&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></p>
+<p>如果加速镜像没有生效，在pull镜像的时候，还是会走默认的Docker
+官方（registry-1.docker.io）， 需要在控制台开启相关服务： <a
+target="_blank" rel="noopener" href="https://cr.console.aliyun.com/">https://cr.console.aliyun.com/</a></p>
 <p>更新镜像源文件后，重启服务使镜像源生效：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs Bash"><span class="hljs-built_in">sudo</span> systemctl daemon-reload<br><span class="hljs-built_in">sudo</span> systemctl restart docker<br><br><span class="hljs-comment">#在阿里云的环境下，确认镜像仓库使用的是阿里云的</span><br>docker info<br><br><span class="hljs-comment">#显示类似：</span><br><span class="hljs-comment">#Registry Mirrors:</span><br><span class="hljs-comment"># https://xxxxxxx.mirror.aliyuncs.com</span><br><span class="hljs-comment">#即代表仓库已经使用阿里云的 </span><br><br></code></pre></td></tr></table></figure>
-
-
 <p>在Docker基础上组网和部署服务的过程我们在后续文章中介绍。</p>
-<h3 id="安装AMP：Apache、MySQL和PHP"><a href="#安装AMP：Apache、MySQL和PHP" class="headerlink" title="安装AMP：Apache、MySQL和PHP"></a>安装AMP：Apache、MySQL和PHP</h3><p>如果你希望通过Docker解决PHP和MySQL的问题，那么你可以考虑使用Docker Compose来管理它们。我们这里讨论的是在Ubuntu Server上直接安装AMP（Apache、MySQL和PHP）的方法。</p>
-<ol>
+<h3 id="安装ampapachemysql和php">安装AMP：Apache、MySQL和PHP</h3>
+<p>如果你希望通过Docker解决PHP和MySQL的问题，那么你可以考虑使用Docker
+Compose来管理它们。我们这里讨论的是在Ubuntu
+Server上直接安装AMP（Apache、MySQL和PHP）的方法。</p>
+<ol type="1">
 <li><strong>安装Apache</strong>：</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt-get update<br><span class="hljs-built_in">sudo</span> apt-get install apache2<br></code></pre></td></tr></table></figure>
-
-<p>对应的配置文件在： <code>/etc/apache2/apache2.conf</code>。<br>配置多个网站和扩展配置的文件在目录： <code>/etc/apache2/sites-available</code>。</p>
+<p>对应的配置文件在： <code>/etc/apache2/apache2.conf</code>。
+配置多个网站和扩展配置的文件在目录：
+<code>/etc/apache2/sites-available</code>。</p>
 <p>网站目录文件在： <code>/var/www/html</code>。</p>
-<ol start="2">
+<ol start="2" type="1">
 <li><strong>安装MySQL</strong>：</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt-get update<br><span class="hljs-built_in">sudo</span> apt-get install mysql-server<br></code></pre></td></tr></table></figure>
-
-<p>对应的配置文件在： <code>/etc/mysql/mysql.conf.d/mysqld.cnf</code>。<br>在配置文件中，你可以设置MySQL的数据文件目录、日志文件目录、端口号等，不然不做特殊设置，他们的默认值分别是：<br>（1）数据文件目录： <code>/var/lib/mysql</code>。<br>（2）日志文件目录： <code>/var/log/mysql</code>。<br>（3）端口号： <code>3306</code>。</p>
-<ol start="3">
+<p>对应的配置文件在： <code>/etc/mysql/mysql.conf.d/mysqld.cnf</code>。
+在配置文件中，你可以设置MySQL的数据文件目录、日志文件目录、端口号等，不然不做特殊设置，他们的默认值分别是：
+（1）数据文件目录： <code>/var/lib/mysql</code>。 （2）日志文件目录：
+<code>/var/log/mysql</code>。 （3）端口号： <code>3306</code>。</p>
+<ol start="3" type="1">
 <li><strong>安装PHP</strong>：</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt-get update<br><span class="hljs-built_in">sudo</span> apt-get install php libapache2-mod-php php-mysql<br></code></pre></td></tr></table></figure>
-
 <p>对应的配置文件在： <code>/etc/php/8.2/apache2/php.ini</code>。</p>
-<ol start="4">
+<ol start="4" type="1">
 <li><strong>管理Apache和MySQL</strong>：</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#启动Apache</span><br><span class="hljs-built_in">sudo</span> systemctl start apache2<br><span class="hljs-comment">#启动MySQL</span><br><span class="hljs-built_in">sudo</span> systemctl start mysql<br><span class="hljs-comment">#重启Apache</span><br><span class="hljs-built_in">sudo</span> systemctl restart apache2<br><span class="hljs-comment">#重启MySQL</span><br><span class="hljs-built_in">sudo</span> systemctl restart mysql<br><span class="hljs-comment">#停止Apache</span><br><span class="hljs-built_in">sudo</span> systemctl stop apache2<br><span class="hljs-comment">#停止MySQL</span><br><span class="hljs-built_in">sudo</span> systemctl stop mysql<br><br><span class="hljs-comment">#设置Apache和MySQL开机自启动</span><br><span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> apache2<br><span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> mysql<br></code></pre></td></tr></table></figure>
-
-<ol start="5">
+<ol start="5" type="1">
 <li><strong>安装Nginx</strong>：</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt-get update<br><span class="hljs-built_in">sudo</span> apt-get install nginx<br></code></pre></td></tr></table></figure>
-
 <p>对应的配置文件在： <code>/etc/nginx/nginx.conf</code>。</p>
 
                 
@@ -1764,6 +1770,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1981,6 +1993,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践摘要大语言模型（LLM）的训练并非单一过程，而是由预训练（Pre-training）、监督微调（Supervised Fine-Tuning, SFT） 和强化学习（Reinforcement Learning, RL） 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用的本">
+    <meta name="description" content="从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践 摘要 大语言模型（LLM）的训练并非单一过程，而是由预训练（Pre-training）、监督微调（Supervised Fine-Tuning, SFT） 和强化学习（Reinforcement Learning, RL） 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从预训练到RLHF：大语言模型训练范式的演进与工程实践">
 <meta property="og:url" content="https://jycpp.github.io/2026/26-08-02-%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E8%8C%83%E5%BC%8F%E7%9A%84%E6%BC%94%E8%BF%9B%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践摘要大语言模型（LLM）的训练并非单一过程，而是由预训练（Pre-training）、监督微调（Supervised Fine-Tuning, SFT） 和强化学习（Reinforcement Learning, RL） 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用的本">
+<meta property="og:description" content="从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践 摘要 大语言模型（LLM）的训练并非单一过程，而是由预训练（Pre-training）、监督微调（Supervised Fine-Tuning, SFT） 和强化学习（Reinforcement Learning, RL） 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-08-02T10:30:00.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.109Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.670Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="大语言模型">
 <meta property="article:tag" content="预训练">
@@ -984,59 +984,88 @@ true
             
               <div class="markdown-body">
                 
-                <h1 id="从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践"><a href="#从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践" class="headerlink" title="从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践"></a>从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>大语言模型（LLM）的训练并非单一过程，而是由<strong>预训练（Pre-training）</strong>、<strong>监督微调（Supervised Fine-Tuning, SFT）</strong> 和<strong>强化学习（Reinforcement Learning, RL）</strong> 三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用的本质区别，并探讨检索增强生成（RAG）作为模型能力补充机制的设计定位。</p>
-<p>关于标题中的RLHF，是指强化学习（Reinforcement Learning, RL）的Human Feedback（HF）版本，用于对齐模型与人类偏好。</p>
-<p>为了更通俗易懂的解释以下内容，我做了一个HTML网页来说明：<br><a href="/html/llm_training_article.html">从”读书”到”做人”：大语言模型训练全流程</a></p>
-<hr>
-<h2 id="一、三段式训练总览"><a href="#一、三段式训练总览" class="headerlink" title="一、三段式训练总览"></a>一、三段式训练总览</h2><p>现代大语言模型的完整训练流水线可抽象为以下三个阶段：</p>
+                <h1
+id="从预训练到人工反馈强化学习rlhf大语言模型训练范式的演进与工程实践">从预训练到人工反馈强化学习（RLHF）：大语言模型训练范式的演进与工程实践</h1>
+<h2 id="摘要">摘要</h2>
+<p>大语言模型（LLM）的训练并非单一过程，而是由<strong>预训练（Pre-training）</strong>、<strong>监督微调（Supervised
+Fine-Tuning, SFT）</strong> 和<strong>强化学习（Reinforcement Learning,
+RL）</strong>
+三个核心阶段构成的递进式流水线。本文系统阐述各阶段的原理、目标与相互关系，厘清模型训练与模型推理调用的本质区别，并探讨检索增强生成（RAG）作为模型能力补充机制的设计定位。</p>
+<p>关于标题中的RLHF，是指强化学习（Reinforcement Learning, RL）的Human
+Feedback（HF）版本，用于对齐模型与人类偏好。</p>
+<p>为了更通俗易懂的解释以下内容，我做了一个HTML网页来说明： <a
+href="/html/llm_training_article.html">从”读书”到”做人”：大语言模型训练全流程</a></p>
+<hr />
+<h2 id="一三段式训练总览">一、三段式训练总览</h2>
+<p>现代大语言模型的完整训练流水线可抽象为以下三个阶段：</p>
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">原始语料库（TB级无标注文本）<br>        │<br>        ▼<br>┌─────────────────────────────┐<br>│    第一阶段：预训练          │<br>│    目标：学习语言规律与知识   │<br>│    方法：自监督（下一词预测） │<br>│    产出：<span class="hljs-keyword">Base </span>模型           │<br>└──────────┬──────────────────┘<br>           │<br>           ▼<br>┌─────────────────────────────┐<br>│    第二阶段：监督微调 SFT    │<br>│    目标：学习指令跟随能力     │<br>│    方法：有监督（指令-回复对）│<br>│    产出：<span class="hljs-keyword">Instruct </span>模型       │<br>└──────────┬──────────────────┘<br>           │<br>           ▼<br>┌─────────────────────────────┐<br>│    第三阶段：强化学习 RLHF   │<br>│    目标：对齐人类偏好         │<br>│    方法：PPO + 奖励模型      │<br>│    产出：Aligned 模型        │<br>└─────────────────────────────┘<br></code></pre></td></tr></table></figure>
-
-<p><strong>核心观点</strong>：预训练决定模型的知识上限，SFT 赋予模型实用性，RL 确保模型的可控性与安全性。三者缺一不可。</p>
-<hr>
-<h2 id="二、各阶段技术详解"><a href="#二、各阶段技术详解" class="headerlink" title="二、各阶段技术详解"></a>二、各阶段技术详解</h2><h3 id="2-1-预训练（Pre-training）"><a href="#2-1-预训练（Pre-training）" class="headerlink" title="2.1 预训练（Pre-training）"></a>2.1 预训练（Pre-training）</h3><p><strong>目标</strong>：在无标注数据上学习语言的统计规律、语法结构、事实知识与世界常识。</p>
-<p><strong>训练方式</strong>：自监督学习，核心任务是<strong>下一词预测（Next Token Prediction）</strong>。给定上文序列 ( x_1, x_2, …, x_{t-1} )，模型预测下一个 token ( x_t ) 的概率分布，损失函数为交叉熵：</p>
-<p>$$<br>\mathcal{L}<em>{\text{PT}} &#x3D; -\sum</em>{t&#x3D;1}^{T} \log P(x_t | x_{&lt;t})<br>$$</p>
-<p><strong>数据规模</strong>：通常为数 TB 至数十 TB 的文本数据，涵盖网页、书籍、论文、代码等。</p>
-<p><strong>关键特征</strong>：</p>
-<ul>
-<li>不需要人工标注，数据获取成本低</li>
-<li>计算开销极大（数万 GPU 小时）</li>
-<li>产出模型具备语言生成能力，但<strong>无法理解指令意图</strong></li>
-</ul>
-<h3 id="2-2-监督微调（Supervised-Fine-Tuning-SFT）"><a href="#2-2-监督微调（Supervised-Fine-Tuning-SFT）" class="headerlink" title="2.2 监督微调（Supervised Fine-Tuning, SFT）"></a>2.2 监督微调（Supervised Fine-Tuning, SFT）</h3><p><strong>目标</strong>：使模型学会遵循人类指令，完成问答、翻译、摘要等具体任务。</p>
+<p><strong>核心观点</strong>：预训练决定模型的知识上限，SFT
+赋予模型实用性，RL 确保模型的可控性与安全性。三者缺一不可。</p>
+<hr />
+<h2 id="二各阶段技术详解">二、各阶段技术详解</h2>
+<h3 id="预训练pre-training">2.1 预训练（Pre-training）</h3>
+<p><strong>目标</strong>：在无标注数据上学习语言的统计规律、语法结构、事实知识与世界常识。</p>
+<p><strong>训练方式</strong>：自监督学习，核心任务是<strong>下一词预测（Next
+Token Prediction）</strong>。给定上文序列 ( x_1, x_2, …, x_{t-1}
+)，模型预测下一个 token ( x_t ) 的概率分布，损失函数为交叉熵：</p>
+<blockquote>
+<p>以下是<em>LaTeX 表达式</em></p>
+</blockquote>
+<p><span class="math display">\[
+\mathcal{L}_{\text{PT}} = -\sum_{t=1}^{T} \log P(x_t | x_{&lt;t})
+\]</span></p>
+<p><strong>数据规模</strong>：通常为数 TB 至数十 TB
+的文本数据，涵盖网页、书籍、论文、代码等。</p>
+<p><strong>关键特征</strong>： - 不需要人工标注，数据获取成本低 -
+计算开销极大（数万 GPU 小时） -
+产出模型具备语言生成能力，但<strong>无法理解指令意图</strong></p>
+<h3 id="监督微调supervised-fine-tuning-sft">2.2 监督微调（Supervised
+Fine-Tuning, SFT）</h3>
+<p><strong>目标</strong>：使模型学会遵循人类指令，完成问答、翻译、摘要等具体任务。</p>
 <p><strong>训练方式</strong>：在<strong>人工标注的指令-回复对</strong>上进行有监督学习。每条数据格式为：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">&#123;<br>  &quot;instruction&quot;: &quot;用通俗的语言解释什么是黑洞&quot;,<br>  &quot;output&quot;: &quot;黑洞是宇宙中引力极强的区域，任何东西都无法逃脱……&quot;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>模型以 instruction 为输入，以 output 为目标进行最大似然估计：</p>
-<p>$$<br>\mathcal{L}<em>{\text{SFT}} &#x3D; -\sum</em>{t&#x3D;1}^{T} \log P(y_t | x, y_{&lt;t})<br>$$</p>
+<p><span class="math display">\[
+\mathcal{L}_{\text{SFT}} = -\sum_{t=1}^{T} \log P(y_t | x, y_{&lt;t})
+\]</span></p>
 <p>其中 ( x ) 为指令，( y ) 为标准回复。</p>
 <p><strong>数据规模</strong>：通常为万级至十万级高质量样本，<strong>质量远重要于数量</strong>。</p>
-<p><strong>关键特征</strong>：</p>
-<ul>
-<li>将“会说话”的模型转变为“会做事”的模型</li>
-<li>训练成本远低于预训练（千级 GPU 小时）</li>
-<li>模型可能产生表面服从但实质错误的回复（即“幻觉”）</li>
-</ul>
-<h3 id="2-3-强化学习（Reinforcement-Learning-from-Human-Feedback-RLHF）"><a href="#2-3-强化学习（Reinforcement-Learning-from-Human-Feedback-RLHF）" class="headerlink" title="2.3 强化学习（Reinforcement Learning from Human Feedback, RLHF）"></a>2.3 强化学习（Reinforcement Learning from Human Feedback, RLHF）</h3><p><strong>目标</strong>：使模型的输出更符合人类偏好——更有用、更无害、更诚实。</p>
-<p><strong>训练方式</strong>：引入<strong>奖励模型（Reward Model）</strong> 作为人类偏好的代理，使用 <strong>PPO（Proximal Policy Optimization）</strong> 算法优化策略模型。</p>
+<p><strong>关键特征</strong>： - 将“会说话”的模型转变为“会做事”的模型 -
+训练成本远低于预训练（千级 GPU 小时） -
+模型可能产生表面服从但实质错误的回复（即“幻觉”）</p>
+<h3 id="强化学习reinforcement-learning-from-human-feedback-rlhf">2.3
+强化学习（Reinforcement Learning from Human Feedback, RLHF）</h3>
+<p><strong>目标</strong>：使模型的输出更符合人类偏好——更有用、更无害、更诚实。</p>
+<p><strong>训练方式</strong>：引入<strong>奖励模型（Reward
+Model）</strong> 作为人类偏好的代理，使用 <strong>PPO（Proximal Policy
+Optimization）</strong> 算法优化策略模型。</p>
 <p><strong>完整流程分三步</strong>：</p>
-<ol>
-<li><strong>收集偏好数据</strong>：对同一 prompt，让 SFT 模型生成多个候选回复，由人工标注员排序</li>
+<ol type="1">
+<li><strong>收集偏好数据</strong>：对同一 prompt，让 SFT
+模型生成多个候选回复，由人工标注员排序</li>
 <li><strong>训练奖励模型</strong>：以排序数据训练一个回归模型，为任意回复输出一个标量分数</li>
-<li><strong>策略优化</strong>：使用 PPO 算法，以奖励模型的分数为奖励信号，微调 SFT 模型</li>
+<li><strong>策略优化</strong>：使用 PPO
+算法，以奖励模型的分数为奖励信号，微调 SFT 模型</li>
 </ol>
 <p>PPO 的目标函数简化为：</p>
-<p>$$<br>\mathcal{L}<em>{\text{RL}} &#x3D; \mathbb{E}</em>{(s,a)}[\min(\frac{\pi_\theta(a|s)}{\pi_{\text{old}}(a|s)} A(s,a), \text{clip}(\dots))]<br>$$</p>
+<p><span class="math display">\[
+\mathcal{L}_{\text{RL}} =
+\mathbb{E}_{(s,a)}[\min(\frac{\pi_\theta(a|s)}{\pi_{\text{old}}(a|s)}
+A(s,a), \text{clip}(\dots))]
+\]</span></p>
 <p>其中 ( A(s,a) ) 为优势函数，衡量当前动作相对于平均水平的优劣。</p>
-<p><strong>关键特征</strong>：</p>
-<ul>
-<li>显著提升模型的有用性和安全性</li>
-<li>训练稳定性较差，超参数敏感</li>
-<li>过度优化可能导致“奖励黑客”（reward hacking）现象</li>
-</ul>
-<hr>
-<h2 id="三、模型分类思维导图"><a href="#三、模型分类思维导图" class="headerlink" title="三、模型分类思维导图"></a>三、模型分类思维导图</h2><p>以下从四个维度对现有大语言模型进行分类：</p>
-<div class="mermaid">mindmap
+<p><strong>关键特征</strong>： - 显著提升模型的有用性和安全性 -
+训练稳定性较差，超参数敏感 - 过度优化可能导致“奖励黑客”（reward
+hacking）现象</p>
+<hr />
+<h2 id="三模型分类思维导图">三、模型分类思维导图</h2>
+<p>以下从四个维度对现有大语言模型进行分类：</p>
+<div class="mermaid">---
+config:
+  theme: forest
+  look: handDrawn
+---
+mindmap
   root((大语言模型))
     按训练阶段
       Base 模型
@@ -1075,98 +1104,107 @@ true
         RAG 架构
       工具调用型
         Function Calling 模型</div>
-
-<h3 id="选型速查表"><a href="#选型速查表" class="headerlink" title="选型速查表"></a>选型速查表</h3><table>
+<h3 id="选型速查表">选型速查表</h3>
+<table>
 <thead>
-<tr>
+<tr class="header">
 <th>使用场景</th>
 <th>推荐模型类型</th>
 <th>示例</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>文本续写、补全</td>
 <td>Base 模型</td>
 <td><code>llama-3-base</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td>日常对话、问答</td>
 <td>Instruct 模型</td>
 <td><code>llama-3-instruct</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>高安全性场景</td>
 <td>Aligned 模型</td>
 <td><code>claude-3-opus</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td>代码辅助</td>
 <td>代码专用模型</td>
 <td><code>deepseek-coder</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>私有知识问答</td>
 <td>Base 模型 + RAG</td>
 <td><code>llama-3-base</code> + 向量库</td>
 </tr>
-</tbody></table>
-<hr>
-<h2 id="四、模型训练与模型调用的关系"><a href="#四、模型训练与模型调用的关系" class="headerlink" title="四、模型训练与模型调用的关系"></a>四、模型训练与模型调用的关系</h2><p>模型训练与模型调用是两个性质截然不同的阶段，但在工程实践中紧密关联。</p>
-<h3 id="4-1-核心区别"><a href="#4-1-核心区别" class="headerlink" title="4.1 核心区别"></a>4.1 核心区别</h3><table>
+</tbody>
+</table>
+<hr />
+<h2 id="四模型训练与模型调用的关系">四、模型训练与模型调用的关系</h2>
+<p>模型训练与模型调用是两个性质截然不同的阶段，但在工程实践中紧密关联。</p>
+<h3 id="核心区别">4.1 核心区别</h3>
+<table>
+
 <thead>
-<tr>
+<tr class="header">
 <th>维度</th>
 <th>模型训练</th>
 <th>模型调用（推理）</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td><strong>目标</strong></td>
 <td>更新模型权重</td>
 <td>利用已有权重生成输出</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>计算负载</strong></td>
 <td>极高（GPU 密集）</td>
 <td>较低（单卡可运行）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>数据流向</strong></td>
 <td>批量数据 → 梯度更新 → 权重</td>
 <td>单条输入 → 前向传播 → 输出</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>耗时</strong></td>
 <td>数天至数月</td>
 <td>毫秒至秒级</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>硬件要求</strong></td>
 <td>多卡集群、高显存</td>
 <td>单卡甚至 CPU 可运行</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>频率</strong></td>
 <td>低频（一次训练，多次复用）</td>
 <td>高频（每次用户请求触发）</td>
 </tr>
-</tbody></table>
-<h3 id="4-2-两者关系示意图"><a href="#4-2-两者关系示意图" class="headerlink" title="4.2 两者关系示意图"></a>4.2 两者关系示意图</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs bash">                    ┌──────────────┐<br>                    │  训练数据集    │<br>                    └──────┬───────┘<br>                           │<br>                           ▼<br>┌──────────────────────────────────────────────┐<br>│              模型训练流水线                    │<br>│                                              │<br>│  预训练 ──→ SFT ──→ RLHF ──→ 模型权重导出     │<br>│                                              │<br>└──────────────────────┬───────────────────────┘<br>                       │<br>                       ▼<br>              ┌──────────────────┐<br>              │  模型权重文件     │<br>              │  (如 .bin/.safetensors) │<br>              └────────┬─────────┘<br>                       │<br>                       ▼<br>┌──────────────────────────────────────────────┐<br>│              模型推理服务                      │<br>│                                              │<br>│  加载权重 ──→ 接收请求 ──→ 前向计算 ──→ 返回结果│<br>│                                              │<br>└──────────────────────────────────────────────┘<br></code></pre></td></tr></table></figure>
-
-<p><strong>关键认知</strong>：</p>
-<ul>
-<li>训练是一次性的投资，推理是持续的服务</li>
-<li>同一个模型可以被无数次调用，但权重只在训练阶段改变</li>
-<li>推理时也可以进行<strong>少量参数更新</strong>（如 LoRA 适配器），但这属于<strong>持续微调</strong>，本质上仍是训练行为</li>
-</ul>
-<h3 id="4-3-工程实践中的常见模式"><a href="#4-3-工程实践中的常见模式" class="headerlink" title="4.3 工程实践中的常见模式"></a>4.3 工程实践中的常见模式</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs">训练阶段（离线，高算力集群）<br>  ├── 基础模型训练（大厂完成）<br>  ├── 领域微调（企业自有数据）<br>  └── 持续更新（线上数据回流）<br><br>调用阶段（在线，低延迟服务）<br>  ├── 单轮推理（普通问答）<br>  ├── 流式输出（打字机效果）<br>  └── 批量处理（离线任务）<br></code></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="五、RAG-与大语言模型的关系"><a href="#五、RAG-与大语言模型的关系" class="headerlink" title="五、RAG 与大语言模型的关系"></a>五、RAG 与大语言模型的关系</h2><p>检索增强生成（Retrieval-Augmented Generation, RAG）是一种<strong>不修改模型权重</strong>的能力增强机制，它与模型训练形成互补关系。</p>
-<h3 id="5-1-核心定位"><a href="#5-1-核心定位" class="headerlink" title="5.1 核心定位"></a>5.1 核心定位</h3><p><strong>RAG ≠ 模型训练</strong>。RAG 是在模型推理时引入外部知识源的架构设计，而非对模型本身的训练或微调。</p>
+</tbody>
+</table>
+<h3 id="两者关系示意图">4.2 两者关系示意图</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs bash">                    ┌──────────────┐<br>                    │  训练数据集    │<br>                    └──────┬───────┘<br>                           │<br>                           ▼<br>┌──────────────────────────────────────────────┐<br>│              模型训练流水线                    │<br>│                                              │<br>│  预训练 ──→ SFT ──→ RLHF ──→ 模型权重导出     │<br>│                                              │<br>└──────────────────────┬───────────────────────┘<br>                       │<br>                       ▼<br>              ┌──────────────────┐<br>              │  模型权重文件     │<br>              │  (如 .bin/.safetensors) │<br>              └────────┬─────────┘<br>                       │<br>                       ▼<br>┌──────────────────────────────────────────────┐<br>│              模型推理服务                      │<br>│                                              │<br>│  加载权重 ──→ 接收请求 ──→ 前向计算 ──→ 返回结果│<br>│                                              │<br>└──────────────────────────────────────────────┘<br></code></pre></td></tr></table></figure>
+<p><strong>关键认知</strong>： - 训练是一次性的投资，推理是持续的服务 -
+同一个模型可以被无数次调用，但权重只在训练阶段改变 -
+推理时也可以进行<strong>少量参数更新</strong>（如 LoRA
+适配器），但这属于<strong>持续微调</strong>，本质上仍是训练行为</p>
+<h3 id="工程实践中的常见模式">4.3 工程实践中的常见模式</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs">训练阶段（离线，高算力集群）<br>  ├── 基础模型训练（大厂完成）<br>  ├── 领域微调（企业自有数据）<br>  └── 持续更新（线上数据回流）<br><br>调用阶段（在线，低延迟服务）<br>  ├── 单轮推理（普通问答）<br>  ├── 流式输出（打字机效果）<br>  └── 批量处理（离线任务）<br></code></pre></td></tr></table></figure>
+<hr />
+<h2 id="五rag-与大语言模型的关系">五、RAG 与大语言模型的关系</h2>
+<p>检索增强生成（Retrieval-Augmented Generation,
+RAG）是一种<strong>不修改模型权重</strong>的能力增强机制，它与模型训练形成互补关系。</p>
+<h3 id="核心定位">5.1 核心定位</h3>
+<p><strong>RAG ≠ 模型训练</strong>。RAG
+是在模型推理时引入外部知识源的架构设计，而非对模型本身的训练或微调。</p>
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">传统 <span class="hljs-keyword">LLM </span>推理：<br>用户提问 ──→ <span class="hljs-keyword">LLM（仅依赖内部知识）──→ </span>回复<br><br>RAG 增强推理：<br>用户提问 ──→ 检索外部知识库 ──→ <span class="hljs-keyword">LLM（参考检索结果）──→ </span>回复<br></code></pre></td></tr></table></figure>
-
-<h3 id="5-2-RAG-工作流程"><a href="#5-2-RAG-工作流程" class="headerlink" title="5.2 RAG 工作流程"></a>5.2 RAG 工作流程</h3><div class="mermaid">flowchart LR
+<h3 id="rag-工作流程">5.2 RAG 工作流程</h3>
+<div class="mermaid">flowchart LR
     A[用户输入] --> B{意图识别}
     B -->|需要外部知识| C[向量检索]
     B -->|无需外部知识| D[直接推理]
@@ -1183,67 +1221,73 @@ true
     end
     
     M -.-> C</div>
-
-<h3 id="5-3-RAG-与训练增强的对比"><a href="#5-3-RAG-与训练增强的对比" class="headerlink" title="5.3 RAG 与训练增强的对比"></a>5.3 RAG 与训练增强的对比</h3><table>
+<h3 id="rag-与训练增强的对比">5.3 RAG 与训练增强的对比</h3>
+<table>
 <thead>
-<tr>
+<tr class="header">
 <th>维度</th>
 <th>RAG</th>
-<th>模型微调（SFT&#x2F;RL）</th>
+<th>模型微调（SFT/RL）</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td><strong>是否修改权重</strong></td>
 <td>❌ 否</td>
 <td>✅ 是</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>知识来源</strong></td>
 <td>外部数据库</td>
 <td>模型内部参数</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>知识更新速度</strong></td>
 <td>即时（增删文档即可）</td>
 <td>慢（需重新训练）</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>幻觉控制</strong></td>
 <td>强（可约束到检索结果）</td>
 <td>弱（依赖训练数据质量）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>计算成本</strong></td>
 <td>低（仅检索 + 推理）</td>
 <td>高（需 GPU 训练）</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>适用场景</strong></td>
 <td>动态知识、私有数据</td>
 <td>固定能力、风格对齐</td>
 </tr>
-</tbody></table>
-<h3 id="5-4-两者协同的最佳实践"><a href="#5-4-两者协同的最佳实践" class="headerlink" title="5.4 两者协同的最佳实践"></a>5.4 两者协同的最佳实践</h3><p>在实际系统中，RAG 与模型训练通常是<strong>分层配合</strong>的关系：</p>
+</tbody>
+</table>
+<h3 id="两者协同的最佳实践">5.4 两者协同的最佳实践</h3>
+<p>在实际系统中，RAG
+与模型训练通常是<strong>分层配合</strong>的关系：</p>
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">┌──────────────────────────────────────────────┐<br>│                应用层                          │<br>│                                               │<br>│  ┌─────────┐    ┌──────────┐    ┌──────────┐ │<br>│  │ 对话系统 │    │ 知识问答  │    │ 代码助手  │ │<br>│  └────┬────┘    └────┬─────┘    └────┬─────┘ │<br>│       │              │               │        │<br>├───────┴──────────────┴───────────────┴────────┤<br>│              能力增强层                        │<br>│                                               │<br>│  ┌─────────────────────┐  ┌─────────────────┐ │<br>│  │ RAG 检索模块         │  │ Tool Calling    │ │<br>│  │ （向量库 + 检索器）   │  │ （API 调用）     │ │<br>│  └──────────┬──────────┘  └────────┬────────┘ │<br>│             │                       │          │<br>├─────────────┴───────────────────────┴──────────┤<br>│              模型推理层                         │<br>│                                               │<br>│  ┌──────────────────────────────────────────┐  │<br>│  │  <span class="hljs-keyword">LLM </span>推理引擎                              │  │<br>│  │  （加载 Aligned 模型权重）                  │  │<br>│  └──────────────────────────────────────────┘  │<br>│                                               │<br>├────────────────────────────────────────────────┤<br>│              模型训练层                         │<br>│                                               │<br>│  ┌──────────┐  ┌──────┐  ┌──────┐            │<br>│  │ 预训练    │  │ SFT  │  │ RLHF │            │<br>│  └──────────┘  └──────┘  └──────┘            │<br>└────────────────────────────────────────────────┘<br></code></pre></td></tr></table></figure>
-
-<p><strong>关键结论</strong>：</p>
-<ul>
-<li><strong>RAG 解决的是知识的时效性和专有性问题</strong>，让模型不必记住所有知识</li>
-<li><strong>训练解决的是模型的底层能力和行为对齐问题</strong>，这是 RAG 无法替代的</li>
-<li>最佳实践是：<strong>用训练打造一个强大的基础模型，用 RAG 为其注入实时和私有的知识</strong></li>
-</ul>
-<hr>
-<h2 id="六、全文总结"><a href="#六、全文总结" class="headerlink" title="六、全文总结"></a>六、全文总结</h2><h3 id="五句话记住本文核心"><a href="#五句话记住本文核心" class="headerlink" title="五句话记住本文核心"></a>五句话记住本文核心</h3><ol>
+<p><strong>关键结论</strong>： - <strong>RAG
+解决的是知识的时效性和专有性问题</strong>，让模型不必记住所有知识 -
+<strong>训练解决的是模型的底层能力和行为对齐问题</strong>，这是 RAG
+无法替代的 - 最佳实践是：<strong>用训练打造一个强大的基础模型，用 RAG
+为其注入实时和私有的知识</strong></p>
+<hr />
+<h2 id="六全文总结">六、全文总结</h2>
+<h3 id="五句话记住本文核心">五句话记住本文核心</h3>
+<ol type="1">
 <li><strong>预训练</strong>让模型学会语言规律，产出 Base 模型</li>
 <li><strong>SFT</strong> 让模型学会遵循指令，产出 Instruct 模型</li>
 <li><strong>RLHF</strong> 让模型学会人类偏好，产出 Aligned 模型</li>
 <li><strong>训练是离线的一次性投入，调用是在线的持续性服务</strong></li>
-<li><strong>RAG 不修改模型权重，而是在推理时为模型补充外部知识</strong></li>
+<li><strong>RAG
+不修改模型权重，而是在推理时为模型补充外部知识</strong></li>
 </ol>
-<h3 id="完整生命周期总览"><a href="#完整生命周期总览" class="headerlink" title="完整生命周期总览"></a>完整生命周期总览</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs routeros">原始数据 ──→ 预训练 ──→ SFT ──→ RLHF ──→ 模型部署 ──→ 推理服务<br>                                                        │<br>                                                   ┌────┴────┐<br>                                                   │  RAG     │<br>                                                   │ <span class="hljs-built_in"> Tool </span>   │<br>                                                   │  Memory  │<br>                                                   └─────────┘<br></code></pre></td></tr></table></figure>
-
-<hr>
-<p><em>作者注：本文所述流程适用于 GPT-4、Claude、LLaMA 等主流大语言模型。具体实现细节因模型架构和厂商策略而异，建议以各模型官方技术报告为准。</em></p>
+<h3 id="完整生命周期总览">完整生命周期总览</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs routeros">原始数据 ──→ 预训练 ──→ SFT ──→ RLHF ──→ 模型部署 ──→ 推理服务<br>                                                        │<br>                                                   ┌────┴────┐<br>                                                   │  RAG     │<br>                                                   │ <span class="hljs-built_in"> Tool </span>   │<br>                                                   │  Memory  │<br>                                                   └─────────┘<br></code></pre></td></tr></table></figure>
+<hr />
+<p><em>作者注：本文所述流程适用于 GPT-4、Claude、LLaMA
+等主流大语言模型。具体实现细节因模型架构和厂商策略而异，建议以各模型官方技术报告为准。</em></p>
 
                 
               </div>
@@ -1436,6 +1480,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1653,6 +1703,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

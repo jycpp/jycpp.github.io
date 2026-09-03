@@ -19,15 +19,15 @@
   <meta name="author" content="Jet Yan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操在AI编程与自动化设计落地场景中，很多开发者都会混淆三个核心概念：Agent智能体、MCP工具协议、Skill技能规则。尤其在借助CodeBuddy + Pencil（Pen）实现自然语言自动绘制产品原型的场景中，三者分工不同、层层联动，缺一不可，但又并非强制绑定。 本文将以「macOS + CodeBuddy">
+    <meta name="description" content="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操 在AI编程与自动化设计落地场景中，很多开发者都会混淆三个核心概念：Agent智能体、MCP工具协议、Skill技能规则。尤其在借助CodeBuddy + Pencil（Pen）实现自然语言自动绘制产品原型的场景中，三者分工不同、层层联动，缺一不可，但又并非强制绑定。 本文将以「macOS + CodeBudd">
 <meta property="og:type" content="article">
 <meta property="og:title" content="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操">
 <meta property="og:url" content="https://jycpp.github.io/2026/26-08-02-MCP%E5%92%8C%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%A6%82%E4%BD%95%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C.html">
 <meta property="og:site_name" content="Jet C++ Blog">
-<meta property="og:description" content="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操在AI编程与自动化设计落地场景中，很多开发者都会混淆三个核心概念：Agent智能体、MCP工具协议、Skill技能规则。尤其在借助CodeBuddy + Pencil（Pen）实现自然语言自动绘制产品原型的场景中，三者分工不同、层层联动，缺一不可，但又并非强制绑定。 本文将以「macOS + CodeBuddy">
+<meta property="og:description" content="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操 在AI编程与自动化设计落地场景中，很多开发者都会混淆三个核心概念：Agent智能体、MCP工具协议、Skill技能规则。尤其在借助CodeBuddy + Pencil（Pen）实现自然语言自动绘制产品原型的场景中，三者分工不同、层层联动，缺一不可，但又并非强制绑定。 本文将以「macOS + CodeBudd">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-08-02T17:31:04.000Z">
-<meta property="article:modified_time" content="2026-09-02T08:38:20.109Z">
+<meta property="article:modified_time" content="2026-09-03T02:42:05.669Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="AI Agent">
 <meta property="article:tag" content="MCP协议">
@@ -984,21 +984,28 @@ true
             
               <div class="markdown-body">
                 
-                <h1 id="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操"><a href="#彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操" class="headerlink" title="彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操"></a>彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操</h1><p>在AI编程与自动化设计落地场景中，很多开发者都会混淆三个核心概念：<strong>Agent智能体、MCP工具协议、Skill技能规则</strong>。尤其在借助CodeBuddy + Pencil（Pen）实现<strong>自然语言自动绘制产品原型</strong>的场景中，三者分工不同、层层联动，缺一不可，但又并非强制绑定。</p>
-<p>本文将以「macOS + CodeBuddy + Pencil自动画原型」为真实落地案例，从零讲透三者的本质区别、依赖关系、运行链路，同时拆解核心实操要点，解决绝大多数人遇到的MCP连接报错、工具调用失效、AI无法自动绘图等问题。</p>
-<h2 id="一、先破误区：没有Skill，MCP-Agent也能干活？"><a href="#一、先破误区：没有Skill，MCP-Agent也能干活？" class="headerlink" title="一、先破误区：没有Skill，MCP+Agent也能干活？"></a>一、先破误区：没有Skill，MCP+Agent也能干活？</h2><p>很多开发者的核心疑问：<strong>Skill是必需的吗？能不能直接靠MCP配置 + AI Agent实现自动绘图？</strong></p>
+                <h1
+id="彻底打通ai自动绘图mcpskillagent核心原理与pencil原型自动化实操">彻底打通AI自动绘图：MCP、Skill、Agent核心原理与Pencil原型自动化实操</h1>
+<p>在AI编程与自动化设计落地场景中，很多开发者都会混淆三个核心概念：<strong>Agent智能体、MCP工具协议、Skill技能规则</strong>。尤其在借助CodeBuddy
++
+Pencil（Pen）实现<strong>自然语言自动绘制产品原型</strong>的场景中，三者分工不同、层层联动，缺一不可，但又并非强制绑定。</p>
+<p>本文将以「macOS + CodeBuddy +
+Pencil自动画原型」为真实落地案例，从零讲透三者的本质区别、依赖关系、运行链路，同时拆解核心实操要点，解决绝大多数人遇到的MCP连接报错、工具调用失效、AI无法自动绘图等问题。</p>
+<h2
+id="一先破误区没有skillmcpagent也能干活">一、先破误区：没有Skill，MCP+Agent也能干活？</h2>
+<p>很多开发者的核心疑问：<strong>Skill是必需的吗？能不能直接靠MCP配置 +
+AI Agent实现自动绘图？</strong></p>
 <p>给出明确结论：<strong>技术层面完全可行，工程层面绝不推荐</strong>。</p>
 <p>简单来说：</p>
 <ul>
-<li><p><strong>MCP</strong>：负责打通本地软件的通信通道，是「工具硬件驱动」；</p>
-</li>
-<li><p><strong>Agent</strong>：负责理解需求、调度工具、多步执行，是「执行大脑」；</p>
-</li>
-<li><p><strong>Skill</strong>：负责固化业务规则、权限白名单、执行流程，是「标准化操作手册」。</p>
-</li>
+<li><p><strong>MCP</strong>：负责打通本地软件的通信通道，是「工具硬件驱动」；</p></li>
+<li><p><strong>Agent</strong>：负责理解需求、调度工具、多步执行，是「执行大脑」；</p></li>
+<li><p><strong>Skill</strong>：负责固化业务规则、权限白名单、执行流程，是「标准化操作手册」。</p></li>
 </ul>
 <p>无Skill时，我们可以通过超长提示词告诉AI如何调用Pencil的MCP工具，完成原型绘制；但有了Skill，能让整个自动化流程<strong>稳定、可复用、可管控、低损耗</strong>。</p>
-<h2 id="二、三大核心概念深度拆解（Pencil实战场景版）"><a href="#二、三大核心概念深度拆解（Pencil实战场景版）" class="headerlink" title="二、三大核心概念深度拆解（Pencil实战场景版）"></a>二、三大核心概念深度拆解（Pencil实战场景版）</h2><p>为直观理清四者协作逻辑，先通过时序图完整还原「自然语言指令输入到原型绘制完成」的全链路工作过程，清晰呈现各角色的调用时序、职责分工和联动关系：</p>
+<h2
+id="二三大核心概念深度拆解pencil实战场景版">二、三大核心概念深度拆解（Pencil实战场景版）</h2>
+<p>为直观理清四者协作逻辑，先通过时序图完整还原「自然语言指令输入到原型绘制完成」的全链路工作过程，清晰呈现各角色的调用时序、职责分工和联动关系：</p>
 <div class="mermaid">sequenceDiagram
     autonumber
     User->>Agent: 输入自然语言绘图需求（如绘制登录页原型）
@@ -1010,73 +1017,97 @@ true
     Pencil客户端-->>MCP Server: 返回绘图执行结果
     MCP Server-->>Agent: 回传工具调用结果与原型文件信息
     Agent-->>User: 整理结果，输出原型预览与文件路径</div>
-
 <p>时序图核心逻辑：<strong>Skill负责定规则、MCP负责通通信、Agent负责做调度、Pencil负责落地执行</strong>，四者各司其职，构成完整的AI自动绘图闭环。下面对每个核心组件进行深度拆解：</p>
-<h3 id="1-MCP（Model-Context-Protocol）：本地工具的标准化通信层"><a href="#1-MCP（Model-Context-Protocol）：本地工具的标准化通信层" class="headerlink" title="1. MCP（Model Context Protocol）：本地工具的标准化通信层"></a>1. MCP（Model Context Protocol）：本地工具的标准化通信层</h3><p><strong>本质定义</strong>：MCP是一套AI与本地应用通信的标准化协议，核心作用是<strong>让大模型能够远程操控本地桌面软件、本地文件、本地服务</strong>。</p>
+<h3 id="mcpmodel-context-protocol本地工具的标准化通信层">1. MCP（Model
+Context Protocol）：本地工具的标准化通信层</h3>
+<p><strong>本质定义</strong>：MCP是一套AI与本地应用通信的标准化协议，核心作用是<strong>让大模型能够远程操控本地桌面软件、本地文件、本地服务</strong>。</p>
 <p>大模型本身是云端AI，无法直接读取、操作本地macOS上的Pencil软件，而Pencil官方提供的<code>mcp-server-darwin-arm64</code>程序，就是专属MCP服务端。</p>
 <p><strong>在原型自动化中的核心能力</strong>：</p>
 <ul>
-<li><p>打通CodeBuddy与Pencil桌面端的双向通信；</p>
-</li>
-<li><p>向外暴露标准化工具接口：创建画布、添加按钮、输入框、保存文件、导出截图等；</p>
-</li>
-<li><p>转发AI的调用指令，接收Pencil的执行结果并回传给大模型。</p>
-</li>
+<li><p>打通CodeBuddy与Pencil桌面端的双向通信；</p></li>
+<li><p>向外暴露标准化工具接口：创建画布、添加按钮、输入框、保存文件、导出截图等；</p></li>
+<li><p>转发AI的调用指令，接收Pencil的执行结果并回传给大模型。</p></li>
 </ul>
 <p><strong>核心特性</strong>：MCP只有通信能力，<strong>完全没有业务逻辑</strong>。它不知道什么是登录页、什么是首页原型，只负责执行「创建组件、修改布局、保存文件」等基础指令。</p>
 <p><strong>本次实战标准可用MCP配置（官方标准）</strong></p>
 <figure class="highlight plaintext"><figcaption><span>Text</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs Plain">&#123;<br>  &quot;mcpServers&quot;: &#123;<br>    &quot;pencil-desktop&quot;: &#123;<br>      &quot;type&quot;: &quot;stdio&quot;,<br>      &quot;command&quot;: &quot;/Applications/Pen.app/Contents/Resources/app.asar.unpacked/out/mcp-server-darwin-arm64&quot;,<br>      &quot;args&quot;: [&quot;--app&quot;, &quot;desktop&quot;],<br>      &quot;env&quot;: &#123;&#125;<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>❗ 高频报错根源：缺少 <code>[&quot;--app&quot;, &quot;desktop&quot;]</code> 启动参数，会直接触发 <code>MCP error -32000: Connection closed app connection is required</code>，导致MCP网关无法关联Pencil桌面端。</p>
-<h3 id="2-Agent（智能体）：整个自动化流程的调度中枢"><a href="#2-Agent（智能体）：整个自动化流程的调度中枢" class="headerlink" title="2. Agent（智能体）：整个自动化流程的调度中枢"></a>2. Agent（智能体）：整个自动化流程的调度中枢</h3><p><strong>本质定义</strong>：Agent是CodeBuddy内置的<strong>AI任务调度执行引擎</strong>，是串联用户需求、MCP工具、业务规则的核心主体，所有工具调用动作都由Agent发起。</p>
+<p>❗ 高频报错根源：缺少 <code>["--app", "desktop"]</code>
+启动参数，会直接触发
+<code>MCP error -32000: Connection closed app connection is required</code>，导致MCP网关无法关联Pencil桌面端。</p>
+<h3 id="agent智能体整个自动化流程的调度中枢">2.
+Agent（智能体）：整个自动化流程的调度中枢</h3>
+<p><strong>本质定义</strong>：Agent是CodeBuddy内置的<strong>AI任务调度执行引擎</strong>，是串联用户需求、MCP工具、业务规则的核心主体，所有工具调用动作都由Agent发起。</p>
 <p><strong>核心工作逻辑</strong>：</p>
 <ul>
-<li><p>接收用户自然语言需求（如“绘制登录页面原型”）；</p>
-</li>
-<li><p>读取上下文规则（用户提示词 &#x2F; Skill规则）；</p>
-</li>
-<li><p>判断需要调用哪些MCP工具、按什么顺序执行；</p>
-</li>
-<li><p>完成多轮循环调用、错误重试、结果整理；</p>
-</li>
-<li><p>最终返回执行结果给用户。</p>
-</li>
+<li><p>接收用户自然语言需求（如“绘制登录页面原型”）；</p></li>
+<li><p>读取上下文规则（用户提示词 / Skill规则）；</p></li>
+<li><p>判断需要调用哪些MCP工具、按什么顺序执行；</p></li>
+<li><p>完成多轮循环调用、错误重试、结果整理；</p></li>
+<li><p>最终返回执行结果给用户。</p></li>
 </ul>
 <p><strong>关键认知</strong>：<strong>Agent是唯一会“调用MCP”的角色</strong>。MCP只会被动等待调用，Skill只会提供规则约束，没有Agent就没有自动化多步执行能力。</p>
-<h3 id="3-Skill（技能规则）：AI工具调用的标准化剧本"><a href="#3-Skill（技能规则）：AI工具调用的标准化剧本" class="headerlink" title="3. Skill（技能规则）：AI工具调用的标准化剧本"></a>3. Skill（技能规则）：AI工具调用的标准化剧本</h3><p><strong>本质定义</strong>：Skill是CodeBuddy专属的<strong>结构化规则文档</strong>，无任何执行能力，仅负责「权限管控+业务固化+提示词优化」，是对Agent行为的标准化约束。</p>
+<h3 id="skill技能规则ai工具调用的标准化剧本">3.
+Skill（技能规则）：AI工具调用的标准化剧本</h3>
+<p><strong>本质定义</strong>：Skill是CodeBuddy专属的<strong>结构化规则文档</strong>，无任何执行能力，仅负责「权限管控+业务固化+提示词优化」，是对Agent行为的标准化约束。</p>
 <p>很多人误解Skill是工具驱动，实际它只做两件核心事：</p>
-<h4 id="（1）工具白名单绑定（Skill关联MCP的核心关键）"><a href="#（1）工具白名单绑定（Skill关联MCP的核心关键）" class="headerlink" title="（1）工具白名单绑定（Skill关联MCP的核心关键）"></a>（1）工具白名单绑定（Skill关联MCP的核心关键）</h4><p>通过 <code>tools: [&quot;pencil-desktop/*&quot;]</code> 配置，授权Agent当前任务可调用Pencil的全部MCP工具，实现<strong>工具权限隔离</strong>，避免AI乱调用其他MCP服务。</p>
-<h4 id="（2）固化业务执行流程"><a href="#（2）固化业务执行流程" class="headerlink" title="（2）固化业务执行流程"></a>（2）固化业务执行流程</h4><p>将原型绘制的固定流程（建画布→加页面框架→添加组件→保存文件→导出截图）、命名规范、存储路径、约束规则永久沉淀，无需每次对话重复输入长提示词。</p>
-<h2 id="三、两种落地模式对比：无Skill纯提示词-VS-有Skill标准化"><a href="#三、两种落地模式对比：无Skill纯提示词-VS-有Skill标准化" class="headerlink" title="三、两种落地模式对比：无Skill纯提示词 VS 有Skill标准化"></a>三、两种落地模式对比：无Skill纯提示词 VS 有Skill标准化</h2><h3 id="模式一：跳过Skill，纯提示词-Agent-MCP（临时调试可用）"><a href="#模式一：跳过Skill，纯提示词-Agent-MCP（临时调试可用）" class="headerlink" title="模式一：跳过Skill，纯提示词+Agent+MCP（临时调试可用）"></a>模式一：跳过Skill，纯提示词+Agent+MCP（临时调试可用）</h3><p><strong>执行链路</strong>：用户输入长提示词 → Agent解读规则 → 直接调用Pencil MCP工具 → 完成绘图</p>
+<h4
+id="工具白名单绑定skill关联mcp的核心关键">（1）工具白名单绑定（Skill关联MCP的核心关键）</h4>
+<p>通过 <code>tools: ["pencil-desktop/*"]</code>
+配置，授权Agent当前任务可调用Pencil的全部MCP工具，实现<strong>工具权限隔离</strong>，避免AI乱调用其他MCP服务。</p>
+<h4 id="固化业务执行流程">（2）固化业务执行流程</h4>
+<p>将原型绘制的固定流程（建画布→加页面框架→添加组件→保存文件→导出截图）、命名规范、存储路径、约束规则永久沉淀，无需每次对话重复输入长提示词。</p>
+<h2
+id="三两种落地模式对比无skill纯提示词-vs-有skill标准化">三、两种落地模式对比：无Skill纯提示词
+VS 有Skill标准化</h2>
+<h3
+id="模式一跳过skill纯提示词agentmcp临时调试可用">模式一：跳过Skill，纯提示词+Agent+MCP（临时调试可用）</h3>
+<p><strong>执行链路</strong>：用户输入长提示词 → Agent解读规则 →
+直接调用Pencil MCP工具 → 完成绘图</p>
 <p><strong>实操测试指令（可直接复制使用）</strong></p>
-<p>你拥有pencil-desktop的全部MCP工具，请严格按照以下流程执行：1.调用create_design创建空白画布；2.添加页面Frame布局；3.添加账号输入框、密码输入框、登录按钮；4.将文件保存到 .&#x2F;design&#x2F;login.pen；5.导出页面截图。现在帮我完成登录页面原型绘制。</p>
+<p>你拥有pencil-desktop的全部MCP工具，请严格按照以下流程执行：1.调用create_design创建空白画布；2.添加页面Frame布局；3.添加账号输入框、密码输入框、登录按钮；4.将文件保存到
+./design/login.pen；5.导出页面截图。现在帮我完成登录页面原型绘制。</p>
 <p><strong>优缺点</strong></p>
 <p>✅ 优点：无需配置Skill，快速验证MCP链路是否通畅，适合调试阶段；</p>
-<p>❌ 缺点：上下文冗余、AI容易遗忘流程、不可复用、无权限管控、复杂原型极易出错。</p>
-<h3 id="模式二：Skill-Agent-MCP（正式工程落地首选）"><a href="#模式二：Skill-Agent-MCP（正式工程落地首选）" class="headerlink" title="模式二：Skill+Agent+MCP（正式工程落地首选）"></a>模式二：Skill+Agent+MCP（正式工程落地首选）</h3><p><strong>执行链路</strong>：用户简单提问 → 自动激活Pencil专属Skill → Skill注入规则+工具白名单 → Agent按标准化流程调度MCP → 自动绘制原型</p>
+<p>❌
+缺点：上下文冗余、AI容易遗忘流程、不可复用、无权限管控、复杂原型极易出错。</p>
+<h3
+id="模式二skillagentmcp正式工程落地首选">模式二：Skill+Agent+MCP（正式工程落地首选）</h3>
+<p><strong>执行链路</strong>：用户简单提问 → 自动激活Pencil专属Skill →
+Skill注入规则+工具白名单 → Agent按标准化流程调度MCP → 自动绘制原型</p>
 <p><strong>核心优势</strong>：</p>
 <ul>
-<li><p>极简对话：用户只需说“画一个移动端个人中心原型”，无需赘述流程；</p>
-</li>
-<li><p>高度稳定：固化流程避免AI自由发挥导致的漏步骤、参数错误；</p>
-</li>
-<li><p>权限安全：隔离其他MCP工具，避免误调用系统、文件、数据库工具；</p>
-</li>
-<li><p>永久复用：一次配置，全局所有对话窗口生效。</p>
-</li>
+<li><p>极简对话：用户只需说“画一个移动端个人中心原型”，无需赘述流程；</p></li>
+<li><p>高度稳定：固化流程避免AI自由发挥导致的漏步骤、参数错误；</p></li>
+<li><p>权限安全：隔离其他MCP工具，避免误调用系统、文件、数据库工具；</p></li>
+<li><p>永久复用：一次配置，全局所有对话窗口生效。</p></li>
 </ul>
-<h2 id="四、Pencil自动绘图完整标准工作流（零报错版）"><a href="#四、Pencil自动绘图完整标准工作流（零报错版）" class="headerlink" title="四、Pencil自动绘图完整标准工作流（零报错版）"></a>四、Pencil自动绘图完整标准工作流（零报错版）</h2><p>结合三者联动逻辑，整理出macOS下唯一稳定的落地流程，彻底解决连接关闭、无应用连接等报错：</p>
-<h3 id="步骤1：清理残留进程，避免端口冲突"><a href="#步骤1：清理残留进程，避免端口冲突" class="headerlink" title="步骤1：清理残留进程，避免端口冲突"></a>步骤1：清理残留进程，避免端口冲突</h3><figure class="highlight plaintext"><figcaption><span>Text</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Plain">pkill -f Pen.app<br>pkill -f mcp-server-darwin-arm64<br></code></pre></td></tr></table></figure>
-
-<h3 id="步骤2：启动Pencil桌面端（时序优先级最高）"><a href="#步骤2：启动Pencil桌面端（时序优先级最高）" class="headerlink" title="步骤2：启动Pencil桌面端（时序优先级最高）"></a>步骤2：启动Pencil桌面端（时序优先级最高）</h3><p>1. 打开 Pen.app，完成账号登录与邮箱激活；</p>
+<h2
+id="四pencil自动绘图完整标准工作流零报错版">四、Pencil自动绘图完整标准工作流（零报错版）</h2>
+<p>结合三者联动逻辑，整理出macOS下唯一稳定的落地流程，彻底解决连接关闭、无应用连接等报错：</p>
+<h3
+id="步骤1清理残留进程避免端口冲突">步骤1：清理残留进程，避免端口冲突</h3>
+<figure class="highlight plaintext"><figcaption><span>Text</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Plain">pkill -f Pen.app<br>pkill -f mcp-server-darwin-arm64<br></code></pre></td></tr></table></figure>
+<h3
+id="步骤2启动pencil桌面端时序优先级最高">步骤2：启动Pencil桌面端（时序优先级最高）</h3>
+<p>1. 打开 Pen.app，完成账号登录与邮箱激活；</p>
 <p>2. 新建空白.pen文件，保持软件前台运行（最小化可行，不可关闭）；</p>
 <p>3. 等待AI Integration通道就绪，确保内部WebSocket连接正常。</p>
-<h3 id="步骤3：配置标准Pencil-MCP服务"><a href="#步骤3：配置标准Pencil-MCP服务" class="headerlink" title="步骤3：配置标准Pencil MCP服务"></a>步骤3：配置标准Pencil MCP服务</h3><p>在CodeBuddy MCP配置面板粘贴官方完整配置，必填 <code>--app desktop</code> 参数。</p>
-<h3 id="步骤4：配置Pencil原型绘制Skill"><a href="#步骤4：配置Pencil原型绘制Skill" class="headerlink" title="步骤4：配置Pencil原型绘制Skill"></a>步骤4：配置Pencil原型绘制Skill</h3><p>在项目 <code>.codebuddy/skills/pencil-proto/SKILL.md</code> 配置工具白名单与标准化绘图流程，绑定 <code>pencil-desktop</code> MCP服务。</p>
-<h3 id="步骤5：发起自然语言指令，AI全自动绘图"><a href="#步骤5：发起自然语言指令，AI全自动绘图" class="headerlink" title="步骤5：发起自然语言指令，AI全自动绘图"></a>步骤5：发起自然语言指令，AI全自动绘图</h3><p>用户简单提问，Agent自动读取Skill规则，分步调用MCP工具，完成原型创建、组件布局、文件保存、截图导出全流程。</p>
-<h2 id="五、核心概念最终总结表"><a href="#五、核心概念最终总结表" class="headerlink" title="五、核心概念最终总结表"></a>五、核心概念最终总结表</h2><table>
+<h3 id="步骤3配置标准pencil-mcp服务">步骤3：配置标准Pencil MCP服务</h3>
+<p>在CodeBuddy MCP配置面板粘贴官方完整配置，必填
+<code>--app desktop</code> 参数。</p>
+<h3
+id="步骤4配置pencil原型绘制skill">步骤4：配置Pencil原型绘制Skill</h3>
+<p>在项目 <code>.codebuddy/skills/pencil-proto/SKILL.md</code>
+配置工具白名单与标准化绘图流程，绑定 <code>pencil-desktop</code>
+MCP服务。</p>
+<h3
+id="步骤5发起自然语言指令ai全自动绘图">步骤5：发起自然语言指令，AI全自动绘图</h3>
+<p>用户简单提问，Agent自动读取Skill规则，分步调用MCP工具，完成原型创建、组件布局、文件保存、截图导出全流程。</p>
+<h2 id="五核心概念最终总结表">五、核心概念最终总结表</h2>
+<table>
+
 <thead>
-<tr>
+<tr class="header">
 <th>核心组件</th>
 <th>本质</th>
 <th>是否运行必需</th>
@@ -1084,31 +1115,37 @@ true
 <th>Pencil场景职责</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>MCP</td>
-<td>本地通信服务&#x2F;驱动</td>
+<td>本地通信服务/驱动</td>
 <td>✅ 必需</td>
 <td>打通AI与本地软件的调用通道，暴露工具接口</td>
 <td>连接CodeBuddy与Pen.app，传递绘图指令</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Agent</td>
 <td>AI调度执行引擎</td>
 <td>✅ 必需</td>
 <td>理解需求、编排流程、调用工具、迭代执行</td>
 <td>根据用户需求和规则，自动分步调用绘图工具</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Skill</td>
 <td>规则文档+权限配置</td>
 <td>❌ 非必需</td>
 <td>固化业务流程、隔离工具权限、优化AI行为</td>
 <td>标准化原型绘制规范，简化用户指令，提升稳定性</td>
 </tr>
-</tbody></table>
-<h2 id="六、写在最后：工程落地核心认知"><a href="#六、写在最后：工程落地核心认知" class="headerlink" title="六、写在最后：工程落地核心认知"></a>六、写在最后：工程落地核心认知</h2><p>1. <strong>MCP解决「能不能调用」</strong>：打通本地软件壁垒，让AI有操作Pencil的能力；</p>
-<p>2. <strong>Agent解决「怎么调用」</strong>：智能拆解任务，多轮自动执行复杂绘图流程；</p>
-<p>3. <strong>Skill解决「调用得稳、调用得规范」</strong>：把临时提示词变成可落地、可复用的工程能力。</p>
+</tbody>
+</table>
+<h2 id="六写在最后工程落地核心认知">六、写在最后：工程落地核心认知</h2>
+<p>1.
+<strong>MCP解决「能不能调用」</strong>：打通本地软件壁垒，让AI有操作Pencil的能力；</p>
+<p>2.
+<strong>Agent解决「怎么调用」</strong>：智能拆解任务，多轮自动执行复杂绘图流程；</p>
+<p>3.
+<strong>Skill解决「调用得稳、调用得规范」</strong>：把临时提示词变成可落地、可复用的工程能力。</p>
 <p>三者配合，才真正实现了<strong>自然语言一键生成、迭代、导出产品原型</strong>的AI自动化设计能力，也是目前本地AI工具落地的标准范式。</p>
 
                 
@@ -1302,6 +1339,12 @@ true
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1519,6 +1562,49 @@ true
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
