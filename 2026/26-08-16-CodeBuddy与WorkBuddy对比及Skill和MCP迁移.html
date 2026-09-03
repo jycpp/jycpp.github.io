@@ -27,7 +27,7 @@
 <meta property="og:description" content="本文基于实际目录比对与配置核查整理，沉淀 CodeBuddy（JetBrains&#x2F;PyCharm 插件）与 WorkBuddy（独立 AI 助手）在产品形态、Skill 与 MCP 存储&#x2F;配置上的异同，并给出从 CodeBuddy 向 WorkBuddy 迁移 Skills 与 MCP 的可复用流程。   一、产品定位对比     维度 CodeBuddy WorkBuddy     产品形态">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-08-16T14:32:45.000Z">
-<meta property="article:modified_time" content="2026-09-03T02:42:05.670Z">
+<meta property="article:modified_time" content="2026-09-03T03:00:49.781Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="配置">
 <meta property="article:tag" content="Skill">
@@ -258,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          1.4k 字
         
       </span>
     
@@ -1476,20 +1476,29 @@ Skill 与 MCP 约定高度一致，这是下文“可互通”的根本原因。
 </tbody>
 </table>
 <h3 id="存储路径示意mermaid">2.2 存储路径示意（Mermaid）</h3>
-<div class="mermaid">flowchart LR
-    subgraph CB["CodeBuddy  ~/.codebuddy"]
+<div class="mermaid">---
+config:
+  theme: forest
+  look: handDrawn
+---
+flowchart LR
+    subgraph CB["CodeBuddy"]
+        CB_M["~/.codebuddy"]
         CB_S["skills/<name>/SKILL.md"]
         CB_R["skills/<name>/references"]
         CB_SC["skills/<name>/scripts"]
         CB_A["skills/<name>/assets"]
     end
-    subgraph WB["WorkBuddy  ~/.workbuddy"]
+    subgraph WB["WorkBuddy"]
+        WB_M["~/.workbuddy"]
         WB_S["skills/<name>/SKILL.md"]
         WB_R["skills/<name>/references"]
         WB_SC["skills/<name>/scripts"]
         WB_A["skills/<name>/assets"]
     end
-    CB_S -->|格式一致 可直接复制| WB_S
+    
+    CB_M --> |配置目录名称有区别|WB_M
+    CB_S -->|格式等都一致 可直接复制| WB_S
     CB_R --> WB_R
     CB_SC --> WB_SC
     CB_A --> WB_A</div>
@@ -1537,7 +1546,12 @@ Skill 与 MCP 约定高度一致，这是下文“可互通”的根本原因。
 </tbody>
 </table>
 <h3 id="配置结构示意mermaid">3.2 配置结构示意（Mermaid）</h3>
-<div class="mermaid">flowchart TD
+<div class="mermaid">---
+config:
+  theme: neutral
+  look: handDrawn
+---
+flowchart TD
     subgraph File["mcp.json"]
         KEY["mcpServers"]
         S1["serverA: {type, command, args, env}"]
@@ -1568,7 +1582,12 @@ id="四为什么可以互通兼容性根因">四、为什么可以互通（兼�
 服务器字段（<code>type</code>/<code>command</code>/<code>args</code>/<code>env</code>）完全一致。</li>
 </ul>
 <p>因此迁移是“复制 + 合并”，而非“转换”。</p>
-<div class="mermaid">mindmap
+<div class="mermaid">---
+config:
+  theme: forest
+  look: handDrawn
+---
+mindmap
   root((CodeBuddy⇄WorkBuddy))
     产品对比
       IDE插件 vs 独立应用
@@ -1599,7 +1618,12 @@ id="四为什么可以互通兼容性根因">四、为什么可以互通（兼�
 <h2 id="五从-codebuddy-迁移到-workbuddy-的流程">五、从 CodeBuddy 迁移到
 WorkBuddy 的流程</h2>
 <h3 id="流程图mermaid">5.1 流程图（Mermaid）</h3>
-<div class="mermaid">flowchart TD
+<div class="mermaid">---
+config:
+  theme: forest
+  look: handDrawn
+---
+flowchart TD
     A[开始迁移] --> B[兼容性确认<br/>目录与格式核对]
     B --> C{选择导入范围}
     C -->|Skills| D[复制 ~/.codebuddy/skills/&lt;name&gt;<br/>→ ~/.workbuddy/skills/&lt;name&gt;]
