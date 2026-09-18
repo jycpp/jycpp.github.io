@@ -247,6 +247,8 @@
     
     <tags>
       
+      <tag>Markdown</tag>
+      
       <tag>Hexo</tag>
       
       <tag>LaTeX</tag>
@@ -256,8 +258,6 @@
       <tag>Pandoc</tag>
       
       <tag>MathJax</tag>
-      
-      <tag>Markdown</tag>
       
       <tag>GitHub Pages</tag>
       
@@ -294,6 +294,8 @@
       
       <tag>Kotlin</tag>
       
+      <tag>Swift</tag>
+      
       <tag>C++</tag>
       
       <tag>大端</tag>
@@ -307,8 +309,6 @@
       <tag>Socket通信</tag>
       
       <tag>网络传输</tag>
-      
-      <tag>Swift</tag>
       
       <tag>uniApp</tag>
       
@@ -337,6 +337,8 @@
     
     <tags>
       
+      <tag>配置</tag>
+      
       <tag>Skill</tag>
       
       <tag>CodeBuddy</tag>
@@ -346,8 +348,6 @@
       <tag>MCP</tag>
       
       <tag>迁移</tag>
-      
-      <tag>配置</tag>
       
       <tag>腾讯</tag>
       
@@ -542,7 +542,7 @@
     <link href="/2026/26-07-18-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%B0%E4%BB%93%E5%AD%98%E5%82%A8%E4%B8%8E%E6%9F%A5%E8%AF%A2%E9%93%BE%E8%B7%AF%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93.html"/>
     <url>/2026/26-07-18-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%B0%E4%BB%93%E5%AD%98%E5%82%A8%E4%B8%8E%E6%9F%A5%E8%AF%A2%E9%93%BE%E8%B7%AF%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93.html</url>
     
-    <content type="html"><![CDATA[<h1id="大数据数仓存储与查询链路技术总结文档">大数据数仓存储与查询链路技术总结文档</h1><p>本文梳理Hive元数据、SparkSQL、Trino、Doris、Parquet等常用组件的调用链路，区分不同业务场景下的架构差异，用于帮助对大数据技术不熟悉的小伙伴理解组件分层。</p><p><a href="/html/从MySQL到Spark实战教程.html">从MySQL开发到Spark实战 ·思维转换与入门教程</a></p><p><a href="/html/数仓整体系统架构图.html">数仓整体系统架构图</a></p><blockquote><p>文档约定：</p><ol type="1"><li>分层固定为三层：<strong>计算引擎层、元数据层、存储层</strong>；</li><li>每个场景独立流程图，只保留场景内用到组件，剔除无关内容，避免图面复杂；</li><li>本文档暂不深入湖仓一体的大量优化细节，重点区分【裸文件Hive表】与【Iceberg表】的本质差异。</li></ol></blockquote><h2 id="名词解释">1 名词解释</h2><table><thead><tr class="header"><th>名词</th><th>释义</th></tr></thead><tbody><tr class="odd"><td>计算引擎</td><td>负责解析SQL、生成执行计划、执行过滤/聚合/关联计算。本文档涉及Trino、SparkSQL、HiveSQL、ApacheDoris。 Trino：交互式查询引擎，本身不持久化数据，依赖外部元数据与存储；SparkSQL：支持批处理ETL+查询，可读写对象存储/HDFS；HiveSQL：传统Hive的SQL引擎；Doris：存储计算一体化OLAP引擎，支持内部表，也可通过外表读取外部存储上的文件。</td></tr><tr class="even"><td>元数据层</td><td>记录表结构、字段类型、分区信息、文件路径、分片信息。 HiveMetastore（HMS）：最通用元数据服务，Hive/Spark/Trino/Doris外表共用；Doris内置元数据：Doris内部表自用，不依赖HMS。</td></tr><tr class="odd"><td>存储层</td><td>存放物理数据载体。包含底层存储介质（HDFS、COS、S3、BE本地磁盘）+文件格式。</td></tr><tr class="even"><td>文件格式</td><td>单个数据文件内部的序列化组织方式，独立于上层表定义。Parquet：列式存储，支持列裁剪、RowGroup级谓词下推；ORC：Hive原生列式格式，Hive事务支持更好。</td></tr><tr class="odd"><td>分区表</td><td>Hive/Spark层面的表逻辑组织方式，按指定字段拆分为不同目录，查询时做分区剪枝，跳过无关目录。分区属于元数据定义，不修改Parquet/ORC文件内部结构。</td></tr><tr class="even"><td>Iceberg</td><td>表格式（不是文件格式），底层仍然使用Parquet。在裸Parquet之上增加独立快照、manifest、元数据文件，提供ACID写入、时间旅行、并发写入、schema演进能力。HMS仅记录Iceberg表的根路径，快照、文件清单由Iceberg自行管理。</td></tr><tr class="odd"><td>裸Parquet表</td><td>普通Hive外部表，直接在HDFS/对象存储目录写入parquet文件，HMS只记录表和分区目录，没有额外的快照元数据。写入无事务保障。</td></tr><tr class="even"><td>StorageHandler</td><td>Hive体系内的适配接口，用于HiveSQL读写不同文件格式；Spark复用该接口，Trino读取HiveCatalog时不使用StorageHandler。本文档流程图不单独画出，封装在HiveSQL引擎内部。</td></tr></tbody></table><h2 id="整体架构说明">2 整体架构说明</h2><h3 id="三层架构综合流程图总览">2.1 三层架构综合流程图（总览）</h3><blockquote><p>仅用于理解三层边界，实际业务中一般不会同时全部组件一起使用。</p></blockquote><div class="mermaid">graph LR    subgraph 计算引擎        Trino[Trino]        SparkSQL[SparkSQL]        HiveSQL[HiveSQL]        Doris[Apache Doris]    end    subgraph 元数据        HMS[Hive Metastore]        DorisMeta[Doris内置元数据]    end    subgraph 存储        subgraph 文件格式            Parquet[Parquet]            ORC[ORC]        end        HDFS[HDFS]        COS[COS对象存储]        S3[S3对象存储]        DorisDisk[Doris BE本地磁盘]    end    Trino <--> HMS    SparkSQL <--> HMS    HiveSQL <--> HMS    Doris <--> DorisMeta    Doris -.-> HMS    Trino --> Parquet    SparkSQL --> Parquet    HiveSQL --> ORC    Doris --> DorisDisk    Doris -.-> Parquet    Parquet --> HDFS    Parquet --> COS    Parquet --> S3    ORC --> HDFS</div><h3 id="通用查询时序所有hms托管外部表通用流程">2.2通用查询时序（所有HMS托管外部表通用流程）</h3><blockquote><p>场景：Trino/SparkSQL查询HMS托管的外部Parquet表</p></blockquote><div class="mermaid">sequenceDiagram    participant CE as 计算引擎    participant Meta as 元数据(HMS)    participant Store as 存储(HDFS/S3/COS)    Note over CE,Store: 通用查询流程：HMS托管外部表    CE->>Meta: 请求表结构、分区列表、文件路径    Meta-->>CE: 返回元数据，引擎执行分区剪枝，过滤不满足条件分区    CE->>Store: 根据剩余文件路径发起文件读取请求    Store-->>CE: 返回Parquet原始字节流    Note over CE: 引擎内部解析Parquet Footer，执行列裁剪、RowGroup谓词下推    CE->>CE: 内存完成过滤、聚合、关联计算    CE-->>CE: 返回结果集给用户</div><h2 id="分场景架构图场景说明">3 分场景架构图+场景说明</h2><blockquote><p>规则：每个场景独立流程图，三层固定：计算引擎｜元数据｜存储；只保留当前场景用到组件。</p></blockquote><h3id="场景1trino查询hms管理元数据hdfs存储parquet">场景1：Trino查询，HMS管理元数据，HDFS存储Parquet</h3><p><strong>业务场景</strong>：离线数仓Hive外部分区表，Trino做交互式查询，数据文件存HDFS，文件格式Parquet。适用场景：分析师即时查询、报表查询，数据主要为离线批量写入。</p><div class="mermaid">graph LR    subgraph 计算引擎        Trino[Trino]    end    subgraph 元数据        HMS[Hive Metastore<br/>表结构、分区、HDFS文件路径]    end    subgraph 存储        subgraph 文件格式            Parquet[Parquet]        end        HDFS[HDFS分布式存储]    end    Trino <--> HMS    Trino --> Parquet    Parquet --> HDFS</div><p><strong>链路说明</strong></p><ol type="1"><li>Trino连接HMS，获取表定义、分区信息；</li><li>根据where条件做分区剪枝，过滤不需要扫描的HDFS目录；</li><li>Trino读取HDFS上Parquet文件，引擎内部解析parquet，做列裁剪、RowGroup过滤；</li><li>内存计算后返回结果。</li></ol><h3id="场景2sparksql查询etlhms管理元数据cos存储parquet裸parquet-hive表">场景2：SparkSQL查询/ETL，HMS管理元数据，COS存储Parquet（裸ParquetHive表）</h3><p><strong>业务场景</strong>：云上数仓，Spark负责ETL写入+查询，HMS管理元数据，数据存腾讯云COS对象存储，普通Hive外部分区表（裸Parquet，无Iceberg）。适用场景：每日一次性批量追加数据，无并发写、无更新、不需要回滚。</p><div class="mermaid">graph LR    subgraph 计算引擎        SparkSQL[SparkSQL]    end    subgraph 元数据        HMS[Hive Metastore<br/>表结构、分区、COS文件路径]    end    subgraph 存储        subgraph 文件格式            Parquet[Parquet]        end        COS[COS对象存储]    end    SparkSQL <--> HMS    SparkSQL --> Parquet    Parquet --> COS</div><p><strong>链路说明</strong></p><ol type="1"><li>SparkSQL读写HMS，维护分区元数据；</li><li>ETL任务生成Parquet文件写入COS；</li><li>查询时Spark读取COS上parquet文件，做分区剪枝和列式过滤。&gt; &gt;风险点：裸Parquet表写入无事务，任务中途失败会产生残次文件；多任务同时写同一分区会产生脏数据，无法回滚。</li></ol><h3id="场景3doris内部表查询doris自研元数据与本地存储">场景3：Doris内部表查询，Doris自研元数据与本地存储</h3><p><strong>业务场景</strong>：Doris内部业务表，数据写入DorisBE节点本地磁盘，不依赖HMS、HDFS、对象存储、Parquet。适用场景：高并发报表、实时指标、点查询，存储计算一体化。</p><div class="mermaid">graph LR    subgraph 计算引擎        Doris[Apache Doris]    end    subgraph 元数据        DorisMeta[Doris内置元数据<br/>表、分区、分片信息]    end    subgraph 存储        DorisDisk[Doris BE本地磁盘<br/>Doris自研列式存储]    end    Doris <--> DorisMeta    Doris --> DorisDisk</div><p><strong>链路说明</strong></p><ol type="1"><li>Doris自带计算、元数据管理、存储三层能力；</li><li>数据分片存BE本地磁盘，Doris内部完成分区、分片剪枝；</li><li>不依赖外部HMS，不使用Parquet。</li></ol><h3id="场景4doris外表查询hms管理元数据s3存储parquet">场景4：Doris外表查询，HMS管理元数据，S3存储Parquet</h3><p><strong>业务场景</strong>：Doris通过HiveCatalog外表，直接查询S3上Hive外部Parquet表，Doris不存储原始数据。适用场景：Doris直接分析湖侧原始数据，不需要把数据导入Doris内部。</p><div class="mermaid">graph LR    subgraph 计算引擎        Doris[Apache Doris]    end    subgraph 元数据        HMS[Hive Metastore<br/>表结构、分区、S3文件路径]    end    subgraph 存储        subgraph 文件格式            Parquet[Parquet]        end        S3[S3对象存储]    end    Doris <--> HMS    Doris --> Parquet    Parquet --> S3</div><p><strong>链路说明</strong></p><ol type="1"><li>Doris连接HMS获取表、分区信息；</li><li>分区剪枝后，Doris直接读取S3上Parquet文件；</li><li>Doris仅做查询，不会修改S3上原始文件。</li></ol><h3id="场景5hivesql查询hms管理元数据hdfs存储orc">场景5：HiveSQL查询，HMS管理元数据，HDFS存储ORC</h3><p><strong>业务场景</strong>：传统Hive离线数仓，HiveSQL作为计算引擎，HDFS存储ORC格式。适用场景：老Hive数仓，需要Hive原生事务（ACID V2）。</p><div class="mermaid">graph LR    subgraph 计算引擎        HiveSQL[HiveSQL]    end    subgraph 元数据        HMS[Hive Metastore<br/>表结构、分区、HDFS文件路径]    end    subgraph 存储        subgraph 文件格式            ORC[ORC]        end        HDFS[HDFS分布式存储]    end    HiveSQL <--> HMS    HiveSQL --> ORC    ORC --> HDFS</div><p><strong>链路说明</strong></p><ol type="1"><li>HiveSQL访问HMS获取元数据；</li><li>Hive内部加载StorageHandler，读取HDFS上ORC文件；</li><li>ORC对Hive引擎优化更好，原生支持Hive事务。</li></ol><h3id="场景6sparksql读写iceberg表hms管理元数据s3底层parquet">场景6：SparkSQL读写Iceberg表，HMS管理元数据，S3底层Parquet</h3><p><strong>业务场景</strong>：湖仓场景，Spark读写Iceberg表，底层物理文件依旧是Parquet，HMS只记录Iceberg表根路径。适用场景：需要并发写入、数据回滚、时间旅行、部分数据更新（MERGEINTO）。</p><div class="mermaid">graph LR    subgraph 计算引擎        SparkSQL[SparkSQL]    end    subgraph 元数据        HMS[Hive Metastore<br/>Iceberg表根路径]    end    subgraph 存储        subgraph 文件格式            Parquet[Parquet]        end        S3[S3对象存储]    end    SparkSQL <--> HMS    SparkSQL --> Parquet    Parquet --> S3</div><p><strong>链路说明 &amp; 和场景2（裸Parquet）对比</strong></p><blockquote><p>底层物理文件都是Parquet，存储介质都是S3，HMS都参与。核心差别在元数据管理主体：</p></blockquote><ol type="1"><li>场景2（裸Parquet）：HMS记录分区目录，没有快照。写入无事务，任务失败产生残次文件；无法回滚，不支持并发写同一分区。适合简单一次性追加。</li><li>场景6（Iceberg）：HMS只存Iceberg表根路径；<strong>快照、manifest、文件清单全部由Iceberg自己维护</strong>。写入通过元数据指针原子切换，保证ACID；支持时间旅行、MERGEINTO更新、并发写入。&gt; &gt;代价：增加Iceberg元数据维护成本，需要定时执行Compaction合并小文件、清理过期快照。</li></ol><h2 id="场景对比汇总表">4 场景对比汇总表</h2><table><thead><tr class="header"><th>序号</th><th>场景</th><th>计算引擎</th><th>元数据来源</th><th>存储介质</th><th>文件格式</th><th>适用场景</th><th>核心特点</th></tr></thead><tbody><tr class="odd"><td>1</td><td>Trino读Hive表HDFS</td><td>Trino</td><td>HMS</td><td>HDFS</td><td>Parquet</td><td>交互式报表查询</td><td>Trino联邦查询，只读外部Hive数据</td></tr><tr class="even"><td>2</td><td>SparkSQL读写裸Parquet Hive表，COS</td><td>SparkSQL</td><td>HMS</td><td>COS</td><td>Parquet</td><td>每日一次性批量追加</td><td>简单稳定，无事务，不支持更新回滚</td></tr><tr class="odd"><td>3</td><td>Doris内部表</td><td>Doris</td><td>Doris内置元数据</td><td>BE本地磁盘</td><td>Doris自研</td><td>高并发实时指标、报表</td><td>存储计算一体，不依赖外部元数据</td></tr><tr class="even"><td>4</td><td>Doris外表读取S3 Parquet</td><td>Doris</td><td>HMS</td><td>S3</td><td>Parquet</td><td>Doris直接查询湖数据</td><td>不导入数据，直接查询对象存储</td></tr><tr class="odd"><td>5</td><td>HiveSQL读取ORC HDFS</td><td>HiveSQL</td><td>HMS</td><td>HDFS</td><td>ORC</td><td>传统Hive离线数仓</td><td>ORC适配Hive原生事务能力</td></tr><tr class="even"><td>6</td><td>SparkSQL读写Iceberg表</td><td>SparkSQL</td><td>HMS</td><td>S3</td><td>Parquet</td><td>湖仓，并发写入、更新、回滚</td><td>Parquet底层，Iceberg增加快照与事务能力</td></tr></tbody></table><h2 id="运维关注点小结">5 运维关注点小结</h2><ol type="1"><li>裸Hive分区表（场景1/2/5）：运维重点关注分区生命周期、小文件治理、元数据同步；写入要避免多任务并发写同一分区。</li><li>Iceberg表：除小文件外，额外关注快照过期清理、Compaction任务调度，防止元数据文件持续膨胀。</li><li>Doris内部表：运维重点在BE节点磁盘、分片均衡、副本；Doris外表重点关注对象存储AK/SK权限。</li><li>跨引擎共用同一份HMS+Parquet文件：Trino、Spark、Hive可以读取同一份物理文件，需要保证字段类型、时区定义统一，避免解析不一致。</li></ol>]]></content>
+    <content type="html"><![CDATA[<h1id="大数据数仓存储与查询链路技术总结文档">大数据数仓存储与查询链路技术总结文档</h1><p>本文梳理Hive元数据、SparkSQL、Trino、Doris、Parquet等常用组件的调用链路，区分不同业务场景下的架构差异，用于帮助对大数据技术不熟悉的小伙伴理解组件分层。</p><p><a href="/html/从MySQL到Spark实战教程.html">从MySQL开发到Spark实战 ·思维转换与入门教程</a></p><p><a href="/html/数仓整体系统架构图.html">数仓整体系统架构图</a></p><blockquote><p>文档约定：</p><ol type="1"><li>分层固定为三层：<strong>计算引擎层、元数据层、存储层</strong>；</li><li>每个场景独立流程图，只保留场景内用到组件，剔除无关内容，避免图面复杂；</li><li>本文档暂不深入湖仓一体的大量优化细节，重点区分【裸文件Hive表】与【Iceberg表】的本质差异。</li></ol></blockquote><h2 id="名词解释">1 名词解释</h2><table><thead><tr class="header"><th>名词</th><th>释义</th></tr></thead><tbody><tr class="odd"><td>计算引擎</td><td>负责解析SQL、生成执行计划、执行过滤/聚合/关联计算。本文档涉及Trino、SparkSQL、HiveSQL、ApacheDoris。 Trino：交互式查询引擎，本身不持久化数据，依赖外部元数据与存储；SparkSQL：支持批处理ETL+查询，可读写对象存储/HDFS；HiveSQL：传统Hive的SQL引擎；Doris：存储计算一体化OLAP引擎，支持内部表，也可通过外表读取外部存储上的文件。</td></tr><tr class="even"><td>元数据层</td><td>记录表结构、字段类型、分区信息、文件路径、分片信息。 HiveMetastore（HMS）：最通用元数据服务，Hive/Spark/Trino/Doris外表共用；Doris内置元数据：Doris内部表自用，不依赖HMS。</td></tr><tr class="odd"><td>存储层</td><td>存放物理数据载体。包含底层存储介质（HDFS、COS、S3、BE本地磁盘）+文件格式。</td></tr><tr class="even"><td>文件格式</td><td>单个数据文件内部的序列化组织方式，独立于上层表定义。Parquet：列式存储，支持列裁剪、RowGroup级谓词下推；ORC：Hive原生列式格式，Hive事务支持更好。</td></tr><tr class="odd"><td>分区表</td><td>Hive/Spark层面的表逻辑组织方式，按指定字段拆分为不同目录，查询时做分区剪枝，跳过无关目录。分区属于元数据定义，不修改Parquet/ORC文件内部结构。</td></tr><tr class="even"><td>Iceberg</td><td>表格式（不是文件格式），底层仍然使用Parquet。在裸Parquet之上增加独立快照、manifest、元数据文件，提供ACID写入、时间旅行、并发写入、schema演进能力。HMS仅记录Iceberg表的根路径，快照、文件清单由Iceberg自行管理。</td></tr><tr class="odd"><td>裸Parquet表</td><td>普通Hive外部表，直接在HDFS/对象存储目录写入parquet文件，HMS只记录表和分区目录，没有额外的快照元数据。写入无事务保障。</td></tr><tr class="even"><td>StorageHandler</td><td>Hive体系内的适配接口，用于HiveSQL读写不同文件格式；Spark复用该接口，Trino读取HiveCatalog时不使用StorageHandler。本文档流程图不单独画出，封装在HiveSQL引擎内部。</td></tr></tbody></table><h2 id="整体架构说明">2 整体架构说明</h2><h3 id="三层架构综合流程图总览">2.1 三层架构综合流程图（总览）</h3><blockquote><p>仅用于理解三层边界，实际业务中一般不会同时全部组件一起使用。</p></blockquote><div class="mermaid">graph LR    subgraph 计算引擎        Trino[Trino]        SparkSQL[SparkSQL]        HiveSQL[HiveSQL]        Doris[Apache Doris]    end    subgraph 元数据        HMS[Hive Metastore]        DorisMeta[Doris内置元数据]    end    subgraph 存储        subgraph 文件格式            Parquet[Parquet]            ORC[ORC]        end        HDFS[HDFS]        COS[COS对象存储]        S3[S3对象存储]        DorisDisk[Doris BE本地磁盘]    end    Trino <--> HMS    SparkSQL <--> HMS    HiveSQL <--> HMS    Doris <--> DorisMeta    Doris -.-> HMS    Trino --> Parquet    SparkSQL --> Parquet    HiveSQL --> ORC    Doris --> DorisDisk    Doris -.-> Parquet    Parquet --> HDFS    Parquet --> COS    Parquet --> S3    ORC --> HDFS</div><h3 id="通用查询时序所有hms托管外部表通用流程">2.2通用查询时序（所有HMS托管外部表通用流程）</h3><blockquote><p>场景：Trino/SparkSQL查询HMS托管的外部Parquet表</p></blockquote><div class="mermaid">sequenceDiagram    participant CE as 计算引擎    participant Meta as 元数据(HMS)    participant Store as 存储(HDFS/S3/COS)    Note over CE,Store: 通用查询流程：HMS托管外部表    CE->>Meta: 请求表结构、分区列表、文件路径    Meta-->>CE: 返回元数据，引擎执行分区剪枝，过滤不满足条件分区    CE->>Store: 根据剩余文件路径发起文件读取请求    Store-->>CE: 返回Parquet原始字节流    Note over CE: 引擎内部解析Parquet Footer，执行列裁剪、RowGroup谓词下推    CE->>CE: 内存完成过滤、聚合、关联计算    CE-->>CE: 返回结果集给用户</div><h3 id="存储和格式比较">2.3 存储和格式比较</h3><p><strong>Parquet / ORC / Avro / TextFile 对比表</strong> &gt;说明：基于Hive/SparkSQL/Trino生态，从存储类型、编码特点、适用场景、优缺点整理，数仓运维视角。</p><table><thead><tr class="header"><th>特性</th><th>TextFile</th><th>Avro</th><th>Parquet</th><th>ORC</th></tr></thead><tbody><tr class="odd"><td><strong>存储类型</strong></td><td>行式存储</td><td>行式存储</td><td>列式存储</td><td>列式存储</td></tr><tr class="even"><td><strong>数据组织</strong></td><td>纯文本，一行一条记录</td><td>二进制行存储，一条记录完整存放</td><td>按列拆分存储，同一列数据连续存放</td><td>列式存储，Hive原生优化列式</td></tr><tr class="odd"><td><strong>序列化方式</strong></td><td>文本（UTF-8）</td><td>Avro二进制序列化</td><td>Parquet二进制</td><td>ORC二进制</td></tr><tr class="even"><td><strong>Schema支持</strong></td><td>无内置schema，靠建表语句定义</td><td>自带schema，支持schema演进（增删字段、兼容旧数据）</td><td>自带schema，支持schema演进</td><td>自带schema，支持schema演进</td></tr><tr class="odd"><td><strong>压缩</strong></td><td>可开启Gzip/Snappy；<strong>压缩效率差</strong></td><td>压缩效果较好</td><td>压缩率高，同数据体积更小</td><td>压缩率高，Hive生态下压缩优化强</td></tr><tr class="even"><td><strong>读取模式</strong></td><td>读取必须加载整行；读少量字段也要读完整行</td><td>读取整行记录，无法只读取部分列</td><td>支持<strong>列裁剪</strong>，只读取查询用到的列；支持RowGroup级谓词下推</td><td>支持列裁剪，支持Stripe/Index谓词下推，内置轻量索引</td></tr><tr class="odd"><td><strong>写入性能</strong></td><td>写入快，无需序列化</td><td>写入性能较好，CDC场景友好</td><td>批量写入性能不错，小批量写入容易产生小文件</td><td>Hive引擎写入性能最优</td></tr><tr class="even"><td><strong>Hive事务支持</strong></td><td>不支持</td><td>不支持</td><td>Hive事务支持一般</td><td><strong>原生支持Hive ACID事务（Update/Delete）</strong></td></tr><tr class="odd"><td><strong>跨引擎兼容性</strong></td><td>极好，所有引擎都可读</td><td>很好，Spark/Hive/Trino通用</td><td><strong>跨引擎兼容性最好</strong>，Spark默认格式，Hive/Trino/Doris外表都支持</td><td>Hive生态最优；跨引擎支持弱于Parquet</td></tr><tr class="even"><td><strong>典型适用场景</strong></td><td>原始日志临时落地、调试查看内容；临时小表</td><td>CDC数据接入、数据交换、需要频繁schema变更场景</td><td>通用离线数仓、湖仓（Iceberg/Hudi底层默认），多引擎共享数据</td><td>传统Hive数仓，需要Hive事务、Hive批量ETL场景</td></tr><tr class="odd"><td><strong>主要缺点</strong></td><td>体积大，查询慢；无法谓词下推；容易脏数据</td><td>行式，查询大表只取少数列时IO开销大</td><td>Hive原生事务能力弱；元数据Footage略大</td><td>Trino/Spark读取性能略弱于Parquet，跨引擎通用性稍差</td></tr></tbody></table><p><strong>补充运维备注</strong></p><ol type="1"><li>TextFile：可直接用<code>cat</code>查看文件内容，调试方便，但<strong>生产大表严禁使用</strong>，IO开销巨大。</li><li>Avro虽然是行式，但schema内嵌在文件中，适合数据流转，多用于数据同步、CDC采集落地，不适合海量离线分析查询。</li><li>Parquet：<strong>多引擎共用数仓首选</strong>，如果你的数据要同时给Spark、Trino、Doris外表查询，优先Parquet。Iceberg/Hudi底层默认采用Parquet。</li><li>ORC：Hive专属优化，老Hive数仓、需要Hive内部做update/delete的场景优先选ORC；如果Trino为主查询引擎，优先Parquet。</li></ol><h2 id="分场景架构图场景说明">3 分场景架构图+场景说明</h2><blockquote><p>规则：每个场景独立流程图，三层固定：计算引擎｜元数据｜存储；只保留当前场景用到组件。</p></blockquote><h3id="场景1trino查询hms管理元数据hdfs存储parquet">场景1：Trino查询，HMS管理元数据，HDFS存储Parquet</h3><p><strong>业务场景</strong>：离线数仓Hive外部分区表，Trino做交互式查询，数据文件存HDFS，文件格式Parquet。适用场景：分析师即时查询、报表查询，数据主要为离线批量写入。</p><div class="mermaid">graph LR    subgraph 计算引擎        Trino[Trino]    end    subgraph 元数据        HMS[Hive Metastore<br/>表结构、分区、HDFS文件路径]    end    subgraph 存储        subgraph 文件格式            Parquet[Parquet]        end        HDFS[HDFS分布式存储]    end    Trino <--> HMS    Trino --> Parquet    Parquet --> HDFS</div><p><strong>链路说明</strong></p><ol type="1"><li>Trino连接HMS，获取表定义、分区信息；</li><li>根据where条件做分区剪枝，过滤不需要扫描的HDFS目录；</li><li>Trino读取HDFS上Parquet文件，引擎内部解析parquet，做列裁剪、RowGroup过滤；</li><li>内存计算后返回结果。</li></ol><h3id="场景2sparksql查询etlhms管理元数据cos存储parquet裸parquet-hive表">场景2：SparkSQL查询/ETL，HMS管理元数据，COS存储Parquet（裸ParquetHive表）</h3><p><strong>业务场景</strong>：云上数仓，Spark负责ETL写入+查询，HMS管理元数据，数据存腾讯云COS对象存储，普通Hive外部分区表（裸Parquet，无Iceberg）。适用场景：每日一次性批量追加数据，无并发写、无更新、不需要回滚。</p><div class="mermaid">graph LR    subgraph 计算引擎        SparkSQL[SparkSQL]    end    subgraph 元数据        HMS[Hive Metastore<br/>表结构、分区、COS文件路径]    end    subgraph 存储        subgraph 文件格式            Parquet[Parquet]        end        COS[COS对象存储]    end    SparkSQL <--> HMS    SparkSQL --> Parquet    Parquet --> COS</div><p><strong>链路说明</strong></p><ol type="1"><li>SparkSQL读写HMS，维护分区元数据；</li><li>ETL任务生成Parquet文件写入COS；</li><li>查询时Spark读取COS上parquet文件，做分区剪枝和列式过滤。&gt; &gt;风险点：裸Parquet表写入无事务，任务中途失败会产生残次文件；多任务同时写同一分区会产生脏数据，无法回滚。</li></ol><h3id="场景3doris内部表查询doris自研元数据与本地存储">场景3：Doris内部表查询，Doris自研元数据与本地存储</h3><p><strong>业务场景</strong>：Doris内部业务表，数据写入DorisBE节点本地磁盘，不依赖HMS、HDFS、对象存储、Parquet。适用场景：高并发报表、实时指标、点查询，存储计算一体化。</p><div class="mermaid">graph LR    subgraph 计算引擎        Doris[Apache Doris]    end    subgraph 元数据        DorisMeta[Doris内置元数据<br/>表、分区、分片信息]    end    subgraph 存储        DorisDisk[Doris BE本地磁盘<br/>Doris自研列式存储]    end    Doris <--> DorisMeta    Doris --> DorisDisk</div><p><strong>链路说明</strong></p><ol type="1"><li>Doris自带计算、元数据管理、存储三层能力；</li><li>数据分片存BE本地磁盘，Doris内部完成分区、分片剪枝；</li><li>不依赖外部HMS，不使用Parquet。</li></ol><h3id="场景4doris外表查询hms管理元数据s3存储parquet">场景4：Doris外表查询，HMS管理元数据，S3存储Parquet</h3><p><strong>业务场景</strong>：Doris通过HiveCatalog外表，直接查询S3上Hive外部Parquet表，Doris不存储原始数据。适用场景：Doris直接分析湖侧原始数据，不需要把数据导入Doris内部。</p><div class="mermaid">graph LR    subgraph 计算引擎        Doris[Apache Doris]    end    subgraph 元数据        HMS[Hive Metastore<br/>表结构、分区、S3文件路径]    end    subgraph 存储        subgraph 文件格式            Parquet[Parquet]        end        S3[S3对象存储]    end    Doris <--> HMS    Doris --> Parquet    Parquet --> S3</div><p><strong>链路说明</strong></p><ol type="1"><li>Doris连接HMS获取表、分区信息；</li><li>分区剪枝后，Doris直接读取S3上Parquet文件；</li><li>Doris仅做查询，不会修改S3上原始文件。</li></ol><h3id="场景5hivesql查询hms管理元数据hdfs存储orc">场景5：HiveSQL查询，HMS管理元数据，HDFS存储ORC</h3><p><strong>业务场景</strong>：传统Hive离线数仓，HiveSQL作为计算引擎，HDFS存储ORC格式。适用场景：老Hive数仓，需要Hive原生事务（ACID V2）。</p><div class="mermaid">graph LR    subgraph 计算引擎        HiveSQL[HiveSQL]    end    subgraph 元数据        HMS[Hive Metastore<br/>表结构、分区、HDFS文件路径]    end    subgraph 存储        subgraph 文件格式            ORC[ORC]        end        HDFS[HDFS分布式存储]    end    HiveSQL <--> HMS    HiveSQL --> ORC    ORC --> HDFS</div><p><strong>链路说明</strong></p><ol type="1"><li>HiveSQL访问HMS获取元数据；</li><li>Hive内部加载StorageHandler，读取HDFS上ORC文件；</li><li>ORC对Hive引擎优化更好，原生支持Hive事务。</li></ol><h3id="场景6sparksql读写iceberg表hms管理元数据s3底层parquet">场景6：SparkSQL读写Iceberg表，HMS管理元数据，S3底层Parquet</h3><p><strong>业务场景</strong>：湖仓场景，Spark读写Iceberg表，底层物理文件依旧是Parquet，HMS只记录Iceberg表根路径。适用场景：需要并发写入、数据回滚、时间旅行、部分数据更新（MERGEINTO）。</p><div class="mermaid">graph LR    subgraph 计算引擎        SparkSQL[SparkSQL]    end    subgraph 元数据        HMS[Hive Metastore<br/>Iceberg表根路径]    end    subgraph 存储        subgraph 文件格式            Parquet[Parquet]        end        S3[S3对象存储]    end    SparkSQL <--> HMS    SparkSQL --> Parquet    Parquet --> S3</div><p><strong>链路说明 &amp; 和场景2（裸Parquet）对比</strong></p><blockquote><p>底层物理文件都是Parquet，存储介质都是S3，HMS都参与。核心差别在元数据管理主体：</p></blockquote><ol type="1"><li>场景2（裸Parquet）：HMS记录分区目录，没有快照。写入无事务，任务失败产生残次文件；无法回滚，不支持并发写同一分区。适合简单一次性追加。</li><li>场景6（Iceberg）：HMS只存Iceberg表根路径；<strong>快照、manifest、文件清单全部由Iceberg自己维护</strong>。写入通过元数据指针原子切换，保证ACID；支持时间旅行、MERGEINTO更新、并发写入。&gt; &gt;代价：增加Iceberg元数据维护成本，需要定时执行Compaction合并小文件、清理过期快照。</li></ol><h2 id="场景对比汇总表">4 场景对比汇总表</h2><table><thead><tr class="header"><th>序号</th><th>场景</th><th>计算引擎</th><th>元数据来源</th><th>存储介质</th><th>文件格式</th><th>适用场景</th><th>核心特点</th></tr></thead><tbody><tr class="odd"><td>1</td><td>Trino读Hive表HDFS</td><td>Trino</td><td>HMS</td><td>HDFS</td><td>Parquet</td><td>交互式报表查询</td><td>Trino联邦查询，只读外部Hive数据</td></tr><tr class="even"><td>2</td><td>SparkSQL读写裸Parquet Hive表，COS</td><td>SparkSQL</td><td>HMS</td><td>COS</td><td>Parquet</td><td>每日一次性批量追加</td><td>简单稳定，无事务，不支持更新回滚</td></tr><tr class="odd"><td>3</td><td>Doris内部表</td><td>Doris</td><td>Doris内置元数据</td><td>BE本地磁盘</td><td>Doris自研</td><td>高并发实时指标、报表</td><td>存储计算一体，不依赖外部元数据</td></tr><tr class="even"><td>4</td><td>Doris外表读取S3 Parquet</td><td>Doris</td><td>HMS</td><td>S3</td><td>Parquet</td><td>Doris直接查询湖数据</td><td>不导入数据，直接查询对象存储</td></tr><tr class="odd"><td>5</td><td>HiveSQL读取ORC HDFS</td><td>HiveSQL</td><td>HMS</td><td>HDFS</td><td>ORC</td><td>传统Hive离线数仓</td><td>ORC适配Hive原生事务能力</td></tr><tr class="even"><td>6</td><td>SparkSQL读写Iceberg表</td><td>SparkSQL</td><td>HMS</td><td>S3</td><td>Parquet</td><td>湖仓，并发写入、更新、回滚</td><td>Parquet底层，Iceberg增加快照与事务能力</td></tr></tbody></table><h2 id="运维关注点小结">5 运维关注点小结</h2><ol type="1"><li>裸Hive分区表（场景1/2/5）：运维重点关注分区生命周期、小文件治理、元数据同步；写入要避免多任务并发写同一分区。</li><li>Iceberg表：除小文件外，额外关注快照过期清理、Compaction任务调度，防止元数据文件持续膨胀。</li><li>Doris内部表：运维重点在BE节点磁盘、分片均衡、副本；Doris外表重点关注对象存储AK/SK权限。</li><li>跨引擎共用同一份HMS+Parquet文件：Trino、Spark、Hive可以读取同一份物理文件，需要保证字段类型、时区定义统一，避免解析不一致。</li></ol>]]></content>
     
     
     <categories>
@@ -828,11 +828,11 @@
       
       <tag>Windows</tag>
       
+      <tag>MacBook Air</tag>
+      
       <tag>Linux</tag>
       
       <tag>macOS</tag>
-      
-      <tag>MacBook Air</tag>
       
       <tag>苹果</tag>
       
@@ -871,13 +871,15 @@
     
     <tags>
       
+      <tag>项目经理</tag>
+      
+      <tag>案例分析</tag>
+      
       <tag>招投标</tag>
       
       <tag>软件项目管理</tag>
       
       <tag>项目外包</tag>
-      
-      <tag>项目经理</tag>
       
       <tag>项目分包</tag>
       
@@ -886,8 +888,6 @@
       <tag>团队建设</tag>
       
       <tag>项目进度</tag>
-      
-      <tag>案例分析</tag>
       
     </tags>
     
@@ -1080,13 +1080,13 @@
     
     <tags>
       
+      <tag>数据安全</tag>
+      
       <tag>网盘</tag>
       
       <tag>硬盘</tag>
       
       <tag>云存储</tag>
-      
-      <tag>数据安全</tag>
       
       <tag>百度网盘</tag>
       
@@ -1796,6 +1796,8 @@
       
       <tag>市场需求</tag>
       
+      <tag>项目管理</tag>
+      
       <tag>小程序</tag>
       
       <tag>定制开发</tag>
@@ -1811,8 +1813,6 @@
       <tag>复用模块</tag>
       
       <tag>持续维护</tag>
-      
-      <tag>项目管理</tag>
       
     </tags>
     
@@ -1927,6 +1927,8 @@
     
     <tags>
       
+      <tag>知识库</tag>
+      
       <tag>软考</tag>
       
       <tag>系统架构设计师</tag>
@@ -1940,8 +1942,6 @@
       <tag>集中式网络</tag>
       
       <tag>去中心化网络</tag>
-      
-      <tag>知识库</tag>
       
       <tag>鲁棒性</tag>
       
@@ -2339,13 +2339,13 @@
       
       <tag>Android</tag>
       
-      <tag>低功耗蓝牙</tag>
-      
-      <tag>GATT</tag>
+      <tag>Activity</tag>
       
       <tag>Context</tag>
       
-      <tag>Activity</tag>
+      <tag>低功耗蓝牙</tag>
+      
+      <tag>GATT</tag>
       
       <tag>生命周期</tag>
       
@@ -2429,9 +2429,9 @@
       
       <tag>Android</tag>
       
-      <tag>Wi-Fi连接</tag>
-      
       <tag>权限管理</tag>
+      
+      <tag>Wi-Fi连接</tag>
       
       <tag>WifiNetworkSuggestion</tag>
       
@@ -2476,6 +2476,8 @@
       
       <tag>阿里云</tag>
       
+      <tag>服务器</tag>
+      
       <tag>网络安全组</tag>
       
       <tag>IP地址</tag>
@@ -2489,8 +2491,6 @@
       <tag>CIDR</tag>
       
       <tag>二进制</tag>
-      
-      <tag>服务器</tag>
       
     </tags>
     
@@ -2572,9 +2572,9 @@
       
       <tag>MySQL</tag>
       
-      <tag>SSH</tag>
-      
       <tag>阿里云</tag>
+      
+      <tag>SSH</tag>
       
       <tag>Ubuntu Server</tag>
       
@@ -2613,9 +2613,13 @@
       
       <tag>AWS</tag>
       
-      <tag>服务器操作系统</tag>
+      <tag>阿里云</tag>
+      
+      <tag>腾讯云</tag>
       
       <tag>CentOS</tag>
+      
+      <tag>服务器操作系统</tag>
       
       <tag>RHEL</tag>
       
@@ -2628,10 +2632,6 @@
       <tag>TencentOS</tag>
       
       <tag>OpenCloudOS</tag>
-      
-      <tag>阿里云</tag>
-      
-      <tag>腾讯云</tag>
       
     </tags>
     
@@ -2660,17 +2660,17 @@
       
       <tag>环境变量</tag>
       
+      <tag>Dockerfile</tag>
+      
+      <tag>SkyWalking</tag>
+      
       <tag>微服务</tag>
       
-      <tag>Dockerfile</tag>
+      <tag>容器部署</tag>
       
       <tag>Docker Compose</tag>
       
       <tag>镜像构建</tag>
-      
-      <tag>容器部署</tag>
-      
-      <tag>SkyWalking</tag>
       
       <tag>JVM参数</tag>
       
@@ -2756,9 +2756,9 @@
       
       <tag>Git</tag>
       
-      <tag>SSH</tag>
-      
       <tag>版本控制</tag>
+      
+      <tag>SSH</tag>
       
     </tags>
     
@@ -2912,19 +2912,19 @@
       
       <tag>SpringBoot</tag>
       
+      <tag>Kubernetes</tag>
+      
+      <tag>微服务</tag>
+      
       <tag>若依微服务框架</tag>
       
       <tag>Ruoyi Cloud</tag>
-      
-      <tag>微服务</tag>
       
       <tag>Java</tag>
       
       <tag>前端</tag>
       
       <tag>数据库</tag>
-      
-      <tag>Kubernetes</tag>
       
     </tags>
     
@@ -2951,6 +2951,10 @@
     
     <tags>
       
+      <tag>资源管理</tag>
+      
+      <tag>性能优化</tag>
+      
       <tag>游戏开发</tag>
       
       <tag>LayaAir</tag>
@@ -2959,13 +2963,9 @@
       
       <tag>场景管理</tag>
       
-      <tag>资源管理</tag>
-      
-      <tag>事件处理</tag>
-      
       <tag>生命周期函数</tag>
       
-      <tag>性能优化</tag>
+      <tag>事件处理</tag>
       
       <tag>动画控制</tag>
       
@@ -2998,6 +2998,8 @@
       
       <tag>Uniapp</tag>
       
+      <tag>事件处理</tag>
+      
       <tag>H5</tag>
       
       <tag>小程序</tag>
@@ -3007,8 +3009,6 @@
       <tag>导航栏</tag>
       
       <tag>返回按钮</tag>
-      
-      <tag>事件处理</tag>
       
       <tag>onBackPress</tag>
       
@@ -3041,6 +3041,8 @@
     
     <tags>
       
+      <tag>资源管理</tag>
+      
       <tag>单例模式</tag>
       
       <tag>游戏开发</tag>
@@ -3056,8 +3058,6 @@
       <tag>设计模式</tag>
       
       <tag>场景管理</tag>
-      
-      <tag>资源管理</tag>
       
       <tag>音效控制</tag>
       
@@ -3131,6 +3131,10 @@
     
     <tags>
       
+      <tag>持续集成</tag>
+      
+      <tag>持续部署</tag>
+      
       <tag>uniapp</tag>
       
       <tag>CICD</tag>
@@ -3144,10 +3148,6 @@
       <tag>批处理脚本</tag>
       
       <tag>打包配置</tag>
-      
-      <tag>持续集成</tag>
-      
-      <tag>持续部署</tag>
       
       <tag>命令行工具</tag>
       
@@ -3174,6 +3174,8 @@
     
     <tags>
       
+      <tag>数据隐私</tag>
+      
       <tag>人工智能</tag>
       
       <tag>星球大战计划</tag>
@@ -3183,8 +3185,6 @@
       <tag>技术竞争</tag>
       
       <tag>经济负担</tag>
-      
-      <tag>数据隐私</tag>
       
       <tag>军事科技</tag>
       
@@ -3254,9 +3254,11 @@
     
     <tags>
       
-      <tag>DeepSeek</tag>
-      
       <tag>大语言模型</tag>
+      
+      <tag>人工智能</tag>
+      
+      <tag>DeepSeek</tag>
       
       <tag>推理模型</tag>
       
@@ -3273,8 +3275,6 @@
       <tag>逻辑漏洞</tag>
       
       <tag>资金循环</tag>
-      
-      <tag>人工智能</tag>
       
     </tags>
     
@@ -3305,13 +3305,13 @@
       
       <tag>Windows</tag>
       
+      <tag>大语言模型</tag>
+      
       <tag>Ollama</tag>
       
       <tag>DeepSeek</tag>
       
       <tag>OpenWebUI</tag>
-      
-      <tag>大语言模型</tag>
       
       <tag>本地部署</tag>
       
@@ -3375,9 +3375,9 @@
     
     <tags>
       
-      <tag>HarmonyOS</tag>
-      
       <tag>技术创新</tag>
+      
+      <tag>HarmonyOS</tag>
       
       <tag>国内市场支持</tag>
       
@@ -3420,8 +3420,6 @@
     
     <tags>
       
-      <tag>技术创新</tag>
-      
       <tag>技术迭代</tag>
       
       <tag>手机拍照</tag>
@@ -3435,6 +3433,8 @@
       <tag>技术争议</tag>
       
       <tag>功能限制</tag>
+      
+      <tag>技术创新</tag>
       
       <tag>安全合规</tag>
       
@@ -3549,13 +3549,13 @@
       
       <tag>大语言模型</tag>
       
-      <tag>人工智能</tag>
-      
-      <tag>案例分析</tag>
-      
       <tag>ChatGPT</tag>
       
       <tag>生成PPT文件</tag>
+      
+      <tag>人工智能</tag>
+      
+      <tag>案例分析</tag>
       
       <tag>自动化处理</tag>
       
@@ -3586,13 +3586,11 @@
     
     <tags>
       
-      <tag>大语言模型</tag>
-      
-      <tag>数据隐私</tag>
+      <tag>AnythingLLM</tag>
       
       <tag>知识库</tag>
       
-      <tag>AnythingLLM</tag>
+      <tag>大语言模型</tag>
       
       <tag>训练</tag>
       
@@ -3605,6 +3603,8 @@
       <tag>微调训练</tag>
       
       <tag>计算资源</tag>
+      
+      <tag>数据隐私</tag>
       
       <tag>Hugging Face</tag>
       
@@ -3647,8 +3647,6 @@
       
       <tag>GitLab</tag>
       
-      <tag>性能优化</tag>
-      
       <tag>配置</tag>
       
       <tag>Prometheus</tag>
@@ -3660,6 +3658,8 @@
       <tag>数据保留</tag>
       
       <tag>容器</tag>
+      
+      <tag>性能优化</tag>
       
     </tags>
     
@@ -3735,11 +3735,9 @@
       
       <tag>Kotlin</tag>
       
-      <tag>权限管理</tag>
+      <tag>Activity</tag>
       
       <tag>Context</tag>
-      
-      <tag>Activity</tag>
       
       <tag>权限请求</tag>
       
@@ -3750,6 +3748,8 @@
       <tag>AppCompatActivity</tag>
       
       <tag>类型转换</tag>
+      
+      <tag>权限管理</tag>
       
     </tags>
     
@@ -3876,13 +3876,13 @@
       
       <tag>Docker</tag>
       
-      <tag>Kubernetes</tag>
-      
       <tag>可视化</tag>
       
       <tag>Prometheus</tag>
       
       <tag>Grafana</tag>
+      
+      <tag>Kubernetes</tag>
       
       <tag>Alertmanager</tag>
       
@@ -3919,23 +3919,23 @@
       
       <tag>Docker</tag>
       
-      <tag>微服务</tag>
-      
-      <tag>容器部署</tag>
-      
-      <tag>SkyWalking</tag>
-      
       <tag>Prometheus</tag>
       
       <tag>Grafana</tag>
       
+      <tag>SkyWalking</tag>
+      
       <tag>Elasticsearch</tag>
+      
+      <tag>微服务</tag>
       
       <tag>可观测性</tag>
       
       <tag>链路追踪</tag>
       
       <tag>指标监控</tag>
+      
+      <tag>容器部署</tag>
       
     </tags>
     
@@ -3970,15 +3970,15 @@
       
       <tag>HTTPS</tag>
       
+      <tag>镜像加速器</tag>
+      
+      <tag>Registry</tag>
+      
       <tag>CentOS</tag>
       
       <tag>服务器</tag>
       
       <tag>配置</tag>
-      
-      <tag>镜像加速器</tag>
-      
-      <tag>Registry</tag>
       
       <tag>客户端</tag>
       
@@ -4007,21 +4007,21 @@
     
     <tags>
       
-      <tag>Git</tag>
-      
-      <tag>版本控制</tag>
-      
-      <tag>Dockerfile</tag>
-      
       <tag>项目管理</tag>
       
       <tag>MacOS</tag>
       
+      <tag>Git</tag>
+      
       <tag>XCode</tag>
+      
+      <tag>版本控制</tag>
       
       <tag>Gitee</tag>
       
       <tag>代码提交</tag>
+      
+      <tag>Dockerfile</tag>
       
     </tags>
     
@@ -4134,15 +4134,15 @@
     
     <tags>
       
-      <tag>Git</tag>
-      
-      <tag>版本控制</tag>
-      
       <tag>项目管理</tag>
       
       <tag>MacOS</tag>
       
+      <tag>Git</tag>
+      
       <tag>XCode</tag>
+      
+      <tag>版本控制</tag>
       
       <tag>Gitee</tag>
       
@@ -4173,8 +4173,6 @@
     
     <tags>
       
-      <tag>数据安全</tag>
-      
       <tag>区块链</tag>
       
       <tag>分布式存储</tag>
@@ -4188,6 +4186,8 @@
       <tag>链式结构</tag>
       
       <tag>哈希算法</tag>
+      
+      <tag>数据安全</tag>
       
       <tag>不可篡改</tag>
       
@@ -4218,8 +4218,6 @@
     
     <tags>
       
-      <tag>Swift</tag>
-      
       <tag>编程语言</tag>
       
       <tag>Objective-C</tag>
@@ -4235,6 +4233,8 @@
       <tag>代码编译</tag>
       
       <tag>执行效率</tag>
+      
+      <tag>Swift</tag>
       
     </tags>
     
@@ -4607,9 +4607,9 @@
       
       <tag>JavaScript</tag>
       
-      <tag>Markdown</tag>
-      
       <tag>Mermaid</tag>
+      
+      <tag>Markdown</tag>
       
       <tag>流程图</tag>
       
@@ -4695,8 +4695,6 @@
     
     <tags>
       
-      <tag>Uniapp</tag>
-      
       <tag>微信小程序</tag>
       
       <tag>抖音小程序</tag>
@@ -4708,6 +4706,8 @@
       <tag>开发技术</tag>
       
       <tag>变现模式</tag>
+      
+      <tag>Uniapp</tag>
       
       <tag>多平台开发</tag>
       
@@ -4789,13 +4789,13 @@
       
       <tag>Lambda</tag>
       
-      <tag>阿里云</tag>
-      
-      <tag>腾讯云</tag>
-      
       <tag>Serverless</tag>
       
       <tag>云函数</tag>
+      
+      <tag>阿里云</tag>
+      
+      <tag>腾讯云</tag>
       
       <tag>无服务器架构</tag>
       
@@ -4873,8 +4873,6 @@
       
       <tag>敏捷开发</tag>
       
-      <tag>资源管理</tag>
-      
       <tag>项目管理</tag>
       
       <tag>项目经理</tag>
@@ -4884,6 +4882,8 @@
       <tag>Scrum框架</tag>
       
       <tag>项目规划</tag>
+      
+      <tag>资源管理</tag>
       
       <tag>团队协作</tag>
       
@@ -4914,9 +4914,9 @@
       
       <tag>产品经理</tag>
       
-      <tag>项目管理</tag>
-      
       <tag>产品负责人</tag>
+      
+      <tag>项目管理</tag>
       
       <tag>领域知识</tag>
       
@@ -4957,11 +4957,11 @@
     
     <tags>
       
+      <tag>Jenkins</tag>
+      
       <tag>持续集成</tag>
       
       <tag>持续部署</tag>
-      
-      <tag>Jenkins</tag>
       
       <tag>自动化服务器</tag>
       

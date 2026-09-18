@@ -27,7 +27,7 @@
 <meta property="og:description" content="大数据数仓存储与查询链路技术总结文档 本文梳理Hive元数据、SparkSQL、Trino、Doris、Parquet等常用组件的调用链路，区分不同业务场景下的架构差异，用于帮助对大数据技术不熟悉的小伙伴理解组件分层。 从MySQL开发到Spark实战 · 思维转换与入门教程 数仓整体系统架构图  文档约定：  分层固定为三层：计算引擎层、元数据层、存储层； 每个场景独立流程图，只保留场景内用到组">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-18T14:15:30.000Z">
-<meta property="article:modified_time" content="2026-09-18T06:37:13.198Z">
+<meta property="article:modified_time" content="2026-09-18T06:56:30.862Z">
 <meta property="article:author" content="Jet Yan">
 <meta property="article:tag" content="大数据">
 <meta property="article:tag" content="数仓">
@@ -263,7 +263,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.5k 字
+          3.2k 字
         
       </span>
     
@@ -274,7 +274,7 @@
         
         
         
-          21 分钟
+          28 分钟
         
       </span>
     
@@ -1529,6 +1529,107 @@ Catalog时不使用StorageHandler。本文档流程图不单独画出，封装�
     Note over CE: 引擎内部解析Parquet Footer，执行列裁剪、RowGroup谓词下推
     CE->>CE: 内存完成过滤、聚合、关联计算
     CE-->>CE: 返回结果集给用户</div>
+<h3 id="存储和格式比较">2.3 存储和格式比较</h3>
+<p><strong>Parquet / ORC / Avro / TextFile 对比表</strong> &gt;
+说明：基于Hive/SparkSQL/Trino生态，从存储类型、编码特点、适用场景、优缺点整理，数仓运维视角。</p>
+<table>
+
+<thead>
+<tr class="header">
+<th>特性</th>
+<th>TextFile</th>
+<th>Avro</th>
+<th>Parquet</th>
+<th>ORC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>存储类型</strong></td>
+<td>行式存储</td>
+<td>行式存储</td>
+<td>列式存储</td>
+<td>列式存储</td>
+</tr>
+<tr class="even">
+<td><strong>数据组织</strong></td>
+<td>纯文本，一行一条记录</td>
+<td>二进制行存储，一条记录完整存放</td>
+<td>按列拆分存储，同一列数据连续存放</td>
+<td>列式存储，Hive原生优化列式</td>
+</tr>
+<tr class="odd">
+<td><strong>序列化方式</strong></td>
+<td>文本（UTF-8）</td>
+<td>Avro二进制序列化</td>
+<td>Parquet二进制</td>
+<td>ORC二进制</td>
+</tr>
+<tr class="even">
+<td><strong>Schema支持</strong></td>
+<td>无内置schema，靠建表语句定义</td>
+<td>自带schema，支持schema演进（增删字段、兼容旧数据）</td>
+<td>自带schema，支持schema演进</td>
+<td>自带schema，支持schema演进</td>
+</tr>
+<tr class="odd">
+<td><strong>压缩</strong></td>
+<td>可开启Gzip/Snappy；<strong>压缩效率差</strong></td>
+<td>压缩效果较好</td>
+<td>压缩率高，同数据体积更小</td>
+<td>压缩率高，Hive生态下压缩优化强</td>
+</tr>
+<tr class="even">
+<td><strong>读取模式</strong></td>
+<td>读取必须加载整行；读少量字段也要读完整行</td>
+<td>读取整行记录，无法只读取部分列</td>
+<td>支持<strong>列裁剪</strong>，只读取查询用到的列；支持RowGroup级谓词下推</td>
+<td>支持列裁剪，支持Stripe/Index谓词下推，内置轻量索引</td>
+</tr>
+<tr class="odd">
+<td><strong>写入性能</strong></td>
+<td>写入快，无需序列化</td>
+<td>写入性能较好，CDC场景友好</td>
+<td>批量写入性能不错，小批量写入容易产生小文件</td>
+<td>Hive引擎写入性能最优</td>
+</tr>
+<tr class="even">
+<td><strong>Hive事务支持</strong></td>
+<td>不支持</td>
+<td>不支持</td>
+<td>Hive事务支持一般</td>
+<td><strong>原生支持Hive ACID事务（Update/Delete）</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>跨引擎兼容性</strong></td>
+<td>极好，所有引擎都可读</td>
+<td>很好，Spark/Hive/Trino通用</td>
+<td><strong>跨引擎兼容性最好</strong>，Spark默认格式，Hive/Trino/Doris外表都支持</td>
+<td>Hive生态最优；跨引擎支持弱于Parquet</td>
+</tr>
+<tr class="even">
+<td><strong>典型适用场景</strong></td>
+<td>原始日志临时落地、调试查看内容；临时小表</td>
+<td>CDC数据接入、数据交换、需要频繁schema变更场景</td>
+<td>通用离线数仓、湖仓（Iceberg/Hudi底层默认），多引擎共享数据</td>
+<td>传统Hive数仓，需要Hive事务、Hive批量ETL场景</td>
+</tr>
+<tr class="odd">
+<td><strong>主要缺点</strong></td>
+<td>体积大，查询慢；无法谓词下推；容易脏数据</td>
+<td>行式，查询大表只取少数列时IO开销大</td>
+<td>Hive原生事务能力弱；元数据Footage略大</td>
+<td>Trino/Spark读取性能略弱于Parquet，跨引擎通用性稍差</td>
+</tr>
+</tbody>
+</table>
+<p><strong>补充运维备注</strong></p>
+<ol type="1">
+<li>TextFile：可直接用<code>cat</code>查看文件内容，调试方便，但<strong>生产大表严禁使用</strong>，IO开销巨大。</li>
+<li>Avro虽然是行式，但schema内嵌在文件中，适合数据流转，多用于数据同步、CDC采集落地，不适合海量离线分析查询。</li>
+<li>Parquet：<strong>多引擎共用数仓首选</strong>，如果你的数据要同时给Spark、Trino、Doris外表查询，优先Parquet。Iceberg/Hudi底层默认采用Parquet。</li>
+<li>ORC：Hive专属优化，老Hive数仓、需要Hive内部做update/delete的场景优先选ORC；如果Trino为主查询引擎，优先Parquet。</li>
+</ol>
 <h2 id="分场景架构图场景说明">3 分场景架构图+场景说明</h2>
 <blockquote>
 <p>规则：每个场景独立流程图，三层固定：计算引擎｜元数据｜存储；只保留当前场景用到组件。</p>
