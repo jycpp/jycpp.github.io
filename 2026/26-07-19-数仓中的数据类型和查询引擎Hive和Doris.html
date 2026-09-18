@@ -1,0 +1,2199 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="数仓中的数据类型和查询引擎：一文说明白Hive和Doris 在大数据数仓建设中，Hive 和 Doris 是数据分析链路中最常用的两类组件。Hive 多用于离线数仓建设，依托 HDFS 存储文件数据；Doris 是典型的 OLAP 分析型数据库，用于低延迟、高并发的业务查询与多维报表。 在日常数据迁移、表结构设计、引擎选型、数据同步工作中，很多开发者容易混淆两者的数据类型、分区机制、存储结构、元数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数仓中的数据类型和查询引擎Hive和Doris">
+<meta property="og:url" content="https://jycpp.github.io/2026/26-07-19-%E6%95%B0%E4%BB%93%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E6%9F%A5%E8%AF%A2%E5%BC%95%E6%93%8EHive%E5%92%8CDoris.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="数仓中的数据类型和查询引擎：一文说明白Hive和Doris 在大数据数仓建设中，Hive 和 Doris 是数据分析链路中最常用的两类组件。Hive 多用于离线数仓建设，依托 HDFS 存储文件数据；Doris 是典型的 OLAP 分析型数据库，用于低延迟、高并发的业务查询与多维报表。 在日常数据迁移、表结构设计、引擎选型、数据同步工作中，很多开发者容易混淆两者的数据类型、分区机制、存储结构、元数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-07-19T14:15:30.000Z">
+<meta property="article:modified_time" content="2026-09-18T09:09:42.371Z">
+<meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="数据类型">
+<meta property="article:tag" content="数仓">
+<meta property="article:tag" content="数据仓库">
+<meta property="article:tag" content="Hive">
+<meta property="article:tag" content="SparkSQL">
+<meta property="article:tag" content="Trino">
+<meta property="article:tag" content="Doris">
+<meta property="article:tag" content="元数据">
+<meta property="article:tag" content="OLAP">
+<meta property="article:tag" content="湖仓一体">
+<meta property="article:tag" content="查询引擎">
+<meta property="article:tag" content="分区机制">
+<meta property="article:tag" content="数据迁移">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>数仓中的数据类型和查询引擎Hive和Doris - Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="数仓中的数据类型和查询引擎Hive和Doris"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-07-19 14:15" pubdate>
+          2026年7月19日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="软件开发"
+        id="heading-a41622d744ac9c55f5266dcc90ac7599" role="tab" data-toggle="collapse" href="#collapse-a41622d744ac9c55f5266dcc90ac7599"
+        aria-expanded="true"
+      >
+        软件开发
+        <span class="list-group-count">(78)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-a41622d744ac9c55f5266dcc90ac7599"
+           role="tabpanel" aria-labelledby="heading-a41622d744ac9c55f5266dcc90ac7599">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-07-19-Edge%E5%92%8CChrome%E6%8F%92%E4%BB%B6%EF%BC%9A%E5%9B%BE%E7%89%87%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BD%E5%99%A8.html" title="Edge和Chrome插件：图片批量下载器"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Edge和Chrome插件：图片批量下载器</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2011/11-10-12-PHP%E4%B8%AD9%E4%B8%AA%E9%87%8D%E8%A6%81%E5%AE%9E%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0%E5%92%8C%E5%8A%9F%E8%83%BD.html" title="PHP 知识：9 个重要实用的 PHP 函数和功能"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">PHP 知识：9 个重要实用的 PHP 函数和功能</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-03-15-Threejs%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE%9E%E6%88%98.html" title="Threejs从入门到实战一文说明白"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Threejs从入门到实战一文说明白</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2011/11-03-13-Ubuntu%E4%B8%8BSwap%E5%88%86%E5%8C%BA%E7%9A%84%E8%B0%83%E6%95%B4%E5%92%8C%E4%BC%98%E5%8C%96.html" title="Ubuntu 下 Swap 分区的调整和优化"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Ubuntu 下 Swap 分区的调整和优化</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2011/11-08-11-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0VS2005%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E6%A3%80%E6%9F%A5.html" title="学习笔记：VS2005内存泄露检查"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">学习笔记：VS2005内存泄露检查</span>
+        </a>
+      
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="MacOS"
+        id="heading-0a5b7edb55b772c60bfa8af868b679cf" role="tab" data-toggle="collapse" href="#collapse-0a5b7edb55b772c60bfa8af868b679cf"
+        aria-expanded="false"
+      >
+        MacOS
+        <span class="list-group-count">(5)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-0a5b7edb55b772c60bfa8af868b679cf"
+           role="tabpanel" aria-labelledby="heading-0a5b7edb55b772c60bfa8af868b679cf">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-01-14-MacOS%E4%B8%8B%E7%9A%84Git%E6%93%8D%E4%BD%9C%E5%8F%8AXCode%E5%8D%8F%E4%BD%9C.html" title="MacOS下的Git操作及XCode协作"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">MacOS下的Git操作及XCode协作</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-02-15-macOS%20%E4%B8%AD%E8%8B%B1%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2%E8%AF%A6%E8%A7%A3.html" title="macOS 中英文输入法切换详解"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">macOS 中英文输入法切换详解</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-02-22-macOS%E5%AE%89%E8%A3%85nginx%E6%96%B9%E6%A1%88%E6%A2%B3%E7%90%86.html" title="macOS安装nginx方案梳理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">macOS安装nginx方案梳理</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-02-15-%E5%9C%A8%20macOS%20Terminal%20%E4%B8%AD%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97.html" title="在 macOS Terminal 中配置代理服务器的完整指南"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在 macOS Terminal 中配置代理服务器的完整指南</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-12-26-%E5%AD%A6%E4%B9%A0Objective-C%E8%AF%BB%E8%BF%99%E4%B8%AA%E5%B0%B1%E8%B6%B3%E5%A4%9F%E4%BA%86.html" title="学习Objective-C的一些笔记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">学习Objective-C的一些笔记</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="PHP编程"
+        id="heading-07ba74ada3ba4fd5f731c7113d524e0d" role="tab" data-toggle="collapse" href="#collapse-07ba74ada3ba4fd5f731c7113d524e0d"
+        aria-expanded="false"
+      >
+        PHP编程
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-07ba74ada3ba4fd5f731c7113d524e0d"
+           role="tabpanel" aria-labelledby="heading-07ba74ada3ba4fd5f731c7113d524e0d">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2019/19-05-21-PHP%E4%B8%AD%E7%9A%84%E9%AD%94%E6%B3%95%E5%87%BD%E6%95%B0__call%E5%9C%A8ThinkPHP%E4%B8%AD%E7%9A%84%E5%A6%99%E7%94%A8.html" title="PHP中的魔法函数 “__call” 在ThinkPHP中的妙用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">PHP中的魔法函数 “__call” 在ThinkPHP中的妙用</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="云计算"
+        id="heading-1fefd5a9127ae81cd9e10ebb95084366" role="tab" data-toggle="collapse" href="#collapse-1fefd5a9127ae81cd9e10ebb95084366"
+        aria-expanded="false"
+      >
+        云计算
+        <span class="list-group-count">(6)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-1fefd5a9127ae81cd9e10ebb95084366"
+           role="tabpanel" aria-labelledby="heading-1fefd5a9127ae81cd9e10ebb95084366">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-09-19-%E9%98%BF%E9%87%8C%E4%BA%9199%E5%85%83%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%83%8C%E5%90%8E%E7%9A%84%E4%BD%8E%E4%BB%B7%E5%9B%B0%E5%A2%83.html" title="99元服务器背后的“囚徒困境”：基础云服务为何陷入低价泥潭？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">99元服务器背后的“囚徒困境”：基础云服务为何陷入低价泥潭？</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-07-16-AWS-Lambda%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98.html" title="AWS-Lambda开发实战"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">AWS-Lambda开发实战</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-07-13-AWS%E7%9A%84S3%E5%92%8CEC2.html" title="AWS的S3和EC2"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">AWS的S3和EC2</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-05-19-%E8%87%AA%E5%BB%BADocker%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E5%99%A8.html" title="在CentOS上搭建自己的Docker镜像加速器"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在CentOS上搭建自己的Docker镜像加速器</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-04-15-Serverless-and-Cloud-Function.html" title="无服务器架构和云函数 Serverless and Cloud Function"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">无服务器架构和云函数 Serverless and Cloud Function</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-15-%E9%98%BF%E9%87%8C%E4%BA%91%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%BB%84%E7%9A%84%E7%BD%91%E6%AE%B5%E5%88%86%E6%9E%90.html" title="阿里云的网络安全组的网段分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">阿里云的网络安全组的网段分析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="区块链技术"
+        id="heading-649e6048a32c09299e1c952347ccac7e" role="tab" data-toggle="collapse" href="#collapse-649e6048a32c09299e1c952347ccac7e"
+        aria-expanded="false"
+      >
+        区块链技术
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-649e6048a32c09299e1c952347ccac7e"
+           role="tabpanel" aria-labelledby="heading-649e6048a32c09299e1c952347ccac7e">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-01-10-%E5%8C%BA%E5%9D%97%E9%93%BE%E7%9A%84%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86.html" title="区块链的技术原理与项目开发实践"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">区块链的技术原理与项目开发实践</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="大语言模型"
+        id="heading-faf3ef15d22b0a54f1d7520545b242f7" role="tab" data-toggle="collapse" href="#collapse-faf3ef15d22b0a54f1d7520545b242f7"
+        aria-expanded="false"
+      >
+        大语言模型
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-faf3ef15d22b0a54f1d7520545b242f7"
+           role="tabpanel" aria-labelledby="heading-faf3ef15d22b0a54f1d7520545b242f7">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-08-10-Open%20WebUI%E5%87%BD%E6%95%B0Function%E7%9A%84%E8%B0%83%E7%94%A8%E6%AD%A5%E9%AA%A4.html" title="Open WebUI函数Function的调用步骤"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Open WebUI函数Function的调用步骤</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-08-10-Open%20WebUI%E5%B7%A5%E5%85%B7Tool%E8%B0%83%E7%94%A8%E7%9A%84%E8%87%AA%E5%8A%A8%E5%92%8C%E6%89%8B%E5%8A%A8%E6%A8%A1%E5%BC%8F.html" title="Open WebUI工具Tool调用的自动和手动模式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Open WebUI工具Tool调用的自动和手动模式</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-08-09-Open%20WebUI%E5%BC%80%E5%8F%91%E9%AB%98%E7%BA%A7%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E5%BA%94%E7%94%A8.html" title="Open WebUI开发高级接口参数应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Open WebUI开发高级接口参数应用</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="小程序和APP"
+        id="heading-7f209bc2e0d708de6099e389e191db5a" role="tab" data-toggle="collapse" href="#collapse-7f209bc2e0d708de6099e389e191db5a"
+        aria-expanded="false"
+      >
+        小程序和APP
+        <span class="list-group-count">(11)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-7f209bc2e0d708de6099e389e191db5a"
+           role="tabpanel" aria-labelledby="heading-7f209bc2e0d708de6099e389e191db5a">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/24-07-12-Android%E4%B8%AD%E5%AE%9E%E7%8E%B0Activity%E4%B8%8EService%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2.html" title="Android中实现Activity与Service数据交换"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android中实现Activity与Service数据交换</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-07-21-Android%E5%BC%80%E5%8F%91%E4%B8%ADKotlin%E7%9A%84%E8%AF%AD%E6%B3%95%E7%B3%96.html" title="Android开发中Kotlin的语法糖"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android开发中Kotlin的语法糖</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-09-20-Android%E5%BC%80%E5%8F%91%E4%B8%ADadb%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86.html" title="Android开发中adb常用命令整理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android开发中adb常用命令整理</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-09-05-Android%E8%AE%BE%E5%A4%87%E4%B8%ADdp%E5%92%8Cpx%E7%9A%84%E6%8D%A2%E7%AE%97%E5%85%B3%E7%B3%BB.html" title="Android设备中dp和px的换算关系"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android设备中dp和px的换算关系</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-04-15-Uniapp%E9%A1%B9%E7%9B%AE%E9%87%8D%E5%AE%9A%E4%B9%89%E5%B7%A6%E4%B8%8A%E8%A7%92%E7%9A%84%E8%BF%94%E5%9B%9E%E7%AE%AD%E5%A4%B4%E7%9A%84%E4%BA%8B%E4%BB%B6.html" title="Uniapp项目重定义左上角的返回箭头的事件"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Uniapp项目重定义左上角的返回箭头的事件</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-10-23-kotlin%E4%B8%AD%E7%9A%84data%20class%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8.html" title="kotlin中的data class及其应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">kotlin中的data class及其应用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-07-25-%E5%A6%82%E4%BD%95%E5%B0%86%E5%AE%89%E5%8D%93App%E8%BD%AC%E7%A7%BB%E5%88%B0%E5%8F%A6%E4%B8%80%E5%8F%B0%E6%89%8B%E6%9C%BA%E4%B8%8A.html" title="如何将安卓App转移到另一台手机上"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">如何将安卓App转移到另一台手机上</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-05-19-%E5%BE%AE%E4%BF%A1%E5%92%8C%E6%8A%96%E9%9F%B3%E7%9A%84%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F.html" title="微信和抖音的小程序生态系统"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">微信和抖音的小程序生态系统</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-07-20-%E7%90%86%E8%A7%A3Android%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84Context%E5%92%8CActivity.html" title="理解Android开发中的Context和Activity"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">理解Android开发中的Context和Activity</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-29-%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E4%B8%AD%E7%9A%84%E5%A4%A7%E7%AB%AF%E4%B8%8E%E5%B0%8F%E7%AB%AF.html" title="网络数据传输中的大端与小端：一个BLE和Socket开发者的踩坑笔记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">网络数据传输中的大端与小端：一个BLE和Socket开发者的踩坑笔记</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-12-01-%E9%B8%BF%E8%92%99%E4%BC%9A%E6%88%90%E4%B8%BA%E5%AE%89%E5%8D%93%E5%92%8C%E8%8B%B9%E6%9E%9C%E4%B9%8B%E5%90%8E%E7%9A%84%E8%80%81%E4%B8%89.html" title="鸿蒙要成为安卓和苹果之后的老三优势和挑战"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">鸿蒙要成为安卓和苹果之后的老三优势和挑战</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="微服务"
+        id="heading-79c287218d34050f6bd19986cd05b499" role="tab" data-toggle="collapse" href="#collapse-79c287218d34050f6bd19986cd05b499"
+        aria-expanded="false"
+      >
+        微服务
+        <span class="list-group-count">(5)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-79c287218d34050f6bd19986cd05b499"
+           role="tabpanel" aria-labelledby="heading-79c287218d34050f6bd19986cd05b499">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-09-11-IntelliJ%20IDEA%E4%B8%AD%E9%85%8D%E7%BD%AE%E8%BF%90%E8%A1%8C%E8%B0%83%E8%AF%95%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0.html" title="IntelliJ IDEA中配置运行调试启动命令参数"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">IntelliJ IDEA中配置运行调试启动命令参数</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-10-05-JWT%E8%AE%A4%E8%AF%81%E5%AE%8C%E6%95%B4%E5%8E%9F%E7%90%86JWKS%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%AE%9E%E6%88%98%E4%BB%A3%E7%A0%81%E6%80%BB%E7%BB%93.html" title="JWT 认证完整原理、JWKS 机制与前后端实战代码总结"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">JWT 认证完整原理、JWKS 机制与前后端实战代码总结</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-12-03-Nacos%E5%9C%A8Java-Based%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8.html" title="Nacos在Java-Based微服务架构中的作用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Nacos在Java-Based微服务架构中的作用</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-05-03-Nacos%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB.html" title="Nacos的基础知识汇总"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Nacos的基础知识汇总</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-11-%E8%8B%A5%E4%BE%9D%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6(Ruoyi%20Cloud)%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93.html" title="若依微服务框架(Ruoyi Cloud)知识点总结"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">若依微服务框架(Ruoyi Cloud)知识点总结</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="游戏开发"
+        id="heading-03af44dfb57651192e1e5ff490e35760" role="tab" data-toggle="collapse" href="#collapse-03af44dfb57651192e1e5ff490e35760"
+        aria-expanded="false"
+      >
+        游戏开发
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-03af44dfb57651192e1e5ff490e35760"
+           role="tabpanel" aria-labelledby="heading-03af44dfb57651192e1e5ff490e35760">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-04-28-LayaAir%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0.html" title="LayaAir项目开发中的生命周期函数"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">LayaAir项目开发中的生命周期函数</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="系统架构"
+        id="heading-b2f511d71f9265a279f533d671dee8ab" role="tab" data-toggle="collapse" href="#collapse-b2f511d71f9265a279f533d671dee8ab"
+        aria-expanded="true"
+      >
+        系统架构
+        <span class="list-group-count">(15)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-b2f511d71f9265a279f533d671dee8ab"
+           role="tabpanel" aria-labelledby="heading-b2f511d71f9265a279f533d671dee8ab">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-04-21-ALM%EF%BC%88%E5%BA%94%E7%94%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%AE%A1%E7%90%86%EF%BC%89%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9%E8%A7%A3%E6%9E%90.html" title="ALM（应用生命周期管理）核心内容解析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">ALM（应用生命周期管理）核心内容解析</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-07-20-Android%E4%BD%8E%E5%8A%9F%E8%80%97%E8%93%9D%E7%89%99GATT%E8%AF%BB%E5%86%99%E5%9B%9E%E8%B0%83%E7%9A%84%E5%9D%91.html" title="Android低功耗蓝牙通信中的Context陷阱：被忽略的生命周期依赖"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android低功耗蓝牙通信中的Context陷阱：被忽略的生命周期依赖</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-07-13-mermaid%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B%E5%9B%BE%E8%AE%A9markdown%E7%94%BB%E8%B5%B7%E6%9D%A5.html" title="Mermaid绘制流程图让Markdown画起来"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Mermaid绘制流程图让Markdown画起来</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html" title="一文搞懂：二进制、十进制、十六进制换算与字节表示原理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">一文搞懂：二进制、十进制、十六进制换算与字节表示原理</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-04-03-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0%E6%B8%B8%E6%88%8F%E8%83%8C%E6%99%AF%E9%9F%B3%E4%B9%90%E6%8C%81%E7%BB%AD%E6%92%AD%E6%94%BE.html" title="单例模式实现游戏背景音乐持续播放"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">单例模式实现游戏背景音乐持续播放</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-07-18-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%B0%E4%BB%93%E5%AD%98%E5%82%A8%E4%B8%8E%E6%9F%A5%E8%AF%A2%E9%93%BE%E8%B7%AF%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93.html" title="大数据数仓存储与查询链路技术总结"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">大数据数仓存储与查询链路技术总结</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-07-19-%E6%95%B0%E4%BB%93%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E6%9F%A5%E8%AF%A2%E5%BC%95%E6%93%8EHive%E5%92%8CDoris.html" title="数仓中的数据类型和查询引擎Hive和Doris"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">数仓中的数据类型和查询引擎Hive和Doris</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-29-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E7%89%88%E6%9C%AC%E5%88%86%E6%94%AF%E5%8F%8A%E5%90%88%E5%B9%B6.html" title="温故知新：Git版本分支及合并"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">温故知新：Git版本分支及合并</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-03-%E7%90%86%E8%A7%A3CPP%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%8D%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6.html" title="理解 C++ 编程中的“位与“运算符"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">理解 C++ 编程中的“位与“运算符</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-03-07-%E7%A7%91%E6%8A%80%E5%90%91%E5%96%84%E8%8E%AB%E8%AE%A9%E9%99%8D%E7%BB%B4%E6%89%93%E5%87%BB%E6%88%90%E4%B8%BA%E6%97%B6%E4%BB%A3%E7%9A%84%E6%8A%80%E6%9C%AF%E4%B9%8B%E6%AE%87.html" title="科技向善：莫让降维打击成为时代的“技术之殇”"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">科技向善：莫让降维打击成为时代的“技术之殇”</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html" title="计算机中的补码表示法与正负数的关系"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">计算机中的补码表示法与正负数的关系</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/22-08-10-%E8%BD%AF%E4%BB%B6%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E4%B8%9A%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84.html" title="软件平台的技术架构业务架构应用架构"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软件平台的技术架构业务架构应用架构</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-11-10-%E8%BD%AF%E8%80%83%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%B8%882025%E5%B9%B4%E8%AE%BA%E6%96%87%E6%88%91%E7%9A%84%E9%80%89%E9%A2%98.html" title="软考系统架构师2025年论文我的选题"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软考系统架构师2025年论文我的选题</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-11-12-%E8%BD%AF%E8%80%83%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%B8%882025%E5%B9%B4%E8%8B%B1%E8%AF%AD%E9%A2%98%E5%88%86%E6%9E%90.html" title="软考系统架构设计师2025年英语题分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">软考系统架构设计师2025年英语题分析</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-01-03-%E9%80%9A%E8%BF%87CPP%E7%BC%96%E7%A8%8B%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%8D%95%E5%AD%97%E8%8A%82%E5%92%8C%E5%8F%8C%E5%AD%97%E8%8A%82.html" title="通过C++编程的变量类型理解计算机的单字节和双字节"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">通过C++编程的变量类型理解计算机的单字节和双字节</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="网站建设"
+        id="heading-e9a3d2d73dc4188ec07ebda8feea7964" role="tab" data-toggle="collapse" href="#collapse-e9a3d2d73dc4188ec07ebda8feea7964"
+        aria-expanded="false"
+      >
+        网站建设
+        <span class="list-group-count">(8)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-e9a3d2d73dc4188ec07ebda8feea7964"
+           role="tabpanel" aria-labelledby="heading-e9a3d2d73dc4188ec07ebda8feea7964">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2021/21-08-03-HTTPS%E5%AE%89%E5%85%A8%E7%BD%91%E7%AB%99%E5%8E%9F%E7%90%86%E5%92%8CSSL%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86.html" title="HTTPS安全网站原理和SSL非对称加密"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">HTTPS安全网站原理和SSL非对称加密</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-30-Hexo%E7%BD%91%E7%AB%99%E4%B8%AD%E5%AE%8C%E7%BE%8E%E6%98%BE%E7%A4%BALaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.html" title="Hexo网站中完美显示LaTeX数学公式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Hexo网站中完美显示LaTeX数学公式</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-06-13-Vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.html" title="Vue项目中的环境变量配置文件"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Vue项目中的环境变量配置文件</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2018/18-05-13-Wordpress%E7%9A%84%E4%BC%AA%E9%9D%99%E6%80%81%E9%85%8D%E7%BD%AE.html" title="Wordpress的伪静态配置：Apache和Nginx两种平台的详细说明"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Wordpress的伪静态配置：Apache和Nginx两种平台的详细说明</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-03-12-uniapp%E9%A1%B9%E7%9B%AECICD%E5%AE%9E%E7%8E%B0Web%E7%89%88%E6%9C%AC%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83.html" title="uniapp项目CICD实现Web版本自动发布"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">uniapp项目CICD实现Web版本自动发布</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-06-16-%E5%88%86%E6%9E%90nodejs%E4%B8%AD%E7%9A%84express%E5%92%8Chttp-server.html" title="分析nodejs中的express和http-server"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">分析nodejs中的express和http-server</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-28-%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0Git%E5%85%8B%E9%9A%86%E9%A1%B9%E7%9B%AE%E5%88%B0%E6%9C%AC%E5%9C%B0.html" title="温故知新：Git克隆远程项目到本地开发环境"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">温故知新：Git克隆远程项目到本地开发环境</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-07-30-%E7%A8%8B%E5%BA%8F%E5%91%98%E5%BE%80%E4%BA%8B-%E8%B7%A8%E8%B6%8A%E6%97%B6%E4%BB%A3%E7%9A%84%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E5%85%B4%E8%A1%B0%E5%BD%95.html" title="程序员往事：跨越时代的开发工具兴衰录"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">程序员往事：跨越时代的开发工具兴衰录</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="职业规划"
+        id="heading-9d0f8f6f657186a8f0f18f1ea92d1c95" role="tab" data-toggle="collapse" href="#collapse-9d0f8f6f657186a8f0f18f1ea92d1c95"
+        aria-expanded="false"
+      >
+        职业规划
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-9d0f8f6f657186a8f0f18f1ea92d1c95"
+           role="tabpanel" aria-labelledby="heading-9d0f8f6f657186a8f0f18f1ea92d1c95">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-07-21-%E5%86%99%E4%BA%8620%E5%A4%9A%E5%B9%B4%E4%BB%A3%E7%A0%81%E7%A8%8B%E5%BA%8F%E5%91%98%E6%98%AF%E5%90%A6%E5%80%BC%E5%BE%97%E5%B9%B2%E4%B8%80%E8%BE%88%E5%AD%90.html" title="写了20多年代码程序员是否值得干一辈子"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">写了20多年代码程序员是否值得干一辈子</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="运维管理"
+        id="heading-033e45b14e81e1795577d54f37b66366" role="tab" data-toggle="collapse" href="#collapse-033e45b14e81e1795577d54f37b66366"
+        aria-expanded="false"
+      >
+        运维管理
+        <span class="list-group-count">(16)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-033e45b14e81e1795577d54f37b66366"
+           role="tabpanel" aria-labelledby="heading-033e45b14e81e1795577d54f37b66366">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-06-10-2025%E5%B9%B4%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%80%89%E5%93%AA%E4%B8%AA.html" title="2025年服务器操作系统选哪个，Ubuntu是否合适？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">2025年服务器操作系统选哪个，Ubuntu是否合适？</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-21-Android%20Wi-Fi%20%E8%BF%9E%E6%8E%A5%E6%8E%A7%E5%88%B6%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B%E4%B8%8E%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88.html" title="Android Wi-Fi 连接控制技术演进与实现方案"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android Wi-Fi 连接控制技术演进与实现方案</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-08-16-CodeBuddy%E4%B8%8EWorkBuddy%E5%AF%B9%E6%AF%94%E5%8F%8ASkill%E5%92%8CMCP%E8%BF%81%E7%A7%BB.html" title="CodeBuddy 与 WorkBuddy 产品对比及 Skill / MCP 迁移指南"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">CodeBuddy 与 WorkBuddy 产品对比及 Skill / MCP 迁移指南</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-05-01-Codex%E5%B1%80%E5%9F%9F%E7%BD%91%E8%BF%9C%E7%A8%8B%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" title="Codex 局域网远程使用指南：macOS 服务端 + SSH 端口转发方案"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Codex 局域网远程使用指南：macOS 服务端 + SSH 端口转发方案</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-05-01-Codex%E5%B9%BF%E5%9F%9F%E7%BD%91%E8%BF%9C%E7%A8%8B%E5%85%B1%E4%BA%AB%E6%8C%87%E5%8D%97.html" title="Codex 广域网远程共享指南：macOS 服务端 + Nginx + SSL（wss 方案）"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Codex 广域网远程共享指南：macOS 服务端 + Nginx + SSL（wss 方案）</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-02-Dockerfile%E8%84%9A%E6%9C%AC%E5%88%86%E6%9E%90%E4%B8%8Ecompose%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B.html" title="Dockerfile脚本分析与compose应用案例"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Dockerfile脚本分析与compose应用案例</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-03-21-Git-Stash-%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%B4%E6%97%B6%E5%82%A8%E7%89%A9%E6%9F%9C.html" title="Git Stash：代码的&#34;临时储物柜&#34;，高效管理开发中的临时修改"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Git Stash：代码的&#34;临时储物柜&#34;，高效管理开发中的临时修改</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-08-05-Gitlab%E4%B8%AD%E8%BF%99%E7%83%A6%E4%BA%BA%E7%9A%84Prometheus.html" title="Gitlab中这烦人的Prometheus"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Gitlab中这烦人的Prometheus</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-02-07-Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90CI%E4%B8%8E%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2CD%E8%BF%87%E7%A8%8B%E8%AF%B4%E6%98%8E.html" title="Jenkins持续集成CI与持续部署CD过程说明"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Jenkins持续集成CI与持续部署CD过程说明</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/20-10-05-Redis%E6%9C%8D%E5%8A%A1%E6%97%A5%E7%A8%8B%E8%BF%90%E7%BB%B4%E7%9F%A5%E8%AF%86%E7%82%B9.html" title="Redis服务日程运维知识点"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Redis服务日程运维知识点</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-06-10-Ubuntu%20Server%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C.html" title="Ubuntu Server初始化操作，安全性和加固"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Ubuntu Server初始化操作，安全性和加固</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-05-06-openEuler%2022.03%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95.html" title="openEuler 22.03安装记录"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">openEuler 22.03安装记录</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-06-10-Docker%E6%90%AD%E5%BB%BAPrometheus%E5%92%8CGrafana.html" title="使用Docker搭建Prometheus+Grafana运维监控可视化"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">使用Docker搭建Prometheus+Grafana运维监控可视化</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-05-17-%E5%88%B6%E4%BD%9C%E7%BB%BF%E8%89%B2%E7%89%88MySQL%E6%95%B0%E6%8D%AE%E5%BA%93.html" title="制作绿色版MySQL数据库适应多项目软件开发"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">制作绿色版MySQL数据库适应多项目软件开发</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2021/21-11-18-%E5%9C%A8GitLab%E5%92%8CGitHub%E4%B9%8B%E9%97%B4%E5%90%8C%E6%AD%A5%E4%BB%A3%E7%A0%81.html" title="在GitLab和GitHub之间同步Git版本仓库的代码"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在GitLab和GitHub之间同步Git版本仓库的代码</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/24-06-10-%E4%B8%A4%E5%A5%97%E4%B8%BB%E6%B5%81%E7%9B%91%E6%8E%A7%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E5%92%8C%E9%83%A8%E7%BD%B2%E5%AE%9E%E6%93%8D.html" title="微服务可观测性：两套主流监控方案对比与Docker落地实操"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">微服务可观测性：两套主流监控方案对比与Docker落地实操</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">数仓中的数据类型和查询引擎Hive和Doris</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1
+id="数仓中的数据类型和查询引擎一文说明白hive和doris">数仓中的数据类型和查询引擎：一文说明白Hive和Doris</h1>
+<p>在大数据数仓建设中，Hive 和 Doris
+是数据分析链路中最常用的两类组件。Hive 多用于离线数仓建设，依托 HDFS
+存储文件数据；Doris 是典型的 OLAP
+分析型数据库，用于低延迟、高并发的业务查询与多维报表。</p>
+<p>在日常数据迁移、表结构设计、引擎选型、数据同步工作中，很多开发者容易混淆两者的<strong>数据类型、分区机制、存储结构、元数据管理、查询引擎</strong>等核心差异。本文从架构、原理、建表实践、类型映射、生产落地场景全方位梳理对比，系统总结
+Hive 与 Doris 的本质区别与使用规范。</p>
+<h2 id="一hive-与-doris-核心架构总览">一、Hive 与 Doris
+核心架构总览</h2>
+<p>下表从五大核心维度，总结两者底层架构差异，是理解后续所有区别的基础。</p>
+<table>
+
+<thead>
+<tr class="header">
+<th>对比维度</th>
+<th>Hive</th>
+<th>Doris</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>数据类型</td>
+<td>自研 Hive 类型体系，设计贴近文件存储</td>
+<td>自研 Doris 类型体系，设计贴近 OLAP 数据库</td>
+</tr>
+<tr class="even">
+<td>建表分区</td>
+<td>以等值分区为主，支持<strong>懒创建分区</strong></td>
+<td>以 Range 范围分区为主（时间场景首选），也支持 LIST
+等值分区；分区需要预定义区间，超范围数据导入失败</td>
+</tr>
+<tr class="odd">
+<td>存储格式</td>
+<td>基于 HDFS 开放文件格式：Parquet、ORC、Avro、TextFile</td>
+<td>自研私有存储：Tablet（逻辑分片）+ Segment（物理列式文件）</td>
+</tr>
+<tr class="even">
+<td>元数据管理</td>
+<td>Hive Metastore（独立外部元数据服务），可被多引擎共享</td>
+<td>FE 内置元数据，无独立 Metastore；内部表元数据托管在 FE，也可外接
+Hive Metastore 实现湖仓一体</td>
+</tr>
+<tr class="odd">
+<td>查询执行引擎</td>
+<td>仅负责 SQL 解析与任务翻译，无原生执行引擎；实际计算依赖 Spark / MR /
+Tez</td>
+<td>FE+BE 整套 C++
+向量化原生查询引擎，独立完成解析、优化、执行，不依赖外部计算引擎</td>
+</tr>
+</tbody>
+</table>
+<h3 id="分区机制核心差异">1.1 分区机制核心差异</h3>
+<p>Hive
+的分区机制非常轻量化，建表时仅声明分区字段，<strong>不需要预先创建具体分区</strong>。数据写入时指定分区值，系统自动生成对应
+HDFS
+分区目录，属于“用则创建”的懒加载模式，非常适合离线数仓大批量、灵活的数据写入场景。</p>
+<p>Doris 默认采用 Range
+范围分区，必须在建表时预定义时间区间，遵循<strong>左闭右开</strong>规则。例如
+<code>PARTITION p202601 VALUES [('2026-01-01'), ('2026-02-01'))</code>，代表存储
+2026 年 1 月的全部数据。</p>
+<p>Doris
+严格校验分区范围，写入数据若未匹配任何分区，会直接导入失败。该机制虽然增加了运维成本，但能精准裁剪数据、减少扫描分片，大幅提升查询性能。生产中一般配合自动分区功能，解决手动维护分区的问题。</p>
+<h3 id="存储结构核心差异">1.2 存储结构核心差异</h3>
+<p>Hive
+本质是<strong>文件数仓</strong>，所有数据以通用列式文件（Parquet/ORC）存储在
+HDFS 上，格式开放通用，Spark、Trino、Presto
+等所有大数据组件均可直接读取文件，生态兼容性极强。</p>
+<p>Doris 是<strong>数据库级私有存储架构</strong>，数据按 Tablet
+逻辑分片，落地为 Segment 物理列式文件。Segment 文件自带
+ZoneMap、布隆过滤器、版本信息、删除向量等 OLAP
+专属优化，查询过滤、聚合、索引裁剪能力远优于通用文件格式。</p>
+<p>同时 <strong>Doris Segment
+为私有格式</strong>，外部引擎无法直接读取文件，必须通过 Doris FE/BE
+服务接口访问数据。</p>
+<h3 id="元数据管理核心差异">1.3 元数据管理核心差异</h3>
+<p>Hive 采用<strong>存储与元数据完全解耦</strong>的架构。Hive Metastore
+作为独立服务，统一管理所有表的库名、表结构、字段、分区、存储路径等元数据，是大数据生态的公共元数据中心，支持
+Spark、Trino、Doris 多组件共享挂载。</p>
+<p>Doris 内部表<strong>无独立 Metastore
+服务</strong>，所有元数据全部内嵌在 FE
+节点中，包含库表信息、分区信息、Tablet
+分布、副本信息等，架构更加简洁、部署轻量化。</p>
+<p>在湖仓一体场景中，Doris 可通过 Catalog 外接 Hive Metastore，直接读取
+Hive 外部表元数据，实现统一查询。</p>
+<h3 id="查询引擎核心差异">1.4 查询引擎核心差异</h3>
+<p>Hive <strong>不具备真正的查询执行引擎</strong>，仅承担 SQL
+解析、语法校验、任务翻译的工作，最终会将 HiveSQL 转换为 Spark、MR、Tez
+任务执行。因此 Hive 延迟高、不支持高并发，仅适用于离线批量计算。</p>
+<p>Doris 拥有<strong>完整自研的原生查询引擎</strong>：</p>
+<ul>
+<li>FE 负责：SQL 解析、逻辑优化、CBO
+代价优化、生成物理执行计划、分片调度；</li>
+<li>BE
+负责：向量化执行、数据读取、过滤、聚合、JOIN、排序、最终结果输出。</li>
+</ul>
+<p>整套引擎基于 C++ 实现，纯内存流水线执行，专为 OLAP
+多维分析、高并发报表、低延迟即席查询设计，完全不依赖外部计算组件。</p>
+<h2 id="二多引擎访问-hive-与-doris-的统一逻辑">二、多引擎访问 Hive 与
+Doris 的统一逻辑</h2>
+<p>在实际生产中，业务常使用 SparkSQL、Trino 作为统一查询入口，跨源查询
+Hive 和 Doris，两类引擎的访问逻辑有明显区别。</p>
+<h3 id="trinopresto访问逻辑">2.1 Trino（Presto）访问逻辑</h3>
+<ul>
+<li>查询 Hive：Trino 通过 Hive Connector 连接 Hive Metastore
+获取元数据，直接读取 HDFS 文件完成计算；</li>
+<li>查询 Doris：Trino 通过 Doris Connector 下发 SQL 至 Doris
+FE，<strong>过滤、聚合等计算全部下推至 Doris
+原生引擎执行</strong>，Trino 仅负责结果汇总、多源跨表 JOIN。</li>
+</ul>
+<h3 id="sparksql-访问逻辑">2.2 SparkSQL 访问逻辑</h3>
+<ul>
+<li>查询 Hive：SparkSQL 原生适配 Hive Metastore，直接读取 Hive 表与 HDFS
+文件，是离线 ETL 标准方案；</li>
+<li>查询 Doris：通过 Doris Spark Connector
+接入，支持谓词下推、聚合下推，核心计算由 Doris 完成，Spark
+主要承担批量读取、跨源处理、结果落地能力。</li>
+</ul>
+<h2 id="三生产关键限制与避坑总结">三、生产关键限制与避坑总结</h2>
+<ol type="1">
+<li><strong>Doris
+独有类型不支持外部引擎</strong>：BITMAP、HLL、VARIANT、LARGEINT 等 OLAP
+专属类型，仅 Doris 原生引擎可计算，Spark、Trino 无法解析。</li>
+<li><strong>复杂类型约束不同</strong>：Hive 的 ARRAY、MAP、STRUCT
+可做分区列；Doris 复杂类型<strong>禁止作为 Key
+列、分区列</strong>，仅支持 Value 列。</li>
+<li><strong>时间类型时区坑</strong>：Hive TIMESTAMP 带时区，Doris
+DATETIME 无时区，数据同步极易出现时间偏移。</li>
+<li><strong>存储访问权限不同</strong>：Hive 文件全网可读，Doris 私有
+Segment 文件仅能通过服务访问。</li>
+</ol>
+<h2
+id="四湖仓一体核心能力doris-hive-catalog">四、湖仓一体核心能力：Doris
+Hive Catalog</h2>
+<p>Doris 支持 Hive Catalog 功能，可直接对接 Hive Metastore，<strong>使用
+Doris 原生查询引擎直接读取 HDFS 上的 Parquet/ORC 文件</strong>，无需
+Spark、Trino 中转。</p>
+<p>该能力实现了同一套引擎统一查询：Doris 内部私有表 + Hive
+离线湖表，是目前主流轻量湖仓一体架构。</p>
+<h2 id="五场景选型小结">五、场景选型小结</h2>
+<ul>
+<li>大批量离线 ETL、多引擎共享数据文件：优先使用 Hive；</li>
+<li>低延迟报表、高并发查询、多维分析、预聚合统计：优先使用 Doris；</li>
+<li>多源跨库联合查询：使用 Trino/SparkSQL 做联邦查询。</li>
+</ul>
+<h2 id="六doris-与-hive-数据类型核心区别">六、Doris 与 Hive
+数据类型核心区别</h2>
+<p>数据类型差异是 Hive 迁移 Doris
+过程中最容易报错、最需要注意的细节，两者类型名称看似相似，但底层语义、约束、能力完全不同。</p>
+<h3 id="基础数值类型">6.1 基础数值类型</h3>
+<p>常规整型、浮点型两者基本兼容。Doris 额外提供
+<strong>LARGEINT</strong> 超大整数类型，支持 16 字节数值，可解决 Hive
+BIGINT 溢出问题。DECIMAL 类型 Doris 精度上限更高，默认支持 38
+位，拓展后可达 76 位，更适配高精度统计场景。</p>
+<h3 id="时间类型最高频踩坑点">6.2 时间类型（最高频踩坑点）</h3>
+<ul>
+<li>Hive：TIMESTAMP 带时区，存储 UTC 时间，查询按会话时区自动转换；</li>
+<li>Doris：无标准 TIMESTAMP，主流使用
+<strong>DATETIME(6)</strong>，无时区、支持微秒精度；新版支持 TIMESTAMPTZ
+带时区类型。</li>
+</ul>
+<p><strong>迁移标准规则</strong>：Hive TIMESTAMP 统一映射为 Doris
+DATETIME(6)，需手动处理时区偏差。</p>
+<h3 id="字符串与二进制类型">6.3 字符串与二进制类型</h3>
+<p>Hive STRING 无长度限制，CHAR/VARCHAR 按字符计算，原生支持 BINARY
+类型。 Doris CHAR/VARCHAR 按<strong>字节</strong>计算，STRING
+有默认大小上限，<strong>不支持 Hive BINARY</strong>，二进制数据需 Base64
+转字符串存储。</p>
+<h3 id="复杂类型">6.4 复杂类型</h3>
+<p>两者均支持 ARRAY、MAP、STRUCT：</p>
+<ul>
+<li>Hive：无严格限制，复杂类型可做分区、分桶列；</li>
+<li>Doris：复杂类型<strong>禁止作为
+Key、分区、分桶列</strong>，仅可存储在 Value 列。</li>
+</ul>
+<h3 id="独有类型差异">6.5 独有类型差异</h3>
+<ul>
+<li>Hive 独有：BINARY、UNIONTYPE、INTERVAL；</li>
+<li>Doris
+独有：LARGEINT、VARIANT、JSON、IPV4、UUID、BITMAP、HLL、QUANTILE_STATE，支撑高性能
+UV、去重、分位数统计。</li>
+</ul>
+<h3 id="空值与类型转换">6.6 空值与类型转换</h3>
+<p>Hive 约束宽松，所有列默认可空，支持大量隐式自动转换，容错高。 Doris
+约束严格，Key 列可非空，Value
+列默认可空，<strong>不支持随意隐式转换</strong>，必须显式
+CAST，数据准确性更高。</p>
+<h2 id="七hive-与-doris-标准建表示例对比">七、Hive 与 Doris
+标准建表示例对比</h2>
+<p>为贴合生产迁移场景，采用<strong>同一套业务字段</strong>，分别展示
+Hive、Doris 标准建表写法，直观体现语法与设计差异。</p>
+<h3 id="hive-建表示例离线标准表">7.1 Hive 建表示例（离线标准表）</h3>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">-- Hive 销售明细离线表<br><span class="hljs-keyword">CREATE</span> TABLE hive_sales_log (<br>    id TINYINT,<br>    order_no <span class="hljs-keyword">STRING</span>,<br>    amount DECIMAL(<span class="hljs-number">18</span>,<span class="hljs-number">2</span>),<br>    pay_time TIMESTAMP,<br>    dt DATE,<br>    is_pay <span class="hljs-keyword">BOOLEAN</span>,<br>    tags <span class="hljs-keyword">ARRAY</span>&lt;<span class="hljs-keyword">STRING</span>&gt;,<br>    ext_info <span class="hljs-keyword">MAP</span>&lt;<span class="hljs-keyword">STRING</span>,<span class="hljs-keyword">STRING</span>&gt;,<br>    user_info STRUCT&lt;name:<span class="hljs-keyword">STRING</span>,age:INT&gt;,<br>    raw_bin <span class="hljs-keyword">BINARY</span><br>)<br>PARTITIONED <span class="hljs-keyword">BY</span> (dt_part <span class="hljs-keyword">STRING</span>)<br>STORED <span class="hljs-keyword">AS</span> PARQUET;<br></code></pre></td></tr></table></figure>
+<p>Hive
+建表特点：仅声明分区、不预创建分区；无模型、分桶概念；类型约束宽松，复杂类型、二进制类型均可正常使用。</p>
+<h3 id="doris-对应建表示例明细同步表">7.2 Doris
+对应建表示例（明细同步表）</h3>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">-- Doris 同步 Hive 明细数据表<br><span class="hljs-keyword">CREATE</span> TABLE doris_sales_log (<br>    id TINYINT,<br>    order_no <span class="hljs-keyword">STRING</span>,<br>    amount DECIMAL(<span class="hljs-number">18</span>,<span class="hljs-number">2</span>),<br>    pay_time DATETIME(<span class="hljs-number">6</span>),<br>    dt DATE,<br>    is_pay <span class="hljs-keyword">BOOLEAN</span>,<br>    tags <span class="hljs-keyword">ARRAY</span>&lt;<span class="hljs-keyword">STRING</span>&gt;,<br>    ext_info <span class="hljs-keyword">MAP</span>&lt;<span class="hljs-keyword">STRING</span>,<span class="hljs-keyword">STRING</span>&gt;,<br>    user_info STRUCT&lt;name:<span class="hljs-keyword">STRING</span>,age:INT&gt;<br>)<br>DUPLICATE <span class="hljs-keyword">KEY</span>(id,order_no)<br><span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> RANGE(dt)<br>(<br>    <span class="hljs-keyword">PARTITION</span> p202601 <span class="hljs-keyword">VALUES</span> [(<span class="hljs-string">&#x27;2026-01-01&#x27;</span>), (<span class="hljs-string">&#x27;2026-02-01&#x27;</span>))<br>)<br>DISTRIBUTED <span class="hljs-keyword">BY</span> HASH(id) BUCKETS <span class="hljs-number">10</span><br>PROPERTIES(<br>    <span class="hljs-string">&quot;replication_num&quot;</span> = <span class="hljs-string">&quot;3&quot;</span><br>);<br></code></pre></td></tr></table></figure>
+<p>Doris 建表关键改动：</p>
+<ol type="1">
+<li>TIMESTAMP 改为 DATETIME(6)；</li>
+<li>剔除不兼容的 BINARY 字段；</li>
+<li>复杂类型全部放置在 Value 列；</li>
+<li>必须指定数据模型、分区规则、分桶规则、副本数。</li>
+</ol>
+<h3 id="doris-聚合模型专属表示例hive-无法实现">7.3 Doris
+聚合模型专属表示例（Hive 无法实现）</h3>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> doris_user_stat (<br>    user_id <span class="hljs-type">BIGINT</span>,<br>    visit_users BITMAP,<br>    uv HLL<br>)<br><span class="hljs-keyword">AGGREGATE</span> KEY(user_id)<br><span class="hljs-keyword">PARTITION BY RANGE</span>(dt)<br>(<br>    <span class="hljs-keyword">PARTITION</span> p202601 <span class="hljs-keyword">VALUES</span> [(<span class="hljs-string">&#x27;2026-01-01&#x27;</span>), (<span class="hljs-string">&#x27;2026-02-01&#x27;</span>))<br>)<br>DISTRIBUTED <span class="hljs-keyword">BY</span> HASH(user_id) BUCKETS <span class="hljs-number">10</span><br>PROPERTIES(&quot;replication_num&quot; = &quot;3&quot;);<br></code></pre></td></tr></table></figure>
+<p>该类聚合表可实现预聚合、高效去重，是 Doris 高性能报表的核心能力，Hive
+无原生替代方案。</p>
+<h2 id="八hive-转-doris-通用建表模板-类型映射表">八、Hive 转 Doris
+通用建表模板 + 类型映射表</h2>
+<h3 id="通用迁移建表模板可直接上线使用">8.1
+通用迁移建表模板（可直接上线使用）</h3>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-comment">/*</span><br><span class="hljs-comment">Hive 转 Doris 生产通用模板</span><br><span class="hljs-comment">核心规则：</span><br><span class="hljs-comment">1. TIMESTAMP → DATETIME(6)</span><br><span class="hljs-comment">2. 取消 BINARY，二进制转 Base64 STRING</span><br><span class="hljs-comment">3. 复杂类型只做 Value 列</span><br><span class="hljs-comment">4. 明细数据统一使用 Duplicate 模型</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">CREATE</span> TABLE doris_$&#123;table_name&#125; (<br>    col1 TINYINT,<br>    col2 <span class="hljs-keyword">STRING</span>,<br>    col3 DECIMAL(<span class="hljs-number">18</span>,<span class="hljs-number">2</span>),<br>    col4 DATETIME(<span class="hljs-number">6</span>),<br>    col5 DATE,<br>    col6 <span class="hljs-keyword">BOOLEAN</span>,<br>    col7 <span class="hljs-keyword">ARRAY</span>&lt;<span class="hljs-keyword">STRING</span>&gt;,<br>    col8 <span class="hljs-keyword">MAP</span>&lt;<span class="hljs-keyword">STRING</span>,<span class="hljs-keyword">STRING</span>&gt;<br>)<br>DUPLICATE <span class="hljs-keyword">KEY</span>($&#123;key_col1&#125;,$&#123;key_col2&#125;)<br><span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> RANGE($&#123;partition_date_col&#125;)<br>(<br>    <span class="hljs-keyword">PARTITION</span> p_init <span class="hljs-keyword">VALUES</span> [(<span class="hljs-string">&#x27;1970-01-01&#x27;</span>), (<span class="hljs-string">&#x27;2099-01-01&#x27;</span>))<br>)<br>DISTRIBUTED <span class="hljs-keyword">BY</span> HASH($&#123;hash_col&#125;) BUCKETS <span class="hljs-number">10</span><br>PROPERTIES (<br>    <span class="hljs-string">&quot;replication_num&quot;</span> = <span class="hljs-string">&quot;3&quot;</span>,<br>    <span class="hljs-string">&quot;enable_vectorized_engine&quot;</span> = <span class="hljs-string">&quot;true&quot;</span><br>);<br></code></pre></td></tr></table></figure>
+<h3 id="数据类型映射速查表">8.2 数据类型映射速查表</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Hive 类型</th>
+<th>Doris 映射类型</th>
+<th>迁移备注</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TINYINT/SMALLINT/INT/BIGINT</td>
+<td>同名</td>
+<td>超大整数使用 LARGEINT</td>
+</tr>
+<tr class="even">
+<td>FLOAT/DOUBLE</td>
+<td>同名</td>
+<td>行为一致</td>
+</tr>
+<tr class="odd">
+<td>DECIMAL(p,s)</td>
+<td>DECIMAL(p,s)</td>
+<td>Doris 精度更高、兼容性更好</td>
+</tr>
+<tr class="even">
+<td>DATE</td>
+<td>DATE</td>
+<td>完全兼容</td>
+</tr>
+<tr class="odd">
+<td>TIMESTAMP</td>
+<td>DATETIME(6)</td>
+<td>必须处理时区偏移</td>
+</tr>
+<tr class="even">
+<td>CHAR/VARCHAR/STRING</td>
+<td>同名</td>
+<td>字符/字节计数差异</td>
+</tr>
+<tr class="odd">
+<td>ARRAY/MAP/STRUCT</td>
+<td>同名</td>
+<td>仅支持 Value 列</td>
+</tr>
+<tr class="even">
+<td>BINARY</td>
+<td>STRING</td>
+<td>Base64 转换后存储</td>
+</tr>
+<tr class="odd">
+<td>BOOLEAN</td>
+<td>BOOLEAN</td>
+<td>查询表现一致</td>
+</tr>
+</tbody>
+</table>
+<h2 id="九doris-自动分区解决手动分区运维痛点">九、Doris
+自动分区（解决手动分区运维痛点）</h2>
+<p>Doris 默认 Range
+分区需要手动预创建，存在运维繁琐、容易漏分区导致数据失败的问题。<strong>AUTO
+PARTITION 自动分区</strong>是生产最优实践，兼顾 Hive 的便捷性与 Doris
+的查询性能。</p>
+<h3 id="自动分区优势">9.1 自动分区优势</h3>
+<ul>
+<li>无需手动新增分区，系统按时间自动生成；</li>
+<li>彻底避免超区间数据报错；</li>
+<li>分区命名规范统一，便于生命周期管理；</li>
+<li>支持按日、按月、按年灵活配置。</li>
+</ul>
+<h3 id="自动分区生产示例">9.2 自动分区生产示例</h3>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> doris_sales_auto_part (<br>    id TINYINT,<br>    order_no STRING,<br>    amount <span class="hljs-type">DECIMAL</span>(<span class="hljs-number">18</span>,<span class="hljs-number">2</span>),<br>    pay_time DATETIME(<span class="hljs-number">6</span>),<br>    dt <span class="hljs-type">DATE</span><br>)<br>DUPLICATE KEY(id,order_no)<br><span class="hljs-keyword">PARTITION BY RANGE</span>(dt) ()<br>AUTO <span class="hljs-keyword">PARTITION</span> (<br>    <span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> <span class="hljs-type">DATE</span> dt<br>    START = &quot;2026-01-01&quot;,<br>    END = &quot;2026-12-31&quot;,<br>    EVERY (<span class="hljs-type">INTERVAL</span> <span class="hljs-number">1</span> MONTH)<br>)<br>DISTRIBUTED <span class="hljs-keyword">BY</span> HASH(id) BUCKETS <span class="hljs-number">10</span><br>PROPERTIES(&quot;replication_num&quot; = &quot;3&quot;);<br></code></pre></td></tr></table></figure>
+<h3 id="使用注意事项">9.3 使用注意事项</h3>
+<ol type="1">
+<li>自动分区仅支持 RANGE 范围分区；</li>
+<li>分区字段必须为 DATE/DATETIME 类型，禁止字符串；</li>
+<li>支持动态扩容时间范围，无需改表结构；</li>
+<li>适配所有时间分区类明细、报表、日志表。</li>
+</ol>
+<h2 id="十最终总结">十、最终总结</h2>
+<ol type="1">
+<li>Hive
+是<strong>离线文件数仓</strong>，无原生查询引擎、分区灵活、格式开放，适合大批量
+ETL；</li>
+<li>Doris 是<strong>独立 OLAP 数据库</strong>，自带 C++
+向量化查询引擎、私有存储、严格类型约束，适合低延迟分析；</li>
+<li>数据迁移核心重点：<strong>时间类型时区转换、复杂类型列约束、分区机制差异</strong>；</li>
+<li>Doris
+自动分区可以完美解决手动分区运维痛点，是生产环境标准方案；</li>
+<li>多引擎架构中，Spark/Trino 仅做联邦调度，真正的高性能计算依然依赖
+Doris 原生引擎。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-chain-item">软件开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" class="category-chain-item">系统架构</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="print-no-link">#数据类型</a>
+      
+        <a href="/tags/%E6%95%B0%E4%BB%93/" class="print-no-link">#数仓</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" class="print-no-link">#数据仓库</a>
+      
+        <a href="/tags/Hive/" class="print-no-link">#Hive</a>
+      
+        <a href="/tags/SparkSQL/" class="print-no-link">#SparkSQL</a>
+      
+        <a href="/tags/Trino/" class="print-no-link">#Trino</a>
+      
+        <a href="/tags/Doris/" class="print-no-link">#Doris</a>
+      
+        <a href="/tags/%E5%85%83%E6%95%B0%E6%8D%AE/" class="print-no-link">#元数据</a>
+      
+        <a href="/tags/OLAP/" class="print-no-link">#OLAP</a>
+      
+        <a href="/tags/%E6%B9%96%E4%BB%93%E4%B8%80%E4%BD%93/" class="print-no-link">#湖仓一体</a>
+      
+        <a href="/tags/%E6%9F%A5%E8%AF%A2%E5%BC%95%E6%93%8E/" class="print-no-link">#查询引擎</a>
+      
+        <a href="/tags/%E5%88%86%E5%8C%BA%E6%9C%BA%E5%88%B6/" class="print-no-link">#分区机制</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/" class="print-no-link">#数据迁移</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>数仓中的数据类型和查询引擎Hive和Doris</div>
+      <div>https://jycpp.github.io/2026/26-07-19-数仓中的数据类型和查询引擎Hive和Doris.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年7月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/26-07-25-%E5%A6%82%E4%BD%95%E5%B0%86%E5%AE%89%E5%8D%93App%E8%BD%AC%E7%A7%BB%E5%88%B0%E5%8F%A6%E4%B8%80%E5%8F%B0%E6%89%8B%E6%9C%BA%E4%B8%8A.html" title="如何将安卓App转移到另一台手机上">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">如何将安卓App转移到另一台手机上</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/26-07-18-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%B0%E4%BB%93%E5%AD%98%E5%82%A8%E4%B8%8E%E6%9F%A5%E8%AF%A2%E9%93%BE%E8%B7%AF%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93.html" title="大数据数仓存储与查询链路技术总结">
+                        <span class="hidden-mobile">大数据数仓存储与查询链路技术总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
