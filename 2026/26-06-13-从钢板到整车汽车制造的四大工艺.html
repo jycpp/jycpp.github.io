@@ -1,0 +1,1586 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="从钢板到整车：汽车制造四大工艺怎么“长”出一台车 很多人以为，造车就是把一堆零件拼在一起。毕竟买车时，我们看到的已经是成品：车门能关，方向盘能动，车灯能亮，屏幕能开。但如果你有机会走进一家汽车工厂，会发现事情完全不是那么回事。 一台车从钢板变成能上路的产品，要经历四个关键阶段：冲压、焊装、涂装、总装。业内常把它们叫作“冲焊涂总”。这四个词听起来有点硬，其实它们讲的就是车身怎么成形、怎么连接、怎么防">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从钢板到整车：汽车制造四大工艺怎么“长”出一台车">
+<meta property="og:url" content="https://jycpp.github.io/2026/26-06-13-%E4%BB%8E%E9%92%A2%E6%9D%BF%E5%88%B0%E6%95%B4%E8%BD%A6%E6%B1%BD%E8%BD%A6%E5%88%B6%E9%80%A0%E7%9A%84%E5%9B%9B%E5%A4%A7%E5%B7%A5%E8%89%BA.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="从钢板到整车：汽车制造四大工艺怎么“长”出一台车 很多人以为，造车就是把一堆零件拼在一起。毕竟买车时，我们看到的已经是成品：车门能关，方向盘能动，车灯能亮，屏幕能开。但如果你有机会走进一家汽车工厂，会发现事情完全不是那么回事。 一台车从钢板变成能上路的产品，要经历四个关键阶段：冲压、焊装、涂装、总装。业内常把它们叫作“冲焊涂总”。这四个词听起来有点硬，其实它们讲的就是车身怎么成形、怎么连接、怎么防">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://files.seeusercontent.com/2026/10/03/dXb3/cc5b1b1.jpg">
+<meta property="article:published_time" content="2026-06-13T14:20:00.000Z">
+<meta property="article:modified_time" content="2026-10-03T08:11:30.903Z">
+<meta property="article:author" content="Jet Yan">
+<meta property="article:tag" content="汽车制造">
+<meta property="article:tag" content="冲压">
+<meta property="article:tag" content="焊装">
+<meta property="article:tag" content="涂装">
+<meta property="article:tag" content="总装">
+<meta property="article:tag" content="一体化压铸">
+<meta property="article:tag" content="轻量化">
+<meta property="article:tag" content="白车身">
+<meta property="article:tag" content="工艺">
+<meta property="article:tag" content="智能制造">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://files.seeusercontent.com/2026/10/03/dXb3/cc5b1b1.jpg">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>从钢板到整车：汽车制造四大工艺怎么“长”出一台车 - Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="从钢板到整车：汽车制造四大工艺怎么“长”出一台车"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-06-13 14:20" pubdate>
+          2026年6月13日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          24 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="兴趣爱好"
+        id="heading-fe9682b5f5e5a5cde297931c35839ca2" role="tab" data-toggle="collapse" href="#collapse-fe9682b5f5e5a5cde297931c35839ca2"
+        aria-expanded="true"
+      >
+        兴趣爱好
+        <span class="list-group-count">(27)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-fe9682b5f5e5a5cde297931c35839ca2"
+           role="tabpanel" aria-labelledby="heading-fe9682b5f5e5a5cde297931c35839ca2">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2021/21-07-20-%E4%BB%8E%E9%BE%99%E7%8E%8B%E5%B8%83%E9%9B%A8%E7%9C%8B%E3%80%8A%E8%A5%BF%E6%B8%B8%E8%AE%B0%E3%80%8B%E9%87%8C%E5%88%B6%E5%BA%A6%E9%82%A3%E7%82%B9%E4%BA%8B.html" title="从龙王布雨看《西游记》里制度那点事"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从龙王布雨看《西游记》里制度那点事</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-03-16-%E5%85%A8%E7%90%83%E4%BE%9B%E5%BA%94%E9%93%BE%E6%9A%97%E6%88%98%E8%B0%81%E5%9C%A8%E4%B8%BA%E7%BE%8E%E5%9B%BD%E5%85%B3%E7%A8%8E%E4%B9%B0%E5%8D%95.html" title="全球供应链暗战：谁在为美国关税买单？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">全球供应链暗战：谁在为美国关税买单？</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2013/13-12-28-%E5%AD%94%E5%AD%90%E7%9A%84%E4%BA%A4%E5%8F%8B%E8%A7%82.html" title="孔子的交友观"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">孔子的交友观</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/23-11-06-%E6%95%B0%E5%AD%97%E4%BA%BA%E6%B0%91%E5%B8%81%E4%B8%80%E5%9C%BA%E8%8D%92%E8%AF%9E%E7%9A%84%E6%8A%80%E6%9C%AF%E9%AA%97%E5%B1%80.html" title="数字人民币：一场荒诞的技术骗局？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">数字人民币：一场荒诞的技术骗局？</span>
+        </a>
+      
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="历史"
+        id="heading-c827d8dbb76ce33219f64c6749893159" role="tab" data-toggle="collapse" href="#collapse-c827d8dbb76ce33219f64c6749893159"
+        aria-expanded="false"
+      >
+        历史
+        <span class="list-group-count">(2)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-c827d8dbb76ce33219f64c6749893159"
+           role="tabpanel" aria-labelledby="heading-c827d8dbb76ce33219f64c6749893159">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-10-18-%E6%98%A5%E7%A7%8B%E6%97%A0%E4%B9%89%E6%88%98%E4%BD%86%E6%88%98%E6%88%98%E4%B9%89%E5%BD%93%E5%85%88.html" title="春秋无义战，但战战义当先"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">春秋无义战，但战战义当先</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2017/17-12-15-%E7%BE%8E%E5%9B%BD%E7%8B%AC%E7%AB%8B%E4%B8%8E%E6%AF%94%E5%88%A9%E6%97%B6%E8%AF%9E%E7%94%9F%E7%9A%84%E5%9D%87%E8%A1%A1%E9%80%BB%E8%BE%91.html" title="英法博弈下的两颗棋子：美国独立与比利时诞生的均衡逻辑"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">英法博弈下的两颗棋子：美国独立与比利时诞生的均衡逻辑</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="历史与人物"
+        id="heading-6c942880d0fa8fb5cda739afee062a50" role="tab" data-toggle="collapse" href="#collapse-6c942880d0fa8fb5cda739afee062a50"
+        aria-expanded="false"
+      >
+        历史与人物
+        <span class="list-group-count">(2)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-6c942880d0fa8fb5cda739afee062a50"
+           role="tabpanel" aria-labelledby="heading-6c942880d0fa8fb5cda739afee062a50">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-04-25-%E5%B7%9D%E6%99%AE%E6%9C%AC%E7%BA%AA%E5%92%8C%E4%B8%87%E6%96%AF%E4%B8%96%E5%AE%B6%E5%8F%8A%E5%8D%A2%E6%AF%94%E5%A5%A5%E5%88%97%E4%BC%A0.html" title="《川普本纪》《万斯世家》和《卢比奥列传》"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">《川普本纪》《万斯世家》和《卢比奥列传》</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-09-09-%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E4%BB%8A%E5%A4%A9%E4%B9%8B9%E6%9C%889%E6%97%A5.html" title="历史上的今天之9月9日"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">历史上的今天之9月9日</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="历史文化"
+        id="heading-159980ad0ed72447effd204a68dae594" role="tab" data-toggle="collapse" href="#collapse-159980ad0ed72447effd204a68dae594"
+        aria-expanded="false"
+      >
+        历史文化
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-159980ad0ed72447effd204a68dae594"
+           role="tabpanel" aria-labelledby="heading-159980ad0ed72447effd204a68dae594">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2020/20-11-21-%E4%BB%8E%E6%9B%B9%E5%88%BF%E8%AE%BA%E6%88%98%E5%88%B0%E5%AD%99%E5%AD%90%E5%85%B5%E6%B3%95%E7%9A%84%E7%A4%BC%E5%B4%A9%E4%B9%90%E5%9D%8F%E6%97%B6%E4%BB%A3%E7%9A%84%E6%97%A0%E5%A5%88.html" title="从曹刿论战到孙子兵法：礼崩乐坏时代孔夫子的无奈"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">从曹刿论战到孙子兵法：礼崩乐坏时代孔夫子的无奈</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="影视娱乐"
+        id="heading-63f98de66248d6d5632e2fba861d9816" role="tab" data-toggle="collapse" href="#collapse-63f98de66248d6d5632e2fba861d9816"
+        aria-expanded="false"
+      >
+        影视娱乐
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-63f98de66248d6d5632e2fba861d9816"
+           role="tabpanel" aria-labelledby="heading-63f98de66248d6d5632e2fba861d9816">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2020/20-09-11-Star%20Wars%20Series%20Timeline.html" title="Star Wars Series Timeline"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Star Wars Series Timeline</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="影视评论"
+        id="heading-b71ad1fdd53a1a85b77afd6d2ccd1f31" role="tab" data-toggle="collapse" href="#collapse-b71ad1fdd53a1a85b77afd6d2ccd1f31"
+        aria-expanded="false"
+      >
+        影视评论
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-b71ad1fdd53a1a85b77afd6d2ccd1f31"
+           role="tabpanel" aria-labelledby="heading-b71ad1fdd53a1a85b77afd6d2ccd1f31">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-09-25-%E8%8F%8A%E6%AC%A1%E9%83%8E%E7%9A%84%E5%A4%8F%E5%A4%A9%E8%8D%92%E8%AF%9E%E6%97%85%E9%80%94%E4%B8%AD%E6%8B%A5%E6%8A%B1%E6%AE%8B%E7%BC%BA.html" title="《菊次郎的夏天》：在荒诞的旅途中，拥抱残缺的自己"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">《菊次郎的夏天》：在荒诞的旅途中，拥抱残缺的自己</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="数码科技"
+        id="heading-8ebbeab8447022bc8d171bd79c2f979c" role="tab" data-toggle="collapse" href="#collapse-8ebbeab8447022bc8d171bd79c2f979c"
+        aria-expanded="false"
+      >
+        数码科技
+        <span class="list-group-count">(4)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-8ebbeab8447022bc8d171bd79c2f979c"
+           role="tabpanel" aria-labelledby="heading-8ebbeab8447022bc8d171bd79c2f979c">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-04-12-%E7%BD%91%E7%9B%98%E4%B9%8B%E4%BA%8E%E7%A1%AC%E7%9B%98%E7%9A%84%E5%8F%96%E8%88%8D.html" title="网盘之于硬盘的取舍：不是鱼和熊掌的关系"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">网盘之于硬盘的取舍：不是鱼和熊掌的关系</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-05-24-%E8%8A%B1%E5%84%BF%E5%B0%9A%E6%9C%89%E9%87%8D%E5%BC%80%E6%97%A5%E8%8B%B9%E6%9E%9C%E5%B7%B2%E6%97%A0%E5%B0%91%E5%B9%B4%E6%97%B6.html" title="花儿尚有重开日，苹果已无少年时"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">花儿尚有重开日，苹果已无少年时</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-09-12-%E6%99%BA%E8%83%BD%E6%89%8B%E6%9C%BA%E5%8D%96%E4%B8%8D%E5%8A%A8%E8%83%8C%E5%90%8E%E7%9A%84%E5%AD%98%E5%82%A8%E6%B6%A8%E4%BB%B7%E4%B8%8E%E6%8D%A2%E6%9C%BA%E6%8B%90%E7%82%B9.html" title="越卖不动越贵？2026手机市场“量跌价升”背后的存储涨价与换机拐点"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">越卖不动越贵？2026手机市场“量跌价升”背后的存储涨价与换机拐点</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-09-13-%E9%98%94%E7%9B%B4%E6%9D%BF%E6%89%8B%E6%9C%BA%E7%9A%84%E5%B8%82%E5%9C%BA%E8%B6%8B%E5%8A%BF%E5%92%8C%E5%B7%AE%E5%BC%82%E5%8C%96%E8%B7%AF%E7%BA%BF.html" title="阔直板手机的市场趋势和差异化路线"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">阔直板手机的市场趋势和差异化路线</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="文学阅读"
+        id="heading-62856d868f5251c6da712cb9e2a40432" role="tab" data-toggle="collapse" href="#collapse-62856d868f5251c6da712cb9e2a40432"
+        aria-expanded="false"
+      >
+        文学阅读
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-62856d868f5251c6da712cb9e2a40432"
+           role="tabpanel" aria-labelledby="heading-62856d868f5251c6da712cb9e2a40432">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-07-05-%E3%80%8A%E4%BA%8C%E5%8D%81%E5%B9%B4%E7%9B%AE%E7%9D%B9%E4%B9%8B%E6%80%AA%E7%8E%B0%E7%8A%B6%E3%80%8B%E9%98%85%E8%AF%BB%E7%B4%A2%E5%BC%95.html" title="《二十年目睹之怪现状》阅读索引"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">《二十年目睹之怪现状》阅读索引</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="无线电技术"
+        id="heading-fbec965cbfd880ac8d165234be54cb28" role="tab" data-toggle="collapse" href="#collapse-fbec965cbfd880ac8d165234be54cb28"
+        aria-expanded="false"
+      >
+        无线电技术
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-fbec965cbfd880ac8d165234be54cb28"
+           role="tabpanel" aria-labelledby="heading-fbec965cbfd880ac8d165234be54cb28">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-03-29-%E6%97%A0%E7%BA%BF%E5%AF%B9%E8%AE%B2%E6%8A%80%E6%9C%AF%E5%92%8C%E5%AF%B9%E8%AE%B2%E6%9C%BA%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90.html" title="无线对讲技术和对讲机原理分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">无线对讲技术和对讲机原理分析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="汽车科技"
+        id="heading-98d12894e1a9eb49bc434037212f7453" role="tab" data-toggle="collapse" href="#collapse-98d12894e1a9eb49bc434037212f7453"
+        aria-expanded="true"
+      >
+        汽车科技
+        <span class="list-group-count">(2)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-98d12894e1a9eb49bc434037212f7453"
+           role="tabpanel" aria-labelledby="heading-98d12894e1a9eb49bc434037212f7453">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-06-13-%E4%BB%8E%E9%92%A2%E6%9D%BF%E5%88%B0%E6%95%B4%E8%BD%A6%E6%B1%BD%E8%BD%A6%E5%88%B6%E9%80%A0%E7%9A%84%E5%9B%9B%E5%A4%A7%E5%B7%A5%E8%89%BA.html" title="从钢板到整车：汽车制造四大工艺怎么“长”出一台车"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">从钢板到整车：汽车制造四大工艺怎么“长”出一台车</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/26-07-26-%E5%AF%B9%E8%BD%A6%E4%BC%81%E8%BF%9C%E7%A8%8B%E9%94%81%E8%BD%A6%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%87%A0%E7%82%B9%E7%9C%8B%E6%B3%95.html" title="对“车企远程锁车”事件的几点看法"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">对“车企远程锁车”事件的几点看法</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="生活技巧"
+        id="heading-5c663125e0b9b747f7fd41a97d4cc01d" role="tab" data-toggle="collapse" href="#collapse-5c663125e0b9b747f7fd41a97d4cc01d"
+        aria-expanded="false"
+      >
+        生活技巧
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-5c663125e0b9b747f7fd41a97d4cc01d"
+           role="tabpanel" aria-labelledby="heading-5c663125e0b9b747f7fd41a97d4cc01d">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-04-12-%E9%80%89%E4%B8%80%E6%AC%BE%E7%9C%9F%E6%AD%A3%E9%9D%99%E9%9F%B3%E7%9A%84%E8%80%83%E8%AF%95%E6%89%8B%E8%A1%A8.html" title="选一款真正静音的考试手表，到底有多难？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">选一款真正静音的考试手表，到底有多难？</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="生活随笔"
+        id="heading-d261fc3ddf01b74f54d6f2173f72f9ae" role="tab" data-toggle="collapse" href="#collapse-d261fc3ddf01b74f54d6f2173f72f9ae"
+        aria-expanded="false"
+      >
+        生活随笔
+        <span class="list-group-count">(2)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-d261fc3ddf01b74f54d6f2173f72f9ae"
+           role="tabpanel" aria-labelledby="heading-d261fc3ddf01b74f54d6f2173f72f9ae">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-07-11-%E4%B8%8A%E6%B5%B7%E6%9C%89%E5%A4%9A%E5%8D%B7%E7%9C%8B%E7%9C%8B%E5%8F%B0%E9%A3%8E%E5%B7%B4%E5%A8%81%E5%B0%B1%E7%9F%A5%E9%81%93%E4%BA%86.html" title="上海有多卷，看看台风 “巴威” 就知道了"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">上海有多卷，看看台风 “巴威” 就知道了</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2025/25-09-07-%E5%91%8A%E5%88%AB%E5%88%9D%E7%A7%8B%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A3%B0%E8%9D%89%E9%B8%A3.html" title="告别，初秋的最后一声蝉鸣"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">告别，初秋的最后一声蝉鸣</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="电脑数码"
+        id="heading-929229401fbf2b66f4a34faaa192a22b" role="tab" data-toggle="collapse" href="#collapse-929229401fbf2b66f4a34faaa192a22b"
+        aria-expanded="false"
+      >
+        电脑数码
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-929229401fbf2b66f4a34faaa192a22b"
+           role="tabpanel" aria-labelledby="heading-929229401fbf2b66f4a34faaa192a22b">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-06-26-MacBook%20Air%E5%8D%87%E7%BA%A7M.2%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98%E8%B8%A9%E5%9D%91%E8%AE%B0.html" title="MacBook Air升级M.2固态硬盘踩坑记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">MacBook Air升级M.2固态硬盘踩坑记</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="社会现象"
+        id="heading-8ca98f0121144b0cede09f30dcffd19b" role="tab" data-toggle="collapse" href="#collapse-8ca98f0121144b0cede09f30dcffd19b"
+        aria-expanded="false"
+      >
+        社会现象
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-8ca98f0121144b0cede09f30dcffd19b"
+           role="tabpanel" aria-labelledby="heading-8ca98f0121144b0cede09f30dcffd19b">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-05-14-%E5%BD%93%E6%8B%9B%E6%8A%95%E6%A0%87%E6%B2%A6%E4%B8%BA%E6%8F%90%E6%AC%BE%E6%9C%BA.html" title="当招投标沦为“提款机”：重庆某学院的操作真的撕了行业遮羞布"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">当招投标沦为“提款机”：重庆某学院的操作真的撕了行业遮羞布</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="系统维护"
+        id="heading-e58e33693da01b6a53217de6d1d89bd7" role="tab" data-toggle="collapse" href="#collapse-e58e33693da01b6a53217de6d1d89bd7"
+        aria-expanded="false"
+      >
+        系统维护
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-e58e33693da01b6a53217de6d1d89bd7"
+           role="tabpanel" aria-labelledby="heading-e58e33693da01b6a53217de6d1d89bd7">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/25-09-14-WinPE%E5%AE%89%E8%A3%85Windows11%E7%9A%84Security%20Violation%E9%94%99%E8%AF%AF.html" title="WinPE安装Windows11的Security Violation错误"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">WinPE安装Windows11的Security Violation错误</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="网络安全"
+        id="heading-a9fbbd40048656862e149a84b77b9b40" role="tab" data-toggle="collapse" href="#collapse-a9fbbd40048656862e149a84b77b9b40"
+        aria-expanded="false"
+      >
+        网络安全
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-a9fbbd40048656862e149a84b77b9b40"
+           role="tabpanel" aria-labelledby="heading-a9fbbd40048656862e149a84b77b9b40">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/26-03-01-%E8%9C%82%E7%AA%9D%E7%BD%91%E7%BB%9C%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E4%BD%8D%E7%BD%AE%E6%B3%84%E9%9C%B2%E9%A3%8E%E9%99%A9%E5%88%86%E6%9E%90.html" title="蜂窝网络定位技术原理与位置泄露风险分析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">蜂窝网络定位技术原理与位置泄露风险分析</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="诗歌创作"
+        id="heading-e1b2e3a2937c01714702d04977262201" role="tab" data-toggle="collapse" href="#collapse-e1b2e3a2937c01714702d04977262201"
+        aria-expanded="false"
+      >
+        诗歌创作
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-e1b2e3a2937c01714702d04977262201"
+           role="tabpanel" aria-labelledby="heading-e1b2e3a2937c01714702d04977262201">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/23-12-01-%E6%88%91%E5%80%9F%E4%BA%BA%E9%97%B4%E4%BA%8C%E4%B8%A4%E5%A2%A8.html" title="我借人间二两墨"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">我借人间二两墨</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">从钢板到整车：汽车制造四大工艺怎么“长”出一台车</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3
+id="从钢板到整车汽车制造四大工艺怎么长出一台车">从钢板到整车：汽车制造四大工艺怎么“长”出一台车</h3>
+<p>很多人以为，造车就是把一堆零件拼在一起。毕竟买车时，我们看到的已经是成品：车门能关，方向盘能动，车灯能亮，屏幕能开。但如果你有机会走进一家汽车工厂，会发现事情完全不是那么回事。</p>
+<p>一台车从钢板变成能上路的产品，要经历四个关键阶段：冲压、焊装、涂装、总装。业内常把它们叫作“冲焊涂总”。这四个词听起来有点硬，其实它们讲的就是车身怎么成形、怎么连接、怎么防护、怎么变成一台完整的车。</p>
+<p>而且，现在的汽车制造已经不是几十年前“敲敲打打焊一焊”的样子了。铝制车身、一体化压铸、结构胶、铆接、软件刷写这些新东西，正在悄悄改变四大工艺的面貌。</p>
+<figure>
+<img src="https://files.seeusercontent.com/2026/10/03/dXb3/cc5b1b1.jpg" srcset="/img/loading.gif" lazyload
+alt="车焊涂总​四大工艺.jpg" />
+<figcaption aria-hidden="true">车焊涂总​四大工艺.jpg</figcaption>
+</figure>
+<h4 id="冲压把钢板压成车身的皮肤">冲压：把钢板压成车身的“皮肤”</h4>
+<p>冲压是汽车制造的第一步，也是最像“做模具”的一步。</p>
+<p>你可以把它想象成做饼干：把面团擀平，放进模具里一压，饼干就有了形状。只不过汽车冲压用的不是面团，而是钢板、铝板或者高强度钢卷料；压出来的也不是饼干，而是车门、引擎盖、车顶、侧围、翼子板这些车身零件。</p>
+<p>冲压线通常很长，一卷钢板被展开、校平、切割，再送进巨大的压机。模具上下合拢，钢板就被压成需要的形状。这个过程中，模具的精度非常关键。哪怕差零点几毫米，装到车上后，车门缝隙可能就不均匀，风噪可能变大，甚至下雨时还可能渗水。</p>
+<p>过去大家印象里的冲压主要是钢板，但现在越来越多车型会用到铝合金板和高强度钢。铝合金更轻，有助于降低整车重量；高强度钢更安全，能在碰撞时更好地保护乘员。但材料越复杂，冲压难度也越高。比如铝板比钢板更“软”，成形时更容易起皱或开裂，所以对模具设计和工艺控制要求更细。</p>
+<p>冲压件看起来只是车身外壳，其实它们决定了整车的第一印象。车门顺不顺、缝隙匀不匀、开合声音沉不沉，很多都能追溯到冲压这一步。</p>
+<h4 id="焊装把零件缝成白车身">焊装：把零件“缝”成白车身</h4>
+<p>冲压好的零件还只是一堆散件，真正让车身立起来的，是焊装。</p>
+<p>焊装车间里通常有很多机械臂，它们拿着焊枪，在车身骨架上快速点焊。传统燃油车车身上常有几千个焊点，这些焊点把车门内板、外板、立柱、底板、车顶等零件连在一起。焊装完成后，车身就有了基本形状，但还没有喷漆，也没有内饰和动力系统，业内把它叫作“白车身”。</p>
+<p>不过，现在的焊装早就不只是“点焊”了。</p>
+<p>随着轻量化发展，很多车身开始使用铝、高强度钢、甚至多种材料混合。铝和钢不能像两块钢板那样直接点焊，于是工厂里出现了更多连接方式。比如自冲铆接，它不需要预先打孔，直接把铆钉压入板材，让两层或多层材料牢牢连在一起；还有热熔螺接，适合从单侧操作，常用于封闭结构或难以从背面固定的位置。</p>
+<p>胶水也变得很重要。车身连接中使用的结构胶，不只是“粘住”两个零件，它还能提高连接强度、改善密封性、减少振动和噪音。所以现在很多车身的连接方式其实是“焊、铆、粘”一起上。点焊负责主要强度，铆接处理异种材料，结构胶填补缝隙并提升整体性。</p>
+<p>这也是为什么一些新车宣传里会提到“钢铝混合车身”或“多种连接工艺”。它不是单纯为了听起来高级，而是因为材料变了，连接方式必须跟着变。</p>
+<p>焊装完成后，白车身会进入检测环节。机械视觉系统会检查关键尺寸，确认车门、发动机舱、底盘安装点是否准确。毕竟后面还要装玻璃、内饰、电池或发动机，如果骨架歪了一点，后面每一步都会更麻烦。</p>
+<h4 id="涂装给车身穿上防腐外衣">涂装：给车身穿上防腐外衣</h4>
+<p>白车身焊好后，看起来灰扑扑的，金属表面还裸露着。如果直接上路，用不了多久就会生锈。涂装的作用，就是给车身做防护，同时赋予它颜色和光泽。</p>
+<p>涂装车间通常很干净，甚至有点“洁癖”。因为灰尘、毛发、细小颗粒落在漆面上，都会形成瑕疵。整个流程大致可以分成几步：清洗、电泳、中涂、面漆、清漆，最后烘干检测。</p>
+<p>第一步是前处理。车身要经过脱脂、清洗、磷化等工序，把冲压和焊装留下的油污、金属屑、指纹都去掉。表面不干净，漆就粘不牢。</p>
+<p>接下来是电泳。把车身浸进电泳槽，通电后漆膜会均匀附着在车身表面，包括很多肉眼看不到的缝隙和腔体内部。电泳层主要不是为了让车好看，而是为了防锈。很多车身内部结构以后再也接触不到，所以防锈必须在这一步做足。</p>
+<p>电泳之后是中涂、面漆和清漆。中涂能提升漆面平整度；面漆决定颜色，比如珍珠白、金属灰、哑光黑；清漆则像一层透明保护膜，让漆面更有光泽，也更耐紫外线、酸雨和细小划伤。</p>
+<p>涂装完成后，车身要经过烘干和仔细检查。工人和检测设备会看有没有色差、颗粒、流挂、橘皮纹等问题。漆面质量直接影响用户对一辆车的第一感觉，所以这一步很严格。</p>
+<p>近年来，涂装工艺也在变得更环保。比如有些工厂尝试免中涂工艺，减少涂层数量；还有的采用干式过滤，降低废水和废气处理压力。涂装车间能耗高、排放要求严，所以它也是汽车工厂里技术含量很高的环节之一。</p>
+<h4 id="总装让车真正活起来">总装：让车真正“活”起来</h4>
+<p>涂装好的车身已经漂亮了，但它还不能开。没有座椅、没有方向盘、没有玻璃、没有轮胎，也没有动力系统。总装要做的，就是把这些零件一件件装上去，让车从“空壳”变成可以交付的产品。</p>
+<p>总装线通常很长，零件从不同区域送来，按顺序装配。常见流程包括安装线束、仪表台、座椅、车门内饰、前后挡风玻璃、天窗、轮胎、车灯、后视镜等。随后，车身会和底盘合装。对于燃油车，这可能意味着发动机、变速箱、排气系统一起就位；对于新能源车，则往往是电池包、电机、电控系统完成安装。</p>
+<p>新能源车给总装带来了不少新变化。电池包体积大、重量大，安装时要特别注意密封、绝缘和紧固扭矩。高压线束布置也比传统低压线束更复杂，任何接插件没到位，都可能影响安全。很多车型在总装阶段还要进行软件刷写，把车载系统、电池管理系统、驾驶辅助系统等写入控制器。也就是说，现在的总装不只是机械装配，也包含大量电子和软件工作。</p>
+<p>装配完成后，车辆还要经过一系列检测。比如灯光是否正常工作，轮胎定位是否准确，空调是否制冷制热，车窗升降是否顺畅，电子系统有没有故障码。很多工厂还会做淋雨测试，模拟大雨环境，检查车门、天窗、密封条是否漏水。部分车辆还会进行短距离路试，确认异响、制动、转向等状态正常。</p>
+<p>总装是四大工艺里最接近“成品”的一步，但也是最考验协同的一步。零件种类多、工序多、人员多，任何一个环节出错，都可能影响交付。</p>
+<h4 id="四大工艺正在被哪些新技术改变">四大工艺正在被哪些新技术改变</h4>
+<p>如果说传统的冲焊涂总像一套成熟的老流程，那现在的新工艺更像是在这套流程里加入了新的“变量”。</p>
+<p>一体化压铸是近年讨论很多的一项技术。它把原本需要冲压、焊接的几十个零件合并成一个大型铸件，比如后底板或前舱。这样做可以减少焊点、缩短生产流程，也可能降低车身重量。但它对模具、材料、设备的要求很高，而且一旦碰撞受损，维修方式也会和传统车身不同。</p>
+<p>铝制车身和钢铝混合车身则让连接工艺变得更复杂。铝轻、耐腐蚀，但和钢的焊接性不同，所以工厂会更多使用铆接、胶接、流钻螺钉等冷连接方式。车身不再只是“焊出来”，而是“焊、铆、粘、拧”共同完成。</p>
+<p>数字化也在改变四大工艺。机械臂、视觉检测、在线测量、数字孪生等技术，让工厂能更稳定地控制质量。比如焊装时实时监控焊点质量，涂装时自动识别漆面缺陷，总装时通过扫码确认零件是否正确。这些变化不一定被消费者直接看见，却会影响一辆车的精度和可靠性。</p>
+<p>当然，新技术并不等于绝对更好。一体化压铸能简化制造，但也要考虑维修成本；铝车身能减重，但材料和工艺成本更高；胶接能提升密封和减振，但对胶水质量和固化工艺要求更严。汽车制造最终还是要回到安全、可靠、成本和使用体验这些基本问题上。</p>
+<h4 id="一台车不是一下子出现的">一台车，不是一下子出现的</h4>
+<p>下次你坐进一辆车，关上车门时听到那声低沉的“嘭”，看到均匀的车门缝隙，摸到光滑的漆面，或者注意到车内没有明显异响，其实这些细节都能追溯到工厂里的四大工艺。</p>
+<p>冲压决定了车身零件的形状和精度；焊装把它们连成坚固的骨架；涂装给车身防锈、上色、增亮；总装则把骨架变成一台能行驶、能交互、能交付的整车。</p>
+<p>过去我们说汽车制造，常常想到火花四溅的焊装线和忙碌的装配工人。现在再看，车间里多了更多机器人、胶水、铆钉、大型铸件和软件终端。四大工艺没有消失，只是变得更细、更复杂，也更安静地融入了每一台车的细节里。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD/" class="category-chain-item">兴趣爱好</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD/%E6%B1%BD%E8%BD%A6%E7%A7%91%E6%8A%80/" class="category-chain-item">汽车科技</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B1%BD%E8%BD%A6%E5%88%B6%E9%80%A0/" class="print-no-link">#汽车制造</a>
+      
+        <a href="/tags/%E5%86%B2%E5%8E%8B/" class="print-no-link">#冲压</a>
+      
+        <a href="/tags/%E7%84%8A%E8%A3%85/" class="print-no-link">#焊装</a>
+      
+        <a href="/tags/%E6%B6%82%E8%A3%85/" class="print-no-link">#涂装</a>
+      
+        <a href="/tags/%E6%80%BB%E8%A3%85/" class="print-no-link">#总装</a>
+      
+        <a href="/tags/%E4%B8%80%E4%BD%93%E5%8C%96%E5%8E%8B%E9%93%B8/" class="print-no-link">#一体化压铸</a>
+      
+        <a href="/tags/%E8%BD%BB%E9%87%8F%E5%8C%96/" class="print-no-link">#轻量化</a>
+      
+        <a href="/tags/%E7%99%BD%E8%BD%A6%E8%BA%AB/" class="print-no-link">#白车身</a>
+      
+        <a href="/tags/%E5%B7%A5%E8%89%BA/" class="print-no-link">#工艺</a>
+      
+        <a href="/tags/%E6%99%BA%E8%83%BD%E5%88%B6%E9%80%A0/" class="print-no-link">#智能制造</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>从钢板到整车：汽车制造四大工艺怎么“长”出一台车</div>
+      <div>https://jycpp.github.io/2026/26-06-13-从钢板到整车汽车制造的四大工艺.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年6月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/26-06-14-%E8%94%A1%E6%A1%93%E5%85%AC%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E8%AE%B3%E7%96%BE%E5%BF%8C%E5%8C%BB.html" title="我们笑蔡桓公愚蠢，却活成了他身边唯唯诺诺的人">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">我们笑蔡桓公愚蠢，却活成了他身边唯唯诺诺的人</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/26-06-13-%E9%87%8D%E6%96%B0%E7%90%86%E8%A7%A3AutoSAR%E6%9E%B6%E6%9E%84%E5%92%8C%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83.html" title="重新理解 AutoSAR：架构、运行环境与典型应用场景">
+                        <span class="hidden-mobile">重新理解 AutoSAR：架构、运行环境与典型应用场景</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
