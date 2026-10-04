@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>餐饮FDE AI平台 - 管理员后台</title>
+  <!-- 固定版本 CDN，避免 unpkg 302 跳转问题 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-plus@2.4.4/dist/index.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/element-plus@2.4.4/dist/index.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@element-plus/icons-vue@2.1.0/dist/index.iife.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <style>
+    * {margin:0;padding:0;box-sizing:border-box;}
+    html,body,#app {height:100%;}
+    .sidebar {background-color:#001529; height:100%; overflow-y:auto;}
+    .sidebar .logo{padding:16px;color:#fff;font-size:16px;font-weight:bold;text-align:center;border-bottom:1px solid #273849;}
+    .main-container{padding:16px;background:#f5f7fa;height:100%;overflow-y:auto;}
+    .card{margin-bottom:16px;}
+    .chart-item{width:100%;height:320px;}
+    .grid-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  </style>
+</head>
+<body>
+<div id="app">
+  <el-container style="height:100vh;">
+    <el-aside width="240px" class="sidebar">
+      <div class="logo">餐饮FDE AI管理平台</div>
+      <el-menu
+        default-active="dashboard"
+        background-color="#001529"
+        text-color="#fff"
+        active-text-color="#409EFF"
+        :default-openeds="['g-foh','g-kitchen','g-foodsafety','g-biz','g-supply','g-sys']"
+      >
+        <el-menu-item index="home"><el-icon><House /></el-icon><span>首页</span></el-menu-item>
+        <el-menu-item index="dashboard"><el-icon><DataBoard /></el-icon><span>仪表盘</span></el-menu-item>
+        <el-menu-item index="role-permission"><el-icon><User /></el-icon><span>角色与权限</span></el-menu-item>
+
+        <el-sub-menu index="g-foh">
+          <template #title><el-icon><Service /></el-icon><span>前厅服务</span></template>
+          <el-menu-item index="1-1">语音指令任务</el-menu-item>
+          <el-menu-item index="1-2">桌台管理</el-menu-item>
+          <el-menu-item index="1-3">排队调度</el-menu-item>
+        </el-sub-menu>
+
+        <el-sub-menu index="g-kitchen">
+          <template #title><el-icon><Dish /></el-icon><span>后厨与出品</span></template>
+          <el-menu-item index="2-1">出品任务看板</el-menu-item>
+          <el-menu-item index="2-2">备菜预测</el-menu-item>
+          <el-menu-item index="2-3">工位调度</el-menu-item>
+        </el-sub-menu>
+
+        <el-sub-menu index="g-foodsafety">
+          <template #title><el-icon><Warning /></el-icon><span>食安合规</span></template>
+          <el-menu-item index="3-1">后厨巡检</el-menu-item>
+          <el-menu-item index="3-2">温湿度监控</el-menu-item>
+          <el-menu-item index="3-3">效期管理</el-menu-item>
+        </el-sub-menu>
+
+        <el-sub-menu index="g-biz">
+          <template #title><el-icon><Operation /></el-icon><span>经营管理</span></template>
+          <el-menu-item index="4-1">经营报表</el-menu-item>
+          <el-menu-item index="4-2">排班管理</el-menu-item>
+          <el-menu-item index="4-3">盘点对账</el-menu-item>
+        </el-sub-menu>
+
+        <el-sub-menu index="g-supply">
+          <template #title><el-icon><Box /></el-icon><span>供应链管理</span></template>
+          <el-menu-item index="5-1">自动补货</el-menu-item>
+          <el-menu-item index="5-2">到货验收</el-menu-item>
+          <el-menu-item index="5-3">供应商绩效</el-menu-item>
+        </el-sub-menu>
+
+        <el-sub-menu index="g-sys">
+          <template #title><el-icon><Setting /></el-icon><span>系统配置</span></template>
+          <el-menu-item index="6-1">对讲录音采集配置</el-menu-item>
+          <el-menu-item index="6-2">AI模型参数</el-menu-item>
+          <el-menu-item index="6-3">日志审计</el-menu-item>
+        </el-sub-menu>
+      </el-menu>
+    </el-aside>
+
+    <el-main class="main-container">
+      <el-breadcrumb class="card" separator="/">
+        <el-breadcrumb-item>首页</el-breadcrumb-item>
+        <el-breadcrumb-item>仪表盘</el-breadcrumb-item>
+      </el-breadcrumb>
+
+      <el-row :gutter="16" class="card">
+        <el-col :span="6" v-for="kpi in kpiList" :key="kpi.label">
+          <el-card shadow="hover">
+            <div style="font-size:14px;color:#666;">{{ kpi.label }}</div>
+            <div style="font-size:28px;font-weight:bold;margin-top:8px;color:#303133;">{{ kpi.value }}</div>
+          </el-card>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="16">
+        <el-col :span="8">
+          <el-card title="最新 AI 语音解析指令任务" shadow="hover">
+            <el-table :data="taskList" border stripe size="small">
+              <el-table-column prop="id" label="任务ID" width="70"/>
+              <el-table-column prop="rawText" label="原始对讲语音" min-width="160"/>
+              <el-table-column prop="aiCommand" label="AI 识别指令" min-width="140"/>
+              <el-table-column prop="targetRole" label="派单" width="70"/>
+              <el-table-column prop="tableNo" label="桌号" width="60"/>
+              <el-table-column prop="status" label="状态" width="80">
+                <template #default="scope">
+                  <el-tag :type="scope.row.status==='待执行' ? 'warning' : 'success'" size="small">{{ scope.row.status }}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column prop="time" label="识别时间" width="140"/>
+            </el-table>
+          </el-card>
+        </el-col>
+        <el-col :span="16">
+          <el-card title="Agent 实时工作流" shadow="hover" style="height:100%;">
+            <svg viewBox="0 0 300 420" style="width:100%;height:380px;">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="#909399"/>
+                </marker>
+                <linearGradient id="flowGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#409EFF" stop-opacity="0"/>
+                  <stop offset="50%" stop-color="#409EFF" stop-opacity="1"/>
+                  <stop offset="100%" stop-color="#409EFF" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+
+              <!-- 节点1: 录音输入 -->
+              <rect x="90" y="10" width="120" height="44" rx="8" fill="#ecf5ff" stroke="#409EFF" stroke-width="1.5"/>
+              <text x="150" y="30" text-anchor="middle" font-size="12" fill="#303133" font-weight="bold">🎙️ 对讲机录音</text>
+              <text x="150" y="46" text-anchor="middle" font-size="10" fill="#909399">实时采集 · 本地边缘端</text>
+
+              <!-- 箭头1 -->
+              <line x1="150" y1="54" x2="150" y2="80" stroke="#909399" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <circle r="3" fill="#409EFF">
+                <animateMotion dur="2s" repeatCount="indefinite" path="M150,54 L150,80"/>
+              </circle>
+
+              <!-- 节点2: ASR -->
+              <rect x="90" y="84" width="120" height="44" rx="8" fill="#f0f9eb" stroke="#67c23a" stroke-width="1.5"/>
+              <text x="150" y="104" text-anchor="middle" font-size="12" fill="#303133" font-weight="bold">ASR 语音识别</text>
+              <text x="150" y="120" text-anchor="middle" font-size="10" fill="#67c23a">耗时 0.32s · 本地推理</text>
+
+              <!-- 箭头2 -->
+              <line x1="150" y1="128" x2="150" y2="154" stroke="#909399" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <circle r="3" fill="#67c23a">
+                <animateMotion dur="2s" begin="0.3s" repeatCount="indefinite" path="M150,128 L150,154"/>
+              </circle>
+
+              <!-- 节点3: LLM -->
+              <rect x="70" y="158" width="160" height="56" rx="8" fill="#fdf6ec" stroke="#e6a23c" stroke-width="2"/>
+              <text x="150" y="180" text-anchor="middle" font-size="12" fill="#303133" font-weight="bold">🧠 LLM 意图理解</text>
+              <text x="150" y="196" text-anchor="middle" font-size="10" fill="#e6a23c">Qwen-7B · 本地推理</text>
+              <text x="150" y="210" text-anchor="middle" font-size="10" fill="#909399">实体抽取: 桌号/菜品/动作</text>
+              <!-- 呼吸光晕 -->
+              <rect x="70" y="158" width="160" height="56" rx="8" fill="none" stroke="#e6a23c" stroke-width="2" opacity="0.5">
+                <animate attributeName="opacity" values="0.5;0.1;0.5" dur="1.5s" repeatCount="indefinite"/>
+                <animate attributeName="stroke-width" values="2;4;2" dur="1.5s" repeatCount="indefinite"/>
+              </rect>
+
+              <!-- 箭头3 -->
+              <line x1="150" y1="214" x2="150" y2="240" stroke="#909399" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <circle r="3" fill="#e6a23c">
+                <animateMotion dur="2s" begin="0.6s" repeatCount="indefinite" path="M150,214 L150,240"/>
+              </circle>
+
+              <!-- 节点4: 任务路由 -->
+              <rect x="90" y="244" width="120" height="40" rx="8" fill="#f4f4f5" stroke="#909399" stroke-width="1.5"/>
+              <text x="150" y="262" text-anchor="middle" font-size="12" fill="#303133" font-weight="bold">任务路由引擎</text>
+              <text x="150" y="276" text-anchor="middle" font-size="10" fill="#909399">规则匹配 → 角色分发</text>
+
+              <!-- 分叉线 -->
+              <path d="M150,284 L150,300 L60,320" fill="none" stroke="#909399" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <path d="M150,284 L150,320" fill="none" stroke="#909399" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <path d="M150,284 L150,300 L240,320" fill="none" stroke="#909399" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+              <!-- 终点节点 -->
+              <rect x="20" y="324" width="80" height="36" rx="6" fill="#fef0f0" stroke="#f56c6c" stroke-width="1.2"/>
+              <text x="60" y="346" text-anchor="middle" font-size="11" fill="#303133">后厨工作台</text>
+
+              <rect x="110" y="324" width="80" height="36" rx="6" fill="#ecf5ff" stroke="#409EFF" stroke-width="1.2"/>
+              <text x="150" y="346" text-anchor="middle" font-size="11" fill="#303133">服务员 PAD</text>
+
+              <rect x="200" y="324" width="80" height="36" rx="6" fill="#f0f9eb" stroke="#67c23a" stroke-width="1.2"/>
+              <text x="240" y="346" text-anchor="middle" font-size="11" fill="#303133">传菜手环</text>
+
+              <!-- 实时日志 -->
+              <rect x="20" y="378" width="260" height="32" rx="4" fill="#1e1e1e"/>
+              <text x="30" y="393" font-size="10" fill="#4ec9b0" font-family="monospace">[20:12:41] Agent处理完成</text>
+              <text x="30" y="405" font-size="9" fill="#dcdcaa" font-family="monospace">→ 12桌撤空盘 → 服务员</text>
+            </svg>
+          </el-card>
+        </el-col>
+      </el-row>
+
+      <div class="grid-row">
+        <el-card title="每日指令数量趋势（折线图）" shadow="hover" class="card">
+          <div id="chart-line" class="chart-item"></div>
+        </el-card>
+        <el-card title="任务类型分布（饼图）" shadow="hover" class="card">
+          <div id="chart-pie" class="chart-item"></div>
+        </el-card>
+      </div>
+      <el-card title="各岗位任务量统计（柱状图）" shadow="hover" class="card">
+        <div id="chart-bar" class="chart-item"></div>
+      </el-card>
+    </el-main>
+  </el-container>
+</div>
+
+<script>
+const { createApp, ref, onMounted } = Vue;
+const app = createApp({
+  setup(){
+    const kpiList = ref([
+      {label:'今日AI识别指令总数', value:186},
+      {label:'待执行任务', value:24},
+      {label:'已完成任务', value:152},
+      {label:'任务完成率', value:'81.7%'}
+    ]);
+    const taskList = ref([
+      {id:1, rawText:"8桌再加一份鱼香肉丝", aiCommand:"新增菜品：鱼香肉丝", targetRole:"后厨", tableNo:"8", status:"待执行", time:"2026-10-03 20:10:12"},
+      {id:2, rawText:"5号桌买单", aiCommand:"发起结账", targetRole:"服务员", tableNo:"5", status:"已完成", time:"2026-10-03 20:09:45"},
+      {id:3, rawText:"3桌催一下干锅", aiCommand:"催单：干锅", targetRole:"后厨", tableNo:"3", status:"待执行", time:"2026-10-03 20:11:03"},
+      {id:4, rawText:"10桌加一碗米饭", aiCommand:"新增主食：米饭", targetRole:"传菜", tableNo:"10", status:"已完成", time:"2026-10-03 20:08:22"},
+      {id:5, rawText:"12桌撤空盘", aiCommand:"桌面清理", targetRole:"服务员", tableNo:"12", status:"待执行", time:"2026-10-03 20:12:41"}
+    ]);
+
+    onMounted(()=>{
+      const line = echarts.init(document.getElementById('chart-line'));
+      line.setOption({
+        tooltip:{trigger:'axis'},
+        xAxis:{type:'category', data:['09-30','10-01','10-02','10-03']},
+        yAxis:{type:'value'},
+        series:[{name:'指令数', type:'line', smooth:true, data:[142,165,171,186], areaStyle:{opacity:0.2}}]
+      });
+
+      const pie = echarts.init(document.getElementById('chart-pie'));
+      pie.setOption({
+        tooltip:{trigger:'item'},
+        legend:{bottom:0},
+        series:[{type:'pie', radius:['40%','65%'], data:[
+          {value:82, name:'加菜'},{value:46, name:'结账'},
+          {value:34, name:'催单'},{value:24, name:'桌面服务'}
+        ]}]
+      });
+
+      const bar = echarts.init(document.getElementById('chart-bar'));
+      bar.setOption({
+        tooltip:{trigger:'axis'},
+        xAxis:{type:'category', data:['后厨','服务员','传菜','库管','收银']},
+        yAxis:{type:'value'},
+        series:[{type:'bar', barWidth:'40%', data:[92,56,30,8,15], itemStyle:{color:'#409EFF'}}]
+      });
+
+      window.addEventListener('resize', ()=>{ line.resize(); pie.resize(); bar.resize(); });
+    });
+
+    return { kpiList, taskList };
+  }
+});
+
+app.use(ElementPlus);
+// 全量注册 Element Plus 图标
+for (const [name, comp] of Object.entries(ElementPlusIconsVue)) {
+  app.component(name, comp);
+}
+app.mount('#app');
+</script>
+</body>
+</html>
