@@ -1,0 +1,1127 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="下面我按模型从 0 到上线的真实流程顺序，用“模型的生命周期”而不是“难度分级”来思考，把每个阶段、在干什么、用什么 Python 工具，给你理清楚。  一、整体流程总览（先给你一张“地图”） 12345678910111213数据准备   ↓预训练（学习）   ↓微调（Fine-tuning）   ↓对齐（监督学习 &#x2F; RLHF &#x2F; DPO）   ↓评测（Evaluation）   ↓推理优化（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jet C++ Blog">
+<meta property="og:url" content="https://jycpp.github.io/2025/25-10-11-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01%E5%AE%9E%E6%93%8D%E6%B5%81%E7%A8%8B%E8%AE%B0%E5%BD%95.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="下面我按模型从 0 到上线的真实流程顺序，用“模型的生命周期”而不是“难度分级”来思考，把每个阶段、在干什么、用什么 Python 工具，给你理清楚。  一、整体流程总览（先给你一张“地图”） 12345678910111213数据准备   ↓预训练（学习）   ↓微调（Fine-tuning）   ↓对齐（监督学习 &#x2F; RLHF &#x2F; DPO）   ↓评测（Evaluation）   ↓推理优化（">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-10-12T14:39:28.490Z">
+<meta property="article:modified_time" content="2026-10-12T14:39:28.490Z">
+<meta property="article:author" content="Jet Yan">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-10-12 14:39" pubdate>
+          2026年10月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          764 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          7 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>下面我按<strong>模型从 0
+到上线的真实流程顺序</strong>，用<strong>“模型的生命周期”</strong>而不是“难度分级”来思考，把每个阶段、在干什么、用什么
+Python 工具，给你理清楚。</p>
+<hr />
+<h2
+id="一整体流程总览先给你一张地图">一、整体流程总览（先给你一张“地图”）</h2>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs text">数据准备<br>   ↓<br>预训练（学习）<br>   ↓<br>微调（Fine-tuning）<br>   ↓<br>对齐（监督学习 / RLHF / DPO）<br>   ↓<br>评测（Evaluation）<br>   ↓<br>推理优化（Inference Opt）<br>   ↓<br>部署（Serving）<br></code></pre></td></tr></table></figure>
+<hr />
+<h2 id="全流程简化速记">全流程简化速记</h2>
+<table>
+<thead>
+<tr class="header">
+<th>你说的</th>
+<th>标准阶段</th>
+<th>Python 核心工具</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>模型的学习</td>
+<td>预训练</td>
+<td>transformers + deepspeed + accelerate</td>
+</tr>
+<tr class="even">
+<td>调优（FT）</td>
+<td>微调</td>
+<td>peft + bitsandbytes + trl</td>
+</tr>
+<tr class="odd">
+<td>监督学习</td>
+<td>SFT</td>
+<td>trl(SFTTrainer) + datasets</td>
+</tr>
+<tr class="even">
+<td>其他流程</td>
+<td>对齐 / 评测 / 部署</td>
+<td>trl + lm-eval + vllm + fastapi</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="二按阶段拆解重点python-工具">二、按阶段拆解（重点：Python
+工具）</h2>
+<hr />
+<h2 id="阶段-1数据准备data-preparation">阶段 1：数据准备（Data
+Preparation）</h2>
+<h3 id="做什么">做什么</h3>
+<ul>
+<li>数据清洗</li>
+<li>Tokenization</li>
+<li>格式化（指令数据 / 对话数据）</li>
+<li>数据集划分</li>
+</ul>
+<h3 id="python-工具">Python 工具</h3>
+<table>
+<thead>
+<tr class="header">
+<th>工具</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>datasets</code>（Hugging Face）</td>
+<td>加载、处理、缓存数据集</td>
+</tr>
+<tr class="even">
+<td><code>tokenizers</code></td>
+<td>BPE / SentencePiece 分词</td>
+</tr>
+<tr class="odd">
+<td><code>pandas</code></td>
+<td>结构化数据清洗</td>
+</tr>
+<tr class="even">
+<td><code>json / jsonl</code></td>
+<td>指令数据格式</td>
+</tr>
+<tr class="odd">
+<td><code>pyarrow</code></td>
+<td>高效列式存储</td>
+</tr>
+<tr class="even">
+<td><code>tiktoken</code></td>
+<td>OpenAI tokenizer（可选）</td>
+</tr>
+</tbody>
+</table>
+<p>✅ 输出：<br />
+<code>train.jsonl / tokenized_dataset / DataLoader</code></p>
+<hr />
+<h2 id="阶段-2模型的学习预训练pre-training">阶段
+2：模型的学习（预训练，Pre-training）</h2>
+<h3 id="做什么-1">做什么</h3>
+<ul>
+<li>从零或继续训练</li>
+<li>学习语言/世界知识</li>
+<li>自监督学习（MLM / CLM）</li>
+</ul>
+<h3 id="python-工具-1">Python 工具</h3>
+<table>
+<thead>
+<tr class="header">
+<th>工具</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>transformers</code></td>
+<td>模型定义、Trainer</td>
+</tr>
+<tr class="even">
+<td><code>torch</code></td>
+<td>核心训练框架</td>
+</tr>
+<tr class="odd">
+<td><code>accelerate</code></td>
+<td>单卡/多卡统一接口</td>
+</tr>
+<tr class="even">
+<td><code>deepspeed</code></td>
+<td>ZeRO、显存优化</td>
+</tr>
+<tr class="odd">
+<td><code>fsdp</code>（PyTorch）</td>
+<td>原生分布式</td>
+</tr>
+<tr class="even">
+<td><code>wandb / tensorboard</code></td>
+<td>训练监控</td>
+</tr>
+</tbody>
+</table>
+<p>✅ 关键代码对象： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">AutoModelForCausalLM<br>Trainer / TrainingArguments<br>DeepSpeedConfig<br></code></pre></td></tr></table></figure></p>
+<hr />
+<h2 id="阶段-3调优fine-tuning">阶段 3：调优（Fine-tuning）</h2>
+<h3 id="做什么-2">做什么</h3>
+<ul>
+<li>用领域数据继续训练</li>
+<li>全参数 / 参数高效微调</li>
+</ul>
+<h3 id="python-工具-2">Python 工具</h3>
+<table>
+<thead>
+<tr class="header">
+<th>工具</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>transformers</code></td>
+<td>加载预训练模型</td>
+</tr>
+<tr class="even">
+<td><code>peft</code></td>
+<td>LoRA / QLoRA / Adapter</td>
+</tr>
+<tr class="odd">
+<td><code>bitsandbytes</code></td>
+<td>4/8-bit 量化训练</td>
+</tr>
+<tr class="even">
+<td><code>trl</code></td>
+<td>SFTTrainer</td>
+</tr>
+<tr class="odd">
+<td><code>datasets</code></td>
+<td>指令微调数据</td>
+</tr>
+</tbody>
+</table>
+<p>✅ 常见组合： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">transformers + peft + bitsandbytes + trl<br></code></pre></td></tr></table></figure></p>
+<p>✅ 输出： - adapter 权重 - 合并后的完整模型</p>
+<hr />
+<h2 id="阶段-4监督学习supervised-fine-tuningsft">阶段
+4：监督学习（Supervised Fine-Tuning，SFT）</h2>
+<blockquote>
+<p>⚠️ 注意：SFT 是 FT
+的一种，但<strong>强调“有标注的监督信号”</strong></p>
+</blockquote>
+<h3 id="做什么-3">做什么</h3>
+<ul>
+<li>指令-回答对</li>
+<li>对话历史</li>
+<li>人工标注数据</li>
+</ul>
+<h3 id="python-工具-3">Python 工具</h3>
+<table>
+<thead>
+<tr class="header">
+<th>工具</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>trl（SFTTrainer）</code></td>
+<td>标准 SFT 训练</td>
+</tr>
+<tr class="even">
+<td><code>transformers</code></td>
+<td>模型/数据</td>
+</tr>
+<tr class="odd">
+<td><code>datasets</code></td>
+<td>监督数据</td>
+</tr>
+<tr class="even">
+<td><code>deepspeed</code></td>
+<td>大规模训练</td>
+</tr>
+</tbody>
+</table>
+<p>✅ 数据格式： <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;instruction&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;input&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;output&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></p>
+<hr />
+<h2 id="阶段-5对齐alignment">阶段 5：对齐（Alignment）</h2>
+<h3 id="做什么-4">做什么</h3>
+<ul>
+<li>让模型更安全、更符合人类偏好</li>
+<li>RLHF / DPO / PPO</li>
+</ul>
+<h3 id="python-工具-4">Python 工具</h3>
+<table>
+<thead>
+<tr class="header">
+<th>工具</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>trl</code></td>
+<td>RLHF / DPO / Reward Model</td>
+</tr>
+<tr class="even">
+<td><code>transformers</code></td>
+<td>策略模型 / 奖励模型</td>
+</tr>
+<tr class="odd">
+<td><code>peft</code></td>
+<td>对齐阶段也常用 LoRA</td>
+</tr>
+<tr class="even">
+<td><code>wandb</code></td>
+<td>奖励曲线监控</td>
+</tr>
+</tbody>
+</table>
+<p>✅ 常见流程： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">SFT → Reward Model → PPO / DPO<br></code></pre></td></tr></table></figure></p>
+<p>✅ 代表方法： - RLHF（PPO） - DPO（更工程友好） - ORPO / KTO</p>
+<hr />
+<h2 id="阶段-6评测evaluation">阶段 6：评测（Evaluation）</h2>
+<h3 id="做什么-5">做什么</h3>
+<ul>
+<li>自动评测</li>
+<li>人工评测</li>
+<li>回归测试</li>
+</ul>
+<h3 id="python-工具-5">Python 工具</h3>
+<table>
+<thead>
+<tr class="header">
+<th>工具</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>lm-evaluation-harness</code></td>
+<td>标准 benchmark</td>
+</tr>
+<tr class="even">
+<td><code>evaluate</code>（HF）</td>
+<td>通用指标</td>
+</tr>
+<tr class="odd">
+<td><code>rouge / bleu / meteor</code></td>
+<td>文本生成指标</td>
+</tr>
+<tr class="even">
+<td><code>deepeval / ragas</code></td>
+<td>LLM 专项评测</td>
+</tr>
+<tr class="odd">
+<td><code>human-eval</code></td>
+<td>代码能力</td>
+</tr>
+</tbody>
+</table>
+<p>✅ 输出： - MMLU / GSM8K / HumanEval 分数</p>
+<hr />
+<h2 id="阶段-7推理优化inference-optimization">阶段
+7：推理优化（Inference Optimization）</h2>
+<h3 id="做什么-6">做什么</h3>
+<ul>
+<li>加速</li>
+<li>量化</li>
+<li>显存优化</li>
+</ul>
+<h3 id="python-工具-6">Python 工具</h3>
+<table>
+<thead>
+<tr class="header">
+<th>工具</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>vllm</code></td>
+<td>高吞吐推理</td>
+</tr>
+<tr class="even">
+<td><code>tgi</code></td>
+<td>Hugging Face 推理服务</td>
+</tr>
+<tr class="odd">
+<td><code>tensorrt-llm</code></td>
+<td>NVIDIA 极致优化</td>
+</tr>
+<tr class="even">
+<td><code>llama.cpp</code></td>
+<td>CPU / 边缘设备</td>
+</tr>
+<tr class="odd">
+<td><code>auto-gptq / awq</code></td>
+<td>量化</td>
+</tr>
+<tr class="even">
+<td><code>onnxruntime</code></td>
+<td>ONNX 推理</td>
+</tr>
+</tbody>
+</table>
+<p>✅ 输出： - 量化模型 - 推理服务</p>
+<hr />
+<h2 id="阶段-8部署serving">阶段 8：部署（Serving）</h2>
+<h3 id="做什么-7">做什么</h3>
+<ul>
+<li>API 服务</li>
+<li>流式输出</li>
+<li>并发处理</li>
+</ul>
+<h3 id="python-工具-7">Python 工具</h3>
+<table>
+<thead>
+<tr class="header">
+<th>工具</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>fastapi</code></td>
+<td>REST API</td>
+</tr>
+<tr class="even">
+<td><code>uvicorn</code></td>
+<td>ASGI 服务器</td>
+</tr>
+<tr class="odd">
+<td><code>docker</code></td>
+<td>容器化</td>
+</tr>
+<tr class="even">
+<td><code>ray serve</code></td>
+<td>分布式服务</td>
+</tr>
+<tr class="odd">
+<td><code>triton inference server</code></td>
+<td>多模型管理</td>
+</tr>
+<tr class="even">
+<td><code>gradio / streamlit</code></td>
+<td>Demo</td>
+</tr>
+</tbody>
+</table>
+<p>✅ 接口标准： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">/v1/chat/completions<br></code></pre></td></tr></table></figure></p>
+<hr />
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>https://jycpp.github.io/2025/25-10-11-大模型开发从0到1实操流程记录.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年10月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/25-10-19-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B24%E4%B8%AA%E6%A1%88%E4%BE%8B%E8%AF%B4%E6%B8%85%E6%A5%9A.html" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

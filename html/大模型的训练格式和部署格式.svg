@@ -1,0 +1,107 @@
+<svg width="900" height="720" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <!-- 背景 -->
+  <rect width="900" height="720" fill="#f8f9fa"/>
+
+  <!-- 标题 -->
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a2e">
+    大模型格式严格分层图：训练态 → 中间格式 → 部署态
+  </text>
+
+  <!-- 训练态 -->
+  <rect x="200" y="55" width="500" height="90" rx="8" fill="#e74c3c" opacity="0.9"/>
+  <text x="450" y="78" text-anchor="middle" font-size="14" font-weight="bold" fill="white">训练态 (Training State)</text>
+  <text x="450" y="98" text-anchor="middle" font-size="11" fill="white">PyTorch (.pt) · safetensors · pytorch_model.bin · LoRA adapters</text>
+  <text x="450" y="116" text-anchor="middle" font-size="10" fill="#ffe0e0">含权重 + 优化器状态 + 梯度 + 动态图 | 不能直接部署</text>
+  <text x="450" y="132" text-anchor="middle" font-size="10" fill="#ffe0e0">工具：transformers · torch · peft · deepspeed</text>
+
+  <!-- 箭头 -->
+  <line x1="450" y1="145" x2="450" y2="175" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 中间格式 -->
+  <rect x="200" y="175" width="500" height="90" rx="8" fill="#f39c12" opacity="0.9"/>
+  <text x="450" y="198" text-anchor="middle" font-size="14" font-weight="bold" fill="white">中间格式 (Intermediate Format)</text>
+  <text x="450" y="218" text-anchor="middle" font-size="11" fill="white">ONNX · TorchScript · CoreML (mlmodel) · MLX</text>
+  <text x="450" y="236" text-anchor="middle" font-size="10" fill="#fff8e0">跨框架交换 · 静态图固化 · 平台桥接 | ⚠️ 通常还需再转</text>
+  <text x="450" y="252" text-anchor="middle" font-size="10" fill="#fff8e0">工具：torch.onnx · onnxsim · coremltools</text>
+
+  <!-- 三条分支箭头 -->
+  <line x1="300" y1="265" x2="160" y2="295" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="450" y1="265" x2="450" y2="295" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="600" y1="265" x2="740" y2="295" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 服务态 -->
+  <rect x="50" y="295" width="240" height="220" rx="8" fill="#3498db" opacity="0.85"/>
+  <text x="170" y="318" text-anchor="middle" font-size="13" font-weight="bold" fill="white">服务态 (Server State)</text>
+  <text x="170" y="338" text-anchor="middle" font-size="10" fill="#e0f0ff">GGUF · GPTQ · AWQ · ExLlama</text>
+  <text x="170" y="354" text-anchor="middle" font-size="10" fill="#e0f0ff">HF safetensors (直接加载)</text>
+  <line x1="60" y1="362" x2="280" y2="362" stroke="#fff" stroke-width="0.5" opacity="0.5"/>
+  <text x="170" y="380" text-anchor="middle" font-size="10" fill="#e0f0ff">推理引擎：</text>
+  <text x="170" y="396" text-anchor="middle" font-size="10" fill="white">vLLM · TGI · ONNX Runtime</text>
+  <text x="170" y="412" text-anchor="middle" font-size="10" fill="white">TensorRT-LLM · DeepSpeed</text>
+  <line x1="60" y1="420" x2="280" y2="420" stroke="#fff" stroke-width="0.5" opacity="0.5"/>
+  <text x="170" y="438" text-anchor="middle" font-size="10" fill="#e0f0ff">调用方式：</text>
+  <text x="170" y="454" text-anchor="middle" font-size="10" fill="white">FastAPI · OpenAI API · gRPC</text>
+  <text x="170" y="470" text-anchor="middle" font-size="10" fill="white">HTTP / WebSocket</text>
+  <line x1="60" y1="478" x2="280" y2="478" stroke="#fff" stroke-width="0.5" opacity="0.5"/>
+  <text x="170" y="496" text-anchor="middle" font-size="9" fill="#e0f0ff">硬件：数据中心 GPU / CPU</text>
+
+  <!-- 端侧态 -->
+  <rect x="330" y="295" width="240" height="220" rx="8" fill="#27ae60" opacity="0.85"/>
+  <text x="450" y="318" text-anchor="middle" font-size="13" font-weight="bold" fill="white">端侧态 (On-Device State)</text>
+  <text x="450" y="338" text-anchor="middle" font-size="10" fill="#e0ffe0">GGUF · NCNN · MNN · TFLite</text>
+  <text x="450" y="354" text-anchor="middle" font-size="10" fill="#e0ffe0">CoreML · MLX</text>
+  <line x1="340" y1="362" x2="560" y2="362" stroke="#fff" stroke-width="0.5" opacity="0.5"/>
+  <text x="450" y="380" text-anchor="middle" font-size="10" fill="#e0ffe0">推理引擎：</text>
+  <text x="450" y="396" text-anchor="middle" font-size="10" fill="white">llama.cpp · NCNN · MNN</text>
+  <text x="450" y="412" text-anchor="middle" font-size="10" fill="white">ORT Mobile · CoreML</text>
+  <line x1="340" y1="420" x2="560" y2="420" stroke="#fff" stroke-width="0.5" opacity="0.5"/>
+  <text x="450" y="438" text-anchor="middle" font-size="10" fill="#e0ffe0">调用方式：</text>
+  <text x="450" y="454" text-anchor="middle" font-size="10" fill="white">JNI / NDK · Swift · Kotlin</text>
+  <text x="450" y="470" text-anchor="middle" font-size="10" fill="white">C++ 直接调用</text>
+  <line x1="340" y1="478" x2="560" y2="478" stroke="#fff" stroke-width="0.5" opacity="0.5"/>
+  <text x="450" y="496" text-anchor="middle" font-size="9" fill="#e0ffe0">硬件：手机 / 嵌入式 / 笔记本</text>
+
+  <!-- NPU态 -->
+  <rect x="610" y="295" width="240" height="220" rx="8" fill="#8e44ad" opacity="0.85"/>
+  <text x="730" y="318" text-anchor="middle" font-size="13" font-weight="bold" fill="white">NPU / 芯片态</text>
+  <text x="730" y="338" text-anchor="middle" font-size="10" fill="#f0e0ff">QNN (Qualcomm) · CoreML</text>
+  <text x="730" y="354" text-anchor="middle" font-size="10" fill="#f0e0ff">CANN (华为) · TensorRT</text>
+  <text x="730" y="370" text-anchor="middle" font-size="10" fill="#f0e0ff">OpenVINO</text>
+  <line x1="620" y1="378" x2="840" y2="378" stroke="#fff" stroke-width="0.5" opacity="0.5"/>
+  <text x="730" y="396" text-anchor="middle" font-size="10" fill="#f0e0ff">推理引擎：</text>
+  <text x="730" y="412" text-anchor="middle" font-size="10" fill="white">NPU Driver · QNN SDK</text>
+  <text x="730" y="428" text-anchor="middle" font-size="10" fill="white">CANN Runtime · TensorRT</text>
+  <line x1="620" y1="436" x2="840" y2="436" stroke="#fff" stroke-width="0.5" opacity="0.5"/>
+  <text x="730" y="454" text-anchor="middle" font-size="10" fill="#f0e0ff">调用方式：</text>
+  <text x="730" y="470" text-anchor="middle" font-size="10" fill="white">HAL · Driver API · C++ SDK</text>
+  <line x1="620" y1="478" x2="840" y2="478" stroke="#fff" stroke-width="0.5" opacity="0.5"/>
+  <text x="730" y="496" text-anchor="middle" font-size="9" fill="#f0e0ff">硬件：NPU / DSP / Neural Engine</text>
+
+  <!-- 底部说明 -->
+  <rect x="100" y="540" width="700" height="80" rx="6" fill="#ecf0f1" stroke="#bdc3c7"/>
+  <text x="450" y="560" text-anchor="middle" font-size="11" font-weight="bold" fill="#2c3e50">核心原则</text>
+  <text x="450" y="578" text-anchor="middle" font-size="10" fill="#34495e">1. 训练格式永远不直接部署 → 必须转换</text>
+  <text x="450" y="594" text-anchor="middle" font-size="10" fill="#34495e">2. 中间格式（ONNX）是桥梁，不是终点</text>
+  <text x="450" y="610" text-anchor="middle" font-size="10" fill="#34495e">3. 部署格式由推理引擎决定，推理引擎由硬件决定</text>
+
+  <!-- 箭头定义 -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <!-- 图例 -->
+  <rect x="100" y="635" width="700" height="70" rx="6" fill="white" stroke="#ddd"/>
+  <text x="450" y="653" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">图例</text>
+  <rect x="130" y="663" width="14" height="14" rx="2" fill="#e74c3c"/>
+  <text x="150" y="675" font-size="9" fill="#333">训练态</text>
+  <rect x="230" y="663" width="14" height="14" rx="2" fill="#f39c12"/>
+  <text x="250" y="675" font-size="9" fill="#333">中间格式</text>
+  <rect x="330" y="663" width="14" height="14" rx="2" fill="#3498db"/>
+  <text x="350" y="675" font-size="9" fill="#333">服务态</text>
+  <rect x="430" y="663" width="14" height="14" rx="2" fill="#27ae60"/>
+  <text x="450" y="675" font-size="9" fill="#333">端侧态</text>
+  <rect x="530" y="663" width="14" height="14" rx="2" fill="#8e44ad"/>
+  <text x="550" y="675" font-size="9" fill="#333">NPU态</text>
+</svg>

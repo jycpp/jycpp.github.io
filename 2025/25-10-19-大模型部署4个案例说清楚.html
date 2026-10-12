@@ -1,0 +1,955 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar_of_jet.png">
+  <link rel="icon" href="/img/avatar_of_jet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jet Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="4 个案例讲清楚自研大模型的部署过程 很多人训完模型会卡在一个问题：  “我的 model.safetensors 训出来了，怎么让别人用上？”  答案不是“部署”两个字，而是先回答几个问题： - 跑在服务器还是本机还是手机？ - 是 LLM 还是 ASR &#x2F; 视觉小模型？ - 用 Python 服务，还是 C++ &#x2F; Kotlin &#x2F; Swift 直接跑？ - 用 HuggingFace 格式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jet C++ Blog">
+<meta property="og:url" content="https://jycpp.github.io/2025/25-10-19-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B24%E4%B8%AA%E6%A1%88%E4%BE%8B%E8%AF%B4%E6%B8%85%E6%A5%9A.html">
+<meta property="og:site_name" content="Jet C++ Blog">
+<meta property="og:description" content="4 个案例讲清楚自研大模型的部署过程 很多人训完模型会卡在一个问题：  “我的 model.safetensors 训出来了，怎么让别人用上？”  答案不是“部署”两个字，而是先回答几个问题： - 跑在服务器还是本机还是手机？ - 是 LLM 还是 ASR &#x2F; 视觉小模型？ - 用 Python 服务，还是 C++ &#x2F; Kotlin &#x2F; Swift 直接跑？ - 用 HuggingFace 格式">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jycpp.github.io/html/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%AD%E7%BB%83%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%83%A8%E7%BD%B2%E6%A0%BC%E5%BC%8F.svg">
+<meta property="article:published_time" content="2026-10-12T14:39:28.490Z">
+<meta property="article:modified_time" content="2026-10-12T14:39:28.490Z">
+<meta property="article:author" content="Jet Yan">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jycpp.github.io/html/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%AD%E7%BB%83%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%83%A8%E7%BD%B2%E6%A0%BC%E5%BC%8F.svg">
+  
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4194196199198439" crossorigin="anonymous"></script>
+  
+  <title>Jet C++ Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jycpp.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"1262f1a843c33c6a51dde8af3f042630","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?1262f1a843c33c6a51dde8af3f042630";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jet&#39;s C++ Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/shanghai.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-10-12 14:39" pubdate>
+          2026年10月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+</div>
+
+
+
+    
+
+  </aside>
+
+
+<!--
+left
+true
+
+-->
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <hr />
+<h1 id="个案例讲清楚自研大模型的部署过程">4
+个案例讲清楚自研大模型的部署过程</h1>
+<p>很多人训完模型会卡在一个问题：</p>
+<blockquote>
+<p>“我的 <code>model.safetensors</code> 训出来了，怎么让别人用上？”</p>
+</blockquote>
+<p>答案不是“部署”两个字，而是先回答几个问题： -
+跑在服务器还是本机还是手机？ - 是 LLM 还是 ASR / 视觉小模型？ - 用
+Python 服务，还是 C++ / Kotlin / Swift 直接跑？ - 用 HuggingFace
+格式、GGUF、ONNX 还是 NCNN？</p>
+<p>下面用 4 个案例把“训练格式 → 部署格式 → 推理引擎 →
+服务/端侧调用”讲清楚。</p>
+<hr />
+<p><strong>4个案例覆盖了训练模型的常用场景</strong></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs text">训练格式<br>  safetensors / pytorch_model.bin / .pt<br>        │<br>        ├── 服务器 LLM ───────► HuggingFace 格式 ──► vLLM / TGI ──► FastAPI<br>        │<br>        ├── 本地 LLM ────────► GGUF ──► llama.cpp / Ollama<br>        │<br>        ├── 端侧 LLM ───────► GGUF ──► llama.cpp ──► JNI ──► Kotlin<br>        │                        │<br>        │                        └── 也可用 ONNX ──► ONNX Runtime Mobile<br>        │<br>        └── 非 LLM 小模型 ───► ONNX ──► NCNN / MNN / TFLite ──► C++ / Java / Swift<br></code></pre></td></tr></table></figure>
+<p><strong>主要的注意事项</strong></p>
+<ol type="1">
+<li><strong>训练格式不管是 safetensors 还是
+pytorch_model.bin，都不要直接部署。</strong></li>
+<li><strong>HuggingFace 格式给服务器，GGUF 给本地/端侧 LLM，ONNX
+是中间格式，NCNN 是端侧 C++ 落地格式。</strong></li>
+<li><strong>FastAPI / Kotlin / Swift
+都不“懂模型”，它们调用推理引擎；推理引擎才读模型文件。</strong></li>
+</ol>
+<hr />
+<h2 id="案例-1服务器部署自研-7b-llmvllm">案例 1：服务器部署自研 7B
+LLM（vLLM）</h2>
+<h3 id="训练产物是什么">1. 训练产物是什么</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">my-7b-sft/<br>├── config.json<br>├── tokenizer.json<br>├── tokenizer_config.json<br>└── model.safetensors<br></code></pre></td></tr></table></figure>
+<p>这就是<strong>标准 HuggingFace 格式</strong>： -
+<code>config.json</code>：模型结构 - <code>tokenizer*</code>：分词器 -
+<code>model.safetensors</code>：权重</p>
+<blockquote>
+<p>说明：vLLM <strong>不需要 ONNX，也不需要 GGUF</strong>。它直接读
+HuggingFace 格式，因为 vLLM 本身就是服务器级 LLM
+推理引擎，内部自己做算子优化、PagedAttention、批处理。</p>
+</blockquote>
+<h3 id="为什么不直接用-model.generate-上线">2. 为什么不直接用
+<code>model.generate()</code> 上线</h3>
+<p><code>transformers</code> 的 <code>model.generate()</code> 能跑，但：
+- 不支持高并发 - 没有高效 KV Cache 管理 - 没有 OpenAI 兼容接口 -
+工程化能力弱</p>
+<p>所以生产里通常用 vLLM / TGI 这种“推理服务引擎”。</p>
+<h3 id="启动-vllm-服务">3. 启动 vLLM 服务</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">python -m vllm.entrypoints.openai.api_server \<br>    --model ./my-7b-sft \<br>    --host 0.0.0.0 \<br>    --port 8000 \<br>    --dtype auto \<br>    --max-model-len 4096<br></code></pre></td></tr></table></figure>
+<p>参数含义： - <code>--model</code>：HuggingFace 模型目录，不是单个文件
+- <code>--host 0.0.0.0</code>：允许其他机器访问；<code>localhost</code>
+只能本机 - <code>--port 8000</code>：HTTP 服务端口 -
+<code>--dtype auto</code>：自动选 fp16/bf16 -
+<code>--max-model-len 4096</code>：最大上下文，防止显存爆掉</p>
+<p>启动后你会看到类似： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">INFO: Uvicorn running on http://0.0.0.0:8000<br></code></pre></td></tr></table></figure></p>
+<p>意思是：<br />
+<strong>模型已经加载进显存，vLLM 已经把模型包装成一个 HTTP
+服务了。</strong></p>
+<h3 id="怎么调用这个跑起来的模型">4. 怎么调用这个“跑起来的模型”</h3>
+<p>vLLM 提供 OpenAI 兼容接口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl http://localhost:8000/v1/chat/completions \<br>  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \<br>  -d <span class="hljs-string">&#x27;&#123;</span><br><span class="hljs-string">    &quot;model&quot;: &quot;./my-7b-sft&quot;,</span><br><span class="hljs-string">    &quot;messages&quot;: [</span><br><span class="hljs-string">      &#123;&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个严谨的助手&quot;&#125;,</span><br><span class="hljs-string">      &#123;&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;用一句话解释 Transformer&quot;&#125;</span><br><span class="hljs-string">    ],</span><br><span class="hljs-string">    &quot;temperature&quot;: 0.7,</span><br><span class="hljs-string">    &quot;top_p&quot;: 0.9,</span><br><span class="hljs-string">    &quot;max_tokens&quot;: 256</span><br><span class="hljs-string">  &#125;&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>请求参数含义： - <code>model</code>：服务里加载的模型名 -
+<code>messages</code>：多轮对话格式 -
+<code>temperature</code>：随机性，0 最稳，1 最发散 -
+<code>top_p</code>：核采样，控制候选词范围 -
+<code>max_tokens</code>：最多生成多少 token</p>
+<p>也可以用 Python： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> openai <span class="hljs-keyword">import</span> OpenAI<br><br>client = OpenAI(<br>    api_key=<span class="hljs-string">&quot;EMPTY&quot;</span>,                <span class="hljs-comment"># vLLM 默认不校验 key</span><br>    base_url=<span class="hljs-string">&quot;http://localhost:8000/v1&quot;</span><br>)<br><br>resp = client.chat.completions.create(<br>    model=<span class="hljs-string">&quot;./my-7b-sft&quot;</span>,<br>    messages=[&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;你好&quot;</span>&#125;]<br>)<br><span class="hljs-built_in">print</span>(resp.choices[<span class="hljs-number">0</span>].message.content)<br></code></pre></td></tr></table></figure></p>
+<h3 id="fastapi-在这里干什么">5. FastAPI 在这里干什么</h3>
+<p>FastAPI <strong>不加载模型</strong>，而是： - 做鉴权 - 拼系统提示 -
+多模型路由 - 限流 - 转发给 vLLM</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/internal/chat&quot;</span></span>)</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">chat</span>(<span class="hljs-params">req: <span class="hljs-built_in">dict</span></span>):<br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> httpx.AsyncClient() <span class="hljs-keyword">as</span> c:<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> c.post(<br>            <span class="hljs-string">&quot;http://localhost:8000/v1/chat/completions&quot;</span>,<br>            json=req<br>        )<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>结论：服务器 LLM = HuggingFace 格式 + vLLM 起服务 + FastAPI
+做业务层。</p>
+</blockquote>
+<hr />
+<h2 id="案例-2本地-开发机用-ollama-跑量化-llm">案例 2：本地 / 开发机用
+Ollama 跑量化 LLM</h2>
+<h3 id="为什么要转-gguf">1. 为什么要转 GGUF</h3>
+<p>HuggingFace 格式适合训练和服务端加载，但不适合： - 笔记本 - 单 CPU /
+小显存 - 快速本地试跑</p>
+<p>所以需要两步： 1. 转 GGUF：从训练生态进入 llama.cpp 推理生态 2.
+量化：把 16-bit 权重压成 4-bit，省显存/内存</p>
+<h3 id="第一步hf-fp16-gguf">2. 第一步：HF → FP16 GGUF</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">python convert_hf_to_gguf.py ./my-7b \<br>    --outfile my-7b-f16.gguf \<br>    --outtype f16<br></code></pre></td></tr></table></figure>
+<p>参数说明： - <code>./my-7b</code>：HuggingFace 模型目录 -
+<code>--outfile</code>：输出的 GGUF 文件 -
+<code>--outtype f16</code>：权重保持 16 位浮点，不做量化<br />
+👉 这一步只是“换容器”，不是压缩</p>
+<h3 id="第二步fp16-gguf-q4_k_m-gguf">3. 第二步：FP16 GGUF → Q4_K_M
+GGUF</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">./build/bin/llama-quantize \<br>    my-7b-f16.gguf \<br>    my-7b.Q4_K_M.gguf \<br>    Q4_K_M<br></code></pre></td></tr></table></figure>
+<p>参数说明： - 输入：FP16 GGUF - 输出：量化后 GGUF -
+<code>Q4_K_M</code>：4-bit 左右、质量/体积平衡最好的量化档位之一<br />
+- 7B 模型：FP16 约 14GB，Q4_K_M 约 4–5GB</p>
+<blockquote>
+<p>重要：永远从 FP16 GGUF 再量化，不要从 Q4 再量化成
+Q2，否则误差会叠加。</p>
+</blockquote>
+<h3 id="modelfile-是干什么的">4. Modelfile 是干什么的</h3>
+<p>Modelfile 不是模型文件，也不是镜像，而是<strong>“模型 +
+行为配置”的说明书</strong>，类似 Dockerfile。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> ./my-<span class="hljs-number">7</span>b.Q4_K_M.gguf<br><br>SYSTEM <span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">你是一个中文技术助手，回答简洁、准确、不废话。</span><br><span class="hljs-string">&quot;</span><span class="hljs-string">&quot;&quot;</span><br><br>TEMPLATE <span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">&#123;&#123; if .System &#125;&#125;system</span><br><span class="hljs-string">&#123;&#123; .System &#125;&#125;</span><br><span class="hljs-string">&#123;&#123; end &#125;&#125;user</span><br><span class="hljs-string">&#123;&#123; .Prompt &#125;&#125;</span><br><span class="hljs-string">assistant</span><br><span class="hljs-string">&quot;</span><span class="hljs-string">&quot;&quot;</span><br><br>PARAMETER temperature <span class="hljs-number">0.7</span><br>PARAMETER top_p <span class="hljs-number">0.9</span><br>PARAMETER num_ctx <span class="hljs-number">4096</span><br>PARAMETER repeat_penalty <span class="hljs-number">1.1</span><br></code></pre></td></tr></table></figure>
+<p>逐行说明：</p>
+<ul>
+<li><code>FROM</code>：底座模型，这里直接指向本地 GGUF</li>
+<li><code>SYSTEM</code>：每次对话都带上的“人设 / 规则”</li>
+<li><code>TEMPLATE</code>：把 system / user / assistant
+拼成模型训练时见过的格式<br />
+👉 模板错了，模型就会“不听指令”</li>
+<li><code>temperature</code>：创造性</li>
+<li><code>top_p</code>：采样范围</li>
+<li><code>num_ctx</code>：上下文窗口大小</li>
+<li><code>repeat_penalty</code>：防复读</li>
+</ul>
+<h3 id="注册并运行">5. 注册并运行</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ollama create my-7b -f Modelfile<br>ollama run my-7b <span class="hljs-string">&quot;用一句话解释向量数据库&quot;</span><br></code></pre></td></tr></table></figure>
+<p>Ollama 默认起在： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">http://localhost:11434<br></code></pre></td></tr></table></figure></p>
+<p>OpenAI 兼容接口： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">POST http://localhost:11434/v1/chat/completions<br></code></pre></td></tr></table></figure></p>
+<p>FastAPI / 前端 / LangChain 都可以直接连。</p>
+<blockquote>
+<p>结论：Ollama = 本地 LLM 运行时；GGUF = 模型文件；Modelfile =
+行为配置。</p>
+</blockquote>
+<hr />
+<h2 id="案例-3android-端侧跑-llm">案例 3：Android 端侧跑 LLM</h2>
+<h3 id="为什么端侧不能用-huggingface-格式直接跑">1. 为什么端侧不能用
+HuggingFace 格式直接跑</h3>
+<p>Android 上常见问题： - 没有 Python - 显存不存在，只有 RAM / NPU -
+需要 APK 内嵌模型 - 要 C++ 层做高性能推理</p>
+<p>所以路径是： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">safetensors → GGUF → llama.cpp(C++) → JNI → Kotlin<br></code></pre></td></tr></table></figure></p>
+<h3 id="转换过程补充">2. 转换过程补充</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. HF → FP16 GGUF</span><br>python convert_hf_to_gguf.py ./my-1.5b --outtype f16 --outfile my-1.5b-f16.gguf<br><br><span class="hljs-comment"># 2. 量化</span><br>./build/bin/llama-quantize my-1.5b-f16.gguf my-1.5b-Q4_0.gguf Q4_0<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>Q4_0</code>：端侧常用，体积小，速度块，质量略降</li>
+<li>1.5B Q4 大概 1GB 出头，适合手机</li>
+</ul>
+<h3 id="android-项目结构">3. Android 项目结构</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">app/<br>├── jniLibs/arm64-v8a/libllama.so<br>├── assets/my-1.5b-Q4_0.gguf<br>└── java/com/example/LlamaEngine.kt<br></code></pre></td></tr></table></figure>
+<h3 id="kotlin-通过-jni-调-c">4. Kotlin 通过 JNI 调 C++</h3>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">LlamaEngine</span> &#123;<br>    <span class="hljs-keyword">companion</span> <span class="hljs-keyword">object</span> &#123;<br>        <span class="hljs-keyword">init</span> &#123; System.loadLibrary(<span class="hljs-string">&quot;llama&quot;</span>) &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">external</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">initModel</span><span class="hljs-params">(path: <span class="hljs-type">String</span>)</span></span>: <span class="hljs-built_in">Boolean</span><br>    <span class="hljs-keyword">external</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">generate</span><span class="hljs-params">(prompt: <span class="hljs-type">String</span>)</span></span>: String<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>JNI 层： <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> <span class="hljs-function">JNIEXPORT jstring JNICALL</span><br><span class="hljs-function"><span class="hljs-title">Java_com_example_LlamaEngine_generate</span><span class="hljs-params">(JNIEnv* env, jobject, jstring prompt)</span> </span>&#123;<br>    <span class="hljs-type">const</span> <span class="hljs-type">char</span>* p = env-&gt;<span class="hljs-built_in">GetStringUTFChars</span>(prompt, <span class="hljs-literal">nullptr</span>);<br>    <span class="hljs-comment">// llama.cpp 加载 GGUF、跑 decode</span><br>    std::string out = <span class="hljs-built_in">llama_generate</span>(p);<br>    <span class="hljs-keyword">return</span> env-&gt;<span class="hljs-built_in">NewStringUTF</span>(out.<span class="hljs-built_in">c_str</span>());<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>关键点： &gt; Kotlin 不“理解” GGUF，它只是通过 JNI 调用 C++
+推理引擎；真正读 GGUF 的是 llama.cpp。</p>
+<h3 id="如果-android-想用-onnx-而不是-gguf">5. 如果 Android 想用 ONNX
+而不是 GGUF</h3>
+<p>那就不走 llama.cpp，改走 ONNX Runtime Mobile：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">PyTorch 模型<br> → torch.onnx.export<br> → model.onnx<br> → 放 assets/<br> → ONNX Runtime Android 加载<br></code></pre></td></tr></table></figure>
+<p>Kotlin： <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">val</span> env = OrtEnvironment.getEnvironment()<br><span class="hljs-keyword">val</span> session = env.createSession(assets.<span class="hljs-keyword">open</span>(<span class="hljs-string">&quot;model.onnx&quot;</span>).readBytes())<br><br><span class="hljs-keyword">val</span> input = OnnxTensor.createTensor(env, inputIds, longArrayOf(<span class="hljs-number">1</span>, seqLen))<br><span class="hljs-keyword">val</span> result = session.run(mapOf(<span class="hljs-string">&quot;input_ids&quot;</span> to input))<br></code></pre></td></tr></table></figure></p>
+<p>但注意： - ONNX 更适合分类 / 检测 / OCR / 小模型 - 端侧自回归 LLM
+通常 GGUF + llama.cpp 更成熟</p>
+<hr />
+<h2 id="案例-4端侧-asrconformer-onnx-ncnn">案例 4：端侧 ASR（Conformer →
+ONNX → NCNN）</h2>
+<h3 id="conformer-模型和前面-3-个一样吗">1. Conformer 模型和前面 3
+个一样吗</h3>
+<p>不一样在任务域：</p>
+<table>
+<thead>
+<tr class="header">
+<th>案例</th>
+<th>模型</th>
+<th>任务</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Decoder LLM</td>
+<td>文本生成</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Decoder LLM</td>
+<td>本地对话</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>小 LLM</td>
+<td>端侧对话</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Conformer / Zipformer</td>
+<td>语音识别</td>
+</tr>
+</tbody>
+</table>
+<p>Conformer 也是 PyTorch 训出来的，但： - 输入是 log-Mel 声学特征 -
+输出是 token / CTC / RNNT - 不是聊天模型</p>
+<h3 id="pytorch-onnx">2. PyTorch → ONNX</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><br>model = MyConformer()<br>model.load_state_dict(torch.load(<span class="hljs-string">&quot;conformer.pt&quot;</span>))<br>model.<span class="hljs-built_in">eval</span>()<br><br>dummy = torch.randn(<span class="hljs-number">1</span>, <span class="hljs-number">300</span>, <span class="hljs-number">80</span>)  <span class="hljs-comment"># batch, time, mel_bins</span><br><br>torch.onnx.export(<br>    model,<br>    dummy,<br>    <span class="hljs-string">&quot;conformer.onnx&quot;</span>,<br>    input_names=[<span class="hljs-string">&quot;features&quot;</span>],<br>    output_names=[<span class="hljs-string">&quot;logits&quot;</span>],<br>    opset_version=<span class="hljs-number">17</span>,<br>    dynamic_axes=&#123;<br>        <span class="hljs-string">&quot;features&quot;</span>: &#123;<span class="hljs-number">1</span>: <span class="hljs-string">&quot;time&quot;</span>&#125;,<br>        <span class="hljs-string">&quot;logits&quot;</span>: <span class="hljs-number">1</span>: <span class="hljs-string">&quot;time&quot;</span><br>    &#125;<br>)<br></code></pre></td></tr></table></figure>
+<p>目的： &gt; 把“PyTorch
+动态图”变成“静态计算图”，方便跨框架和端侧引擎加载。</p>
+<h3 id="onnx-ncnn">3. ONNX → NCNN</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 先简化</span><br>python -m onnxsim conformer.onnx conformer-sim.onnx<br><br><span class="hljs-comment"># ONNX 转 NCNN</span><br>onnx2ncnn conformer-sim.onnx conformer.param conformer.bin<br><br><span class="hljs-comment"># NCNN 优化</span><br>ncnnoptimize conformer.param conformer.bin conformer-opt.param conformer-opt.bin 0<br></code></pre></td></tr></table></figure>
+<p>产物： - <code>.param</code>：网络结构 - <code>.bin</code>：权重</p>
+<h3 id="c-直接跑">4. C++ 直接跑</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;net.h&quot;</span></span><br><br>ncnn::Net net;<br>net.<span class="hljs-built_in">load_param</span>(<span class="hljs-string">&quot;conformer-opt.param&quot;</span>);<br>net.<span class="hljs-built_in">load_model</span>(<span class="hljs-string">&quot;conformer-opt.bin&quot;</span>);<br><br>ncnn::Mat in = ncnn::<span class="hljs-built_in">Mat</span>(w, h, features_ptr);<br>ncnn::Extractor ex = net.<span class="hljs-built_in">create_extractor</span>();<br>ex.<span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;features&quot;</span>, in);<br><br>ncnn::Mat out;<br>ex.<span class="hljs-built_in">extract</span>(<span class="hljs-string">&quot;logits&quot;</span>, out);<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>这里没有 Python、没有 Docker、没有 HTTP，就是 C++
+读文件、跑矩阵运算。</p>
+</blockquote>
+<hr />
+<p><img src="/html/大模型的训练格式和部署格式.svg" srcset="/img/loading.gif" lazyload alt="Conformer ASR" style="width: 100%; height: auto;" title="Conformer ASR" /></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>https://jycpp.github.io/2025/25-10-19-大模型部署4个案例说清楚.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jet Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年10月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/25-10-11-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01%E5%AE%9E%E6%93%8D%E6%B5%81%E7%A8%8B%E8%AE%B0%E5%BD%95.html" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/26-09-26-%E7%94%9F%E6%AD%BB%E7%B0%BF%E5%9C%A8%E7%BA%BF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90.html" title="生死簿在线管理系统软件需求分析">
+                        <span class="hidden-mobile">生死簿在线管理系统软件需求分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    
+    try{
+      mermaid.initialize({"theme":"default","startOnLoad":true});
+
+      Fluid.utils.listenDOMLoaded(function() {
+        Fluid.events.registerRefreshCallback(function() {
+          if ('mermaid' in window) {
+            mermaid.init();
+          }
+        });
+      });
+      
+    }
+    catch (error) {
+        console.error('Mermaid 初始化出错:', error);
+    }
+    
+
+    
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Powered by Github Pages <i class="iconfont icon-love"></i> Contact me with email 5144789@qq.com 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -4,6 +4,32 @@
   
   
   <entry>
+    <title></title>
+    <link href="/2025/25-10-11-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01%E5%AE%9E%E6%93%8D%E6%B5%81%E7%A8%8B%E8%AE%B0%E5%BD%95.html"/>
+    <url>/2025/25-10-11-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01%E5%AE%9E%E6%93%8D%E6%B5%81%E7%A8%8B%E8%AE%B0%E5%BD%95.html</url>
+    
+    <content type="html"><![CDATA[<p>下面我按<strong>模型从 0到上线的真实流程顺序</strong>，用<strong>“模型的生命周期”</strong>而不是“难度分级”来思考，把每个阶段、在干什么、用什么Python 工具，给你理清楚。</p><hr /><h2id="一整体流程总览先给你一张地图">一、整体流程总览（先给你一张“地图”）</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs text">数据准备<br>   ↓<br>预训练（学习）<br>   ↓<br>微调（Fine-tuning）<br>   ↓<br>对齐（监督学习 / RLHF / DPO）<br>   ↓<br>评测（Evaluation）<br>   ↓<br>推理优化（Inference Opt）<br>   ↓<br>部署（Serving）<br></code></pre></td></tr></table></figure><hr /><h2 id="全流程简化速记">全流程简化速记</h2><table><thead><tr class="header"><th>你说的</th><th>标准阶段</th><th>Python 核心工具</th></tr></thead><tbody><tr class="odd"><td>模型的学习</td><td>预训练</td><td>transformers + deepspeed + accelerate</td></tr><tr class="even"><td>调优（FT）</td><td>微调</td><td>peft + bitsandbytes + trl</td></tr><tr class="odd"><td>监督学习</td><td>SFT</td><td>trl(SFTTrainer) + datasets</td></tr><tr class="even"><td>其他流程</td><td>对齐 / 评测 / 部署</td><td>trl + lm-eval + vllm + fastapi</td></tr></tbody></table><hr /><h2 id="二按阶段拆解重点python-工具">二、按阶段拆解（重点：Python工具）</h2><hr /><h2 id="阶段-1数据准备data-preparation">阶段 1：数据准备（DataPreparation）</h2><h3 id="做什么">做什么</h3><ul><li>数据清洗</li><li>Tokenization</li><li>格式化（指令数据 / 对话数据）</li><li>数据集划分</li></ul><h3 id="python-工具">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>datasets</code>（Hugging Face）</td><td>加载、处理、缓存数据集</td></tr><tr class="even"><td><code>tokenizers</code></td><td>BPE / SentencePiece 分词</td></tr><tr class="odd"><td><code>pandas</code></td><td>结构化数据清洗</td></tr><tr class="even"><td><code>json / jsonl</code></td><td>指令数据格式</td></tr><tr class="odd"><td><code>pyarrow</code></td><td>高效列式存储</td></tr><tr class="even"><td><code>tiktoken</code></td><td>OpenAI tokenizer（可选）</td></tr></tbody></table><p>✅ 输出：<br /><code>train.jsonl / tokenized_dataset / DataLoader</code></p><hr /><h2 id="阶段-2模型的学习预训练pre-training">阶段2：模型的学习（预训练，Pre-training）</h2><h3 id="做什么-1">做什么</h3><ul><li>从零或继续训练</li><li>学习语言/世界知识</li><li>自监督学习（MLM / CLM）</li></ul><h3 id="python-工具-1">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>transformers</code></td><td>模型定义、Trainer</td></tr><tr class="even"><td><code>torch</code></td><td>核心训练框架</td></tr><tr class="odd"><td><code>accelerate</code></td><td>单卡/多卡统一接口</td></tr><tr class="even"><td><code>deepspeed</code></td><td>ZeRO、显存优化</td></tr><tr class="odd"><td><code>fsdp</code>（PyTorch）</td><td>原生分布式</td></tr><tr class="even"><td><code>wandb / tensorboard</code></td><td>训练监控</td></tr></tbody></table><p>✅ 关键代码对象： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">AutoModelForCausalLM<br>Trainer / TrainingArguments<br>DeepSpeedConfig<br></code></pre></td></tr></table></figure></p><hr /><h2 id="阶段-3调优fine-tuning">阶段 3：调优（Fine-tuning）</h2><h3 id="做什么-2">做什么</h3><ul><li>用领域数据继续训练</li><li>全参数 / 参数高效微调</li></ul><h3 id="python-工具-2">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>transformers</code></td><td>加载预训练模型</td></tr><tr class="even"><td><code>peft</code></td><td>LoRA / QLoRA / Adapter</td></tr><tr class="odd"><td><code>bitsandbytes</code></td><td>4/8-bit 量化训练</td></tr><tr class="even"><td><code>trl</code></td><td>SFTTrainer</td></tr><tr class="odd"><td><code>datasets</code></td><td>指令微调数据</td></tr></tbody></table><p>✅ 常见组合： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">transformers + peft + bitsandbytes + trl<br></code></pre></td></tr></table></figure></p><p>✅ 输出： - adapter 权重 - 合并后的完整模型</p><hr /><h2 id="阶段-4监督学习supervised-fine-tuningsft">阶段4：监督学习（Supervised Fine-Tuning，SFT）</h2><blockquote><p>⚠️ 注意：SFT 是 FT的一种，但<strong>强调“有标注的监督信号”</strong></p></blockquote><h3 id="做什么-3">做什么</h3><ul><li>指令-回答对</li><li>对话历史</li><li>人工标注数据</li></ul><h3 id="python-工具-3">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>trl（SFTTrainer）</code></td><td>标准 SFT 训练</td></tr><tr class="even"><td><code>transformers</code></td><td>模型/数据</td></tr><tr class="odd"><td><code>datasets</code></td><td>监督数据</td></tr><tr class="even"><td><code>deepspeed</code></td><td>大规模训练</td></tr></tbody></table><p>✅ 数据格式： <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;instruction&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;input&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;output&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></p><hr /><h2 id="阶段-5对齐alignment">阶段 5：对齐（Alignment）</h2><h3 id="做什么-4">做什么</h3><ul><li>让模型更安全、更符合人类偏好</li><li>RLHF / DPO / PPO</li></ul><h3 id="python-工具-4">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>trl</code></td><td>RLHF / DPO / Reward Model</td></tr><tr class="even"><td><code>transformers</code></td><td>策略模型 / 奖励模型</td></tr><tr class="odd"><td><code>peft</code></td><td>对齐阶段也常用 LoRA</td></tr><tr class="even"><td><code>wandb</code></td><td>奖励曲线监控</td></tr></tbody></table><p>✅ 常见流程： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">SFT → Reward Model → PPO / DPO<br></code></pre></td></tr></table></figure></p><p>✅ 代表方法： - RLHF（PPO） - DPO（更工程友好） - ORPO / KTO</p><hr /><h2 id="阶段-6评测evaluation">阶段 6：评测（Evaluation）</h2><h3 id="做什么-5">做什么</h3><ul><li>自动评测</li><li>人工评测</li><li>回归测试</li></ul><h3 id="python-工具-5">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>lm-evaluation-harness</code></td><td>标准 benchmark</td></tr><tr class="even"><td><code>evaluate</code>（HF）</td><td>通用指标</td></tr><tr class="odd"><td><code>rouge / bleu / meteor</code></td><td>文本生成指标</td></tr><tr class="even"><td><code>deepeval / ragas</code></td><td>LLM 专项评测</td></tr><tr class="odd"><td><code>human-eval</code></td><td>代码能力</td></tr></tbody></table><p>✅ 输出： - MMLU / GSM8K / HumanEval 分数</p><hr /><h2 id="阶段-7推理优化inference-optimization">阶段7：推理优化（Inference Optimization）</h2><h3 id="做什么-6">做什么</h3><ul><li>加速</li><li>量化</li><li>显存优化</li></ul><h3 id="python-工具-6">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>vllm</code></td><td>高吞吐推理</td></tr><tr class="even"><td><code>tgi</code></td><td>Hugging Face 推理服务</td></tr><tr class="odd"><td><code>tensorrt-llm</code></td><td>NVIDIA 极致优化</td></tr><tr class="even"><td><code>llama.cpp</code></td><td>CPU / 边缘设备</td></tr><tr class="odd"><td><code>auto-gptq / awq</code></td><td>量化</td></tr><tr class="even"><td><code>onnxruntime</code></td><td>ONNX 推理</td></tr></tbody></table><p>✅ 输出： - 量化模型 - 推理服务</p><hr /><h2 id="阶段-8部署serving">阶段 8：部署（Serving）</h2><h3 id="做什么-7">做什么</h3><ul><li>API 服务</li><li>流式输出</li><li>并发处理</li></ul><h3 id="python-工具-7">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>fastapi</code></td><td>REST API</td></tr><tr class="even"><td><code>uvicorn</code></td><td>ASGI 服务器</td></tr><tr class="odd"><td><code>docker</code></td><td>容器化</td></tr><tr class="even"><td><code>ray serve</code></td><td>分布式服务</td></tr><tr class="odd"><td><code>triton inference server</code></td><td>多模型管理</td></tr><tr class="even"><td><code>gradio / streamlit</code></td><td>Demo</td></tr></tbody></table><p>✅ 接口标准： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">/v1/chat/completions<br></code></pre></td></tr></table></figure></p><hr />]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title></title>
+    <link href="/2025/25-10-19-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B24%E4%B8%AA%E6%A1%88%E4%BE%8B%E8%AF%B4%E6%B8%85%E6%A5%9A.html"/>
+    <url>/2025/25-10-19-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B24%E4%B8%AA%E6%A1%88%E4%BE%8B%E8%AF%B4%E6%B8%85%E6%A5%9A.html</url>
+    
+    <content type="html"><![CDATA[<hr /><h1 id="个案例讲清楚自研大模型的部署过程">4个案例讲清楚自研大模型的部署过程</h1><p>很多人训完模型会卡在一个问题：</p><blockquote><p>“我的 <code>model.safetensors</code> 训出来了，怎么让别人用上？”</p></blockquote><p>答案不是“部署”两个字，而是先回答几个问题： -跑在服务器还是本机还是手机？ - 是 LLM 还是 ASR / 视觉小模型？ - 用Python 服务，还是 C++ / Kotlin / Swift 直接跑？ - 用 HuggingFace格式、GGUF、ONNX 还是 NCNN？</p><p>下面用 4 个案例把“训练格式 → 部署格式 → 推理引擎 →服务/端侧调用”讲清楚。</p><hr /><p><strong>4个案例覆盖了训练模型的常用场景</strong></p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs text">训练格式<br>  safetensors / pytorch_model.bin / .pt<br>        │<br>        ├── 服务器 LLM ───────► HuggingFace 格式 ──► vLLM / TGI ──► FastAPI<br>        │<br>        ├── 本地 LLM ────────► GGUF ──► llama.cpp / Ollama<br>        │<br>        ├── 端侧 LLM ───────► GGUF ──► llama.cpp ──► JNI ──► Kotlin<br>        │                        │<br>        │                        └── 也可用 ONNX ──► ONNX Runtime Mobile<br>        │<br>        └── 非 LLM 小模型 ───► ONNX ──► NCNN / MNN / TFLite ──► C++ / Java / Swift<br></code></pre></td></tr></table></figure><p><strong>主要的注意事项</strong></p><ol type="1"><li><strong>训练格式不管是 safetensors 还是pytorch_model.bin，都不要直接部署。</strong></li><li><strong>HuggingFace 格式给服务器，GGUF 给本地/端侧 LLM，ONNX是中间格式，NCNN 是端侧 C++ 落地格式。</strong></li><li><strong>FastAPI / Kotlin / Swift都不“懂模型”，它们调用推理引擎；推理引擎才读模型文件。</strong></li></ol><hr /><h2 id="案例-1服务器部署自研-7b-llmvllm">案例 1：服务器部署自研 7BLLM（vLLM）</h2><h3 id="训练产物是什么">1. 训练产物是什么</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">my-7b-sft/<br>├── config.json<br>├── tokenizer.json<br>├── tokenizer_config.json<br>└── model.safetensors<br></code></pre></td></tr></table></figure><p>这就是<strong>标准 HuggingFace 格式</strong>： -<code>config.json</code>：模型结构 - <code>tokenizer*</code>：分词器 -<code>model.safetensors</code>：权重</p><blockquote><p>说明：vLLM <strong>不需要 ONNX，也不需要 GGUF</strong>。它直接读HuggingFace 格式，因为 vLLM 本身就是服务器级 LLM推理引擎，内部自己做算子优化、PagedAttention、批处理。</p></blockquote><h3 id="为什么不直接用-model.generate-上线">2. 为什么不直接用<code>model.generate()</code> 上线</h3><p><code>transformers</code> 的 <code>model.generate()</code> 能跑，但：- 不支持高并发 - 没有高效 KV Cache 管理 - 没有 OpenAI 兼容接口 -工程化能力弱</p><p>所以生产里通常用 vLLM / TGI 这种“推理服务引擎”。</p><h3 id="启动-vllm-服务">3. 启动 vLLM 服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">python -m vllm.entrypoints.openai.api_server \<br>    --model ./my-7b-sft \<br>    --host 0.0.0.0 \<br>    --port 8000 \<br>    --dtype auto \<br>    --max-model-len 4096<br></code></pre></td></tr></table></figure><p>参数含义： - <code>--model</code>：HuggingFace 模型目录，不是单个文件- <code>--host 0.0.0.0</code>：允许其他机器访问；<code>localhost</code>只能本机 - <code>--port 8000</code>：HTTP 服务端口 -<code>--dtype auto</code>：自动选 fp16/bf16 -<code>--max-model-len 4096</code>：最大上下文，防止显存爆掉</p><p>启动后你会看到类似： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">INFO: Uvicorn running on http://0.0.0.0:8000<br></code></pre></td></tr></table></figure></p><p>意思是：<br /><strong>模型已经加载进显存，vLLM 已经把模型包装成一个 HTTP服务了。</strong></p><h3 id="怎么调用这个跑起来的模型">4. 怎么调用这个“跑起来的模型”</h3><p>vLLM 提供 OpenAI 兼容接口：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl http://localhost:8000/v1/chat/completions \<br>  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \<br>  -d <span class="hljs-string">&#x27;&#123;</span><br><span class="hljs-string">    &quot;model&quot;: &quot;./my-7b-sft&quot;,</span><br><span class="hljs-string">    &quot;messages&quot;: [</span><br><span class="hljs-string">      &#123;&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个严谨的助手&quot;&#125;,</span><br><span class="hljs-string">      &#123;&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;用一句话解释 Transformer&quot;&#125;</span><br><span class="hljs-string">    ],</span><br><span class="hljs-string">    &quot;temperature&quot;: 0.7,</span><br><span class="hljs-string">    &quot;top_p&quot;: 0.9,</span><br><span class="hljs-string">    &quot;max_tokens&quot;: 256</span><br><span class="hljs-string">  &#125;&#x27;</span><br></code></pre></td></tr></table></figure><p>请求参数含义： - <code>model</code>：服务里加载的模型名 -<code>messages</code>：多轮对话格式 -<code>temperature</code>：随机性，0 最稳，1 最发散 -<code>top_p</code>：核采样，控制候选词范围 -<code>max_tokens</code>：最多生成多少 token</p><p>也可以用 Python： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> openai <span class="hljs-keyword">import</span> OpenAI<br><br>client = OpenAI(<br>    api_key=<span class="hljs-string">&quot;EMPTY&quot;</span>,                <span class="hljs-comment"># vLLM 默认不校验 key</span><br>    base_url=<span class="hljs-string">&quot;http://localhost:8000/v1&quot;</span><br>)<br><br>resp = client.chat.completions.create(<br>    model=<span class="hljs-string">&quot;./my-7b-sft&quot;</span>,<br>    messages=[&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;你好&quot;</span>&#125;]<br>)<br><span class="hljs-built_in">print</span>(resp.choices[<span class="hljs-number">0</span>].message.content)<br></code></pre></td></tr></table></figure></p><h3 id="fastapi-在这里干什么">5. FastAPI 在这里干什么</h3><p>FastAPI <strong>不加载模型</strong>，而是： - 做鉴权 - 拼系统提示 -多模型路由 - 限流 - 转发给 vLLM</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/internal/chat&quot;</span></span>)</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">chat</span>(<span class="hljs-params">req: <span class="hljs-built_in">dict</span></span>):<br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> httpx.AsyncClient() <span class="hljs-keyword">as</span> c:<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> c.post(<br>            <span class="hljs-string">&quot;http://localhost:8000/v1/chat/completions&quot;</span>,<br>            json=req<br>        )<br></code></pre></td></tr></table></figure><blockquote><p>结论：服务器 LLM = HuggingFace 格式 + vLLM 起服务 + FastAPI做业务层。</p></blockquote><hr /><h2 id="案例-2本地-开发机用-ollama-跑量化-llm">案例 2：本地 / 开发机用Ollama 跑量化 LLM</h2><h3 id="为什么要转-gguf">1. 为什么要转 GGUF</h3><p>HuggingFace 格式适合训练和服务端加载，但不适合： - 笔记本 - 单 CPU /小显存 - 快速本地试跑</p><p>所以需要两步： 1. 转 GGUF：从训练生态进入 llama.cpp 推理生态 2.量化：把 16-bit 权重压成 4-bit，省显存/内存</p><h3 id="第一步hf-fp16-gguf">2. 第一步：HF → FP16 GGUF</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">python convert_hf_to_gguf.py ./my-7b \<br>    --outfile my-7b-f16.gguf \<br>    --outtype f16<br></code></pre></td></tr></table></figure><p>参数说明： - <code>./my-7b</code>：HuggingFace 模型目录 -<code>--outfile</code>：输出的 GGUF 文件 -<code>--outtype f16</code>：权重保持 16 位浮点，不做量化<br />👉 这一步只是“换容器”，不是压缩</p><h3 id="第二步fp16-gguf-q4_k_m-gguf">3. 第二步：FP16 GGUF → Q4_K_MGGUF</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">./build/bin/llama-quantize \<br>    my-7b-f16.gguf \<br>    my-7b.Q4_K_M.gguf \<br>    Q4_K_M<br></code></pre></td></tr></table></figure><p>参数说明： - 输入：FP16 GGUF - 输出：量化后 GGUF -<code>Q4_K_M</code>：4-bit 左右、质量/体积平衡最好的量化档位之一<br />- 7B 模型：FP16 约 14GB，Q4_K_M 约 4–5GB</p><blockquote><p>重要：永远从 FP16 GGUF 再量化，不要从 Q4 再量化成Q2，否则误差会叠加。</p></blockquote><h3 id="modelfile-是干什么的">4. Modelfile 是干什么的</h3><p>Modelfile 不是模型文件，也不是镜像，而是<strong>“模型 +行为配置”的说明书</strong>，类似 Dockerfile。</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> ./my-<span class="hljs-number">7</span>b.Q4_K_M.gguf<br><br>SYSTEM <span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">你是一个中文技术助手，回答简洁、准确、不废话。</span><br><span class="hljs-string">&quot;</span><span class="hljs-string">&quot;&quot;</span><br><br>TEMPLATE <span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">&#123;&#123; if .System &#125;&#125;system</span><br><span class="hljs-string">&#123;&#123; .System &#125;&#125;</span><br><span class="hljs-string">&#123;&#123; end &#125;&#125;user</span><br><span class="hljs-string">&#123;&#123; .Prompt &#125;&#125;</span><br><span class="hljs-string">assistant</span><br><span class="hljs-string">&quot;</span><span class="hljs-string">&quot;&quot;</span><br><br>PARAMETER temperature <span class="hljs-number">0.7</span><br>PARAMETER top_p <span class="hljs-number">0.9</span><br>PARAMETER num_ctx <span class="hljs-number">4096</span><br>PARAMETER repeat_penalty <span class="hljs-number">1.1</span><br></code></pre></td></tr></table></figure><p>逐行说明：</p><ul><li><code>FROM</code>：底座模型，这里直接指向本地 GGUF</li><li><code>SYSTEM</code>：每次对话都带上的“人设 / 规则”</li><li><code>TEMPLATE</code>：把 system / user / assistant拼成模型训练时见过的格式<br />👉 模板错了，模型就会“不听指令”</li><li><code>temperature</code>：创造性</li><li><code>top_p</code>：采样范围</li><li><code>num_ctx</code>：上下文窗口大小</li><li><code>repeat_penalty</code>：防复读</li></ul><h3 id="注册并运行">5. 注册并运行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ollama create my-7b -f Modelfile<br>ollama run my-7b <span class="hljs-string">&quot;用一句话解释向量数据库&quot;</span><br></code></pre></td></tr></table></figure><p>Ollama 默认起在： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">http://localhost:11434<br></code></pre></td></tr></table></figure></p><p>OpenAI 兼容接口： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">POST http://localhost:11434/v1/chat/completions<br></code></pre></td></tr></table></figure></p><p>FastAPI / 前端 / LangChain 都可以直接连。</p><blockquote><p>结论：Ollama = 本地 LLM 运行时；GGUF = 模型文件；Modelfile =行为配置。</p></blockquote><hr /><h2 id="案例-3android-端侧跑-llm">案例 3：Android 端侧跑 LLM</h2><h3 id="为什么端侧不能用-huggingface-格式直接跑">1. 为什么端侧不能用HuggingFace 格式直接跑</h3><p>Android 上常见问题： - 没有 Python - 显存不存在，只有 RAM / NPU -需要 APK 内嵌模型 - 要 C++ 层做高性能推理</p><p>所以路径是： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">safetensors → GGUF → llama.cpp(C++) → JNI → Kotlin<br></code></pre></td></tr></table></figure></p><h3 id="转换过程补充">2. 转换过程补充</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. HF → FP16 GGUF</span><br>python convert_hf_to_gguf.py ./my-1.5b --outtype f16 --outfile my-1.5b-f16.gguf<br><br><span class="hljs-comment"># 2. 量化</span><br>./build/bin/llama-quantize my-1.5b-f16.gguf my-1.5b-Q4_0.gguf Q4_0<br></code></pre></td></tr></table></figure><ul><li><code>Q4_0</code>：端侧常用，体积小，速度块，质量略降</li><li>1.5B Q4 大概 1GB 出头，适合手机</li></ul><h3 id="android-项目结构">3. Android 项目结构</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">app/<br>├── jniLibs/arm64-v8a/libllama.so<br>├── assets/my-1.5b-Q4_0.gguf<br>└── java/com/example/LlamaEngine.kt<br></code></pre></td></tr></table></figure><h3 id="kotlin-通过-jni-调-c">4. Kotlin 通过 JNI 调 C++</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">LlamaEngine</span> &#123;<br>    <span class="hljs-keyword">companion</span> <span class="hljs-keyword">object</span> &#123;<br>        <span class="hljs-keyword">init</span> &#123; System.loadLibrary(<span class="hljs-string">&quot;llama&quot;</span>) &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">external</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">initModel</span><span class="hljs-params">(path: <span class="hljs-type">String</span>)</span></span>: <span class="hljs-built_in">Boolean</span><br>    <span class="hljs-keyword">external</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">generate</span><span class="hljs-params">(prompt: <span class="hljs-type">String</span>)</span></span>: String<br>&#125;<br></code></pre></td></tr></table></figure><p>JNI 层： <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> <span class="hljs-function">JNIEXPORT jstring JNICALL</span><br><span class="hljs-function"><span class="hljs-title">Java_com_example_LlamaEngine_generate</span><span class="hljs-params">(JNIEnv* env, jobject, jstring prompt)</span> </span>&#123;<br>    <span class="hljs-type">const</span> <span class="hljs-type">char</span>* p = env-&gt;<span class="hljs-built_in">GetStringUTFChars</span>(prompt, <span class="hljs-literal">nullptr</span>);<br>    <span class="hljs-comment">// llama.cpp 加载 GGUF、跑 decode</span><br>    std::string out = <span class="hljs-built_in">llama_generate</span>(p);<br>    <span class="hljs-keyword">return</span> env-&gt;<span class="hljs-built_in">NewStringUTF</span>(out.<span class="hljs-built_in">c_str</span>());<br>&#125;<br></code></pre></td></tr></table></figure></p><p>关键点： &gt; Kotlin 不“理解” GGUF，它只是通过 JNI 调用 C++推理引擎；真正读 GGUF 的是 llama.cpp。</p><h3 id="如果-android-想用-onnx-而不是-gguf">5. 如果 Android 想用 ONNX而不是 GGUF</h3><p>那就不走 llama.cpp，改走 ONNX Runtime Mobile：</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">PyTorch 模型<br> → torch.onnx.export<br> → model.onnx<br> → 放 assets/<br> → ONNX Runtime Android 加载<br></code></pre></td></tr></table></figure><p>Kotlin： <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">val</span> env = OrtEnvironment.getEnvironment()<br><span class="hljs-keyword">val</span> session = env.createSession(assets.<span class="hljs-keyword">open</span>(<span class="hljs-string">&quot;model.onnx&quot;</span>).readBytes())<br><br><span class="hljs-keyword">val</span> input = OnnxTensor.createTensor(env, inputIds, longArrayOf(<span class="hljs-number">1</span>, seqLen))<br><span class="hljs-keyword">val</span> result = session.run(mapOf(<span class="hljs-string">&quot;input_ids&quot;</span> to input))<br></code></pre></td></tr></table></figure></p><p>但注意： - ONNX 更适合分类 / 检测 / OCR / 小模型 - 端侧自回归 LLM通常 GGUF + llama.cpp 更成熟</p><hr /><h2 id="案例-4端侧-asrconformer-onnx-ncnn">案例 4：端侧 ASR（Conformer →ONNX → NCNN）</h2><h3 id="conformer-模型和前面-3-个一样吗">1. Conformer 模型和前面 3个一样吗</h3><p>不一样在任务域：</p><table><thead><tr class="header"><th>案例</th><th>模型</th><th>任务</th></tr></thead><tbody><tr class="odd"><td>1</td><td>Decoder LLM</td><td>文本生成</td></tr><tr class="even"><td>2</td><td>Decoder LLM</td><td>本地对话</td></tr><tr class="odd"><td>3</td><td>小 LLM</td><td>端侧对话</td></tr><tr class="even"><td>4</td><td>Conformer / Zipformer</td><td>语音识别</td></tr></tbody></table><p>Conformer 也是 PyTorch 训出来的，但： - 输入是 log-Mel 声学特征 -输出是 token / CTC / RNNT - 不是聊天模型</p><h3 id="pytorch-onnx">2. PyTorch → ONNX</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><br>model = MyConformer()<br>model.load_state_dict(torch.load(<span class="hljs-string">&quot;conformer.pt&quot;</span>))<br>model.<span class="hljs-built_in">eval</span>()<br><br>dummy = torch.randn(<span class="hljs-number">1</span>, <span class="hljs-number">300</span>, <span class="hljs-number">80</span>)  <span class="hljs-comment"># batch, time, mel_bins</span><br><br>torch.onnx.export(<br>    model,<br>    dummy,<br>    <span class="hljs-string">&quot;conformer.onnx&quot;</span>,<br>    input_names=[<span class="hljs-string">&quot;features&quot;</span>],<br>    output_names=[<span class="hljs-string">&quot;logits&quot;</span>],<br>    opset_version=<span class="hljs-number">17</span>,<br>    dynamic_axes=&#123;<br>        <span class="hljs-string">&quot;features&quot;</span>: &#123;<span class="hljs-number">1</span>: <span class="hljs-string">&quot;time&quot;</span>&#125;,<br>        <span class="hljs-string">&quot;logits&quot;</span>: <span class="hljs-number">1</span>: <span class="hljs-string">&quot;time&quot;</span><br>    &#125;<br>)<br></code></pre></td></tr></table></figure><p>目的： &gt; 把“PyTorch动态图”变成“静态计算图”，方便跨框架和端侧引擎加载。</p><h3 id="onnx-ncnn">3. ONNX → NCNN</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 先简化</span><br>python -m onnxsim conformer.onnx conformer-sim.onnx<br><br><span class="hljs-comment"># ONNX 转 NCNN</span><br>onnx2ncnn conformer-sim.onnx conformer.param conformer.bin<br><br><span class="hljs-comment"># NCNN 优化</span><br>ncnnoptimize conformer.param conformer.bin conformer-opt.param conformer-opt.bin 0<br></code></pre></td></tr></table></figure><p>产物： - <code>.param</code>：网络结构 - <code>.bin</code>：权重</p><h3 id="c-直接跑">4. C++ 直接跑</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;net.h&quot;</span></span><br><br>ncnn::Net net;<br>net.<span class="hljs-built_in">load_param</span>(<span class="hljs-string">&quot;conformer-opt.param&quot;</span>);<br>net.<span class="hljs-built_in">load_model</span>(<span class="hljs-string">&quot;conformer-opt.bin&quot;</span>);<br><br>ncnn::Mat in = ncnn::<span class="hljs-built_in">Mat</span>(w, h, features_ptr);<br>ncnn::Extractor ex = net.<span class="hljs-built_in">create_extractor</span>();<br>ex.<span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;features&quot;</span>, in);<br><br>ncnn::Mat out;<br>ex.<span class="hljs-built_in">extract</span>(<span class="hljs-string">&quot;logits&quot;</span>, out);<br></code></pre></td></tr></table></figure><blockquote><p>这里没有 Python、没有 Docker、没有 HTTP，就是 C++读文件、跑矩阵运算。</p></blockquote><hr /><p><img src="/html/大模型的训练格式和部署格式.svg" alt="Conformer ASR" style="width: 100%; height: auto;" title="Conformer ASR" /></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>生死簿在线管理系统软件需求分析</title>
     <link href="/2026/26-09-26-%E7%94%9F%E6%AD%BB%E7%B0%BF%E5%9C%A8%E7%BA%BF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90.html"/>
     <url>/2026/26-09-26-%E7%94%9F%E6%AD%BB%E7%B0%BF%E5%9C%A8%E7%BA%BF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90.html</url>
@@ -382,8 +408,6 @@
     
     <tags>
       
-      <tag>配置</tag>
-      
       <tag>Skill</tag>
       
       <tag>CodeBuddy</tag>
@@ -393,6 +417,8 @@
       <tag>MCP</tag>
       
       <tag>迁移</tag>
+      
+      <tag>配置</tag>
       
       <tag>腾讯</tag>
       
@@ -609,21 +635,21 @@
       
       <tag>Hive</tag>
       
-      <tag>Doris</tag>
-      
-      <tag>查询引擎</tag>
-      
-      <tag>OLAP</tag>
-      
-      <tag>分区机制</tag>
-      
-      <tag>元数据</tag>
-      
-      <tag>湖仓一体</tag>
-      
       <tag>SparkSQL</tag>
       
       <tag>Trino</tag>
+      
+      <tag>Doris</tag>
+      
+      <tag>元数据</tag>
+      
+      <tag>OLAP</tag>
+      
+      <tag>湖仓一体</tag>
+      
+      <tag>查询引擎</tag>
+      
+      <tag>分区机制</tag>
       
       <tag>数据迁移</tag>
       
@@ -652,35 +678,35 @@
     
     <tags>
       
+      <tag>大数据</tag>
+      
       <tag>数仓</tag>
+      
+      <tag>数据湖</tag>
       
       <tag>数据仓库</tag>
       
       <tag>Hive</tag>
       
-      <tag>Doris</tag>
-      
-      <tag>OLAP</tag>
-      
-      <tag>元数据</tag>
-      
-      <tag>湖仓一体</tag>
-      
       <tag>SparkSQL</tag>
       
       <tag>Trino</tag>
       
-      <tag>大数据</tag>
-      
-      <tag>数据湖</tag>
+      <tag>Doris</tag>
       
       <tag>Parquet</tag>
       
       <tag>Iceberg</tag>
       
+      <tag>元数据</tag>
+      
       <tag>存储层</tag>
       
       <tag>计算引擎</tag>
+      
+      <tag>OLAP</tag>
+      
+      <tag>湖仓一体</tag>
       
     </tags>
     
@@ -742,6 +768,8 @@
     
     <tags>
       
+      <tag>工具</tag>
+      
       <tag>小龙虾</tag>
       
       <tag>AI框架</tag>
@@ -759,8 +787,6 @@
       <tag>认知差</tag>
       
       <tag>创业</tag>
-      
-      <tag>工具</tag>
       
     </tags>
     
@@ -1012,8 +1038,6 @@
     
     <tags>
       
-      <tag>软件架构</tag>
-      
       <tag>AutoSAR</tag>
       
       <tag>汽车电子</tag>
@@ -1031,6 +1055,8 @@
       <tag>RTE</tag>
       
       <tag>MCAL</tag>
+      
+      <tag>软件架构</tag>
       
     </tags>
     
@@ -1149,8 +1175,6 @@
       
       <tag>项目经理</tag>
       
-      <tag>案例分析</tag>
-      
       <tag>招投标</tag>
       
       <tag>软件项目管理</tag>
@@ -1164,6 +1188,8 @@
       <tag>团队建设</tag>
       
       <tag>项目进度</tag>
+      
+      <tag>案例分析</tag>
       
     </tags>
     
@@ -1356,13 +1382,13 @@
     
     <tags>
       
-      <tag>数据安全</tag>
-      
       <tag>网盘</tag>
       
       <tag>硬盘</tag>
       
       <tag>云存储</tag>
+      
+      <tag>数据安全</tag>
       
       <tag>百度网盘</tag>
       
@@ -1962,51 +1988,6 @@
   
   
   <entry>
-    <title>一文搞懂：二进制、十进制、十六进制换算与字节表示原理</title>
-    <link href="/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html"/>
-    <url>/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html</url>
-    
-    <content type="html"><![CDATA[<p>在计算机编程和底层开发中，二进制、十进制、十六进制的转换是基础中的基础。很多新手会困惑：为什么计算机偏爱二进制？为什么用<code>0x</code>加两位字符表示一个字节？本文结合<code>239（十进制）</code>、<code>11101111（二进制）</code>、<code>0xEF（十六进制）</code>的实例，把这些问题讲透。</p><h2 id="一三种进制的核心定义">一、三种进制的核心定义</h2><p>首先明确三种进制的本质：<strong>不同的计数规则</strong>，核心区别是“逢几进一”。</p><table><thead><tr class="header"><th>进制</th><th>基数</th><th>计数规则</th><th>字符集</th><th>示例（对应同一个值）</th></tr></thead><tbody><tr class="odd"><td>十进制</td><td>10</td><td>逢10进1</td><td>0-9</td><td>239</td></tr><tr class="even"><td>二进制</td><td>2</td><td>逢2进1</td><td>0、1</td><td>11101111</td></tr><tr class="odd"><td>十六进制</td><td>16</td><td>逢16进1</td><td>0-9 + A-F（对应10-15）</td><td>0xEF</td></tr></tbody></table><blockquote><p>注：十六进制中A-F不区分大小写，0xEF和0xef表示同一个值。</p></blockquote><h2 id="二核心换算关系以239为例">二、核心换算关系（以239为例）</h2><h3 id="十进制-二进制基础方法">1. 十进制 ↔︎ 二进制（基础方法）</h3><h4 id="十进制转二进制除2取余法">（1）十进制转二进制：除2取余法</h4><p>以<code>239</code>为例，反复除以2直到商为0，余数倒序排列：<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">239 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">119</span> 余 <span class="hljs-number">1</span><br><span class="hljs-symbol">119 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">59</span>  余 <span class="hljs-number">1</span><br><span class="hljs-symbol">59 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">29</span>   余 <span class="hljs-number">1</span><br><span class="hljs-symbol">29 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">14</span>   余 <span class="hljs-number">1</span><br><span class="hljs-symbol">14 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">7</span>    余 <span class="hljs-number">0</span><br><span class="hljs-symbol">7 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">3</span>     余 <span class="hljs-number">1</span><br><span class="hljs-symbol">3 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">1</span>     余 <span class="hljs-number">1</span><br><span class="hljs-symbol">1 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">0</span>     余 <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure> 倒序取余数 → <code>11101111</code>。</p><h4 id="二进制转十进制按位权展开">（2）二进制转十进制：按位权展开</h4><p>二进制<code>11101111</code>的每一位对应<code>2^7</code>到<code>2^0</code>的权值，求和：<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">1×2^7 <span class="hljs-code">+ 1×2^6 +</span> 1×2^5 <span class="hljs-code">+ 0×2^4 +</span> 1×2^3 <span class="hljs-code">+ 1×2^2 +</span> 1×2^1 + 1×2^0<br><span class="hljs-section">= 128 + 64 + 32 + 0 + 8 + 4 + 2 + 1</span><br><span class="hljs-section">= 239</span><br></code></pre></td></tr></table></figure></p><h3 id="十进制-十六进制简化方法">2. 十进制 ↔︎ 十六进制（简化方法）</h3><h4id="十进制转十六进制除16取余法">（1）十进制转十六进制：除16取余法</h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">239 </span>÷ <span class="hljs-number">16</span> = <span class="hljs-number">14</span> 余 <span class="hljs-number">15</span> （<span class="hljs-number">15</span>对应十六进制F）<br><span class="hljs-symbol">14 </span>÷ <span class="hljs-number">16</span> = <span class="hljs-number">0</span>  余 <span class="hljs-number">14</span> （<span class="hljs-number">14</span>对应十六进制E）<br></code></pre></td></tr></table></figure><p>倒序取余数 → <code>EF</code>，规范写法加前缀<code>0xEF</code>。</p><h4id="十六进制转十进制按位权展开">（2）十六进制转十进制：按位权展开</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">0xEF</span> = <span class="hljs-number">14</span>×<span class="hljs-number">16</span>^<span class="hljs-number">1</span> + <span class="hljs-number">15</span>×<span class="hljs-number">16</span>^<span class="hljs-number">0</span> = <span class="hljs-number">224</span> + <span class="hljs-number">15</span> = <span class="hljs-number">239</span><br></code></pre></td></tr></table></figure><h3 id="二进制-十六进制最快捷径">3. 二进制 ↔︎ 十六进制（最快捷径）</h3><p>核心原理：<strong>1位十六进制 =4位二进制</strong>（因为<code>2^4=16</code>），这是效率最高的转换方式，推荐优先使用。</p><h4 id="二进制转十六进制4位分组">（1）二进制转十六进制：4位分组</h4><p>将<code>11101111</code>从右往左每4位分组（不足补0）： <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-number">1110 </span><span class="hljs-number">1111</span><br><span class="hljs-string">↓</span>    <span class="hljs-string">↓</span><br><span class="hljs-string">E</span>    <span class="hljs-string">F</span><br></code></pre></td></tr></table></figure>结果 → <code>EF</code>。</p><h4 id="十六进制转二进制查表替换">（2）十六进制转二进制：查表替换</h4><p>记住4位二进制对照表，直接替换：</p><table><thead><tr class="header"><th>十六进制</th><th>二进制</th><th>十六进制</th><th>二进制</th></tr></thead><tbody><tr class="odd"><td>0</td><td>0000</td><td>8</td><td>1000</td></tr><tr class="even"><td>1</td><td>0001</td><td>9</td><td>1001</td></tr><tr class="odd"><td>2</td><td>0010</td><td>A</td><td>1010</td></tr><tr class="even"><td>3</td><td>0011</td><td>B</td><td>1011</td></tr><tr class="odd"><td>4</td><td>0100</td><td>C</td><td>1100</td></tr><tr class="even"><td>5</td><td>0101</td><td>D</td><td>1101</td></tr><tr class="odd"><td>6</td><td>0110</td><td>E</td><td>1110</td></tr><tr class="even"><td>7</td><td>0111</td><td>F</td><td>1111</td></tr></tbody></table><p>示例：<code>0xEF</code> → <code>E(1110)</code> + <code>F(1111)</code>→ <code>11101111</code>。</p><h3 id="换算流程可视化">4. 换算流程可视化</h3><div class="mermaid">graph LR    A[十进制239] -->|除16取余| B[十六进制EF]    B -->|4位替换| C[二进制11101111]    C -->|按位权展开| A    A -->|除2取余| C    C -->|4位分组| B    B -->|按位权展开| A</div><h2id="三为什么用0x两位字符表示一个字节">三、为什么用<code>0x+两位字符</code>表示一个字节？</h2><h3 id="先明确什么是字节">1. 先明确：什么是“字节”？</h3><p>计算机最小的可寻址存储单位是<strong>字节（Byte）</strong>，1字节 =8位二进制（bit）。<br />8位二进制的取值范围：<code>00000000</code>（0）~<code>11111111</code>（255）。</p><h3 id="核心原因十六进制是二进制的精简表示">2.核心原因：十六进制是二进制的“精简表示”</h3><ul><li>8位二进制 → 拆分为2组4位二进制 →对应2位十六进制（<code>00</code>~<code>FF</code>）。</li><li>十进制需要3位（0~255），二进制需要8位，而十六进制仅需2位，书写和阅读最简洁。</li></ul><h3 id="x前缀的作用">3. <code>0x</code>前缀的作用</h3><p><code>0x</code>是编程领域的<strong>十六进制标识</strong>，目的是避免混淆：-比如<code>239</code>是十进制，<code>0x239</code>是十六进制（对应十进制569）；-比如<code>EF</code>可能被误解为字符串，<code>0xEF</code>明确是十六进制数值。</p><h3 id="代码示例验证换算关系">4. 代码示例：验证换算关系</h3><p>以Python为例，直观验证三种进制的转换： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 十进制239转二进制、十六进制</span><br>decimal_num = <span class="hljs-number">239</span><br>binary_num = <span class="hljs-built_in">bin</span>(decimal_num)  <span class="hljs-comment"># 二进制，前缀0b</span><br>hex_num = <span class="hljs-built_in">hex</span>(decimal_num)     <span class="hljs-comment"># 十六进制，前缀0x</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;十进制 <span class="hljs-subst">&#123;decimal_num&#125;</span> → 二进制：<span class="hljs-subst">&#123;binary_num&#125;</span>&quot;</span>)  <span class="hljs-comment"># 输出：0b11101111</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;十进制 <span class="hljs-subst">&#123;decimal_num&#125;</span> → 十六进制：<span class="hljs-subst">&#123;hex_num&#125;</span>&quot;</span>)    <span class="hljs-comment"># 输出：0xef</span><br><br><span class="hljs-comment"># 十六进制0xEF转十进制、二进制</span><br>hex_str = <span class="hljs-string">&quot;0xef&quot;</span><br>decimal_from_hex = <span class="hljs-built_in">int</span>(hex_str, <span class="hljs-number">16</span>)<br>binary_from_hex = <span class="hljs-built_in">bin</span>(<span class="hljs-built_in">int</span>(hex_str, <span class="hljs-number">16</span>))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;十六进制 <span class="hljs-subst">&#123;hex_str&#125;</span> → 十进制：<span class="hljs-subst">&#123;decimal_from_hex&#125;</span>&quot;</span>)  <span class="hljs-comment"># 输出：239</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;十六进制 <span class="hljs-subst">&#123;hex_str&#125;</span> → 二进制：<span class="hljs-subst">&#123;binary_from_hex&#125;</span>&quot;</span>)    <span class="hljs-comment"># 输出：0b11101111</span><br><br><span class="hljs-comment"># 二进制转十进制、十六进制</span><br>binary_str = <span class="hljs-string">&quot;11101111&quot;</span><br>decimal_from_bin = <span class="hljs-built_in">int</span>(binary_str, <span class="hljs-number">2</span>)<br>hex_from_bin = <span class="hljs-built_in">hex</span>(<span class="hljs-built_in">int</span>(binary_str, <span class="hljs-number">2</span>))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;二进制 <span class="hljs-subst">&#123;binary_str&#125;</span> → 十进制：<span class="hljs-subst">&#123;decimal_from_bin&#125;</span>&quot;</span>)  <span class="hljs-comment"># 输出：239</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;二进制 <span class="hljs-subst">&#123;binary_str&#125;</span> → 十六进制：<span class="hljs-subst">&#123;hex_from_bin&#125;</span>&quot;</span>)    <span class="hljs-comment"># 输出：0xef</span><br></code></pre></td></tr></table></figure></p><h2 id="四总结">四、总结</h2><ol type="1"><li><strong>换算核心技巧</strong>：十进制转二进制优先走“十进制→十六进制→二进制”捷径，利用“1位十六进制=4位二进制”减少计算量；</li><li><strong>字节表示原理</strong>：1字节=8位二进制，恰好对应2位十六进制，<code>0x</code>前缀明确标识十六进制，是计算机中表示字节最简洁的方式；</li><li><strong>记忆关键点</strong>：记住4位二进制与十六进制的对照表，能大幅提升换算效率。</li></ol><p>掌握这些规则后，你就能快速在三种进制间切换，理解计算机底层的数值表示逻辑。</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>软件开发</category>
-      
-      <category>系统架构</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>二进制</tag>
-      
-      <tag>十进制</tag>
-      
-      <tag>十六进制</tag>
-      
-      <tag>字节</tag>
-      
-      <tag>计算机</tag>
-      
-      <tag>编程</tag>
-      
-      <tag>转换</tag>
-      
-      <tag>存储</tag>
-      
-      <tag>数值</tag>
-      
-      <tag>进制</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>计算机中的补码表示法与正负数的关系</title>
     <link href="/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html"/>
     <url>/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html</url>
@@ -2044,6 +2025,51 @@
       <tag>数值表示</tag>
       
       <tag>类型系统</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>一文搞懂：二进制、十进制、十六进制换算与字节表示原理</title>
+    <link href="/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html"/>
+    <url>/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html</url>
+    
+    <content type="html"><![CDATA[<p>在计算机编程和底层开发中，二进制、十进制、十六进制的转换是基础中的基础。很多新手会困惑：为什么计算机偏爱二进制？为什么用<code>0x</code>加两位字符表示一个字节？本文结合<code>239（十进制）</code>、<code>11101111（二进制）</code>、<code>0xEF（十六进制）</code>的实例，把这些问题讲透。</p><h2 id="一三种进制的核心定义">一、三种进制的核心定义</h2><p>首先明确三种进制的本质：<strong>不同的计数规则</strong>，核心区别是“逢几进一”。</p><table><thead><tr class="header"><th>进制</th><th>基数</th><th>计数规则</th><th>字符集</th><th>示例（对应同一个值）</th></tr></thead><tbody><tr class="odd"><td>十进制</td><td>10</td><td>逢10进1</td><td>0-9</td><td>239</td></tr><tr class="even"><td>二进制</td><td>2</td><td>逢2进1</td><td>0、1</td><td>11101111</td></tr><tr class="odd"><td>十六进制</td><td>16</td><td>逢16进1</td><td>0-9 + A-F（对应10-15）</td><td>0xEF</td></tr></tbody></table><blockquote><p>注：十六进制中A-F不区分大小写，0xEF和0xef表示同一个值。</p></blockquote><h2 id="二核心换算关系以239为例">二、核心换算关系（以239为例）</h2><h3 id="十进制-二进制基础方法">1. 十进制 ↔︎ 二进制（基础方法）</h3><h4 id="十进制转二进制除2取余法">（1）十进制转二进制：除2取余法</h4><p>以<code>239</code>为例，反复除以2直到商为0，余数倒序排列：<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">239 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">119</span> 余 <span class="hljs-number">1</span><br><span class="hljs-symbol">119 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">59</span>  余 <span class="hljs-number">1</span><br><span class="hljs-symbol">59 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">29</span>   余 <span class="hljs-number">1</span><br><span class="hljs-symbol">29 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">14</span>   余 <span class="hljs-number">1</span><br><span class="hljs-symbol">14 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">7</span>    余 <span class="hljs-number">0</span><br><span class="hljs-symbol">7 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">3</span>     余 <span class="hljs-number">1</span><br><span class="hljs-symbol">3 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">1</span>     余 <span class="hljs-number">1</span><br><span class="hljs-symbol">1 </span>÷ <span class="hljs-number">2</span> = <span class="hljs-number">0</span>     余 <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure> 倒序取余数 → <code>11101111</code>。</p><h4 id="二进制转十进制按位权展开">（2）二进制转十进制：按位权展开</h4><p>二进制<code>11101111</code>的每一位对应<code>2^7</code>到<code>2^0</code>的权值，求和：<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">1×2^7 <span class="hljs-code">+ 1×2^6 +</span> 1×2^5 <span class="hljs-code">+ 0×2^4 +</span> 1×2^3 <span class="hljs-code">+ 1×2^2 +</span> 1×2^1 + 1×2^0<br><span class="hljs-section">= 128 + 64 + 32 + 0 + 8 + 4 + 2 + 1</span><br><span class="hljs-section">= 239</span><br></code></pre></td></tr></table></figure></p><h3 id="十进制-十六进制简化方法">2. 十进制 ↔︎ 十六进制（简化方法）</h3><h4id="十进制转十六进制除16取余法">（1）十进制转十六进制：除16取余法</h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">239 </span>÷ <span class="hljs-number">16</span> = <span class="hljs-number">14</span> 余 <span class="hljs-number">15</span> （<span class="hljs-number">15</span>对应十六进制F）<br><span class="hljs-symbol">14 </span>÷ <span class="hljs-number">16</span> = <span class="hljs-number">0</span>  余 <span class="hljs-number">14</span> （<span class="hljs-number">14</span>对应十六进制E）<br></code></pre></td></tr></table></figure><p>倒序取余数 → <code>EF</code>，规范写法加前缀<code>0xEF</code>。</p><h4id="十六进制转十进制按位权展开">（2）十六进制转十进制：按位权展开</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">0xEF</span> = <span class="hljs-number">14</span>×<span class="hljs-number">16</span>^<span class="hljs-number">1</span> + <span class="hljs-number">15</span>×<span class="hljs-number">16</span>^<span class="hljs-number">0</span> = <span class="hljs-number">224</span> + <span class="hljs-number">15</span> = <span class="hljs-number">239</span><br></code></pre></td></tr></table></figure><h3 id="二进制-十六进制最快捷径">3. 二进制 ↔︎ 十六进制（最快捷径）</h3><p>核心原理：<strong>1位十六进制 =4位二进制</strong>（因为<code>2^4=16</code>），这是效率最高的转换方式，推荐优先使用。</p><h4 id="二进制转十六进制4位分组">（1）二进制转十六进制：4位分组</h4><p>将<code>11101111</code>从右往左每4位分组（不足补0）： <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-number">1110 </span><span class="hljs-number">1111</span><br><span class="hljs-string">↓</span>    <span class="hljs-string">↓</span><br><span class="hljs-string">E</span>    <span class="hljs-string">F</span><br></code></pre></td></tr></table></figure>结果 → <code>EF</code>。</p><h4 id="十六进制转二进制查表替换">（2）十六进制转二进制：查表替换</h4><p>记住4位二进制对照表，直接替换：</p><table><thead><tr class="header"><th>十六进制</th><th>二进制</th><th>十六进制</th><th>二进制</th></tr></thead><tbody><tr class="odd"><td>0</td><td>0000</td><td>8</td><td>1000</td></tr><tr class="even"><td>1</td><td>0001</td><td>9</td><td>1001</td></tr><tr class="odd"><td>2</td><td>0010</td><td>A</td><td>1010</td></tr><tr class="even"><td>3</td><td>0011</td><td>B</td><td>1011</td></tr><tr class="odd"><td>4</td><td>0100</td><td>C</td><td>1100</td></tr><tr class="even"><td>5</td><td>0101</td><td>D</td><td>1101</td></tr><tr class="odd"><td>6</td><td>0110</td><td>E</td><td>1110</td></tr><tr class="even"><td>7</td><td>0111</td><td>F</td><td>1111</td></tr></tbody></table><p>示例：<code>0xEF</code> → <code>E(1110)</code> + <code>F(1111)</code>→ <code>11101111</code>。</p><h3 id="换算流程可视化">4. 换算流程可视化</h3><div class="mermaid">graph LR    A[十进制239] -->|除16取余| B[十六进制EF]    B -->|4位替换| C[二进制11101111]    C -->|按位权展开| A    A -->|除2取余| C    C -->|4位分组| B    B -->|按位权展开| A</div><h2id="三为什么用0x两位字符表示一个字节">三、为什么用<code>0x+两位字符</code>表示一个字节？</h2><h3 id="先明确什么是字节">1. 先明确：什么是“字节”？</h3><p>计算机最小的可寻址存储单位是<strong>字节（Byte）</strong>，1字节 =8位二进制（bit）。<br />8位二进制的取值范围：<code>00000000</code>（0）~<code>11111111</code>（255）。</p><h3 id="核心原因十六进制是二进制的精简表示">2.核心原因：十六进制是二进制的“精简表示”</h3><ul><li>8位二进制 → 拆分为2组4位二进制 →对应2位十六进制（<code>00</code>~<code>FF</code>）。</li><li>十进制需要3位（0~255），二进制需要8位，而十六进制仅需2位，书写和阅读最简洁。</li></ul><h3 id="x前缀的作用">3. <code>0x</code>前缀的作用</h3><p><code>0x</code>是编程领域的<strong>十六进制标识</strong>，目的是避免混淆：-比如<code>239</code>是十进制，<code>0x239</code>是十六进制（对应十进制569）；-比如<code>EF</code>可能被误解为字符串，<code>0xEF</code>明确是十六进制数值。</p><h3 id="代码示例验证换算关系">4. 代码示例：验证换算关系</h3><p>以Python为例，直观验证三种进制的转换： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 十进制239转二进制、十六进制</span><br>decimal_num = <span class="hljs-number">239</span><br>binary_num = <span class="hljs-built_in">bin</span>(decimal_num)  <span class="hljs-comment"># 二进制，前缀0b</span><br>hex_num = <span class="hljs-built_in">hex</span>(decimal_num)     <span class="hljs-comment"># 十六进制，前缀0x</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;十进制 <span class="hljs-subst">&#123;decimal_num&#125;</span> → 二进制：<span class="hljs-subst">&#123;binary_num&#125;</span>&quot;</span>)  <span class="hljs-comment"># 输出：0b11101111</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;十进制 <span class="hljs-subst">&#123;decimal_num&#125;</span> → 十六进制：<span class="hljs-subst">&#123;hex_num&#125;</span>&quot;</span>)    <span class="hljs-comment"># 输出：0xef</span><br><br><span class="hljs-comment"># 十六进制0xEF转十进制、二进制</span><br>hex_str = <span class="hljs-string">&quot;0xef&quot;</span><br>decimal_from_hex = <span class="hljs-built_in">int</span>(hex_str, <span class="hljs-number">16</span>)<br>binary_from_hex = <span class="hljs-built_in">bin</span>(<span class="hljs-built_in">int</span>(hex_str, <span class="hljs-number">16</span>))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;十六进制 <span class="hljs-subst">&#123;hex_str&#125;</span> → 十进制：<span class="hljs-subst">&#123;decimal_from_hex&#125;</span>&quot;</span>)  <span class="hljs-comment"># 输出：239</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;十六进制 <span class="hljs-subst">&#123;hex_str&#125;</span> → 二进制：<span class="hljs-subst">&#123;binary_from_hex&#125;</span>&quot;</span>)    <span class="hljs-comment"># 输出：0b11101111</span><br><br><span class="hljs-comment"># 二进制转十进制、十六进制</span><br>binary_str = <span class="hljs-string">&quot;11101111&quot;</span><br>decimal_from_bin = <span class="hljs-built_in">int</span>(binary_str, <span class="hljs-number">2</span>)<br>hex_from_bin = <span class="hljs-built_in">hex</span>(<span class="hljs-built_in">int</span>(binary_str, <span class="hljs-number">2</span>))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;二进制 <span class="hljs-subst">&#123;binary_str&#125;</span> → 十进制：<span class="hljs-subst">&#123;decimal_from_bin&#125;</span>&quot;</span>)  <span class="hljs-comment"># 输出：239</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;二进制 <span class="hljs-subst">&#123;binary_str&#125;</span> → 十六进制：<span class="hljs-subst">&#123;hex_from_bin&#125;</span>&quot;</span>)    <span class="hljs-comment"># 输出：0xef</span><br></code></pre></td></tr></table></figure></p><h2 id="四总结">四、总结</h2><ol type="1"><li><strong>换算核心技巧</strong>：十进制转二进制优先走“十进制→十六进制→二进制”捷径，利用“1位十六进制=4位二进制”减少计算量；</li><li><strong>字节表示原理</strong>：1字节=8位二进制，恰好对应2位十六进制，<code>0x</code>前缀明确标识十六进制，是计算机中表示字节最简洁的方式；</li><li><strong>记忆关键点</strong>：记住4位二进制与十六进制的对照表，能大幅提升换算效率。</li></ol><p>掌握这些规则后，你就能快速在三种进制间切换，理解计算机底层的数值表示逻辑。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>软件开发</category>
+      
+      <category>系统架构</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>二进制</tag>
+      
+      <tag>十进制</tag>
+      
+      <tag>十六进制</tag>
+      
+      <tag>字节</tag>
+      
+      <tag>计算机</tag>
+      
+      <tag>编程</tag>
+      
+      <tag>转换</tag>
+      
+      <tag>存储</tag>
+      
+      <tag>数值</tag>
+      
+      <tag>进制</tag>
       
     </tags>
     
@@ -2203,8 +2229,6 @@
     
     <tags>
       
-      <tag>知识库</tag>
-      
       <tag>软考</tag>
       
       <tag>系统架构设计师</tag>
@@ -2218,6 +2242,8 @@
       <tag>集中式网络</tag>
       
       <tag>去中心化网络</tag>
+      
+      <tag>知识库</tag>
       
       <tag>鲁棒性</tag>
       
@@ -2498,15 +2524,15 @@
       
       <tag>Open WebUI</tag>
       
-      <tag>工具调用</tag>
-      
       <tag>大模型</tag>
-      
-      <tag>系统提示词</tag>
       
       <tag>API接口</tag>
       
       <tag>智能体</tag>
+      
+      <tag>工具调用</tag>
+      
+      <tag>系统提示词</tag>
       
       <tag>天气查询</tag>
       
@@ -2574,19 +2600,19 @@
       
       <tag>Open WebUI</tag>
       
-      <tag>工具调用</tag>
-      
       <tag>大模型</tag>
-      
-      <tag>API接口</tag>
-      
-      <tag>智能体</tag>
       
       <tag>缓存优化</tag>
       
       <tag>函数调用</tag>
       
       <tag>system提示词</tag>
+      
+      <tag>API接口</tag>
+      
+      <tag>智能体</tag>
+      
+      <tag>工具调用</tag>
       
     </tags>
     
@@ -2615,13 +2641,13 @@
       
       <tag>Android</tag>
       
-      <tag>Activity</tag>
-      
-      <tag>Context</tag>
-      
       <tag>低功耗蓝牙</tag>
       
       <tag>GATT</tag>
+      
+      <tag>Context</tag>
+      
+      <tag>Activity</tag>
       
       <tag>生命周期</tag>
       
@@ -2705,9 +2731,9 @@
       
       <tag>Android</tag>
       
-      <tag>权限管理</tag>
-      
       <tag>Wi-Fi连接</tag>
+      
+      <tag>权限管理</tag>
       
       <tag>WifiNetworkSuggestion</tag>
       
@@ -2752,8 +2778,6 @@
       
       <tag>阿里云</tag>
       
-      <tag>服务器</tag>
-      
       <tag>网络安全组</tag>
       
       <tag>IP地址</tag>
@@ -2767,6 +2791,8 @@
       <tag>CIDR</tag>
       
       <tag>二进制</tag>
+      
+      <tag>服务器</tag>
       
     </tags>
     
@@ -2842,6 +2868,8 @@
       
       <tag>Nginx</tag>
       
+      <tag>PHP</tag>
+      
       <tag>Docker</tag>
       
       <tag>MySQL</tag>
@@ -2855,8 +2883,6 @@
       <tag>防火墙</tag>
       
       <tag>UFW</tag>
-      
-      <tag>PHP</tag>
       
       <tag>安全加固</tag>
       
@@ -2893,9 +2919,9 @@
       
       <tag>腾讯云</tag>
       
-      <tag>CentOS</tag>
-      
       <tag>服务器操作系统</tag>
+      
+      <tag>CentOS</tag>
       
       <tag>RHEL</tag>
       
@@ -2936,17 +2962,17 @@
       
       <tag>环境变量</tag>
       
-      <tag>Dockerfile</tag>
-      
-      <tag>SkyWalking</tag>
-      
       <tag>微服务</tag>
       
-      <tag>容器部署</tag>
+      <tag>Dockerfile</tag>
       
       <tag>Docker Compose</tag>
       
       <tag>镜像构建</tag>
+      
+      <tag>容器部署</tag>
+      
+      <tag>SkyWalking</tag>
       
       <tag>JVM参数</tag>
       
@@ -3032,9 +3058,9 @@
       
       <tag>Git</tag>
       
-      <tag>版本控制</tag>
-      
       <tag>SSH</tag>
+      
+      <tag>版本控制</tag>
       
     </tags>
     
@@ -3188,19 +3214,19 @@
       
       <tag>SpringBoot</tag>
       
-      <tag>Kubernetes</tag>
-      
-      <tag>微服务</tag>
-      
       <tag>若依微服务框架</tag>
       
       <tag>Ruoyi Cloud</tag>
+      
+      <tag>微服务</tag>
       
       <tag>Java</tag>
       
       <tag>前端</tag>
       
       <tag>数据库</tag>
+      
+      <tag>Kubernetes</tag>
       
     </tags>
     
@@ -3229,8 +3255,6 @@
       
       <tag>资源管理</tag>
       
-      <tag>性能优化</tag>
-      
       <tag>游戏开发</tag>
       
       <tag>LayaAir</tag>
@@ -3239,9 +3263,11 @@
       
       <tag>场景管理</tag>
       
+      <tag>事件处理</tag>
+      
       <tag>生命周期函数</tag>
       
-      <tag>事件处理</tag>
+      <tag>性能优化</tag>
       
       <tag>动画控制</tag>
       
@@ -3274,8 +3300,6 @@
       
       <tag>Uniapp</tag>
       
-      <tag>事件处理</tag>
-      
       <tag>H5</tag>
       
       <tag>小程序</tag>
@@ -3285,6 +3309,8 @@
       <tag>导航栏</tag>
       
       <tag>返回按钮</tag>
+      
+      <tag>事件处理</tag>
       
       <tag>onBackPress</tag>
       
@@ -3438,7 +3464,7 @@
     <link href="/2025/25-03-09-%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%BE%8E%E5%9B%BD%E7%BB%A7%E6%98%9F%E7%90%83%E5%A4%A7%E6%88%98%E8%AE%A1%E5%88%92%E5%90%8E%E7%9A%84%E6%88%98%E7%95%A5%E9%AA%97%E5%B1%80.html"/>
     <url>/2025/25-03-09-%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%BE%8E%E5%9B%BD%E7%BB%A7%E6%98%9F%E7%90%83%E5%A4%A7%E6%88%98%E8%AE%A1%E5%88%92%E5%90%8E%E7%9A%84%E6%88%98%E7%95%A5%E9%AA%97%E5%B1%80.html</url>
     
-    <content type="html"><![CDATA[<figure><img src="https://s2.loli.net/2025/06/14/otHmOXvpA9cfkuE.jpg"alt="Star Wars 星球大战" /><figcaption aria-hidden="true">Star Wars 星球大战</figcaption></figure><p>近年来，人工智能（AI）成为全球瞩目的焦点，技术飞速发展，应用场景不断拓展，从医疗到金融，从交通到娱乐，似乎无孔不入。但在这一片繁荣景象背后，有人提出了一个大胆且颇具争议的观点：人工智能或许是美国继星球大战计划之后，又一个拖死竞争对手的骗局。</p><div class="mermaid">graph LR    classDef process fill:#E5F6FF,stroke:#73A6FF,stroke-width:2px;        A(星球大战计划):::process --> B(引发全球关注):::process    A --> C(迫使对手投入大量资源):::process    A --> D(部分技术实现难度大):::process    A --> E(美国借此巩固领先地位):::process        F(人工智能发展):::process --> B    F --> C    F --> D    F --> E</div><p>回顾历史，20世纪80年代，美国提出星球大战计划。当时，美国宣称要建立一个多层次、多手段的反弹道导弹系统，用于抵御苏联可能发动的核攻击。这一计划听起来雄心勃勃且极具前瞻性，瞬间引发全球关注。苏联为了不落后于美国，在自身经济并不宽裕的情况下，投入大量资源进行相关研究和技术开发。</p><p>苏联在这场“太空竞赛”中，不断加大对军事航天、导弹防御等领域的投入，将原本就紧张的经济资源进一步分散。大量的科研力量、资金和物资被调配到星球大战计划相关的项目中。然而，美国的星球大战计划很大程度上是一种战略威慑手段，部分技术在当时甚至此后很长一段时间都难以真正实现。最终，苏联因长期的高额投入，经济负担愈发沉重，各方面发展失衡，这成为苏联解体的众多因素之一。美国则凭借自身相对雄厚的经济实力和灵活的战略调整，并未受到太大的负面影响，反而巩固了其在军事和科技领域的领先地位。</p><p>如今，人工智能的发展态势与当年的星球大战计划有着相似之处。美国凭借其在科技领域的先发优势和强大的资金、人才储备，在人工智能领域大力布局，引领着全球人工智能的发展潮流。美国的科技巨头们纷纷投入大量资金用于人工智能技术的研发，在算法、芯片、数据等核心领域不断取得突破。从谷歌的深度学习框架TensorFlow，到OpenAI推出的GPT系列语言模型，美国在人工智能领域的成果令人瞩目。</p><p>美国大力推动人工智能发展，在全球范围内营造出一种“人工智能决定未来”的紧迫感。各国为了在未来的科技竞争中不被淘汰，纷纷跟进，加大对人工智能的投入。许多国家将大量的科研资金、顶尖人才汇聚到人工智能领域，期望在这一新兴赛道上占据一席之地。</p><p>但值得思考的是，人工智能的发展是否真的如表面这般一帆风顺，是否真的需要如此不计成本地投入？目前，虽然人工智能在某些特定领域取得了显著成果，如图像识别、语音助手等，但在通用人工智能、伦理道德、安全风险等关键问题上，仍面临诸多挑战。</p><p>一方面，人工智能的发展需要海量的数据支持和强大的计算能力。训练一个大型的人工智能模型，不仅需要收集和整理大量的数据，还需要耗费大量的能源用于计算和存储。这对于许多资源有限的国家来说，是一个巨大的负担。为了满足人工智能发展的数据需求，一些国家不得不投入大量资金用于数据采集和存储设施建设；为了提升计算能力，又要花费巨额资金购买先进的芯片和服务器，这些都给国家的财政带来了沉重压力。</p><p>另一方面，人工智能的应用也带来了一系列复杂的问题。例如，人工智能在就业市场引发的冲击，大量重复性、规律性的工作岗位可能被人工智能取代，导致失业率上升；在隐私保护方面，人工智能系统在收集和处理数据的过程中，可能会侵犯个人隐私；在伦理道德层面，人工智能的决策过程缺乏透明度，可能会导致不公平的结果。解决这些问题需要投入大量的人力、物力和时间，而目前还没有一套完善的解决方案。</p><div class="mermaid">graph LR    classDef event fill:#E5F6FF,stroke:#73A6FF,stroke-width:2px;    classDef country fill:#FFF6CC,stroke:#FFBC52,stroke-width:2px;    A(星球大战计划):::event --> B(美国):::country    A --> C(前苏联):::country    B -->|发起计划| A    C -->|被迫应对| A    A -->|导致资源分散| C1(前苏联经济负担加重):::event    C1 -->|影响因素之一| C2(前苏联解体):::event    D(人工智能领域):::event --> B    D --> E(中国):::country    B -->|引领发展| D    E -->|积极发展| D    D -->|形成竞争态势| B -.- E    D -->|促进技术创新| B    D -->|促进技术创新| E    B -->|制定规则和标准| D    D -->|面临挑战需应对| B    D -->|面临挑战需应对| E</div><p>美国在推动人工智能发展的过程中，其背后的战略意图值得深入分析。美国凭借其在人工智能领域的领先地位，通过制定行业标准、掌控关键技术和数据资源，进一步巩固自身的全球霸权。美国的科技公司在全球范围内推广人工智能技术和产品，不仅获取了巨额的经济利益，还掌握了大量用户数据，这些数据又成为进一步提升其人工智能技术的关键资源。</p><p>对于其他国家而言，盲目跟风投入人工智能研发，可能会陷入一场“无底洞”式的竞争。在这场竞争中，一些国家可能会因为过度投入而忽视了自身在其他关键领域的发展，如基础科学研究、传统产业升级等。当这些国家在人工智能领域投入大量资源却无法取得实质性突破，或者在国际竞争中难以与美国抗衡时，可能会面临经济发展受阻、产业结构失衡等问题，就如同当年苏联在星球大战计划中的遭遇一样。</p><p>当然，这并不意味着人工智能本身是毫无价值的，相反，它具有巨大的发展潜力和应用前景。但在发展人工智能的过程中，各国需要保持清醒的头脑，理性看待人工智能的发展，避免被美国的战略节奏所左右。要根据自身的国情和发展需求，制定合理的人工智能发展战略，平衡好人工智能与其他领域的发展关系，确保在科技竞争的浪潮中稳健前行。</p>]]></content>
+    <content type="html"><![CDATA[<figure><img src="https://files.seeusercontent.com/2026/10/12/1Osu/a9558e4.jpeg"alt="美国星球大战计划.jpeg" /><figcaption aria-hidden="true">美国星球大战计划.jpeg</figcaption></figure><p>近年来，人工智能（AI）成为全球瞩目的焦点，技术飞速发展，应用场景不断拓展，从医疗到金融，从交通到娱乐，似乎无孔不入。但在这一片繁荣景象背后，有人提出了一个大胆且颇具争议的观点：人工智能或许是美国继星球大战计划之后，又一个拖死竞争对手的骗局。</p><div class="mermaid">graph LR    classDef process fill:#E5F6FF,stroke:#73A6FF,stroke-width:2px;        A(星球大战计划):::process --> B(引发全球关注):::process    A --> C(迫使对手投入大量资源):::process    A --> D(部分技术实现难度大):::process    A --> E(美国借此巩固领先地位):::process        F(人工智能发展):::process --> B    F --> C    F --> D    F --> E</div><p>回顾历史，20世纪80年代，美国提出星球大战计划。当时，美国宣称要建立一个多层次、多手段的反弹道导弹系统，用于抵御苏联可能发动的核攻击。这一计划听起来雄心勃勃且极具前瞻性，瞬间引发全球关注。苏联为了不落后于美国，在自身经济并不宽裕的情况下，投入大量资源进行相关研究和技术开发。</p><p>苏联在这场“太空竞赛”中，不断加大对军事航天、导弹防御等领域的投入，将原本就紧张的经济资源进一步分散。大量的科研力量、资金和物资被调配到星球大战计划相关的项目中。然而，美国的星球大战计划很大程度上是一种战略威慑手段，部分技术在当时甚至此后很长一段时间都难以真正实现。最终，苏联因长期的高额投入，经济负担愈发沉重，各方面发展失衡，这成为苏联解体的众多因素之一。美国则凭借自身相对雄厚的经济实力和灵活的战略调整，并未受到太大的负面影响，反而巩固了其在军事和科技领域的领先地位。</p><p>如今，人工智能的发展态势与当年的星球大战计划有着相似之处。美国凭借其在科技领域的先发优势和强大的资金、人才储备，在人工智能领域大力布局，引领着全球人工智能的发展潮流。美国的科技巨头们纷纷投入大量资金用于人工智能技术的研发，在算法、芯片、数据等核心领域不断取得突破。从谷歌的深度学习框架TensorFlow，到OpenAI推出的GPT系列语言模型，美国在人工智能领域的成果令人瞩目。</p><p>美国大力推动人工智能发展，在全球范围内营造出一种“人工智能决定未来”的紧迫感。各国为了在未来的科技竞争中不被淘汰，纷纷跟进，加大对人工智能的投入。许多国家将大量的科研资金、顶尖人才汇聚到人工智能领域，期望在这一新兴赛道上占据一席之地。</p><p>但值得思考的是，人工智能的发展是否真的如表面这般一帆风顺，是否真的需要如此不计成本地投入？目前，虽然人工智能在某些特定领域取得了显著成果，如图像识别、语音助手等，但在通用人工智能、伦理道德、安全风险等关键问题上，仍面临诸多挑战。</p><p>一方面，人工智能的发展需要海量的数据支持和强大的计算能力。训练一个大型的人工智能模型，不仅需要收集和整理大量的数据，还需要耗费大量的能源用于计算和存储。这对于许多资源有限的国家来说，是一个巨大的负担。为了满足人工智能发展的数据需求，一些国家不得不投入大量资金用于数据采集和存储设施建设；为了提升计算能力，又要花费巨额资金购买先进的芯片和服务器，这些都给国家的财政带来了沉重压力。</p><p>另一方面，人工智能的应用也带来了一系列复杂的问题。例如，人工智能在就业市场引发的冲击，大量重复性、规律性的工作岗位可能被人工智能取代，导致失业率上升；在隐私保护方面，人工智能系统在收集和处理数据的过程中，可能会侵犯个人隐私；在伦理道德层面，人工智能的决策过程缺乏透明度，可能会导致不公平的结果。解决这些问题需要投入大量的人力、物力和时间，而目前还没有一套完善的解决方案。</p><div class="mermaid">graph LR    classDef event fill:#E5F6FF,stroke:#73A6FF,stroke-width:2px;    classDef country fill:#FFF6CC,stroke:#FFBC52,stroke-width:2px;    A(星球大战计划):::event --> B(美国):::country    A --> C(前苏联):::country    B -->|发起计划| A    C -->|被迫应对| A    A -->|导致资源分散| C1(前苏联经济负担加重):::event    C1 -->|影响因素之一| C2(前苏联解体):::event    D(人工智能领域):::event --> B    D --> E(中国):::country    B -->|引领发展| D    E -->|积极发展| D    D -->|形成竞争态势| B -.- E    D -->|促进技术创新| B    D -->|促进技术创新| E    B -->|制定规则和标准| D    D -->|面临挑战需应对| B    D -->|面临挑战需应对| E</div><p>美国在推动人工智能发展的过程中，其背后的战略意图值得深入分析。美国凭借其在人工智能领域的领先地位，通过制定行业标准、掌控关键技术和数据资源，进一步巩固自身的全球霸权。美国的科技公司在全球范围内推广人工智能技术和产品，不仅获取了巨额的经济利益，还掌握了大量用户数据，这些数据又成为进一步提升其人工智能技术的关键资源。</p><p>对于其他国家而言，盲目跟风投入人工智能研发，可能会陷入一场“无底洞”式的竞争。在这场竞争中，一些国家可能会因为过度投入而忽视了自身在其他关键领域的发展，如基础科学研究、传统产业升级等。当这些国家在人工智能领域投入大量资源却无法取得实质性突破，或者在国际竞争中难以与美国抗衡时，可能会面临经济发展受阻、产业结构失衡等问题，就如同当年苏联在星球大战计划中的遭遇一样。</p><p>当然，这并不意味着人工智能本身是毫无价值的，相反，它具有巨大的发展潜力和应用前景。但在发展人工智能的过程中，各国需要保持清醒的头脑，理性看待人工智能的发展，避免被美国的战略节奏所左右。要根据自身的国情和发展需求，制定合理的人工智能发展战略，平衡好人工智能与其他领域的发展关系，确保在科技竞争的浪潮中稳健前行。</p>]]></content>
     
     
     <categories>
@@ -3450,8 +3476,6 @@
     
     <tags>
       
-      <tag>数据隐私</tag>
-      
       <tag>人工智能</tag>
       
       <tag>星球大战计划</tag>
@@ -3461,6 +3485,8 @@
       <tag>技术竞争</tag>
       
       <tag>经济负担</tag>
+      
+      <tag>数据隐私</tag>
       
       <tag>军事科技</tag>
       
@@ -3530,11 +3556,9 @@
     
     <tags>
       
-      <tag>大语言模型</tag>
-      
-      <tag>人工智能</tag>
-      
       <tag>DeepSeek</tag>
+      
+      <tag>大语言模型</tag>
       
       <tag>推理模型</tag>
       
@@ -3551,6 +3575,8 @@
       <tag>逻辑漏洞</tag>
       
       <tag>资金循环</tag>
+      
+      <tag>人工智能</tag>
       
     </tags>
     
@@ -3581,13 +3607,13 @@
       
       <tag>Windows</tag>
       
-      <tag>大语言模型</tag>
-      
       <tag>Ollama</tag>
       
       <tag>DeepSeek</tag>
       
       <tag>OpenWebUI</tag>
+      
+      <tag>大语言模型</tag>
       
       <tag>本地部署</tag>
       
@@ -3825,13 +3851,13 @@
       
       <tag>大语言模型</tag>
       
-      <tag>ChatGPT</tag>
-      
-      <tag>生成PPT文件</tag>
-      
       <tag>人工智能</tag>
       
       <tag>案例分析</tag>
+      
+      <tag>ChatGPT</tag>
+      
+      <tag>生成PPT文件</tag>
       
       <tag>自动化处理</tag>
       
@@ -3862,11 +3888,13 @@
     
     <tags>
       
-      <tag>AnythingLLM</tag>
+      <tag>大语言模型</tag>
+      
+      <tag>数据隐私</tag>
       
       <tag>知识库</tag>
       
-      <tag>大语言模型</tag>
+      <tag>AnythingLLM</tag>
       
       <tag>训练</tag>
       
@@ -3879,8 +3907,6 @@
       <tag>微调训练</tag>
       
       <tag>计算资源</tag>
-      
-      <tag>数据隐私</tag>
       
       <tag>Hugging Face</tag>
       
@@ -3923,6 +3949,8 @@
       
       <tag>GitLab</tag>
       
+      <tag>性能优化</tag>
+      
       <tag>配置</tag>
       
       <tag>Prometheus</tag>
@@ -3934,8 +3962,6 @@
       <tag>数据保留</tag>
       
       <tag>容器</tag>
-      
-      <tag>性能优化</tag>
       
     </tags>
     
@@ -4011,9 +4037,11 @@
       
       <tag>Kotlin</tag>
       
-      <tag>Activity</tag>
+      <tag>权限管理</tag>
       
       <tag>Context</tag>
+      
+      <tag>Activity</tag>
       
       <tag>权限请求</tag>
       
@@ -4024,8 +4052,6 @@
       <tag>AppCompatActivity</tag>
       
       <tag>类型转换</tag>
-      
-      <tag>权限管理</tag>
       
     </tags>
     
@@ -4154,11 +4180,11 @@
       
       <tag>可视化</tag>
       
+      <tag>Kubernetes</tag>
+      
       <tag>Prometheus</tag>
       
       <tag>Grafana</tag>
-      
-      <tag>Kubernetes</tag>
       
       <tag>Alertmanager</tag>
       
@@ -4195,23 +4221,23 @@
       
       <tag>Docker</tag>
       
+      <tag>微服务</tag>
+      
+      <tag>容器部署</tag>
+      
+      <tag>SkyWalking</tag>
+      
       <tag>Prometheus</tag>
       
       <tag>Grafana</tag>
       
-      <tag>SkyWalking</tag>
-      
       <tag>Elasticsearch</tag>
-      
-      <tag>微服务</tag>
       
       <tag>可观测性</tag>
       
       <tag>链路追踪</tag>
       
       <tag>指标监控</tag>
-      
-      <tag>容器部署</tag>
       
     </tags>
     
@@ -4246,15 +4272,15 @@
       
       <tag>HTTPS</tag>
       
-      <tag>镜像加速器</tag>
-      
-      <tag>Registry</tag>
-      
       <tag>CentOS</tag>
       
       <tag>服务器</tag>
       
       <tag>配置</tag>
+      
+      <tag>镜像加速器</tag>
+      
+      <tag>Registry</tag>
       
       <tag>客户端</tag>
       
@@ -4285,19 +4311,19 @@
       
       <tag>项目管理</tag>
       
-      <tag>MacOS</tag>
-      
       <tag>Git</tag>
       
-      <tag>XCode</tag>
-      
       <tag>版本控制</tag>
+      
+      <tag>Dockerfile</tag>
+      
+      <tag>MacOS</tag>
+      
+      <tag>XCode</tag>
       
       <tag>Gitee</tag>
       
       <tag>代码提交</tag>
-      
-      <tag>Dockerfile</tag>
       
     </tags>
     
@@ -4365,13 +4391,13 @@
     
     <tags>
       
+      <tag>软件架构</tag>
+      
       <tag>笔记本电脑</tag>
       
       <tag>系统架构设计</tag>
       
       <tag>硬件架构</tag>
-      
-      <tag>软件架构</tag>
       
       <tag>电源管理</tag>
       
@@ -4412,13 +4438,13 @@
       
       <tag>项目管理</tag>
       
-      <tag>MacOS</tag>
-      
       <tag>Git</tag>
       
-      <tag>XCode</tag>
-      
       <tag>版本控制</tag>
+      
+      <tag>MacOS</tag>
+      
+      <tag>XCode</tag>
       
       <tag>Gitee</tag>
       
@@ -4449,6 +4475,8 @@
     
     <tags>
       
+      <tag>数据安全</tag>
+      
       <tag>区块链</tag>
       
       <tag>分布式存储</tag>
@@ -4462,8 +4490,6 @@
       <tag>链式结构</tag>
       
       <tag>哈希算法</tag>
-      
-      <tag>数据安全</tag>
       
       <tag>不可篡改</tag>
       
@@ -6159,7 +6185,7 @@
     <link href="/2020/20-09-11-Star%20Wars%20Series%20Timeline.html"/>
     <url>/2020/20-09-11-Star%20Wars%20Series%20Timeline.html</url>
     
-    <content type="html"><![CDATA[<p>星球大战正片一共三部九集，分别是正传、前传和后传，每一部又分为三集，每集都有一个主题，是难得的美国大片中的经典。随着去年底后传第三集的上映，星球大战的时间线也逐渐清晰起来，整个故事也画了完美的句号。</p><blockquote><p>Star Wars Series Timeline 星球大战系列时间线 Star Wars Characters andtheir Relationships 星球大战人物及其关系 Star Wars Characters星球大战人物 Star Wars Films 星球大战电影 Chronological Order 时间顺序Anakin Skywalker 阿纳金·天行者 Luke Skywalker 卢克·天行者 Leia Organa莱娅·奥加纳 Padme Amidala 帕德梅·阿米达拉 Obi-Wan Kenobi 欧比旺·克诺比Qui-Gon Jinn 魁刚·金 Yoda Master 尤达大师 Palpatine Darth Sidious帕尔帕廷·达斯·西迪厄斯 Rey Skywalker 蕾伊·天行者 Han Solo 韩·索罗Chewbacca 丘巴卡 Kylo Ren 凯洛·伦 Darth Vader 达斯·维德 Count Dooku杜库伯爵 Snoke 斯努克 Palpatine Darth Sidious 达斯·西迪厄斯 Darth Maul达斯·麦鲁 Boba Fett 博巴·费特</p></blockquote><p>The relationship among the three Star Wars films is a bit of amystery. There is no clear chronological order to them, but they are allbased on the same premise: the Jedi are trying to stop the Separatistforces from taking over the galaxy. The first two films are prequels tothe third, and the third is the sequel to the first two.</p><p>The character of Anakin Skywalker is a bit of a mystery, but he is avery powerful Jedi, and he is also trying to stop the Separatist forcesfrom taking over the galaxy, but he is captured by dark side and thenbecomes a Sith Lord.</p><div class="mermaid">graph LR;    A[Anakin Skywalker] --> B[Darth Vader];    B --> C[Palpatine];    C --> A;</div><p>The following is a mermaid graph of the Star Wars characters andtheir relationships.</p><div class="mermaid">graph TD;    Anakin[Anakin Skywalker] -->|Son| Luke[Luke Skywalker];    Anakin -->|Daughter| Leia[Leia Organa];    Padme[Padme Amidala] -->|Mother| Luke;</div><p>And this is more complex graph of the Star Wars characters and theirrelationships.</p><div class="mermaid">graph TD    Anakin[Anakin Skywalker<br>Darth Vader] -->|son| Luke[Luke Skywalker]    Anakin -->|daughter| Leia[Leia Organa]    Padmé[Padmé Amidala] -->|mother| Luke    Padmé -->|mother| Leia        ObiWan[Obi-Wan Kenobi] -->|mentor| Anakin    QuiGon[Qui-Gon Jinn] -->|mentor| ObiWan    Yoda[Master Yoda] -->|Jedi Council| ObiWan        Palpatine[Palpatine/Darth Sidious] -->|Sith Master| Anakin    Palpatine -->|resurrected control| Rey[Rey Skywalker]        Han[Han Solo] -->|husband| Leia    Han -->|partner| Chewie[Chewbacca]    Leia -->|twin brother| Luke        KyloRen[Kylo Ren/Ben Solo] -->|son| Han    KyloRen -->|son| Leia    KyloRen -->|grandfather| Anakin        Rey -->|granddaughter| Palpatine    Rey -->|spiritual successor| Luke        Dooku[Count Dooku] -->|Sith Apprentice| Palpatine    Snoke[Snoke] -->|puppet| Palpatine</div><p>I will show it in Chinese.</p><div class="mermaid"><code>graph TD    Anakin[阿纳金·天行者&lt;br&gt;达斯·维德] --&gt;|儿子| Luke[卢克·天行者]    Anakin --&gt;|女儿| Leia[莱娅·奥加纳]    Padmé[帕德梅·阿米达拉] --&gt;|母亲| Luke    Padmé --&gt;|母亲| Leia        ObiWan[欧比旺·克诺比] --&gt;|导师| Anakin    QuiGon[魁刚·金] --&gt;|导师| ObiWan    Yoda[尤达大师] --&gt;|绝地长老| ObiWan        Palpatine[帕尔帕廷/达斯·西迪厄斯] --&gt;|西斯尊主| Anakin    Palpatine --&gt;|复活控制| Rey[蕾伊·天行者]        Han[韩·索罗] --&gt;|丈夫| Leia    Han --&gt;|搭档| Chewie[丘巴卡]    Leia --&gt;|双胞胎兄弟| Luke        KyloRen[凯洛·伦/本·索罗] --&gt;|儿子| Han    KyloRen --&gt;|儿子| Leia    KyloRen --&gt;|祖父| Anakin        Rey --&gt;|孙女| Palpatine    Rey --&gt;|精神继承| Luke        Dooku[杜库伯爵] --&gt;|西斯学徒| Palpatine    Snoke[斯努克] --&gt;|傀儡| Palpatine</code></div><p>And now let us review the three Star Wars films in chronologicalorder.</p><h2 id="star-wars-episode-i-the-phantom-menace">1. Star Wars: Episode I– The Phantom Menace</h2><figure><img src="https://s2.loli.net/2025/03/26/feEU1ac8ugSmDyi.png"alt="20250326233911" /><figcaption aria-hidden="true">20250326233911</figcaption></figure><p><em>Release date: May 19, 1999</em></p><p>If you want to watch all the Star Wars movies in chronological orderthen sadly your marathon starts with the very first (and pretty awful)prequel movie. And it doesn’t get much more prequel than Darth Vader asa 10-year-old kid. This film sees Jedi Qui-Gon Jinn and his PadawanObi-Wan Kenobi discover a slave boy on Tatooine called Anakin Skywalkerwho’s chock full of Midi-chlorians.</p><p>Unfortunately, the Jedi council isn’t keen on training the child as aJedi. But, while trying to protect Queen Padmé Amidala, Qui-Gon Jinn iskilled by Sith Darth Maul and in honor of his memory Obi-Wan Kenobipromises to train the kid. <strong>Biiiiig mistake</strong>.</p><h2 id="star-wars-episode-ii-attack-of-the-clones">2. Star Wars: EpisodeII – Attack of the Clones</h2><figure><img src="https://s2.loli.net/2025/03/26/8RMsGdC5KNPJlUa.png"alt="20250326233759" /><figcaption aria-hidden="true">20250326233759</figcaption></figure><p>Release date: May 16, 2002</p><p>A few years later, Anakin is training as a Padawan under Obi-WanKenobi when the now Senator Padmé Amidala’s life is threatened onceagain. While Obi-Wan investigates, Anakin and Padmé fall in love,despite the Jedi Code which forbids attachments. Meanwhile, Obi-WanKenobi discovers an army of clones being created for the Republic, aswell as an attempt by the Separatist group led by Count Dooku tooverthrow the Republic using a droid army.</p><p>几年后，阿纳金在欧比旺·克诺比的指导下作为一名学徒进行训练，这时现任参议员帕德梅·阿米达拉的生命再次受到威胁。在欧比旺进行调查期间，阿纳金和帕德梅相爱了，尽管绝地信条禁止产生感情羁绊。与此同时，欧比旺·克诺比发现了一支为共和国创建的克隆人军队，以及由杜库伯爵领导的分离主义团体试图使用机器人军队推翻共和国的企图。</p><p>Obi-Wan is captured, along with Anakin and Padmé who try to save him,and all three are eventually rescued by the clone army, authorized bythe newly powerful Chancellor Palpatine.</p><p>欧比万被俘虏，还有试图救他的阿纳金和帕德梅，这三个人最终都被克隆人军队营救，克隆人军队得到了新掌权的帕尔帕廷议长的授权。</p><h2 id="star-wars-episode-iii-revenge-of-the-sith">3. Star Wars: EpisodeIII – Revenge of the Sith</h2><figure><img src="https://s2.loli.net/2025/03/26/u7nrgNHET6vGhjV.png"alt="20250326234135" /><figcaption aria-hidden="true">20250326234135</figcaption></figure><p><em>Release date: May 19, 2005</em></p><p>After Anakin rescues him, Chancellor Palpatine appoints him to theJedi Council, but the Jedi are suspicious and order Anakin to spy onPalpatine. Padmé reveals she’s pregnant and Anakin starts to havenightmares of her dying in childbirth. Palpatine lures Anakin to thedark side with the promise of saving Padmé’s life, and orders the clonearmy to kill the Jedi, declaring himself Emperor.</p><p>Padmé and Obi-Wan try to convince the new Darth Vader to return tothe light side, but they fight which leaves Vader mortally wounded.Meanwhile, Padmé dies giving birth to twins, Luke and Leia, and Obi-Wandecides to go into hiding with the children. Palpatine rescues Vader,giving him a suit to keep him alive, and telling him that he killedPadmé.</p><h2 id="star-wars-episode-iv-a-new-hope">4. Star Wars: Episode IV – ANew Hope</h2><figure><img src="https://s2.loli.net/2025/03/26/cR4IbSNTOUP2A3o.png"alt="20250326234604" /><figcaption aria-hidden="true">20250326234604</figcaption></figure><p><em>Release date: May 25, 1977</em></p><p>Not long after, Darth Vader captures Princess Leia, but not beforeshe hides the plans in an R2-D2 droid who escapes to the planet Tatooinein search of Obi-Wan Kenobi. He’s found by Luke Skywalker and takes himto Obi-Wan who reveals he knew Luke’s father, claiming he was killed byDarth Vader.</p><p>Luke convinces Obi-Wan to let him help rescue the princess and thepair team up with smuggler Han Solo and his co-pilot, Chewie. Theyrescue Princess Leia and escape, but Obi-Wan is killed by Darth Vader inthe process. After delivering the plans to the Alliance, Luke becomes arebel pilot and helps destroy the Death Star.</p><h2 id="star-wars-episode-v-the-empire-strikes-back">5. Star Wars:Episode V – The Empire Strikes Back</h2><figure><img src="https://s2.loli.net/2025/03/26/7TDGO68QzUd5fla.png"alt="20250326234650" /><figcaption aria-hidden="true">20250326234650</figcaption></figure><p><em>Release date: May 16, 1980</em></p><blockquote><p>Luke and Han Solo are sent to the planet Alderaan to rescue thecaptive Luke Skywalker. But the Jedi are not impressed and order theJedi Council to destroy the Death Star.</p></blockquote><blockquote><p>Luke and Han are sent to the planet Alderaan to rescue the captiveLuke Skywalker. But the Jedi are not impressed and order the JediCouncil to destroy the Death Star.</p></blockquote><p>Three years later, Darth Vader locates Luke, Leia, and Han on a rebelbase on Hoth and sends his forces to destroy it. They escape, with Luketraveling to Dagobah to train as a Jedi under Yoda as Obi-Wan wanted,and Leia, Han, and Chewie taking the Millennium Falcon to Cloud City toask Lando Calrissian for help. Unfortunately, Darth Vader is waiting forthem and captures Leia and Chewie, giving Han to a bounty hunter whoplans to sell him to Jabba the Hutt who’s been after him for awhile.</p><p>Luke realizes his friends are in trouble and tries to rescue them,but ends up dueling Darth Vader who reveals he’s Luke’s father beforecutting his hand off. Luke is rescued by Leia, Chewie, and Lando, andthey all escape together.</p><h2 id="star-wars-episode-vi-return-of-the-jedi">6. Star Wars: EpisodeVI – Return of the Jedi</h2><figure><img src="https://s2.loli.net/2025/03/26/Iiz8htDXAkOwaeH.png"alt="20250326234835" /><figcaption aria-hidden="true">20250326234835</figcaption></figure><p><em>Release date: May 19, 1983</em></p><p>Luke, Leia, Chewie, and Lando rescue Han from Jabba the Hutt, andLuke returns to Dagobah to complete his training only to discover Yodais dying. Before he dies, Yoda confirms that Darth Vader is Luke’s dadand then Obi-Wan’s Force ghost reveals that Leia is Luke’s sister.Meanwhile, on the Forest Moon of Endor, Han and Leia destroy the shieldprotecting a second Death Star with the help of the native Ewoks.</p><p>Luke surrenders himself to Vader who takes him to the Emperor, butwhen the Emperor cannot turn Luke to the dark side he tries to kill him.Vader, unable to watch his son die, kills the Emperor before dying ofhis wounds. With the Death Star unprotected, Lando and the rebelfighters destroy it and then everyone has a big party.</p><h2 id="star-wars-episode-vii-the-force-awakens">7. Star Wars: EpisodeVII – The Force Awakens</h2><figure><img src="https://s2.loli.net/2025/03/26/y1vIRh5Tk8icDSY.png"alt="20250326234955" /><figcaption aria-hidden="true">20250326234955</figcaption></figure><p><em>Release date: December 18, 2015</em></p><p>30 years later on Jakku, scavenger Rey finds droid BB-8 who claims tohave a map to the missing Luke Skywalker. Along with defectedstormtrooper Finn, they escape aboard the abandoned Millennium Falconand are eventually found by Han and Chewie. Traveling to Takodana tomake contact with the Resistance, Rey is captured by the First Order’sKylo Ren (actually Han and Leia’s son who’s been seduced by the darkside) and taken aboard Starkiller base.</p><p>中文解释：</p><p>30年前，在 Jakku 星球上，一个名为 Rey 的 scavenger 发现了一个名为BB-8 的 droids，声称它有一张通往失踪的 Luke Skywalker的地图。与被遗忘的风暴trooper Finn 一起，他们在被 abandon 的 MillenniumFalcon 上逃脱，最终被 Han 和 Chewie 发现。</p><p>Han, Chewie, and Finn try to rescue Rey, but Kylo Ren kills Hanbefore battling Rey, who discovers she’s strong with the Force.Starkiller base is eventually destroyed and Rey goes in search ofLuke.</p><h2 id="star-wars-episode-viii-the-last-jedi">8. Star Wars: Episode VIII– The Last Jedi</h2><figure><img src="https://s2.loli.net/2025/03/26/gnh46EKACdJ1Uma.png"alt="20250326235321" /><figcaption aria-hidden="true">20250326235321</figcaption></figure><p><em>Release date: December 15, 2017</em></p><p>Rey finds Luke in isolation, but he’s not in the mood to help theResistance, despite reluctantly giving her some Jedi training. Kylo andRey realize they have a Force connection and Rey goes to him, believingthere’s still some good inside him.</p><p>Meanwhile, during a dramatic space battle, Vice Admiral Holdosacrifices herself to save what’s left of the Resistance, who escape toCrait. Kylo’s master, Supreme Leader Snoke, orders him to kill Rey, butKylo kills him instead and becomes Supreme Leader, as Rey escapes. Hethen attacks the Resistance only to be stopped by Luke who shows up atthe last minute. The pair battle and Luke ultimately dies, but Reymanages to save everyone else.</p><h2 id="star-wars-episode-ix-the-rise-of-skywalker">9. Star Wars:Episode IX – The Rise of Skywalker</h2><figure><img src="https://s2.loli.net/2025/03/26/N7H1BWjci2voAte.png"alt="20250326235506" /><figcaption aria-hidden="true">20250326235506</figcaption></figure><p><em>Release date: December 19, 2019</em></p><p>Rey is continuing her Jedi training with Leia when they discoverPalpatine has been resurrected. Rey, Finn, and Poe try to find him, withKylo Ren in pursuit who eventually reveals to Rey that she’s actuallyPalpatine’s granddaughter. Meanwhile, Leia dies and feeling it, Kylo Renfinds his way back to the light side of the Force, reclaiming hisidentity as Ben Solo.</p><p>Rey goes to confront Palpatine, who demands Rey kill him so hisspirit can transfer to her, but when she refuses he tries to drain herlifeforce. With the help of Ben, Rey eventually destroys Palpatine, butBen dies saving her life.</p>]]></content>
+    <content type="html"><![CDATA[<figure><img src="https://s2.loli.net/2025/06/14/otHmOXvpA9cfkuE.jpg"alt="Star Wars 星球大战" /><figcaption aria-hidden="true">Star Wars 星球大战</figcaption></figure><p>星球大战正片一共三部九集，分别是正传、前传和后传，每一部又分为三集，每集都有一个主题，是难得的美国大片中的经典。随着去年底后传第三集的上映，星球大战的时间线也逐渐清晰起来，整个故事也画了完美的句号。</p><blockquote><p>Star Wars Series Timeline 星球大战系列时间线 Star Wars Characters andtheir Relationships 星球大战人物及其关系 Star Wars Characters星球大战人物 Star Wars Films 星球大战电影 Chronological Order 时间顺序Anakin Skywalker 阿纳金·天行者 Luke Skywalker 卢克·天行者 Leia Organa莱娅·奥加纳 Padme Amidala 帕德梅·阿米达拉 Obi-Wan Kenobi 欧比旺·克诺比Qui-Gon Jinn 魁刚·金 Yoda Master 尤达大师 Palpatine Darth Sidious帕尔帕廷·达斯·西迪厄斯 Rey Skywalker 蕾伊·天行者 Han Solo 韩·索罗Chewbacca 丘巴卡 Kylo Ren 凯洛·伦 Darth Vader 达斯·维德 Count Dooku杜库伯爵 Snoke 斯努克 Palpatine Darth Sidious 达斯·西迪厄斯 Darth Maul达斯·麦鲁 Boba Fett 博巴·费特</p></blockquote><p>The relationship among the three Star Wars films is a bit of amystery. There is no clear chronological order to them, but they are allbased on the same premise: the Jedi are trying to stop the Separatistforces from taking over the galaxy. The first two films are prequels tothe third, and the third is the sequel to the first two.</p><p>The character of Anakin Skywalker is a bit of a mystery, but he is avery powerful Jedi, and he is also trying to stop the Separatist forcesfrom taking over the galaxy, but he is captured by dark side and thenbecomes a Sith Lord.</p><div class="mermaid">graph LR;    A[Anakin Skywalker] --> B[Darth Vader];    B --> C[Palpatine];    C --> A;</div><p>The following is a mermaid graph of the Star Wars characters andtheir relationships.</p><div class="mermaid">graph TD;    Anakin[Anakin Skywalker] -->|Son| Luke[Luke Skywalker];    Anakin -->|Daughter| Leia[Leia Organa];    Padme[Padme Amidala] -->|Mother| Luke;</div><p>And this is more complex graph of the Star Wars characters and theirrelationships.</p><div class="mermaid">graph TD    Anakin[Anakin Skywalker<br>Darth Vader] -->|son| Luke[Luke Skywalker]    Anakin -->|daughter| Leia[Leia Organa]    Padmé[Padmé Amidala] -->|mother| Luke    Padmé -->|mother| Leia        ObiWan[Obi-Wan Kenobi] -->|mentor| Anakin    QuiGon[Qui-Gon Jinn] -->|mentor| ObiWan    Yoda[Master Yoda] -->|Jedi Council| ObiWan        Palpatine[Palpatine/Darth Sidious] -->|Sith Master| Anakin    Palpatine -->|resurrected control| Rey[Rey Skywalker]        Han[Han Solo] -->|husband| Leia    Han -->|partner| Chewie[Chewbacca]    Leia -->|twin brother| Luke        KyloRen[Kylo Ren/Ben Solo] -->|son| Han    KyloRen -->|son| Leia    KyloRen -->|grandfather| Anakin        Rey -->|granddaughter| Palpatine    Rey -->|spiritual successor| Luke        Dooku[Count Dooku] -->|Sith Apprentice| Palpatine    Snoke[Snoke] -->|puppet| Palpatine</div><p>I will show it in Chinese.</p><div class="mermaid"><code>graph TD    Anakin[阿纳金·天行者&lt;br&gt;达斯·维德] --&gt;|儿子| Luke[卢克·天行者]    Anakin --&gt;|女儿| Leia[莱娅·奥加纳]    Padmé[帕德梅·阿米达拉] --&gt;|母亲| Luke    Padmé --&gt;|母亲| Leia        ObiWan[欧比旺·克诺比] --&gt;|导师| Anakin    QuiGon[魁刚·金] --&gt;|导师| ObiWan    Yoda[尤达大师] --&gt;|绝地长老| ObiWan        Palpatine[帕尔帕廷/达斯·西迪厄斯] --&gt;|西斯尊主| Anakin    Palpatine --&gt;|复活控制| Rey[蕾伊·天行者]        Han[韩·索罗] --&gt;|丈夫| Leia    Han --&gt;|搭档| Chewie[丘巴卡]    Leia --&gt;|双胞胎兄弟| Luke        KyloRen[凯洛·伦/本·索罗] --&gt;|儿子| Han    KyloRen --&gt;|儿子| Leia    KyloRen --&gt;|祖父| Anakin        Rey --&gt;|孙女| Palpatine    Rey --&gt;|精神继承| Luke        Dooku[杜库伯爵] --&gt;|西斯学徒| Palpatine    Snoke[斯努克] --&gt;|傀儡| Palpatine</code></div><p>And now let us review the three Star Wars films in chronologicalorder.</p><h2 id="star-wars-episode-i-the-phantom-menace">1. Star Wars: Episode I– The Phantom Menace</h2><figure><img src="https://s2.loli.net/2025/03/26/feEU1ac8ugSmDyi.png"alt="20250326233911" /><figcaption aria-hidden="true">20250326233911</figcaption></figure><p><em>Release date: May 19, 1999</em></p><p>If you want to watch all the Star Wars movies in chronological orderthen sadly your marathon starts with the very first (and pretty awful)prequel movie. And it doesn’t get much more prequel than Darth Vader asa 10-year-old kid. This film sees Jedi Qui-Gon Jinn and his PadawanObi-Wan Kenobi discover a slave boy on Tatooine called Anakin Skywalkerwho’s chock full of Midi-chlorians.</p><p>Unfortunately, the Jedi council isn’t keen on training the child as aJedi. But, while trying to protect Queen Padmé Amidala, Qui-Gon Jinn iskilled by Sith Darth Maul and in honor of his memory Obi-Wan Kenobipromises to train the kid. <strong>Biiiiig mistake</strong>.</p><h2 id="star-wars-episode-ii-attack-of-the-clones">2. Star Wars: EpisodeII – Attack of the Clones</h2><figure><img src="https://s2.loli.net/2025/03/26/8RMsGdC5KNPJlUa.png"alt="20250326233759" /><figcaption aria-hidden="true">20250326233759</figcaption></figure><p>Release date: May 16, 2002</p><p>A few years later, Anakin is training as a Padawan under Obi-WanKenobi when the now Senator Padmé Amidala’s life is threatened onceagain. While Obi-Wan investigates, Anakin and Padmé fall in love,despite the Jedi Code which forbids attachments. Meanwhile, Obi-WanKenobi discovers an army of clones being created for the Republic, aswell as an attempt by the Separatist group led by Count Dooku tooverthrow the Republic using a droid army.</p><p>几年后，阿纳金在欧比旺·克诺比的指导下作为一名学徒进行训练，这时现任参议员帕德梅·阿米达拉的生命再次受到威胁。在欧比旺进行调查期间，阿纳金和帕德梅相爱了，尽管绝地信条禁止产生感情羁绊。与此同时，欧比旺·克诺比发现了一支为共和国创建的克隆人军队，以及由杜库伯爵领导的分离主义团体试图使用机器人军队推翻共和国的企图。</p><p>Obi-Wan is captured, along with Anakin and Padmé who try to save him,and all three are eventually rescued by the clone army, authorized bythe newly powerful Chancellor Palpatine.</p><p>欧比万被俘虏，还有试图救他的阿纳金和帕德梅，这三个人最终都被克隆人军队营救，克隆人军队得到了新掌权的帕尔帕廷议长的授权。</p><h2 id="star-wars-episode-iii-revenge-of-the-sith">3. Star Wars: EpisodeIII – Revenge of the Sith</h2><figure><img src="https://s2.loli.net/2025/03/26/u7nrgNHET6vGhjV.png"alt="20250326234135" /><figcaption aria-hidden="true">20250326234135</figcaption></figure><p><em>Release date: May 19, 2005</em></p><p>After Anakin rescues him, Chancellor Palpatine appoints him to theJedi Council, but the Jedi are suspicious and order Anakin to spy onPalpatine. Padmé reveals she’s pregnant and Anakin starts to havenightmares of her dying in childbirth. Palpatine lures Anakin to thedark side with the promise of saving Padmé’s life, and orders the clonearmy to kill the Jedi, declaring himself Emperor.</p><p>Padmé and Obi-Wan try to convince the new Darth Vader to return tothe light side, but they fight which leaves Vader mortally wounded.Meanwhile, Padmé dies giving birth to twins, Luke and Leia, and Obi-Wandecides to go into hiding with the children. Palpatine rescues Vader,giving him a suit to keep him alive, and telling him that he killedPadmé.</p><h2 id="star-wars-episode-iv-a-new-hope">4. Star Wars: Episode IV – ANew Hope</h2><figure><img src="https://s2.loli.net/2025/03/26/cR4IbSNTOUP2A3o.png"alt="20250326234604" /><figcaption aria-hidden="true">20250326234604</figcaption></figure><p><em>Release date: May 25, 1977</em></p><p>Not long after, Darth Vader captures Princess Leia, but not beforeshe hides the plans in an R2-D2 droid who escapes to the planet Tatooinein search of Obi-Wan Kenobi. He’s found by Luke Skywalker and takes himto Obi-Wan who reveals he knew Luke’s father, claiming he was killed byDarth Vader.</p><p>Luke convinces Obi-Wan to let him help rescue the princess and thepair team up with smuggler Han Solo and his co-pilot, Chewie. Theyrescue Princess Leia and escape, but Obi-Wan is killed by Darth Vader inthe process. After delivering the plans to the Alliance, Luke becomes arebel pilot and helps destroy the Death Star.</p><h2 id="star-wars-episode-v-the-empire-strikes-back">5. Star Wars:Episode V – The Empire Strikes Back</h2><figure><img src="https://s2.loli.net/2025/03/26/7TDGO68QzUd5fla.png"alt="20250326234650" /><figcaption aria-hidden="true">20250326234650</figcaption></figure><p><em>Release date: May 16, 1980</em></p><blockquote><p>Luke and Han Solo are sent to the planet Alderaan to rescue thecaptive Luke Skywalker. But the Jedi are not impressed and order theJedi Council to destroy the Death Star.</p></blockquote><blockquote><p>Luke and Han are sent to the planet Alderaan to rescue the captiveLuke Skywalker. But the Jedi are not impressed and order the JediCouncil to destroy the Death Star.</p></blockquote><p>Three years later, Darth Vader locates Luke, Leia, and Han on a rebelbase on Hoth and sends his forces to destroy it. They escape, with Luketraveling to Dagobah to train as a Jedi under Yoda as Obi-Wan wanted,and Leia, Han, and Chewie taking the Millennium Falcon to Cloud City toask Lando Calrissian for help. Unfortunately, Darth Vader is waiting forthem and captures Leia and Chewie, giving Han to a bounty hunter whoplans to sell him to Jabba the Hutt who’s been after him for awhile.</p><p>Luke realizes his friends are in trouble and tries to rescue them,but ends up dueling Darth Vader who reveals he’s Luke’s father beforecutting his hand off. Luke is rescued by Leia, Chewie, and Lando, andthey all escape together.</p><h2 id="star-wars-episode-vi-return-of-the-jedi">6. Star Wars: EpisodeVI – Return of the Jedi</h2><figure><img src="https://s2.loli.net/2025/03/26/Iiz8htDXAkOwaeH.png"alt="20250326234835" /><figcaption aria-hidden="true">20250326234835</figcaption></figure><p><em>Release date: May 19, 1983</em></p><p>Luke, Leia, Chewie, and Lando rescue Han from Jabba the Hutt, andLuke returns to Dagobah to complete his training only to discover Yodais dying. Before he dies, Yoda confirms that Darth Vader is Luke’s dadand then Obi-Wan’s Force ghost reveals that Leia is Luke’s sister.Meanwhile, on the Forest Moon of Endor, Han and Leia destroy the shieldprotecting a second Death Star with the help of the native Ewoks.</p><p>Luke surrenders himself to Vader who takes him to the Emperor, butwhen the Emperor cannot turn Luke to the dark side he tries to kill him.Vader, unable to watch his son die, kills the Emperor before dying ofhis wounds. With the Death Star unprotected, Lando and the rebelfighters destroy it and then everyone has a big party.</p><h2 id="star-wars-episode-vii-the-force-awakens">7. Star Wars: EpisodeVII – The Force Awakens</h2><figure><img src="https://s2.loli.net/2025/03/26/y1vIRh5Tk8icDSY.png"alt="20250326234955" /><figcaption aria-hidden="true">20250326234955</figcaption></figure><p><em>Release date: December 18, 2015</em></p><p>30 years later on Jakku, scavenger Rey finds droid BB-8 who claims tohave a map to the missing Luke Skywalker. Along with defectedstormtrooper Finn, they escape aboard the abandoned Millennium Falconand are eventually found by Han and Chewie. Traveling to Takodana tomake contact with the Resistance, Rey is captured by the First Order’sKylo Ren (actually Han and Leia’s son who’s been seduced by the darkside) and taken aboard Starkiller base.</p><p>中文解释：</p><p>30年前，在 Jakku 星球上，一个名为 Rey 的 scavenger 发现了一个名为BB-8 的 droids，声称它有一张通往失踪的 Luke Skywalker的地图。与被遗忘的风暴trooper Finn 一起，他们在被 abandon 的 MillenniumFalcon 上逃脱，最终被 Han 和 Chewie 发现。</p><p>Han, Chewie, and Finn try to rescue Rey, but Kylo Ren kills Hanbefore battling Rey, who discovers she’s strong with the Force.Starkiller base is eventually destroyed and Rey goes in search ofLuke.</p><h2 id="star-wars-episode-viii-the-last-jedi">8. Star Wars: Episode VIII– The Last Jedi</h2><figure><img src="https://s2.loli.net/2025/03/26/gnh46EKACdJ1Uma.png"alt="20250326235321" /><figcaption aria-hidden="true">20250326235321</figcaption></figure><p><em>Release date: December 15, 2017</em></p><p>Rey finds Luke in isolation, but he’s not in the mood to help theResistance, despite reluctantly giving her some Jedi training. Kylo andRey realize they have a Force connection and Rey goes to him, believingthere’s still some good inside him.</p><p>Meanwhile, during a dramatic space battle, Vice Admiral Holdosacrifices herself to save what’s left of the Resistance, who escape toCrait. Kylo’s master, Supreme Leader Snoke, orders him to kill Rey, butKylo kills him instead and becomes Supreme Leader, as Rey escapes. Hethen attacks the Resistance only to be stopped by Luke who shows up atthe last minute. The pair battle and Luke ultimately dies, but Reymanages to save everyone else.</p><h2 id="star-wars-episode-ix-the-rise-of-skywalker">9. Star Wars:Episode IX – The Rise of Skywalker</h2><figure><img src="https://s2.loli.net/2025/03/26/N7H1BWjci2voAte.png"alt="20250326235506" /><figcaption aria-hidden="true">20250326235506</figcaption></figure><p><em>Release date: December 19, 2019</em></p><p>Rey is continuing her Jedi training with Leia when they discoverPalpatine has been resurrected. Rey, Finn, and Poe try to find him, withKylo Ren in pursuit who eventually reveals to Rey that she’s actuallyPalpatine’s granddaughter. Meanwhile, Leia dies and feeling it, Kylo Renfinds his way back to the light side of the Force, reclaiming hisidentity as Ben Solo.</p><p>Rey goes to confront Palpatine, who demands Rey kill him so hisspirit can transfer to her, but when she refuses he tries to drain herlifeforce. With the help of Ben, Rey eventually destroys Palpatine, butBen dies saving her life.</p>]]></content>
     
     
     <categories>
@@ -6218,8 +6244,6 @@
     
     <tags>
       
-      <tag>工具</tag>
-      
       <tag>PNG</tag>
       
       <tag>压缩</tag>
@@ -6235,6 +6259,8 @@
       <tag>透明度</tag>
       
       <tag>分辨率</tag>
+      
+      <tag>工具</tag>
       
       <tag>方法</tag>
       
