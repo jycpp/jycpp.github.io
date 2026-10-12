@@ -4,32 +4,6 @@
   
   
   <entry>
-    <title></title>
-    <link href="/2025/25-10-11-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01%E5%AE%9E%E6%93%8D%E6%B5%81%E7%A8%8B%E8%AE%B0%E5%BD%95.html"/>
-    <url>/2025/25-10-11-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01%E5%AE%9E%E6%93%8D%E6%B5%81%E7%A8%8B%E8%AE%B0%E5%BD%95.html</url>
-    
-    <content type="html"><![CDATA[<p>下面我按<strong>模型从 0到上线的真实流程顺序</strong>，用<strong>“模型的生命周期”</strong>而不是“难度分级”来思考，把每个阶段、在干什么、用什么Python 工具，给你理清楚。</p><hr /><h2id="一整体流程总览先给你一张地图">一、整体流程总览（先给你一张“地图”）</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs text">数据准备<br>   ↓<br>预训练（学习）<br>   ↓<br>微调（Fine-tuning）<br>   ↓<br>对齐（监督学习 / RLHF / DPO）<br>   ↓<br>评测（Evaluation）<br>   ↓<br>推理优化（Inference Opt）<br>   ↓<br>部署（Serving）<br></code></pre></td></tr></table></figure><hr /><h2 id="全流程简化速记">全流程简化速记</h2><table><thead><tr class="header"><th>你说的</th><th>标准阶段</th><th>Python 核心工具</th></tr></thead><tbody><tr class="odd"><td>模型的学习</td><td>预训练</td><td>transformers + deepspeed + accelerate</td></tr><tr class="even"><td>调优（FT）</td><td>微调</td><td>peft + bitsandbytes + trl</td></tr><tr class="odd"><td>监督学习</td><td>SFT</td><td>trl(SFTTrainer) + datasets</td></tr><tr class="even"><td>其他流程</td><td>对齐 / 评测 / 部署</td><td>trl + lm-eval + vllm + fastapi</td></tr></tbody></table><hr /><h2 id="二按阶段拆解重点python-工具">二、按阶段拆解（重点：Python工具）</h2><hr /><h2 id="阶段-1数据准备data-preparation">阶段 1：数据准备（DataPreparation）</h2><h3 id="做什么">做什么</h3><ul><li>数据清洗</li><li>Tokenization</li><li>格式化（指令数据 / 对话数据）</li><li>数据集划分</li></ul><h3 id="python-工具">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>datasets</code>（Hugging Face）</td><td>加载、处理、缓存数据集</td></tr><tr class="even"><td><code>tokenizers</code></td><td>BPE / SentencePiece 分词</td></tr><tr class="odd"><td><code>pandas</code></td><td>结构化数据清洗</td></tr><tr class="even"><td><code>json / jsonl</code></td><td>指令数据格式</td></tr><tr class="odd"><td><code>pyarrow</code></td><td>高效列式存储</td></tr><tr class="even"><td><code>tiktoken</code></td><td>OpenAI tokenizer（可选）</td></tr></tbody></table><p>✅ 输出：<br /><code>train.jsonl / tokenized_dataset / DataLoader</code></p><hr /><h2 id="阶段-2模型的学习预训练pre-training">阶段2：模型的学习（预训练，Pre-training）</h2><h3 id="做什么-1">做什么</h3><ul><li>从零或继续训练</li><li>学习语言/世界知识</li><li>自监督学习（MLM / CLM）</li></ul><h3 id="python-工具-1">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>transformers</code></td><td>模型定义、Trainer</td></tr><tr class="even"><td><code>torch</code></td><td>核心训练框架</td></tr><tr class="odd"><td><code>accelerate</code></td><td>单卡/多卡统一接口</td></tr><tr class="even"><td><code>deepspeed</code></td><td>ZeRO、显存优化</td></tr><tr class="odd"><td><code>fsdp</code>（PyTorch）</td><td>原生分布式</td></tr><tr class="even"><td><code>wandb / tensorboard</code></td><td>训练监控</td></tr></tbody></table><p>✅ 关键代码对象： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">AutoModelForCausalLM<br>Trainer / TrainingArguments<br>DeepSpeedConfig<br></code></pre></td></tr></table></figure></p><hr /><h2 id="阶段-3调优fine-tuning">阶段 3：调优（Fine-tuning）</h2><h3 id="做什么-2">做什么</h3><ul><li>用领域数据继续训练</li><li>全参数 / 参数高效微调</li></ul><h3 id="python-工具-2">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>transformers</code></td><td>加载预训练模型</td></tr><tr class="even"><td><code>peft</code></td><td>LoRA / QLoRA / Adapter</td></tr><tr class="odd"><td><code>bitsandbytes</code></td><td>4/8-bit 量化训练</td></tr><tr class="even"><td><code>trl</code></td><td>SFTTrainer</td></tr><tr class="odd"><td><code>datasets</code></td><td>指令微调数据</td></tr></tbody></table><p>✅ 常见组合： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">transformers + peft + bitsandbytes + trl<br></code></pre></td></tr></table></figure></p><p>✅ 输出： - adapter 权重 - 合并后的完整模型</p><hr /><h2 id="阶段-4监督学习supervised-fine-tuningsft">阶段4：监督学习（Supervised Fine-Tuning，SFT）</h2><blockquote><p>⚠️ 注意：SFT 是 FT的一种，但<strong>强调“有标注的监督信号”</strong></p></blockquote><h3 id="做什么-3">做什么</h3><ul><li>指令-回答对</li><li>对话历史</li><li>人工标注数据</li></ul><h3 id="python-工具-3">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>trl（SFTTrainer）</code></td><td>标准 SFT 训练</td></tr><tr class="even"><td><code>transformers</code></td><td>模型/数据</td></tr><tr class="odd"><td><code>datasets</code></td><td>监督数据</td></tr><tr class="even"><td><code>deepspeed</code></td><td>大规模训练</td></tr></tbody></table><p>✅ 数据格式： <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;instruction&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;input&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;output&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></p><hr /><h2 id="阶段-5对齐alignment">阶段 5：对齐（Alignment）</h2><h3 id="做什么-4">做什么</h3><ul><li>让模型更安全、更符合人类偏好</li><li>RLHF / DPO / PPO</li></ul><h3 id="python-工具-4">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>trl</code></td><td>RLHF / DPO / Reward Model</td></tr><tr class="even"><td><code>transformers</code></td><td>策略模型 / 奖励模型</td></tr><tr class="odd"><td><code>peft</code></td><td>对齐阶段也常用 LoRA</td></tr><tr class="even"><td><code>wandb</code></td><td>奖励曲线监控</td></tr></tbody></table><p>✅ 常见流程： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">SFT → Reward Model → PPO / DPO<br></code></pre></td></tr></table></figure></p><p>✅ 代表方法： - RLHF（PPO） - DPO（更工程友好） - ORPO / KTO</p><hr /><h2 id="阶段-6评测evaluation">阶段 6：评测（Evaluation）</h2><h3 id="做什么-5">做什么</h3><ul><li>自动评测</li><li>人工评测</li><li>回归测试</li></ul><h3 id="python-工具-5">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>lm-evaluation-harness</code></td><td>标准 benchmark</td></tr><tr class="even"><td><code>evaluate</code>（HF）</td><td>通用指标</td></tr><tr class="odd"><td><code>rouge / bleu / meteor</code></td><td>文本生成指标</td></tr><tr class="even"><td><code>deepeval / ragas</code></td><td>LLM 专项评测</td></tr><tr class="odd"><td><code>human-eval</code></td><td>代码能力</td></tr></tbody></table><p>✅ 输出： - MMLU / GSM8K / HumanEval 分数</p><hr /><h2 id="阶段-7推理优化inference-optimization">阶段7：推理优化（Inference Optimization）</h2><h3 id="做什么-6">做什么</h3><ul><li>加速</li><li>量化</li><li>显存优化</li></ul><h3 id="python-工具-6">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>vllm</code></td><td>高吞吐推理</td></tr><tr class="even"><td><code>tgi</code></td><td>Hugging Face 推理服务</td></tr><tr class="odd"><td><code>tensorrt-llm</code></td><td>NVIDIA 极致优化</td></tr><tr class="even"><td><code>llama.cpp</code></td><td>CPU / 边缘设备</td></tr><tr class="odd"><td><code>auto-gptq / awq</code></td><td>量化</td></tr><tr class="even"><td><code>onnxruntime</code></td><td>ONNX 推理</td></tr></tbody></table><p>✅ 输出： - 量化模型 - 推理服务</p><hr /><h2 id="阶段-8部署serving">阶段 8：部署（Serving）</h2><h3 id="做什么-7">做什么</h3><ul><li>API 服务</li><li>流式输出</li><li>并发处理</li></ul><h3 id="python-工具-7">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>fastapi</code></td><td>REST API</td></tr><tr class="even"><td><code>uvicorn</code></td><td>ASGI 服务器</td></tr><tr class="odd"><td><code>docker</code></td><td>容器化</td></tr><tr class="even"><td><code>ray serve</code></td><td>分布式服务</td></tr><tr class="odd"><td><code>triton inference server</code></td><td>多模型管理</td></tr><tr class="even"><td><code>gradio / streamlit</code></td><td>Demo</td></tr></tbody></table><p>✅ 接口标准： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">/v1/chat/completions<br></code></pre></td></tr></table></figure></p><hr />]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title></title>
-    <link href="/2025/25-10-19-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B24%E4%B8%AA%E6%A1%88%E4%BE%8B%E8%AF%B4%E6%B8%85%E6%A5%9A.html"/>
-    <url>/2025/25-10-19-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B24%E4%B8%AA%E6%A1%88%E4%BE%8B%E8%AF%B4%E6%B8%85%E6%A5%9A.html</url>
-    
-    <content type="html"><![CDATA[<hr /><h1 id="个案例讲清楚自研大模型的部署过程">4个案例讲清楚自研大模型的部署过程</h1><p>很多人训完模型会卡在一个问题：</p><blockquote><p>“我的 <code>model.safetensors</code> 训出来了，怎么让别人用上？”</p></blockquote><p>答案不是“部署”两个字，而是先回答几个问题： -跑在服务器还是本机还是手机？ - 是 LLM 还是 ASR / 视觉小模型？ - 用Python 服务，还是 C++ / Kotlin / Swift 直接跑？ - 用 HuggingFace格式、GGUF、ONNX 还是 NCNN？</p><p>下面用 4 个案例把“训练格式 → 部署格式 → 推理引擎 →服务/端侧调用”讲清楚。</p><hr /><p><strong>4个案例覆盖了训练模型的常用场景</strong></p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs text">训练格式<br>  safetensors / pytorch_model.bin / .pt<br>        │<br>        ├── 服务器 LLM ───────► HuggingFace 格式 ──► vLLM / TGI ──► FastAPI<br>        │<br>        ├── 本地 LLM ────────► GGUF ──► llama.cpp / Ollama<br>        │<br>        ├── 端侧 LLM ───────► GGUF ──► llama.cpp ──► JNI ──► Kotlin<br>        │                        │<br>        │                        └── 也可用 ONNX ──► ONNX Runtime Mobile<br>        │<br>        └── 非 LLM 小模型 ───► ONNX ──► NCNN / MNN / TFLite ──► C++ / Java / Swift<br></code></pre></td></tr></table></figure><p><strong>主要的注意事项</strong></p><ol type="1"><li><strong>训练格式不管是 safetensors 还是pytorch_model.bin，都不要直接部署。</strong></li><li><strong>HuggingFace 格式给服务器，GGUF 给本地/端侧 LLM，ONNX是中间格式，NCNN 是端侧 C++ 落地格式。</strong></li><li><strong>FastAPI / Kotlin / Swift都不“懂模型”，它们调用推理引擎；推理引擎才读模型文件。</strong></li></ol><hr /><h2 id="案例-1服务器部署自研-7b-llmvllm">案例 1：服务器部署自研 7BLLM（vLLM）</h2><h3 id="训练产物是什么">1. 训练产物是什么</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">my-7b-sft/<br>├── config.json<br>├── tokenizer.json<br>├── tokenizer_config.json<br>└── model.safetensors<br></code></pre></td></tr></table></figure><p>这就是<strong>标准 HuggingFace 格式</strong>： -<code>config.json</code>：模型结构 - <code>tokenizer*</code>：分词器 -<code>model.safetensors</code>：权重</p><blockquote><p>说明：vLLM <strong>不需要 ONNX，也不需要 GGUF</strong>。它直接读HuggingFace 格式，因为 vLLM 本身就是服务器级 LLM推理引擎，内部自己做算子优化、PagedAttention、批处理。</p></blockquote><h3 id="为什么不直接用-model.generate-上线">2. 为什么不直接用<code>model.generate()</code> 上线</h3><p><code>transformers</code> 的 <code>model.generate()</code> 能跑，但：- 不支持高并发 - 没有高效 KV Cache 管理 - 没有 OpenAI 兼容接口 -工程化能力弱</p><p>所以生产里通常用 vLLM / TGI 这种“推理服务引擎”。</p><h3 id="启动-vllm-服务">3. 启动 vLLM 服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">python -m vllm.entrypoints.openai.api_server \<br>    --model ./my-7b-sft \<br>    --host 0.0.0.0 \<br>    --port 8000 \<br>    --dtype auto \<br>    --max-model-len 4096<br></code></pre></td></tr></table></figure><p>参数含义： - <code>--model</code>：HuggingFace 模型目录，不是单个文件- <code>--host 0.0.0.0</code>：允许其他机器访问；<code>localhost</code>只能本机 - <code>--port 8000</code>：HTTP 服务端口 -<code>--dtype auto</code>：自动选 fp16/bf16 -<code>--max-model-len 4096</code>：最大上下文，防止显存爆掉</p><p>启动后你会看到类似： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">INFO: Uvicorn running on http://0.0.0.0:8000<br></code></pre></td></tr></table></figure></p><p>意思是：<br /><strong>模型已经加载进显存，vLLM 已经把模型包装成一个 HTTP服务了。</strong></p><h3 id="怎么调用这个跑起来的模型">4. 怎么调用这个“跑起来的模型”</h3><p>vLLM 提供 OpenAI 兼容接口：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl http://localhost:8000/v1/chat/completions \<br>  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \<br>  -d <span class="hljs-string">&#x27;&#123;</span><br><span class="hljs-string">    &quot;model&quot;: &quot;./my-7b-sft&quot;,</span><br><span class="hljs-string">    &quot;messages&quot;: [</span><br><span class="hljs-string">      &#123;&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个严谨的助手&quot;&#125;,</span><br><span class="hljs-string">      &#123;&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;用一句话解释 Transformer&quot;&#125;</span><br><span class="hljs-string">    ],</span><br><span class="hljs-string">    &quot;temperature&quot;: 0.7,</span><br><span class="hljs-string">    &quot;top_p&quot;: 0.9,</span><br><span class="hljs-string">    &quot;max_tokens&quot;: 256</span><br><span class="hljs-string">  &#125;&#x27;</span><br></code></pre></td></tr></table></figure><p>请求参数含义： - <code>model</code>：服务里加载的模型名 -<code>messages</code>：多轮对话格式 -<code>temperature</code>：随机性，0 最稳，1 最发散 -<code>top_p</code>：核采样，控制候选词范围 -<code>max_tokens</code>：最多生成多少 token</p><p>也可以用 Python： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> openai <span class="hljs-keyword">import</span> OpenAI<br><br>client = OpenAI(<br>    api_key=<span class="hljs-string">&quot;EMPTY&quot;</span>,                <span class="hljs-comment"># vLLM 默认不校验 key</span><br>    base_url=<span class="hljs-string">&quot;http://localhost:8000/v1&quot;</span><br>)<br><br>resp = client.chat.completions.create(<br>    model=<span class="hljs-string">&quot;./my-7b-sft&quot;</span>,<br>    messages=[&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;你好&quot;</span>&#125;]<br>)<br><span class="hljs-built_in">print</span>(resp.choices[<span class="hljs-number">0</span>].message.content)<br></code></pre></td></tr></table></figure></p><h3 id="fastapi-在这里干什么">5. FastAPI 在这里干什么</h3><p>FastAPI <strong>不加载模型</strong>，而是： - 做鉴权 - 拼系统提示 -多模型路由 - 限流 - 转发给 vLLM</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/internal/chat&quot;</span></span>)</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">chat</span>(<span class="hljs-params">req: <span class="hljs-built_in">dict</span></span>):<br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> httpx.AsyncClient() <span class="hljs-keyword">as</span> c:<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> c.post(<br>            <span class="hljs-string">&quot;http://localhost:8000/v1/chat/completions&quot;</span>,<br>            json=req<br>        )<br></code></pre></td></tr></table></figure><blockquote><p>结论：服务器 LLM = HuggingFace 格式 + vLLM 起服务 + FastAPI做业务层。</p></blockquote><hr /><h2 id="案例-2本地-开发机用-ollama-跑量化-llm">案例 2：本地 / 开发机用Ollama 跑量化 LLM</h2><h3 id="为什么要转-gguf">1. 为什么要转 GGUF</h3><p>HuggingFace 格式适合训练和服务端加载，但不适合： - 笔记本 - 单 CPU /小显存 - 快速本地试跑</p><p>所以需要两步： 1. 转 GGUF：从训练生态进入 llama.cpp 推理生态 2.量化：把 16-bit 权重压成 4-bit，省显存/内存</p><h3 id="第一步hf-fp16-gguf">2. 第一步：HF → FP16 GGUF</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">python convert_hf_to_gguf.py ./my-7b \<br>    --outfile my-7b-f16.gguf \<br>    --outtype f16<br></code></pre></td></tr></table></figure><p>参数说明： - <code>./my-7b</code>：HuggingFace 模型目录 -<code>--outfile</code>：输出的 GGUF 文件 -<code>--outtype f16</code>：权重保持 16 位浮点，不做量化<br />👉 这一步只是“换容器”，不是压缩</p><h3 id="第二步fp16-gguf-q4_k_m-gguf">3. 第二步：FP16 GGUF → Q4_K_MGGUF</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">./build/bin/llama-quantize \<br>    my-7b-f16.gguf \<br>    my-7b.Q4_K_M.gguf \<br>    Q4_K_M<br></code></pre></td></tr></table></figure><p>参数说明： - 输入：FP16 GGUF - 输出：量化后 GGUF -<code>Q4_K_M</code>：4-bit 左右、质量/体积平衡最好的量化档位之一<br />- 7B 模型：FP16 约 14GB，Q4_K_M 约 4–5GB</p><blockquote><p>重要：永远从 FP16 GGUF 再量化，不要从 Q4 再量化成Q2，否则误差会叠加。</p></blockquote><h3 id="modelfile-是干什么的">4. Modelfile 是干什么的</h3><p>Modelfile 不是模型文件，也不是镜像，而是<strong>“模型 +行为配置”的说明书</strong>，类似 Dockerfile。</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> ./my-<span class="hljs-number">7</span>b.Q4_K_M.gguf<br><br>SYSTEM <span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">你是一个中文技术助手，回答简洁、准确、不废话。</span><br><span class="hljs-string">&quot;</span><span class="hljs-string">&quot;&quot;</span><br><br>TEMPLATE <span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">&#123;&#123; if .System &#125;&#125;system</span><br><span class="hljs-string">&#123;&#123; .System &#125;&#125;</span><br><span class="hljs-string">&#123;&#123; end &#125;&#125;user</span><br><span class="hljs-string">&#123;&#123; .Prompt &#125;&#125;</span><br><span class="hljs-string">assistant</span><br><span class="hljs-string">&quot;</span><span class="hljs-string">&quot;&quot;</span><br><br>PARAMETER temperature <span class="hljs-number">0.7</span><br>PARAMETER top_p <span class="hljs-number">0.9</span><br>PARAMETER num_ctx <span class="hljs-number">4096</span><br>PARAMETER repeat_penalty <span class="hljs-number">1.1</span><br></code></pre></td></tr></table></figure><p>逐行说明：</p><ul><li><code>FROM</code>：底座模型，这里直接指向本地 GGUF</li><li><code>SYSTEM</code>：每次对话都带上的“人设 / 规则”</li><li><code>TEMPLATE</code>：把 system / user / assistant拼成模型训练时见过的格式<br />👉 模板错了，模型就会“不听指令”</li><li><code>temperature</code>：创造性</li><li><code>top_p</code>：采样范围</li><li><code>num_ctx</code>：上下文窗口大小</li><li><code>repeat_penalty</code>：防复读</li></ul><h3 id="注册并运行">5. 注册并运行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ollama create my-7b -f Modelfile<br>ollama run my-7b <span class="hljs-string">&quot;用一句话解释向量数据库&quot;</span><br></code></pre></td></tr></table></figure><p>Ollama 默认起在： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">http://localhost:11434<br></code></pre></td></tr></table></figure></p><p>OpenAI 兼容接口： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">POST http://localhost:11434/v1/chat/completions<br></code></pre></td></tr></table></figure></p><p>FastAPI / 前端 / LangChain 都可以直接连。</p><blockquote><p>结论：Ollama = 本地 LLM 运行时；GGUF = 模型文件；Modelfile =行为配置。</p></blockquote><hr /><h2 id="案例-3android-端侧跑-llm">案例 3：Android 端侧跑 LLM</h2><h3 id="为什么端侧不能用-huggingface-格式直接跑">1. 为什么端侧不能用HuggingFace 格式直接跑</h3><p>Android 上常见问题： - 没有 Python - 显存不存在，只有 RAM / NPU -需要 APK 内嵌模型 - 要 C++ 层做高性能推理</p><p>所以路径是： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">safetensors → GGUF → llama.cpp(C++) → JNI → Kotlin<br></code></pre></td></tr></table></figure></p><h3 id="转换过程补充">2. 转换过程补充</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. HF → FP16 GGUF</span><br>python convert_hf_to_gguf.py ./my-1.5b --outtype f16 --outfile my-1.5b-f16.gguf<br><br><span class="hljs-comment"># 2. 量化</span><br>./build/bin/llama-quantize my-1.5b-f16.gguf my-1.5b-Q4_0.gguf Q4_0<br></code></pre></td></tr></table></figure><ul><li><code>Q4_0</code>：端侧常用，体积小，速度块，质量略降</li><li>1.5B Q4 大概 1GB 出头，适合手机</li></ul><h3 id="android-项目结构">3. Android 项目结构</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">app/<br>├── jniLibs/arm64-v8a/libllama.so<br>├── assets/my-1.5b-Q4_0.gguf<br>└── java/com/example/LlamaEngine.kt<br></code></pre></td></tr></table></figure><h3 id="kotlin-通过-jni-调-c">4. Kotlin 通过 JNI 调 C++</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">LlamaEngine</span> &#123;<br>    <span class="hljs-keyword">companion</span> <span class="hljs-keyword">object</span> &#123;<br>        <span class="hljs-keyword">init</span> &#123; System.loadLibrary(<span class="hljs-string">&quot;llama&quot;</span>) &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">external</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">initModel</span><span class="hljs-params">(path: <span class="hljs-type">String</span>)</span></span>: <span class="hljs-built_in">Boolean</span><br>    <span class="hljs-keyword">external</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">generate</span><span class="hljs-params">(prompt: <span class="hljs-type">String</span>)</span></span>: String<br>&#125;<br></code></pre></td></tr></table></figure><p>JNI 层： <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> <span class="hljs-function">JNIEXPORT jstring JNICALL</span><br><span class="hljs-function"><span class="hljs-title">Java_com_example_LlamaEngine_generate</span><span class="hljs-params">(JNIEnv* env, jobject, jstring prompt)</span> </span>&#123;<br>    <span class="hljs-type">const</span> <span class="hljs-type">char</span>* p = env-&gt;<span class="hljs-built_in">GetStringUTFChars</span>(prompt, <span class="hljs-literal">nullptr</span>);<br>    <span class="hljs-comment">// llama.cpp 加载 GGUF、跑 decode</span><br>    std::string out = <span class="hljs-built_in">llama_generate</span>(p);<br>    <span class="hljs-keyword">return</span> env-&gt;<span class="hljs-built_in">NewStringUTF</span>(out.<span class="hljs-built_in">c_str</span>());<br>&#125;<br></code></pre></td></tr></table></figure></p><p>关键点： &gt; Kotlin 不“理解” GGUF，它只是通过 JNI 调用 C++推理引擎；真正读 GGUF 的是 llama.cpp。</p><h3 id="如果-android-想用-onnx-而不是-gguf">5. 如果 Android 想用 ONNX而不是 GGUF</h3><p>那就不走 llama.cpp，改走 ONNX Runtime Mobile：</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">PyTorch 模型<br> → torch.onnx.export<br> → model.onnx<br> → 放 assets/<br> → ONNX Runtime Android 加载<br></code></pre></td></tr></table></figure><p>Kotlin： <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">val</span> env = OrtEnvironment.getEnvironment()<br><span class="hljs-keyword">val</span> session = env.createSession(assets.<span class="hljs-keyword">open</span>(<span class="hljs-string">&quot;model.onnx&quot;</span>).readBytes())<br><br><span class="hljs-keyword">val</span> input = OnnxTensor.createTensor(env, inputIds, longArrayOf(<span class="hljs-number">1</span>, seqLen))<br><span class="hljs-keyword">val</span> result = session.run(mapOf(<span class="hljs-string">&quot;input_ids&quot;</span> to input))<br></code></pre></td></tr></table></figure></p><p>但注意： - ONNX 更适合分类 / 检测 / OCR / 小模型 - 端侧自回归 LLM通常 GGUF + llama.cpp 更成熟</p><hr /><h2 id="案例-4端侧-asrconformer-onnx-ncnn">案例 4：端侧 ASR（Conformer →ONNX → NCNN）</h2><h3 id="conformer-模型和前面-3-个一样吗">1. Conformer 模型和前面 3个一样吗</h3><p>不一样在任务域：</p><table><thead><tr class="header"><th>案例</th><th>模型</th><th>任务</th></tr></thead><tbody><tr class="odd"><td>1</td><td>Decoder LLM</td><td>文本生成</td></tr><tr class="even"><td>2</td><td>Decoder LLM</td><td>本地对话</td></tr><tr class="odd"><td>3</td><td>小 LLM</td><td>端侧对话</td></tr><tr class="even"><td>4</td><td>Conformer / Zipformer</td><td>语音识别</td></tr></tbody></table><p>Conformer 也是 PyTorch 训出来的，但： - 输入是 log-Mel 声学特征 -输出是 token / CTC / RNNT - 不是聊天模型</p><h3 id="pytorch-onnx">2. PyTorch → ONNX</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><br>model = MyConformer()<br>model.load_state_dict(torch.load(<span class="hljs-string">&quot;conformer.pt&quot;</span>))<br>model.<span class="hljs-built_in">eval</span>()<br><br>dummy = torch.randn(<span class="hljs-number">1</span>, <span class="hljs-number">300</span>, <span class="hljs-number">80</span>)  <span class="hljs-comment"># batch, time, mel_bins</span><br><br>torch.onnx.export(<br>    model,<br>    dummy,<br>    <span class="hljs-string">&quot;conformer.onnx&quot;</span>,<br>    input_names=[<span class="hljs-string">&quot;features&quot;</span>],<br>    output_names=[<span class="hljs-string">&quot;logits&quot;</span>],<br>    opset_version=<span class="hljs-number">17</span>,<br>    dynamic_axes=&#123;<br>        <span class="hljs-string">&quot;features&quot;</span>: &#123;<span class="hljs-number">1</span>: <span class="hljs-string">&quot;time&quot;</span>&#125;,<br>        <span class="hljs-string">&quot;logits&quot;</span>: <span class="hljs-number">1</span>: <span class="hljs-string">&quot;time&quot;</span><br>    &#125;<br>)<br></code></pre></td></tr></table></figure><p>目的： &gt; 把“PyTorch动态图”变成“静态计算图”，方便跨框架和端侧引擎加载。</p><h3 id="onnx-ncnn">3. ONNX → NCNN</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 先简化</span><br>python -m onnxsim conformer.onnx conformer-sim.onnx<br><br><span class="hljs-comment"># ONNX 转 NCNN</span><br>onnx2ncnn conformer-sim.onnx conformer.param conformer.bin<br><br><span class="hljs-comment"># NCNN 优化</span><br>ncnnoptimize conformer.param conformer.bin conformer-opt.param conformer-opt.bin 0<br></code></pre></td></tr></table></figure><p>产物： - <code>.param</code>：网络结构 - <code>.bin</code>：权重</p><h3 id="c-直接跑">4. C++ 直接跑</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;net.h&quot;</span></span><br><br>ncnn::Net net;<br>net.<span class="hljs-built_in">load_param</span>(<span class="hljs-string">&quot;conformer-opt.param&quot;</span>);<br>net.<span class="hljs-built_in">load_model</span>(<span class="hljs-string">&quot;conformer-opt.bin&quot;</span>);<br><br>ncnn::Mat in = ncnn::<span class="hljs-built_in">Mat</span>(w, h, features_ptr);<br>ncnn::Extractor ex = net.<span class="hljs-built_in">create_extractor</span>();<br>ex.<span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;features&quot;</span>, in);<br><br>ncnn::Mat out;<br>ex.<span class="hljs-built_in">extract</span>(<span class="hljs-string">&quot;logits&quot;</span>, out);<br></code></pre></td></tr></table></figure><blockquote><p>这里没有 Python、没有 Docker、没有 HTTP，就是 C++读文件、跑矩阵运算。</p></blockquote><hr /><p><img src="/html/大模型的训练格式和部署格式.svg" alt="Conformer ASR" style="width: 100%; height: auto;" title="Conformer ASR" /></p>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>生死簿在线管理系统软件需求分析</title>
     <link href="/2026/26-09-26-%E7%94%9F%E6%AD%BB%E7%B0%BF%E5%9C%A8%E7%BA%BF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90.html"/>
     <url>/2026/26-09-26-%E7%94%9F%E6%AD%BB%E7%B0%BF%E5%9C%A8%E7%BA%BF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90.html</url>
@@ -408,6 +382,8 @@
     
     <tags>
       
+      <tag>配置</tag>
+      
       <tag>Skill</tag>
       
       <tag>CodeBuddy</tag>
@@ -417,8 +393,6 @@
       <tag>MCP</tag>
       
       <tag>迁移</tag>
-      
-      <tag>配置</tag>
       
       <tag>腾讯</tag>
       
@@ -502,13 +476,13 @@
       
       <tag>预训练</tag>
       
-      <tag>监督微调</tag>
-      
-      <tag>强化学习</tag>
+      <tag>SFT</tag>
       
       <tag>RLHF</tag>
       
-      <tag>SFT</tag>
+      <tag>监督微调</tag>
+      
+      <tag>强化学习</tag>
       
       <tag>RAG</tag>
       
@@ -1038,6 +1012,8 @@
     
     <tags>
       
+      <tag>软件架构</tag>
+      
       <tag>AutoSAR</tag>
       
       <tag>汽车电子</tag>
@@ -1055,8 +1031,6 @@
       <tag>RTE</tag>
       
       <tag>MCAL</tag>
-      
-      <tag>软件架构</tag>
       
     </tags>
     
@@ -1175,6 +1149,8 @@
       
       <tag>项目经理</tag>
       
+      <tag>案例分析</tag>
+      
       <tag>招投标</tag>
       
       <tag>软件项目管理</tag>
@@ -1188,8 +1164,6 @@
       <tag>团队建设</tag>
       
       <tag>项目进度</tag>
-      
-      <tag>案例分析</tag>
       
     </tags>
     
@@ -1382,13 +1356,13 @@
     
     <tags>
       
+      <tag>数据安全</tag>
+      
       <tag>网盘</tag>
       
       <tag>硬盘</tag>
       
       <tag>云存储</tag>
-      
-      <tag>数据安全</tag>
       
       <tag>百度网盘</tag>
       
@@ -1988,51 +1962,6 @@
   
   
   <entry>
-    <title>计算机中的补码表示法与正负数的关系</title>
-    <link href="/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html"/>
-    <url>/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html</url>
-    
-    <content type="html"><![CDATA[<blockquote><p>本文通过具体数字 <strong>-47</strong>、<strong>0xD1</strong> 和<strong>209</strong>的关系，深入剖析计算机如何用二进制表示正负数，揭示原码、反码、补码的设计原理与演进历程。</p></blockquote><hr /><h2 id="问题的提出">1. 问题的提出</h2><p>在 C++ 中，一个字节 <code>0xD1</code> 既可以表示<strong>209</strong>（无符号），也可以表示<strong>-47</strong>（有符号）。<br />为什么同一个二进制模式 <code>11010001</code>会有两种截然不同的值？<br />这背后是计算机表示有符号数的三种历史方案：<strong>原码</strong>、<strong>反码</strong>、<strong>补码</strong>。</p><hr /><h2 id="直观理解">2. 直观理解</h2><p>想象一个 <strong>圆环时钟</strong>（模 256）：<br />- 从 0 点顺时针走 47 步到达 47<br />- 从 0 点逆时针走 47 步也到达同一个位置<br />- 逆时针 47 步 = 顺时针 <code>(256 - 47) = 209</code> 步</p><p>因此，在 8 位系统中：<br /><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">-<span class="hljs-number">47</span> ≡ <span class="hljs-number">209</span> (<span class="hljs-keyword">mod</span> <span class="hljs-number">256</span>)<br></code></pre></td></tr></table></figure> <code>209</code> 的二进制正是 <code>11010001</code> =<code>0xD1</code>。<br />这就是补码的<strong>模运算本质</strong>：负数 = 模 - 绝对值。</p><hr /><h2 id="三种编码方式的演进">3. 三种编码方式的演进</h2><h3 id="原码sign-magnitude">3.1 原码（Sign-Magnitude）</h3><p>最高位为符号位（0 正，1 负），其余位表示数值的绝对值。</p><p><strong>8 位原码范围</strong>：-127 到 +127<br /><strong>问题</strong>：存在 <code>+0</code> 和 <code>-0</code>两种零，浪费编码，且加减法需判断符号，电路复杂。</p><h3 id="反码ones-complement">3.2 反码（Ones’ Complement）</h3><p>负数 = 符号位 1 + 数值位按位取反。</p><p><strong>8 位反码范围</strong>：-127 到 +127<br /><strong>问题</strong>：仍然有两个零（+0 = 00000000，-0 =11111111）。</p><h3 id="补码twos-complement">3.3 补码（Two’s Complement）</h3><p>负数 = 反码 + 1。<br /><strong>解决了双零问题</strong>，统一了加减法运算，成为现代计算机标准。</p><hr /><h2 id="从-47-到--47-的补码计算">4. 从 +47 到 -47 的补码计算</h2><p>以 8 位系统为例：</p><ol type="1"><li><p><strong>+47 的二进制</strong><br />47 = 32 + 8 + 4 + 2 + 1 → <code>00101111</code></p></li><li><p><strong>取反（反码）</strong><br /><code>00101111</code> → <code>11010000</code></p></li><li><p><strong>加 1（补码）</strong><br /><code>11010000 + 1 = 11010001</code> = <code>0xD1</code></p></li></ol><p>验证：<br /><code>0xD1</code> 作为无符号数 = 209<br /><code>209 - 256 = -47</code> ✅</p><hr /><h2 id="完整的对比表">5. 完整的对比表</h2><table><thead><tr class="header"><th>数值</th><th>原码</th><th>反码</th><th>补码（现代使用）</th></tr></thead><tbody><tr class="odd"><td>+0</td><td>00000000</td><td>00000000</td><td>00000000</td></tr><tr class="even"><td>-0</td><td>10000000</td><td>11111111</td><td>不存在！</td></tr><tr class="odd"><td>+1</td><td>00000001</td><td>00000001</td><td>00000001</td></tr><tr class="even"><td>-1</td><td>10000001</td><td>11111110</td><td>11111111</td></tr><tr class="odd"><td>+47</td><td>00101111</td><td>00101111</td><td>00101111</td></tr><tr class="even"><td>-47</td><td>10101111</td><td>11010000</td><td>11010001 (=0xD1)</td></tr></tbody></table><hr /><h2 id="为什么补码没有--0">6. 为什么补码没有 “-0”？</h2><p>在反码中：<br />- <code>-0 = 11111111</code> → 取反 → <code>00000000 = +0</code> ❌逻辑混乱</p><p>在补码中：<br />- <code>10000000</code> 按补码规则反向推导：<br />先减 1：<code>10000000 - 1 = 01111111</code><br />取反：<code>10000000</code> = 128<br />所以该数为 <strong>-128</strong>，不是 -0！</p><p><strong>结论</strong>：补码中 0 只有一种表示<code>00000000</code>，范围 -128 到 +127。</p><hr /><h2 id="mermaid-图示补码计算流程">7. Mermaid 图示：补码计算流程</h2><div class="mermaid">graph TD    A[+47 二进制: 00101111] --> B[按位取反]    B --> C[11010000]    C --> D[加 1]    D --> E[-47 补码: 11010001 = 0xD1]    E --> F[无符号解释: 209]    E --> G[有符号解释: -47]</div><hr /><h2 id="c-代码演示">8. C++ 代码演示</h2><h3 id="类型解释决定数值意义">8.1 类型解释决定数值意义</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iomanip&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdint&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">uint8_t</span> byte = <span class="hljs-number">0xD1</span>;  <span class="hljs-comment">// 二进制 11010001</span><br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;十六进制: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase <br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte) &lt;&lt; std::endl;  <span class="hljs-comment">// 0xD1</span><br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;作为 uint8_t (无符号): &quot;</span> &lt;&lt; std::dec <br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte) &lt;&lt; std::endl;  <span class="hljs-comment">// 209</span><br>    <br>    <span class="hljs-type">int8_t</span> signed_byte = <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int8_t</span>&gt;(byte);<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;作为 int8_t (有符号): &quot;</span> &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(signed_byte) <br>              &lt;&lt; std::endl;  <span class="hljs-comment">// -47</span><br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure><h3 id="补码反向推导验证">8.2 补码反向推导验证</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 验证 0xD1 是 -47</span><br><span class="hljs-type">uint8_t</span> hex_d1 = <span class="hljs-number">0xD1</span>;<br><span class="hljs-type">int</span> back_to_signed = <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int8_t</span>&gt;(hex_d1);<br>std::cout &lt;&lt; <span class="hljs-string">&quot;0xD1 作为 int8_t: &quot;</span> &lt;&lt; back_to_signed &lt;&lt; std::endl;  <span class="hljs-comment">// -47</span><br></code></pre></td></tr></table></figure><hr /><h2 id="内存视角与类型系统">9. 内存视角与类型系统</h2><p>在内存中，<code>0xD1</code> 的二进制模式固定为<code>11010001</code>：<br />- 程序 A 读取为 <code>uint8_t</code> → 解释为 <strong>209</strong><br />- 程序 B 读取为 <code>int8_t</code> → 解释为 <strong>-47</strong></p><p><strong>类型决定解释方式</strong>，这是计算机系统的强大之处。</p><hr /><h2 id="实际应用">10. 实际应用</h2><ul><li><strong>网络协议</strong>：字节流常按无符号解释（如校验和 0xD1 =209）<br /></li><li><strong>音频/传感器</strong>：按有符号解释（如温度 -47°C）<br /></li><li><strong>位运算</strong>：<code>&amp; 0xFF</code>可截取低字节，与补码表示无关，是纯位操作</li></ul><hr /><h2 id="总结">11. 总结</h2><ul><li><strong>原码</strong>：直观但有 ±0 问题<br /></li><li><strong>反码</strong>：改进但仍存双零<br /></li><li><strong>补码</strong>：通过“取反加一”消除双零，统一加减法，成为现代标准<br /></li><li><strong>-47</strong>、<strong>0xD1</strong>、<strong>209</strong>是同一二进制在不同类型下的三种身份<br /></li><li>理解补码是掌握计算机算术、类型系统和底层编程的关键</li></ul><blockquote><p>补码不仅是技术妥协，更是人类为机器设计的优雅数学映射。</p></blockquote>]]></content>
-    
-    
-    <categories>
-      
-      <category>软件开发</category>
-      
-      <category>系统架构</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>二进制</tag>
-      
-      <tag>补码</tag>
-      
-      <tag>原码</tag>
-      
-      <tag>反码</tag>
-      
-      <tag>C++</tag>
-      
-      <tag>有符号数</tag>
-      
-      <tag>无符号数</tag>
-      
-      <tag>计算机原理</tag>
-      
-      <tag>数值表示</tag>
-      
-      <tag>类型系统</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>一文搞懂：二进制、十进制、十六进制换算与字节表示原理</title>
     <link href="/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html"/>
     <url>/2026/26-01-01-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%8D%A2%E7%AE%97%E4%B8%8E%E5%AD%97%E8%8A%82%E8%A1%A8%E7%A4%BA%E5%8E%9F%E7%90%86.html</url>
@@ -2070,6 +1999,51 @@
       <tag>数值</tag>
       
       <tag>进制</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>计算机中的补码表示法与正负数的关系</title>
+    <link href="/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html"/>
+    <url>/2026/26-01-02-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E6%B3%95%E4%B8%8E%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB.html</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>本文通过具体数字 <strong>-47</strong>、<strong>0xD1</strong> 和<strong>209</strong>的关系，深入剖析计算机如何用二进制表示正负数，揭示原码、反码、补码的设计原理与演进历程。</p></blockquote><hr /><h2 id="问题的提出">1. 问题的提出</h2><p>在 C++ 中，一个字节 <code>0xD1</code> 既可以表示<strong>209</strong>（无符号），也可以表示<strong>-47</strong>（有符号）。<br />为什么同一个二进制模式 <code>11010001</code>会有两种截然不同的值？<br />这背后是计算机表示有符号数的三种历史方案：<strong>原码</strong>、<strong>反码</strong>、<strong>补码</strong>。</p><hr /><h2 id="直观理解">2. 直观理解</h2><p>想象一个 <strong>圆环时钟</strong>（模 256）：<br />- 从 0 点顺时针走 47 步到达 47<br />- 从 0 点逆时针走 47 步也到达同一个位置<br />- 逆时针 47 步 = 顺时针 <code>(256 - 47) = 209</code> 步</p><p>因此，在 8 位系统中：<br /><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">-<span class="hljs-number">47</span> ≡ <span class="hljs-number">209</span> (<span class="hljs-keyword">mod</span> <span class="hljs-number">256</span>)<br></code></pre></td></tr></table></figure> <code>209</code> 的二进制正是 <code>11010001</code> =<code>0xD1</code>。<br />这就是补码的<strong>模运算本质</strong>：负数 = 模 - 绝对值。</p><hr /><h2 id="三种编码方式的演进">3. 三种编码方式的演进</h2><h3 id="原码sign-magnitude">3.1 原码（Sign-Magnitude）</h3><p>最高位为符号位（0 正，1 负），其余位表示数值的绝对值。</p><p><strong>8 位原码范围</strong>：-127 到 +127<br /><strong>问题</strong>：存在 <code>+0</code> 和 <code>-0</code>两种零，浪费编码，且加减法需判断符号，电路复杂。</p><h3 id="反码ones-complement">3.2 反码（Ones’ Complement）</h3><p>负数 = 符号位 1 + 数值位按位取反。</p><p><strong>8 位反码范围</strong>：-127 到 +127<br /><strong>问题</strong>：仍然有两个零（+0 = 00000000，-0 =11111111）。</p><h3 id="补码twos-complement">3.3 补码（Two’s Complement）</h3><p>负数 = 反码 + 1。<br /><strong>解决了双零问题</strong>，统一了加减法运算，成为现代计算机标准。</p><hr /><h2 id="从-47-到--47-的补码计算">4. 从 +47 到 -47 的补码计算</h2><p>以 8 位系统为例：</p><ol type="1"><li><p><strong>+47 的二进制</strong><br />47 = 32 + 8 + 4 + 2 + 1 → <code>00101111</code></p></li><li><p><strong>取反（反码）</strong><br /><code>00101111</code> → <code>11010000</code></p></li><li><p><strong>加 1（补码）</strong><br /><code>11010000 + 1 = 11010001</code> = <code>0xD1</code></p></li></ol><p>验证：<br /><code>0xD1</code> 作为无符号数 = 209<br /><code>209 - 256 = -47</code> ✅</p><hr /><h2 id="完整的对比表">5. 完整的对比表</h2><table><thead><tr class="header"><th>数值</th><th>原码</th><th>反码</th><th>补码（现代使用）</th></tr></thead><tbody><tr class="odd"><td>+0</td><td>00000000</td><td>00000000</td><td>00000000</td></tr><tr class="even"><td>-0</td><td>10000000</td><td>11111111</td><td>不存在！</td></tr><tr class="odd"><td>+1</td><td>00000001</td><td>00000001</td><td>00000001</td></tr><tr class="even"><td>-1</td><td>10000001</td><td>11111110</td><td>11111111</td></tr><tr class="odd"><td>+47</td><td>00101111</td><td>00101111</td><td>00101111</td></tr><tr class="even"><td>-47</td><td>10101111</td><td>11010000</td><td>11010001 (=0xD1)</td></tr></tbody></table><hr /><h2 id="为什么补码没有--0">6. 为什么补码没有 “-0”？</h2><p>在反码中：<br />- <code>-0 = 11111111</code> → 取反 → <code>00000000 = +0</code> ❌逻辑混乱</p><p>在补码中：<br />- <code>10000000</code> 按补码规则反向推导：<br />先减 1：<code>10000000 - 1 = 01111111</code><br />取反：<code>10000000</code> = 128<br />所以该数为 <strong>-128</strong>，不是 -0！</p><p><strong>结论</strong>：补码中 0 只有一种表示<code>00000000</code>，范围 -128 到 +127。</p><hr /><h2 id="mermaid-图示补码计算流程">7. Mermaid 图示：补码计算流程</h2><div class="mermaid">graph TD    A[+47 二进制: 00101111] --> B[按位取反]    B --> C[11010000]    C --> D[加 1]    D --> E[-47 补码: 11010001 = 0xD1]    E --> F[无符号解释: 209]    E --> G[有符号解释: -47]</div><hr /><h2 id="c-代码演示">8. C++ 代码演示</h2><h3 id="类型解释决定数值意义">8.1 类型解释决定数值意义</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iomanip&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdint&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">uint8_t</span> byte = <span class="hljs-number">0xD1</span>;  <span class="hljs-comment">// 二进制 11010001</span><br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;十六进制: 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::uppercase <br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte) &lt;&lt; std::endl;  <span class="hljs-comment">// 0xD1</span><br>    <br>    std::cout &lt;&lt; <span class="hljs-string">&quot;作为 uint8_t (无符号): &quot;</span> &lt;&lt; std::dec <br>              &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(byte) &lt;&lt; std::endl;  <span class="hljs-comment">// 209</span><br>    <br>    <span class="hljs-type">int8_t</span> signed_byte = <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int8_t</span>&gt;(byte);<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;作为 int8_t (有符号): &quot;</span> &lt;&lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(signed_byte) <br>              &lt;&lt; std::endl;  <span class="hljs-comment">// -47</span><br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure><h3 id="补码反向推导验证">8.2 补码反向推导验证</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 验证 0xD1 是 -47</span><br><span class="hljs-type">uint8_t</span> hex_d1 = <span class="hljs-number">0xD1</span>;<br><span class="hljs-type">int</span> back_to_signed = <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int8_t</span>&gt;(hex_d1);<br>std::cout &lt;&lt; <span class="hljs-string">&quot;0xD1 作为 int8_t: &quot;</span> &lt;&lt; back_to_signed &lt;&lt; std::endl;  <span class="hljs-comment">// -47</span><br></code></pre></td></tr></table></figure><hr /><h2 id="内存视角与类型系统">9. 内存视角与类型系统</h2><p>在内存中，<code>0xD1</code> 的二进制模式固定为<code>11010001</code>：<br />- 程序 A 读取为 <code>uint8_t</code> → 解释为 <strong>209</strong><br />- 程序 B 读取为 <code>int8_t</code> → 解释为 <strong>-47</strong></p><p><strong>类型决定解释方式</strong>，这是计算机系统的强大之处。</p><hr /><h2 id="实际应用">10. 实际应用</h2><ul><li><strong>网络协议</strong>：字节流常按无符号解释（如校验和 0xD1 =209）<br /></li><li><strong>音频/传感器</strong>：按有符号解释（如温度 -47°C）<br /></li><li><strong>位运算</strong>：<code>&amp; 0xFF</code>可截取低字节，与补码表示无关，是纯位操作</li></ul><hr /><h2 id="总结">11. 总结</h2><ul><li><strong>原码</strong>：直观但有 ±0 问题<br /></li><li><strong>反码</strong>：改进但仍存双零<br /></li><li><strong>补码</strong>：通过“取反加一”消除双零，统一加减法，成为现代标准<br /></li><li><strong>-47</strong>、<strong>0xD1</strong>、<strong>209</strong>是同一二进制在不同类型下的三种身份<br /></li><li>理解补码是掌握计算机算术、类型系统和底层编程的关键</li></ul><blockquote><p>补码不仅是技术妥协，更是人类为机器设计的优雅数学映射。</p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>软件开发</category>
+      
+      <category>系统架构</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>二进制</tag>
+      
+      <tag>补码</tag>
+      
+      <tag>原码</tag>
+      
+      <tag>反码</tag>
+      
+      <tag>C++</tag>
+      
+      <tag>有符号数</tag>
+      
+      <tag>无符号数</tag>
+      
+      <tag>计算机原理</tag>
+      
+      <tag>数值表示</tag>
+      
+      <tag>类型系统</tag>
       
     </tags>
     
@@ -2229,6 +2203,8 @@
     
     <tags>
       
+      <tag>知识库</tag>
+      
       <tag>软考</tag>
       
       <tag>系统架构设计师</tag>
@@ -2242,8 +2218,6 @@
       <tag>集中式网络</tag>
       
       <tag>去中心化网络</tag>
-      
-      <tag>知识库</tag>
       
       <tag>鲁棒性</tag>
       
@@ -2301,6 +2275,51 @@
   
   
   <entry>
+    <title>大模型部署4个案例说清楚</title>
+    <link href="/2025/25-10-19-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B24%E4%B8%AA%E6%A1%88%E4%BE%8B%E8%AF%B4%E6%B8%85%E6%A5%9A.html"/>
+    <url>/2025/25-10-19-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B24%E4%B8%AA%E6%A1%88%E4%BE%8B%E8%AF%B4%E6%B8%85%E6%A5%9A.html</url>
+    
+    <content type="html"><![CDATA[<h1 id="个案例讲清楚自研大模型的部署过程">4个案例讲清楚自研大模型的部署过程</h1><p>很多人训完模型会卡在一个问题：</p><blockquote><p>“我的 <code>model.safetensors</code> 训出来了，怎么让别人用上？”</p></blockquote><p>答案不是“部署”两个字，而是先回答几个问题： -跑在服务器还是本机还是手机？ - 是 LLM 还是 ASR / 视觉小模型？ - 用Python 服务，还是 C++ / Kotlin / Swift 直接跑？ - 用 HuggingFace格式、GGUF、ONNX 还是 NCNN？</p><p>下面用 4 个案例把“训练格式 → 部署格式 → 推理引擎 →服务/端侧调用”讲清楚。</p><hr /><p><strong>4个案例覆盖了训练模型的常用场景</strong></p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs text">训练格式<br>  safetensors / pytorch_model.bin / .pt<br>        │<br>        ├── 服务器 LLM ───────► HuggingFace 格式 ──► vLLM / TGI ──► FastAPI<br>        │<br>        ├── 本地 LLM ────────► GGUF ──► llama.cpp / Ollama<br>        │<br>        ├── 端侧 LLM ───────► GGUF ──► llama.cpp ──► JNI ──► Kotlin<br>        │                        │<br>        │                        └── 也可用 ONNX ──► ONNX Runtime Mobile<br>        │<br>        └── 非 LLM 小模型 ───► ONNX ──► NCNN / MNN / TFLite ──► C++ / Java / Swift<br></code></pre></td></tr></table></figure><p><strong>主要的注意事项</strong></p><ol type="1"><li><strong>训练格式不管是 safetensors 还是pytorch_model.bin，都不要直接部署。</strong></li><li><strong>HuggingFace 格式给服务器，GGUF 给本地/端侧 LLM，ONNX是中间格式，NCNN 是端侧 C++ 落地格式。</strong></li><li><strong>FastAPI / Kotlin / Swift都不“懂模型”，它们调用推理引擎；推理引擎才读模型文件。</strong></li></ol><hr /><h2 id="案例-1服务器部署自研-7b-llmvllm">案例 1：服务器部署自研 7BLLM（vLLM）</h2><h3 id="训练产物是什么">1. 训练产物是什么</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">my-7b-sft/<br>├── config.json<br>├── tokenizer.json<br>├── tokenizer_config.json<br>└── model.safetensors<br></code></pre></td></tr></table></figure><p>这就是<strong>标准 HuggingFace 格式</strong>： -<code>config.json</code>：模型结构 - <code>tokenizer*</code>：分词器 -<code>model.safetensors</code>：权重</p><blockquote><p>说明：vLLM <strong>不需要 ONNX，也不需要 GGUF</strong>。它直接读HuggingFace 格式，因为 vLLM 本身就是服务器级 LLM推理引擎，内部自己做算子优化、PagedAttention、批处理。</p></blockquote><h3 id="为什么不直接用-model.generate-上线">2. 为什么不直接用<code>model.generate()</code> 上线</h3><p><code>transformers</code> 的 <code>model.generate()</code> 能跑，但：- 不支持高并发 - 没有高效 KV Cache 管理 - 没有 OpenAI 兼容接口 -工程化能力弱</p><p>所以生产里通常用 vLLM / TGI 这种“推理服务引擎”。</p><h3 id="启动-vllm-服务">3. 启动 vLLM 服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">python -m vllm.entrypoints.openai.api_server \<br>    --model ./my-7b-sft \<br>    --host 0.0.0.0 \<br>    --port 8000 \<br>    --dtype auto \<br>    --max-model-len 4096<br></code></pre></td></tr></table></figure><p>参数含义： - <code>--model</code>：HuggingFace 模型目录，不是单个文件- <code>--host 0.0.0.0</code>：允许其他机器访问；<code>localhost</code>只能本机 - <code>--port 8000</code>：HTTP 服务端口 -<code>--dtype auto</code>：自动选 fp16/bf16 -<code>--max-model-len 4096</code>：最大上下文，防止显存爆掉</p><p>启动后你会看到类似： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">INFO: Uvicorn running on http://0.0.0.0:8000<br></code></pre></td></tr></table></figure></p><p>意思是：<br /><strong>模型已经加载进显存，vLLM 已经把模型包装成一个 HTTP服务了。</strong></p><h3 id="怎么调用这个跑起来的模型">4. 怎么调用这个“跑起来的模型”</h3><p>vLLM 提供 OpenAI 兼容接口：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl http://localhost:8000/v1/chat/completions \<br>  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \<br>  -d <span class="hljs-string">&#x27;&#123;</span><br><span class="hljs-string">    &quot;model&quot;: &quot;./my-7b-sft&quot;,</span><br><span class="hljs-string">    &quot;messages&quot;: [</span><br><span class="hljs-string">      &#123;&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个严谨的助手&quot;&#125;,</span><br><span class="hljs-string">      &#123;&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;用一句话解释 Transformer&quot;&#125;</span><br><span class="hljs-string">    ],</span><br><span class="hljs-string">    &quot;temperature&quot;: 0.7,</span><br><span class="hljs-string">    &quot;top_p&quot;: 0.9,</span><br><span class="hljs-string">    &quot;max_tokens&quot;: 256</span><br><span class="hljs-string">  &#125;&#x27;</span><br></code></pre></td></tr></table></figure><p>请求参数含义： - <code>model</code>：服务里加载的模型名 -<code>messages</code>：多轮对话格式 -<code>temperature</code>：随机性，0 最稳，1 最发散 -<code>top_p</code>：核采样，控制候选词范围 -<code>max_tokens</code>：最多生成多少 token</p><p>也可以用 Python： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> openai <span class="hljs-keyword">import</span> OpenAI<br><br>client = OpenAI(<br>    api_key=<span class="hljs-string">&quot;EMPTY&quot;</span>,                <span class="hljs-comment"># vLLM 默认不校验 key</span><br>    base_url=<span class="hljs-string">&quot;http://localhost:8000/v1&quot;</span><br>)<br><br>resp = client.chat.completions.create(<br>    model=<span class="hljs-string">&quot;./my-7b-sft&quot;</span>,<br>    messages=[&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;你好&quot;</span>&#125;]<br>)<br><span class="hljs-built_in">print</span>(resp.choices[<span class="hljs-number">0</span>].message.content)<br></code></pre></td></tr></table></figure></p><h3 id="fastapi-在这里干什么">5. FastAPI 在这里干什么</h3><p>FastAPI <strong>不加载模型</strong>，而是： - 做鉴权 - 拼系统提示 -多模型路由 - 限流 - 转发给 vLLM</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/internal/chat&quot;</span></span>)</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">chat</span>(<span class="hljs-params">req: <span class="hljs-built_in">dict</span></span>):<br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> httpx.AsyncClient() <span class="hljs-keyword">as</span> c:<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> c.post(<br>            <span class="hljs-string">&quot;http://localhost:8000/v1/chat/completions&quot;</span>,<br>            json=req<br>        )<br></code></pre></td></tr></table></figure><blockquote><p>结论：服务器 LLM = HuggingFace 格式 + vLLM 起服务 + FastAPI做业务层。</p></blockquote><hr /><h2 id="案例-2本地-开发机用-ollama-跑量化-llm">案例 2：本地 / 开发机用Ollama 跑量化 LLM</h2><h3 id="为什么要转-gguf">1. 为什么要转 GGUF</h3><p>HuggingFace 格式适合训练和服务端加载，但不适合： - 笔记本 - 单 CPU /小显存 - 快速本地试跑</p><p>所以需要两步： 1. 转 GGUF：从训练生态进入 llama.cpp 推理生态 2.量化：把 16-bit 权重压成 4-bit，省显存/内存</p><h3 id="第一步hf-fp16-gguf">2. 第一步：HF → FP16 GGUF</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">python convert_hf_to_gguf.py ./my-7b \<br>    --outfile my-7b-f16.gguf \<br>    --outtype f16<br></code></pre></td></tr></table></figure><p>参数说明： - <code>./my-7b</code>：HuggingFace 模型目录 -<code>--outfile</code>：输出的 GGUF 文件 -<code>--outtype f16</code>：权重保持 16 位浮点，不做量化<br />👉 这一步只是“换容器”，不是压缩</p><h3 id="第二步fp16-gguf-q4_k_m-gguf">3. 第二步：FP16 GGUF → Q4_K_MGGUF</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">./build/bin/llama-quantize \<br>    my-7b-f16.gguf \<br>    my-7b.Q4_K_M.gguf \<br>    Q4_K_M<br></code></pre></td></tr></table></figure><p>参数说明： - 输入：FP16 GGUF - 输出：量化后 GGUF -<code>Q4_K_M</code>：4-bit 左右、质量/体积平衡最好的量化档位之一<br />- 7B 模型：FP16 约 14GB，Q4_K_M 约 4–5GB</p><blockquote><p>重要：永远从 FP16 GGUF 再量化，不要从 Q4 再量化成Q2，否则误差会叠加。</p></blockquote><h3 id="modelfile-是干什么的">4. Modelfile 是干什么的</h3><p>Modelfile 不是模型文件，也不是镜像，而是<strong>“模型 +行为配置”的说明书</strong>，类似 Dockerfile。</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> ./my-<span class="hljs-number">7</span>b.Q4_K_M.gguf<br><br>SYSTEM <span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">你是一个中文技术助手，回答简洁、准确、不废话。</span><br><span class="hljs-string">&quot;</span><span class="hljs-string">&quot;&quot;</span><br><br>TEMPLATE <span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">&#123;&#123; if .System &#125;&#125;system</span><br><span class="hljs-string">&#123;&#123; .System &#125;&#125;</span><br><span class="hljs-string">&#123;&#123; end &#125;&#125;user</span><br><span class="hljs-string">&#123;&#123; .Prompt &#125;&#125;</span><br><span class="hljs-string">assistant</span><br><span class="hljs-string">&quot;</span><span class="hljs-string">&quot;&quot;</span><br><br>PARAMETER temperature <span class="hljs-number">0.7</span><br>PARAMETER top_p <span class="hljs-number">0.9</span><br>PARAMETER num_ctx <span class="hljs-number">4096</span><br>PARAMETER repeat_penalty <span class="hljs-number">1.1</span><br></code></pre></td></tr></table></figure><p>逐行说明：</p><ul><li><code>FROM</code>：底座模型，这里直接指向本地 GGUF</li><li><code>SYSTEM</code>：每次对话都带上的“人设 / 规则”</li><li><code>TEMPLATE</code>：把 system / user / assistant拼成模型训练时见过的格式<br />👉 模板错了，模型就会“不听指令”</li><li><code>temperature</code>：创造性</li><li><code>top_p</code>：采样范围</li><li><code>num_ctx</code>：上下文窗口大小</li><li><code>repeat_penalty</code>：防复读</li></ul><h3 id="注册并运行">5. 注册并运行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ollama create my-7b -f Modelfile<br>ollama run my-7b <span class="hljs-string">&quot;用一句话解释向量数据库&quot;</span><br></code></pre></td></tr></table></figure><p>Ollama 默认起在： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">http://localhost:11434<br></code></pre></td></tr></table></figure></p><p>OpenAI 兼容接口： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">POST http://localhost:11434/v1/chat/completions<br></code></pre></td></tr></table></figure></p><p>FastAPI / 前端 / LangChain 都可以直接连。</p><blockquote><p>结论：Ollama = 本地 LLM 运行时；GGUF = 模型文件；Modelfile =行为配置。</p></blockquote><hr /><h2 id="案例-3android-端侧跑-llm">案例 3：Android 端侧跑 LLM</h2><h3 id="为什么端侧不能用-huggingface-格式直接跑">1. 为什么端侧不能用HuggingFace 格式直接跑</h3><p>Android 上常见问题： - 没有 Python - 显存不存在，只有 RAM / NPU -需要 APK 内嵌模型 - 要 C++ 层做高性能推理</p><p>所以路径是： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">safetensors → GGUF → llama.cpp(C++) → JNI → Kotlin<br></code></pre></td></tr></table></figure></p><h3 id="转换过程补充">2. 转换过程补充</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. HF → FP16 GGUF</span><br>python convert_hf_to_gguf.py ./my-1.5b --outtype f16 --outfile my-1.5b-f16.gguf<br><br><span class="hljs-comment"># 2. 量化</span><br>./build/bin/llama-quantize my-1.5b-f16.gguf my-1.5b-Q4_0.gguf Q4_0<br></code></pre></td></tr></table></figure><ul><li><code>Q4_0</code>：端侧常用，体积小，速度块，质量略降</li><li>1.5B Q4 大概 1GB 出头，适合手机</li></ul><h3 id="android-项目结构">3. Android 项目结构</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">app/<br>├── jniLibs/arm64-v8a/libllama.so<br>├── assets/my-1.5b-Q4_0.gguf<br>└── java/com/example/LlamaEngine.kt<br></code></pre></td></tr></table></figure><h3 id="kotlin-通过-jni-调-c">4. Kotlin 通过 JNI 调 C++</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">LlamaEngine</span> &#123;<br>    <span class="hljs-keyword">companion</span> <span class="hljs-keyword">object</span> &#123;<br>        <span class="hljs-keyword">init</span> &#123; System.loadLibrary(<span class="hljs-string">&quot;llama&quot;</span>) &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">external</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">initModel</span><span class="hljs-params">(path: <span class="hljs-type">String</span>)</span></span>: <span class="hljs-built_in">Boolean</span><br>    <span class="hljs-keyword">external</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">generate</span><span class="hljs-params">(prompt: <span class="hljs-type">String</span>)</span></span>: String<br>&#125;<br></code></pre></td></tr></table></figure><p>JNI 层： <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> <span class="hljs-function">JNIEXPORT jstring JNICALL</span><br><span class="hljs-function"><span class="hljs-title">Java_com_example_LlamaEngine_generate</span><span class="hljs-params">(JNIEnv* env, jobject, jstring prompt)</span> </span>&#123;<br>    <span class="hljs-type">const</span> <span class="hljs-type">char</span>* p = env-&gt;<span class="hljs-built_in">GetStringUTFChars</span>(prompt, <span class="hljs-literal">nullptr</span>);<br>    <span class="hljs-comment">// llama.cpp 加载 GGUF、跑 decode</span><br>    std::string out = <span class="hljs-built_in">llama_generate</span>(p);<br>    <span class="hljs-keyword">return</span> env-&gt;<span class="hljs-built_in">NewStringUTF</span>(out.<span class="hljs-built_in">c_str</span>());<br>&#125;<br></code></pre></td></tr></table></figure></p><p>关键点： &gt; Kotlin 不“理解” GGUF，它只是通过 JNI 调用 C++推理引擎；真正读 GGUF 的是 llama.cpp。</p><h3 id="如果-android-想用-onnx-而不是-gguf">5. 如果 Android 想用 ONNX而不是 GGUF</h3><p>那就不走 llama.cpp，改走 ONNX Runtime Mobile：</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">PyTorch 模型<br> → torch.onnx.export<br> → model.onnx<br> → 放 assets/<br> → ONNX Runtime Android 加载<br></code></pre></td></tr></table></figure><p>Kotlin： <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">val</span> env = OrtEnvironment.getEnvironment()<br><span class="hljs-keyword">val</span> session = env.createSession(assets.<span class="hljs-keyword">open</span>(<span class="hljs-string">&quot;model.onnx&quot;</span>).readBytes())<br><br><span class="hljs-keyword">val</span> input = OnnxTensor.createTensor(env, inputIds, longArrayOf(<span class="hljs-number">1</span>, seqLen))<br><span class="hljs-keyword">val</span> result = session.run(mapOf(<span class="hljs-string">&quot;input_ids&quot;</span> to input))<br></code></pre></td></tr></table></figure></p><p>但注意： - ONNX 更适合分类 / 检测 / OCR / 小模型 - 端侧自回归 LLM通常 GGUF + llama.cpp 更成熟</p><hr /><h2 id="案例-4端侧-asrconformer-onnx-ncnn">案例 4：端侧 ASR（Conformer →ONNX → NCNN）</h2><h3 id="conformer-模型和前面-3-个一样吗">1. Conformer 模型和前面 3个一样吗</h3><p>不一样在任务域：</p><table><thead><tr class="header"><th>案例</th><th>模型</th><th>任务</th></tr></thead><tbody><tr class="odd"><td>1</td><td>Decoder LLM</td><td>文本生成</td></tr><tr class="even"><td>2</td><td>Decoder LLM</td><td>本地对话</td></tr><tr class="odd"><td>3</td><td>小 LLM</td><td>端侧对话</td></tr><tr class="even"><td>4</td><td>Conformer / Zipformer</td><td>语音识别</td></tr></tbody></table><p>Conformer 也是 PyTorch 训出来的，但： - 输入是 log-Mel 声学特征 -输出是 token / CTC / RNNT - 不是聊天模型</p><h3 id="pytorch-onnx">2. PyTorch → ONNX</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><br>model = MyConformer()<br>model.load_state_dict(torch.load(<span class="hljs-string">&quot;conformer.pt&quot;</span>))<br>model.<span class="hljs-built_in">eval</span>()<br><br>dummy = torch.randn(<span class="hljs-number">1</span>, <span class="hljs-number">300</span>, <span class="hljs-number">80</span>)  <span class="hljs-comment"># batch, time, mel_bins</span><br><br>torch.onnx.export(<br>    model,<br>    dummy,<br>    <span class="hljs-string">&quot;conformer.onnx&quot;</span>,<br>    input_names=[<span class="hljs-string">&quot;features&quot;</span>],<br>    output_names=[<span class="hljs-string">&quot;logits&quot;</span>],<br>    opset_version=<span class="hljs-number">17</span>,<br>    dynamic_axes=&#123;<br>        <span class="hljs-string">&quot;features&quot;</span>: &#123;<span class="hljs-number">1</span>: <span class="hljs-string">&quot;time&quot;</span>&#125;,<br>        <span class="hljs-string">&quot;logits&quot;</span>: <span class="hljs-number">1</span>: <span class="hljs-string">&quot;time&quot;</span><br>    &#125;<br>)<br></code></pre></td></tr></table></figure><p>目的： &gt; 把“PyTorch动态图”变成“静态计算图”，方便跨框架和端侧引擎加载。</p><h3 id="onnx-ncnn">3. ONNX → NCNN</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 先简化</span><br>python -m onnxsim conformer.onnx conformer-sim.onnx<br><br><span class="hljs-comment"># ONNX 转 NCNN</span><br>onnx2ncnn conformer-sim.onnx conformer.param conformer.bin<br><br><span class="hljs-comment"># NCNN 优化</span><br>ncnnoptimize conformer.param conformer.bin conformer-opt.param conformer-opt.bin 0<br></code></pre></td></tr></table></figure><p>产物： - <code>.param</code>：网络结构 - <code>.bin</code>：权重</p><h3 id="c-直接跑">4. C++ 直接跑</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;net.h&quot;</span></span><br><br>ncnn::Net net;<br>net.<span class="hljs-built_in">load_param</span>(<span class="hljs-string">&quot;conformer-opt.param&quot;</span>);<br>net.<span class="hljs-built_in">load_model</span>(<span class="hljs-string">&quot;conformer-opt.bin&quot;</span>);<br><br>ncnn::Mat in = ncnn::<span class="hljs-built_in">Mat</span>(w, h, features_ptr);<br>ncnn::Extractor ex = net.<span class="hljs-built_in">create_extractor</span>();<br>ex.<span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;features&quot;</span>, in);<br><br>ncnn::Mat out;<br>ex.<span class="hljs-built_in">extract</span>(<span class="hljs-string">&quot;logits&quot;</span>, out);<br></code></pre></td></tr></table></figure><blockquote><p>这里没有 Python、没有 Docker、没有 HTTP，就是 C++读文件、跑矩阵运算。</p></blockquote><hr /><p><img src="/html/大模型的训练格式和部署格式.svg" alt="Conformer ASR" style="width: 100%; height: auto;" title="Conformer ASR" /></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>人工智能AIGC</category>
+      
+      <category>模型部署</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Ollama</tag>
+      
+      <tag>大模型</tag>
+      
+      <tag>部署</tag>
+      
+      <tag>vLLM</tag>
+      
+      <tag>GGUF</tag>
+      
+      <tag>llama.cpp</tag>
+      
+      <tag>ONNX</tag>
+      
+      <tag>NCNN</tag>
+      
+      <tag>量化</tag>
+      
+      <tag>推理引擎</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>春秋无义战，但战战义当先</title>
     <link href="/2025/25-10-18-%E6%98%A5%E7%A7%8B%E6%97%A0%E4%B9%89%E6%88%98%E4%BD%86%E6%88%98%E6%88%98%E4%B9%89%E5%BD%93%E5%85%88.html"/>
     <url>/2025/25-10-18-%E6%98%A5%E7%A7%8B%E6%97%A0%E4%B9%89%E6%88%98%E4%BD%86%E6%88%98%E6%88%98%E4%B9%89%E5%BD%93%E5%85%88.html</url>
@@ -2334,6 +2353,51 @@
       <tag>城濮之战</tag>
       
       <tag>泓水之战</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>大模型开发从0到1实操流程记录</title>
+    <link href="/2025/25-10-11-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01%E5%AE%9E%E6%93%8D%E6%B5%81%E7%A8%8B%E8%AE%B0%E5%BD%95.html"/>
+    <url>/2025/25-10-11-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01%E5%AE%9E%E6%93%8D%E6%B5%81%E7%A8%8B%E8%AE%B0%E5%BD%95.html</url>
+    
+    <content type="html"><![CDATA[<p>下面我按<strong>模型从 0到上线的真实流程顺序</strong>，用<strong>“模型的生命周期”</strong>而不是”难度分级”来思考，把每个阶段、在干什么、用什么Python 工具，给你理清楚。</p><hr /><h2id="一整体流程总览先给你一张地图">一、整体流程总览（先给你一张“地图”）</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs text">数据准备<br>   ↓<br>预训练（学习）<br>   ↓<br>微调（Fine-tuning）<br>   ↓<br>对齐（监督学习 / RLHF / DPO）<br>   ↓<br>评测（Evaluation）<br>   ↓<br>推理优化（Inference Opt）<br>   ↓<br>部署（Serving）<br></code></pre></td></tr></table></figure><hr /><h2 id="全流程简化速记">全流程简化速记</h2><table><thead><tr class="header"><th>你说的</th><th>标准阶段</th><th>Python 核心工具</th></tr></thead><tbody><tr class="odd"><td>模型的学习</td><td>预训练</td><td>transformers + deepspeed + accelerate</td></tr><tr class="even"><td>调优（FT）</td><td>微调</td><td>peft + bitsandbytes + trl</td></tr><tr class="odd"><td>监督学习</td><td>SFT</td><td>trl(SFTTrainer) + datasets</td></tr><tr class="even"><td>其他流程</td><td>对齐 / 评测 / 部署</td><td>trl + lm-eval + vllm + fastapi</td></tr></tbody></table><hr /><h2 id="二按阶段拆解重点python-工具">二、按阶段拆解（重点：Python工具）</h2><hr /><h2 id="阶段-1数据准备data-preparation">阶段 1：数据准备（DataPreparation）</h2><h3 id="做什么">做什么</h3><ul><li>数据清洗</li><li>Tokenization</li><li>格式化（指令数据 / 对话数据）</li><li>数据集划分</li></ul><h3 id="python-工具">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>datasets</code>（Hugging Face）</td><td>加载、处理、缓存数据集</td></tr><tr class="even"><td><code>tokenizers</code></td><td>BPE / SentencePiece 分词</td></tr><tr class="odd"><td><code>pandas</code></td><td>结构化数据清洗</td></tr><tr class="even"><td><code>json / jsonl</code></td><td>指令数据格式</td></tr><tr class="odd"><td><code>pyarrow</code></td><td>高效列式存储</td></tr><tr class="even"><td><code>tiktoken</code></td><td>OpenAI tokenizer（可选）</td></tr></tbody></table><p>✅ 输出：<br /><code>train.jsonl / tokenized_dataset / DataLoader</code></p><hr /><h2 id="阶段-2模型的学习预训练pre-training">阶段2：模型的学习（预训练，Pre-training）</h2><h3 id="做什么-1">做什么</h3><ul><li>从零或继续训练</li><li>学习语言/世界知识</li><li>自监督学习（MLM / CLM）</li></ul><h3 id="python-工具-1">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>transformers</code></td><td>模型定义、Trainer</td></tr><tr class="even"><td><code>torch</code></td><td>核心训练框架</td></tr><tr class="odd"><td><code>accelerate</code></td><td>单卡/多卡统一接口</td></tr><tr class="even"><td><code>deepspeed</code></td><td>ZeRO、显存优化</td></tr><tr class="odd"><td><code>fsdp</code>（PyTorch）</td><td>原生分布式</td></tr><tr class="even"><td><code>wandb / tensorboard</code></td><td>训练监控</td></tr></tbody></table><p>✅ 关键代码对象： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">AutoModelForCausalLM<br>Trainer / TrainingArguments<br>DeepSpeedConfig<br></code></pre></td></tr></table></figure></p><hr /><h2 id="阶段-3调优fine-tuning">阶段 3：调优（Fine-tuning）</h2><h3 id="做什么-2">做什么</h3><ul><li>用领域数据继续训练</li><li>全参数 / 参数高效微调</li></ul><h3 id="python-工具-2">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>transformers</code></td><td>加载预训练模型</td></tr><tr class="even"><td><code>peft</code></td><td>LoRA / QLoRA / Adapter</td></tr><tr class="odd"><td><code>bitsandbytes</code></td><td>4/8-bit 量化训练</td></tr><tr class="even"><td><code>trl</code></td><td>SFTTrainer</td></tr><tr class="odd"><td><code>datasets</code></td><td>指令微调数据</td></tr></tbody></table><p>✅ 常见组合： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">transformers + peft + bitsandbytes + trl<br></code></pre></td></tr></table></figure></p><p>✅ 输出： - adapter 权重 - 合并后的完整模型</p><hr /><h2 id="阶段-4监督学习supervised-fine-tuningsft">阶段4：监督学习（Supervised Fine-Tuning，SFT）</h2><blockquote><p>⚠️ 注意：SFT 是 FT的一种，但<strong>强调“有标注的监督信号”</strong></p></blockquote><h3 id="做什么-3">做什么</h3><ul><li>指令-回答对</li><li>对话历史</li><li>人工标注数据</li></ul><h3 id="python-工具-3">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>trl（SFTTrainer）</code></td><td>标准 SFT 训练</td></tr><tr class="even"><td><code>transformers</code></td><td>模型/数据</td></tr><tr class="odd"><td><code>datasets</code></td><td>监督数据</td></tr><tr class="even"><td><code>deepspeed</code></td><td>大规模训练</td></tr></tbody></table><p>✅ 数据格式： <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;instruction&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;input&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;output&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></p><hr /><h2 id="阶段-5对齐alignment">阶段 5：对齐（Alignment）</h2><h3 id="做什么-4">做什么</h3><ul><li>让模型更安全、更符合人类偏好</li><li>RLHF / DPO / PPO</li></ul><h3 id="python-工具-4">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>trl</code></td><td>RLHF / DPO / Reward Model</td></tr><tr class="even"><td><code>transformers</code></td><td>策略模型 / 奖励模型</td></tr><tr class="odd"><td><code>peft</code></td><td>对齐阶段也常用 LoRA</td></tr><tr class="even"><td><code>wandb</code></td><td>奖励曲线监控</td></tr></tbody></table><p>✅ 常见流程： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">SFT → Reward Model → PPO / DPO<br></code></pre></td></tr></table></figure></p><p>✅ 代表方法： - RLHF（PPO） - DPO（更工程友好） - ORPO / KTO</p><hr /><h2 id="阶段-6评测evaluation">阶段 6：评测（Evaluation）</h2><h3 id="做什么-5">做什么</h3><ul><li>自动评测</li><li>人工评测</li><li>回归测试</li></ul><h3 id="python-工具-5">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>lm-evaluation-harness</code></td><td>标准 benchmark</td></tr><tr class="even"><td><code>evaluate</code>（HF）</td><td>通用指标</td></tr><tr class="odd"><td><code>rouge / bleu / meteor</code></td><td>文本生成指标</td></tr><tr class="even"><td><code>deepeval / ragas</code></td><td>LLM 专项评测</td></tr><tr class="odd"><td><code>human-eval</code></td><td>代码能力</td></tr></tbody></table><p>✅ 输出： - MMLU / GSM8K / HumanEval 分数</p><hr /><h2 id="阶段-7推理优化inference-optimization">阶段7：推理优化（Inference Optimization）</h2><h3 id="做什么-6">做什么</h3><ul><li>加速</li><li>量化</li><li>显存优化</li></ul><h3 id="python-工具-6">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>vllm</code></td><td>高吞吐推理</td></tr><tr class="even"><td><code>tgi</code></td><td>Hugging Face 推理服务</td></tr><tr class="odd"><td><code>tensorrt-llm</code></td><td>NVIDIA 极致优化</td></tr><tr class="even"><td><code>llama.cpp</code></td><td>CPU / 边缘设备</td></tr><tr class="odd"><td><code>auto-gptq / awq</code></td><td>量化</td></tr><tr class="even"><td><code>onnxruntime</code></td><td>ONNX 推理</td></tr></tbody></table><p>✅ 输出： - 量化模型 - 推理服务</p><hr /><h2 id="阶段-8部署serving">阶段 8：部署（Serving）</h2><h3 id="做什么-7">做什么</h3><ul><li>API 服务</li><li>流式输出</li><li>并发处理</li></ul><h3 id="python-工具-7">Python 工具</h3><table><thead><tr class="header"><th>工具</th><th>作用</th></tr></thead><tbody><tr class="odd"><td><code>fastapi</code></td><td>REST API</td></tr><tr class="even"><td><code>uvicorn</code></td><td>ASGI 服务器</td></tr><tr class="odd"><td><code>docker</code></td><td>容器化</td></tr><tr class="even"><td><code>ray serve</code></td><td>分布式服务</td></tr><tr class="odd"><td><code>triton inference server</code></td><td>多模型管理</td></tr><tr class="even"><td><code>gradio / streamlit</code></td><td>Demo</td></tr></tbody></table><p>✅ 接口标准： <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">/v1/chat/completions<br></code></pre></td></tr></table></figure></p><hr />]]></content>
+    
+    
+    <categories>
+      
+      <category>人工智能AIGC</category>
+      
+      <category>模型开发</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>大模型</tag>
+      
+      <tag>预训练</tag>
+      
+      <tag>微调</tag>
+      
+      <tag>SFT</tag>
+      
+      <tag>RLHF</tag>
+      
+      <tag>部署</tag>
+      
+      <tag>推理优化</tag>
+      
+      <tag>transformers</tag>
+      
+      <tag>peft</tag>
+      
+      <tag>datasets</tag>
       
     </tags>
     
@@ -2641,13 +2705,13 @@
       
       <tag>Android</tag>
       
-      <tag>低功耗蓝牙</tag>
-      
-      <tag>GATT</tag>
+      <tag>Activity</tag>
       
       <tag>Context</tag>
       
-      <tag>Activity</tag>
+      <tag>低功耗蓝牙</tag>
+      
+      <tag>GATT</tag>
       
       <tag>生命周期</tag>
       
@@ -2731,9 +2795,9 @@
       
       <tag>Android</tag>
       
-      <tag>Wi-Fi连接</tag>
-      
       <tag>权限管理</tag>
+      
+      <tag>Wi-Fi连接</tag>
       
       <tag>WifiNetworkSuggestion</tag>
       
@@ -2778,6 +2842,8 @@
       
       <tag>阿里云</tag>
       
+      <tag>服务器</tag>
+      
       <tag>网络安全组</tag>
       
       <tag>IP地址</tag>
@@ -2791,8 +2857,6 @@
       <tag>CIDR</tag>
       
       <tag>二进制</tag>
-      
-      <tag>服务器</tag>
       
     </tags>
     
@@ -2919,9 +2983,9 @@
       
       <tag>腾讯云</tag>
       
-      <tag>服务器操作系统</tag>
-      
       <tag>CentOS</tag>
+      
+      <tag>服务器操作系统</tag>
       
       <tag>RHEL</tag>
       
@@ -2962,17 +3026,17 @@
       
       <tag>环境变量</tag>
       
+      <tag>Dockerfile</tag>
+      
+      <tag>SkyWalking</tag>
+      
       <tag>微服务</tag>
       
-      <tag>Dockerfile</tag>
+      <tag>容器部署</tag>
       
       <tag>Docker Compose</tag>
       
       <tag>镜像构建</tag>
-      
-      <tag>容器部署</tag>
-      
-      <tag>SkyWalking</tag>
       
       <tag>JVM参数</tag>
       
@@ -3058,9 +3122,9 @@
       
       <tag>Git</tag>
       
-      <tag>SSH</tag>
-      
       <tag>版本控制</tag>
+      
+      <tag>SSH</tag>
       
     </tags>
     
@@ -3214,19 +3278,19 @@
       
       <tag>SpringBoot</tag>
       
+      <tag>Kubernetes</tag>
+      
+      <tag>微服务</tag>
+      
       <tag>若依微服务框架</tag>
       
       <tag>Ruoyi Cloud</tag>
-      
-      <tag>微服务</tag>
       
       <tag>Java</tag>
       
       <tag>前端</tag>
       
       <tag>数据库</tag>
-      
-      <tag>Kubernetes</tag>
       
     </tags>
     
@@ -3255,6 +3319,8 @@
       
       <tag>资源管理</tag>
       
+      <tag>性能优化</tag>
+      
       <tag>游戏开发</tag>
       
       <tag>LayaAir</tag>
@@ -3266,8 +3332,6 @@
       <tag>事件处理</tag>
       
       <tag>生命周期函数</tag>
-      
-      <tag>性能优化</tag>
       
       <tag>动画控制</tag>
       
@@ -3476,6 +3540,8 @@
     
     <tags>
       
+      <tag>数据隐私</tag>
+      
       <tag>人工智能</tag>
       
       <tag>星球大战计划</tag>
@@ -3485,8 +3551,6 @@
       <tag>技术竞争</tag>
       
       <tag>经济负担</tag>
-      
-      <tag>数据隐私</tag>
       
       <tag>军事科技</tag>
       
@@ -3556,9 +3620,11 @@
     
     <tags>
       
-      <tag>DeepSeek</tag>
-      
       <tag>大语言模型</tag>
+      
+      <tag>人工智能</tag>
+      
+      <tag>DeepSeek</tag>
       
       <tag>推理模型</tag>
       
@@ -3575,8 +3641,6 @@
       <tag>逻辑漏洞</tag>
       
       <tag>资金循环</tag>
-      
-      <tag>人工智能</tag>
       
     </tags>
     
@@ -3607,13 +3671,13 @@
       
       <tag>Windows</tag>
       
+      <tag>大语言模型</tag>
+      
       <tag>Ollama</tag>
       
       <tag>DeepSeek</tag>
       
       <tag>OpenWebUI</tag>
-      
-      <tag>大语言模型</tag>
       
       <tag>本地部署</tag>
       
@@ -3851,13 +3915,13 @@
       
       <tag>大语言模型</tag>
       
-      <tag>人工智能</tag>
-      
-      <tag>案例分析</tag>
-      
       <tag>ChatGPT</tag>
       
       <tag>生成PPT文件</tag>
+      
+      <tag>人工智能</tag>
+      
+      <tag>案例分析</tag>
       
       <tag>自动化处理</tag>
       
@@ -3888,13 +3952,11 @@
     
     <tags>
       
-      <tag>大语言模型</tag>
-      
-      <tag>数据隐私</tag>
+      <tag>AnythingLLM</tag>
       
       <tag>知识库</tag>
       
-      <tag>AnythingLLM</tag>
+      <tag>大语言模型</tag>
       
       <tag>训练</tag>
       
@@ -3907,6 +3969,8 @@
       <tag>微调训练</tag>
       
       <tag>计算资源</tag>
+      
+      <tag>数据隐私</tag>
       
       <tag>Hugging Face</tag>
       
@@ -3949,8 +4013,6 @@
       
       <tag>GitLab</tag>
       
-      <tag>性能优化</tag>
-      
       <tag>配置</tag>
       
       <tag>Prometheus</tag>
@@ -3962,6 +4024,8 @@
       <tag>数据保留</tag>
       
       <tag>容器</tag>
+      
+      <tag>性能优化</tag>
       
     </tags>
     
@@ -4037,11 +4101,9 @@
       
       <tag>Kotlin</tag>
       
-      <tag>权限管理</tag>
+      <tag>Activity</tag>
       
       <tag>Context</tag>
-      
-      <tag>Activity</tag>
       
       <tag>权限请求</tag>
       
@@ -4052,6 +4114,8 @@
       <tag>AppCompatActivity</tag>
       
       <tag>类型转换</tag>
+      
+      <tag>权限管理</tag>
       
     </tags>
     
@@ -4180,11 +4244,11 @@
       
       <tag>可视化</tag>
       
-      <tag>Kubernetes</tag>
-      
       <tag>Prometheus</tag>
       
       <tag>Grafana</tag>
+      
+      <tag>Kubernetes</tag>
       
       <tag>Alertmanager</tag>
       
@@ -4221,23 +4285,23 @@
       
       <tag>Docker</tag>
       
-      <tag>微服务</tag>
-      
-      <tag>容器部署</tag>
-      
-      <tag>SkyWalking</tag>
-      
       <tag>Prometheus</tag>
       
       <tag>Grafana</tag>
       
+      <tag>SkyWalking</tag>
+      
       <tag>Elasticsearch</tag>
+      
+      <tag>微服务</tag>
       
       <tag>可观测性</tag>
       
       <tag>链路追踪</tag>
       
       <tag>指标监控</tag>
+      
+      <tag>容器部署</tag>
       
     </tags>
     
@@ -4272,15 +4336,15 @@
       
       <tag>HTTPS</tag>
       
+      <tag>镜像加速器</tag>
+      
+      <tag>Registry</tag>
+      
       <tag>CentOS</tag>
       
       <tag>服务器</tag>
       
       <tag>配置</tag>
-      
-      <tag>镜像加速器</tag>
-      
-      <tag>Registry</tag>
       
       <tag>客户端</tag>
       
@@ -4311,19 +4375,19 @@
       
       <tag>项目管理</tag>
       
-      <tag>Git</tag>
-      
-      <tag>版本控制</tag>
-      
-      <tag>Dockerfile</tag>
-      
       <tag>MacOS</tag>
       
+      <tag>Git</tag>
+      
       <tag>XCode</tag>
+      
+      <tag>版本控制</tag>
       
       <tag>Gitee</tag>
       
       <tag>代码提交</tag>
+      
+      <tag>Dockerfile</tag>
       
     </tags>
     
@@ -4391,13 +4455,13 @@
     
     <tags>
       
-      <tag>软件架构</tag>
-      
       <tag>笔记本电脑</tag>
       
       <tag>系统架构设计</tag>
       
       <tag>硬件架构</tag>
+      
+      <tag>软件架构</tag>
       
       <tag>电源管理</tag>
       
@@ -4438,13 +4502,13 @@
       
       <tag>项目管理</tag>
       
-      <tag>Git</tag>
-      
-      <tag>版本控制</tag>
-      
       <tag>MacOS</tag>
       
+      <tag>Git</tag>
+      
       <tag>XCode</tag>
+      
+      <tag>版本控制</tag>
       
       <tag>Gitee</tag>
       
@@ -4475,8 +4539,6 @@
     
     <tags>
       
-      <tag>数据安全</tag>
-      
       <tag>区块链</tag>
       
       <tag>分布式存储</tag>
@@ -4490,6 +4552,8 @@
       <tag>链式结构</tag>
       
       <tag>哈希算法</tag>
+      
+      <tag>数据安全</tag>
       
       <tag>不可篡改</tag>
       
